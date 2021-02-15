@@ -1,0 +1,36 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import Avatar from './Avatar';
+
+<Meta title="Design System/Avatar" component={Avatar} />
+
+# Avatar
+
+export const Template = (args) => <Avatar {...args} />;
+
+<ArgsTable of={Avatar} />
+
+<Canvas>
+  <Story name="Avatar">
+    <div className="flex items-center">
+      <Avatar
+        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+        size="sm"
+        alt="avatar"
+      />
+      <Avatar
+        alt="avatar"
+        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+      />
+      <Avatar
+        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+        size="lg"
+        alt="avatar"
+      />
+      <Avatar
+        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+        size="xl"
+        alt="avatar"
+      />
+    </div>
+  </Story>
+</Canvas>
