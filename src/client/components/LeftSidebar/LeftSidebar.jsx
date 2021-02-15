@@ -8,7 +8,7 @@ import {
 import { Avatar, Button } from '@app/components';
 
 const LeftSidebar = () => (
-  <div className="flex flex-col items-center justify-between h-screen p-4 bg-tertiary-50 border-r-2 border-primary-200">
+  <div className="flex flex-col items-center justify-between h-screen p-2 bg-tertiary-50 border-r-2 border-primary-200">
     <div>
       {/* <MenuIcon size="sm" /> */}
 
