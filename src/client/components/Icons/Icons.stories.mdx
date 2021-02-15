@@ -1,0 +1,16 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import Icons from './Icons';
+
+<Meta title="Design System/Icons" component={Icons} />
+
+# Icons
+
+export const Template = (args) => <Icons {...args} />;
+
+<ArgsTable of={Icons} />
+
+<Canvas>
+  <Story name="Icons">
+    <Icons />
+  </Story>
+</Canvas>
