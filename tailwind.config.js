@@ -1,18 +1,20 @@
-const { gray, red, white, blue, fuchsia } = require("tailwindcss/colors");
+const { red, white, blue, blueGray, cyan } = require('tailwindcss/colors');
 
 module.exports = {
   darkMode: false, // or 'media' or 'class'
   purge: {
-    layers: ["components", "pages"],
-    content: ["./src/client/**/*.jsx"],
+    layers: ['components', 'pages'],
+    content: ['./src/client/**/*.jsx'],
   },
   theme: {
     fontFamily: {
-      sans: ["Lato", "Roboto", "Arial", "sans-serif"],
+      sans: ['Source Sans Pro', 'Arial', 'sans-serif'],
+      secondary: ['Ubuntu', 'Arial', 'sans-serif'],
     },
     colors: {
-      primary: fuchsia,
-      neutral: gray,
+      primary: blue,
+      secondary: cyan,
+      neutral: blueGray,
       danger: red,
       success: blue,
       white,
