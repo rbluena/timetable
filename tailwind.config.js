@@ -1,4 +1,11 @@
-const { red, white, blue, blueGray, cyan } = require('tailwindcss/colors');
+const {
+  red,
+  white,
+  blue,
+  blueGray,
+  pink,
+  cyan,
+} = require('tailwindcss/colors');
 
 module.exports = {
   darkMode: false, // or 'media' or 'class'
@@ -13,7 +20,8 @@ module.exports = {
     },
     colors: {
       primary: blue,
-      secondary: cyan,
+      secondary: pink,
+      tertiary: cyan,
       neutral: blueGray,
       danger: red,
       success: blue,

@@ -27,6 +27,7 @@ import InfoIcon from './InfoIcon';
 import AlertIcon from './AlertIcon';
 import TemplatesIcon from './TemplatesIcon';
 import HomeIcon from './HomeIcon';
+import PauseIcon from './PauseIcon';
 
 export {
   ClipboardListIcon,
@@ -58,4 +59,5 @@ export {
   AlertIcon,
   TemplatesIcon,
   HomeIcon,
+  PauseIcon,
 };

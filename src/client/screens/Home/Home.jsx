@@ -1,7 +1,9 @@
+import { CanvasContainer } from '@app/containers';
+
 const Home = () => (
-  <div>
-    <h2>Home Page</h2>
-  </div>
+  <>
+    <CanvasContainer />
+  </>
 );
 
 export default Home;
