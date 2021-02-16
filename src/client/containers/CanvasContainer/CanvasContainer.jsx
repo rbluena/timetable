@@ -4,7 +4,8 @@ import Content from './Content';
 
 const CanvasContainer = () => {
   const router = useRouter();
-  const { pathname, query } = router;
+  const { pathname } = router;
+  const id = 389898983;
 
   let view = 'about';
 
@@ -24,9 +25,9 @@ const CanvasContainer = () => {
     const { value } = evt.target;
 
     if (value === 'about') {
-      router.push(`/projects/${query.id}`);
+      router.push(`/projects/${id}`);
     } else {
-      router.push(`/projects/${query.id}/${value}`);
+      router.push(`/projects/${id}/${value}`);
     }
   }
 
