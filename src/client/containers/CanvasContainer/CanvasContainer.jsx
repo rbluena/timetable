@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Header, ToggleSwitch } from '@app/components';
+import { Header, ToggleSwitch, AvatarList } from '@app/components';
 
 const CanvasContainer = () => {
   const [toggle, setToggle] = useState('about');
@@ -18,6 +18,21 @@ const CanvasContainer = () => {
             value={toggle}
             onChange={(evt) => setToggle(evt.target.value)}
           />
+
+          <div>
+            <AvatarList
+              images={[
+                { initials: 'RL' },
+                {
+                  src:
+                    'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                  alt: 'Rabii Luena',
+                },
+                { initials: 'AL' },
+              ]}
+              size="lg"
+            />
+          </div>
         </div>
       </div>
     </div>

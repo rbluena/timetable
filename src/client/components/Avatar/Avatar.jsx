@@ -25,7 +25,7 @@ const Avatar = ({ size, className, src, alt, square, initials }) => {
   if (!src || src.length === 0) {
     return (
       <div
-        className={`border-2 border-primary-700  text-neutral-800 ${className} ${
+        className={`border-2 border-white  text-neutral-800 ${className} ${
           square ? 'rounded' : 'rounded-full'
         } `}
       >
@@ -42,7 +42,7 @@ const Avatar = ({ size, className, src, alt, square, initials }) => {
 
   return (
     <img
-      className={`border-2 border-primary-700 ${className} ${
+      className={`border-2 border-white ${className} ${
         square ? 'rounded' : 'rounded-full'
       }`}
       src={src}
