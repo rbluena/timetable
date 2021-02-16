@@ -5,6 +5,7 @@ import LeftSidebar from './LeftSidebar';
 import Button from './Button';
 import Header from './Header';
 import TimeTicker from './TimeTicker';
+import ToggleSwitch from './ToggleSwitch';
 
 export {
   Avatar,
@@ -14,4 +15,5 @@ export {
   Button,
   Header,
   TimeTicker,
+  ToggleSwitch,
 };
