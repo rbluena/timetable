@@ -16,7 +16,7 @@ const Header = () => (
       <div>
         <Button className="relative">
           <span className="bg-secondary-500 h-2 w-2 rounded-full block absolute top-1 left-1" />
-          <BellOutlineIcon variant="secondary" size="sm" />
+          <BellOutlineIcon size="sm" variant="secondary" />
         </Button>
       </div>
     </div>
