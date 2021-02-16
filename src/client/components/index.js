@@ -7,6 +7,7 @@ import Header from './Header';
 import TimeTicker from './TimeTicker';
 import ToggleSwitch from './ToggleSwitch';
 import AvatarList from './AvatarList';
+import Text from './Text';
 
 export {
   Avatar,
@@ -18,4 +19,5 @@ export {
   TimeTicker,
   ToggleSwitch,
   AvatarList,
+  Text,
 };
