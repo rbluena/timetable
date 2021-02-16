@@ -2,22 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FiTrello } from 'react-icons/fi';
 
-function TemplatesIcon({ size }) {
-  let classNames = '';
+function TemplateIcon({ size, className, variant }) {
+  if (size === 'xs') className += ' w-4 h-4';
+  if (size === 'sm') className += ' w-6 h-6';
+  if (size === 'md') className += ' w-8 h-8';
+  if (size === 'lg') className += ' w-12 h-12';
 
-  if (size === 'sm') classNames = 'w-6 h-6';
-  if (size == 'md') classNames = 'w-8 h-8';
-  if (size === 'lg') classNames = 'w-12 h-12';
+  if (variant === 'primary') {
+    className += ' text-primary-800';
+  }
 
-  return <FiTrello className={`${classNames} text-black`} />;
+  if (variant === 'secondary') {
+    className += ' text-secondary-400';
+  }
+
+  if (variant === 'neutral') {
+    className += ' text-neutral-400';
+  }
+
+  return <FiTrello className={`${className}`} />;
 }
 
-TemplatesIcon.defaultProps = {
+TemplateIcon.defaultProps = {
   size: 'md',
+  className: '',
+  variant: '',
 };
 
-TemplatesIcon.propTypes = {
+TemplateIcon.propTypes = {
   size: PropTypes.string,
+  className: PropTypes.string,
+  variant: PropTypes.string,
 };
 
-export default TemplatesIcon;
+export default TemplateIcon;

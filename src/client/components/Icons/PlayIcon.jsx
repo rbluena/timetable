@@ -13,6 +13,10 @@ function PlayIcon({ size, className, variant }) {
   }
 
   if (variant === 'secondary') {
+    className += ' text-secondary-400';
+  }
+
+  if (variant === 'neutral') {
     className += ' text-neutral-400';
   }
 

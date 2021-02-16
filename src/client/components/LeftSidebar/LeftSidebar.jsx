@@ -8,27 +8,33 @@ import {
 import { Avatar, Button } from '@app/components';
 
 const LeftSidebar = () => (
-  <div className="flex flex-col items-center justify-between h-screen p-2 bg-tertiary-50 border-r-2 border-primary-200">
-    <div>
+  <div className="flex flex-col items-center w-16 justify-between h-screen bg-tertiary-50 border-r-2 border-primary-200">
+    <div className="w-full">
       {/* <MenuIcon size="sm" /> */}
 
-      <div className="mt-16 flex flex-col justify-center">
-        <Button>
-          <HomeIcon size="sm" variant="primary" />
-        </Button>
+      <div className="mt-16 flex flex-col w-full justify-center">
+        <div className="border-r-2 border-neutral-900 pl-5">
+          <Button>
+            <HomeIcon size="sm" />
+          </Button>
+        </div>
         &nbsp;
-        <Button>
-          <TemplatesIcon size="sm" variant="primary" />
-        </Button>
+        <div className="pl-5">
+          <Button>
+            <TemplatesIcon size="sm" variant="neutral" />
+          </Button>
+        </div>
         &nbsp;
-        <Button>
-          <CogIcon size="sm" variant="primary" />
-        </Button>
+        <div className="pl-5">
+          <Button>
+            <CogIcon size="sm" variant="neutral" />
+          </Button>
+        </div>
       </div>
     </div>
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center pb-2">
       <Button>
-        <LogoutIcon size="sm" variant="primary" />
+        <LogoutIcon size="sm" variant="neutral" />
       </Button>
       &nbsp;
       <Avatar initials="NA" size="lg" />

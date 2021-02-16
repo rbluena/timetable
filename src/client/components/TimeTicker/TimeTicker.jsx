@@ -28,7 +28,7 @@ const TimeTicker = ({ stopTimer, isTimerRunning }) => {
         {isRunning ? (
           <PauseIcon size="sm" className="text-secondary-600" />
         ) : (
-          <PlayIcon size="sm" variant="secondary" />
+          <PlayIcon size="sm" />
         )}
       </Button>
     </div>
