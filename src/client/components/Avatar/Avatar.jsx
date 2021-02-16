@@ -56,6 +56,7 @@ Avatar.defaultProps = {
   className: '',
   initials: '',
   src: '',
+  alt: '',
   square: false,
 };
 
@@ -67,7 +68,7 @@ Avatar.propTypes = {
   className: PropTypes.string,
 
   /** Altenative text. */
-  alt: PropTypes.string.isRequired,
+  alt: PropTypes.string,
 
   /** Source of the image */
   src: PropTypes.string,

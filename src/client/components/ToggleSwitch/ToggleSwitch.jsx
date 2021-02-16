@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const ToggleSwitch = ({ options, value, onChange }) => (
   <div className="flex items-center">
     {options.map((item) => (
-      <div className="text-lg bg-primary-100 shadow-inner p-1">
+      <div key={item.value} className="text-lg bg-primary-100 shadow-inner p-1">
         <label
           htmlFor={item.label}
           className={`cursor-pointer py-1 px-4 ${
