@@ -26,10 +26,11 @@ const Header = ({ showTimer, heading }) => (
 
 Header.defaultProps = {
   heading: '',
+  showTimer: false,
 };
 
 Header.propTypes = {
-  showTimer: PropTypes.string.isRequired,
+  showTimer: PropTypes.bool,
   heading: PropTypes.string,
 };
 

@@ -1,22 +1,54 @@
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Header, ToggleSwitch, AvatarList, Text } from '@app/components';
+import Content from './Content';
 
 const CanvasContainer = () => {
-  const [toggle, setToggle] = useState('about');
+  const router = useRouter();
+  const { pathname, query } = router;
+
+  let view = 'about';
+
+  if (pathname === '/projects/[id]/timeline') {
+    view = 'timeline';
+  }
+
+  if (pathname === '/projects/[id]/board') {
+    view = 'board';
+  }
+
+  if (pathname === '/projects/[id]/calendar') {
+    view = 'calendar';
+  }
+
+  function changeProjectView(evt) {
+    const { value } = evt.target;
+
+    if (value === 'about') {
+      router.push(`/projects/${query.id}`);
+    } else {
+      router.push(`/projects/${query.id}/${value}`);
+    }
+  }
 
   return (
     <div className="w-full h-screen">
       <Header showTimer heading="BSc and Mathematics" />
 
+      {/* START: CONTENT */}
+      <Content view={view} />
+      {/* END: CONTENT */}
+
+      {/* start: FOOTER */}
       <div className="absolute bottom-4 flex flex-wrap justify-between my-4">
         <ToggleSwitch
           options={[
             { label: 'About', value: 'about' },
             { label: 'Timeline', value: 'timeline' },
             { label: 'Calendar', value: 'calendar' },
+            { label: 'Board', value: 'board' },
           ]}
-          value={toggle}
-          onChange={(evt) => setToggle(evt.target.value)}
+          value={view || 'about'}
+          onChange={changeProjectView}
         />
 
         {/* start: Organizers section */}
@@ -85,6 +117,7 @@ const CanvasContainer = () => {
         </div>
         {/* end: Members section */}
       </div>
+      {/* END: FOOTER */}
     </div>
   );
 };
