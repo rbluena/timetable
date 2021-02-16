@@ -1,5 +1,5 @@
 import { Button, TimeTicker } from '@app/components';
-import { PauseIcon, BellOutlineIcon } from '@app/components/Icons';
+import { BellOutlineIcon } from '@app/components/Icons';
 
 const Header = () => (
   <div className="w-full border-b border-neutral-100 flex justify-between p-2 px-4 relative">
@@ -9,12 +9,8 @@ const Header = () => (
       </h2>
       {/* <p className="font-bold text-lg">BSc and Mathematics</p> */}
     </div>
-    <div className="flex items-center mx-auto">
+    <div className="mx-auto">
       <TimeTicker />
-      &nbsp;
-      <Button>
-        <PauseIcon size="sm" />
-      </Button>
     </div>
     <div>
       <div>
