@@ -1,6 +1,39 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import Link from 'next/link';
+import { Header, ProjectList } from '@app/components';
+import { PlusIcon } from '@app/components/Icons';
+import ProjectCard from './ProjectCard';
+
 const Home = () => (
-  <div>
-    <h2>Home</h2>
+  <div className="w-full">
+    <Header />
+    <div>
+      <h2 className="text-3xl text-center font-thin text-primary-300 py-8">
+        Your Projects
+      </h2>
+
+      <ProjectList>
+        <ProjectCard code="PA" title="MSc Engineering" type="Personal" />
+        <ProjectCard code="PA" title="MSc Engineering" type="Personal" />
+        <ProjectCard code="PA" title="MSc Engineering" type="Personal" />
+      </ProjectList>
+
+      {/* start: create new project button */}
+      <Link href="/projects/create">
+        <a className="fixed top-16 right-4 md:right-8 rounded-full bg-primary-400 text-white p-2 hover:bg-primary-500">
+          <PlusIcon />
+        </a>
+      </Link>
+      {/* end: create new project button. */}
+    </div>
+
+    {/* start: new project */}
+    {/* <Link href="/projects/create">
+      <a className="absolute rounded-full bg-primary-500 text-white  w-28 h-28">
+        <PlusIcon />
+      </a>
+    </Link> */}
+    {/* end: new project */}
   </div>
 );
 

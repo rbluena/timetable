@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { LeftSidebarContainer } from '@app/containers';
+import { Container } from '@app/components';
 
 const LayoutManager = ({ children }) => (
   <div className="flex">
     <LeftSidebarContainer />
-    {children}
+    <Container>{children}</Container>
   </div>
 );
 
