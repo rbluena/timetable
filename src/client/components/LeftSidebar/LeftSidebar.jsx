@@ -3,9 +3,10 @@ import Link from 'next/link';
 import {
   // MenuIcon,
   CogIcon,
-  HomeIcon,
+  GridIcon,
   LogoutIcon,
   TemplatesIcon,
+  ClockIcon,
 } from '@app/components/Icons';
 import { Avatar, Button } from '@app/components';
 
@@ -27,7 +28,26 @@ const LeftSidebar = () => {
             <Link href="/">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>
-                <HomeIcon size="sm" />
+                <GridIcon
+                  size="sm"
+                  variant={pathname === '/' ? '' : 'neutral'}
+                />
+              </a>
+            </Link>
+          </div>
+          &nbsp;
+          <div
+            className={`${
+              pathname === '/my-timer' && 'border-r-2 border-neutral-900'
+            } pl-5`}
+          >
+            <Link href="/my-timer">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a>
+                <ClockIcon
+                  size="sm"
+                  variant={pathname === '/my-timer' ? '' : 'neutral'}
+                />
               </a>
             </Link>
           </div>

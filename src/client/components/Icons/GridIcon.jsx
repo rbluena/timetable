@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HiHeart } from 'react-icons/hi';
+import { FiGrid } from 'react-icons/fi';
 
-function HeartIcon({ size, className, variant }) {
+function GridIcon({ size, className, variant }) {
   if (size === 'xs') className += ' w-4 h-4';
   if (size === 'sm') className += ' w-6 h-6';
   if (size === 'md') className += ' w-8 h-8';
@@ -20,19 +20,19 @@ function HeartIcon({ size, className, variant }) {
     className += ' text-neutral-400';
   }
 
-  return <HiHeart className={`${className}`} />;
+  return <FiGrid className={`${className}`} />;
 }
 
-HeartIcon.defaultProps = {
+GridIcon.defaultProps = {
   size: 'md',
   className: '',
   variant: '',
 };
 
-HeartIcon.propTypes = {
+GridIcon.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   variant: PropTypes.string,
 };
 
-export default HeartIcon;
+export default GridIcon;

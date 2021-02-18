@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Text = ({ type, text, variant, className = '' }) => {
   if (variant === 'primary') {
     className += ' text-primary-700';
@@ -28,6 +30,19 @@ const Text = ({ type, text, variant, className = '' }) => {
   }
 
   return <p className={`${className}`}>{text}</p>;
+};
+
+Text.defaultProps = {
+  className: '',
+  variant: 'neutral',
+  type: '',
+};
+
+Text.propTypes = {
+  className: PropTypes.string,
+  text: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 export default Text;

@@ -29,6 +29,8 @@ import TemplatesIcon from './TemplatesIcon';
 import HomeIcon from './HomeIcon';
 import PauseIcon from './PauseIcon';
 import PlayIcon from './PlayIcon';
+import ClockIcon from './ClockIcon';
+import GridIcon from './GridIcon';
 
 export {
   ClipboardListIcon,
@@ -62,4 +64,6 @@ export {
   HomeIcon,
   PauseIcon,
   PlayIcon,
+  ClockIcon,
+  GridIcon,
 };

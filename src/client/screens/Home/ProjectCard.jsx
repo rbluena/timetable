@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 const ProjectCard = ({ title, code, type }) => (
-  <div className="transition-shadow duration-150 p-4 shadow-md m-2 w-72 bg-white hover:shadow-xl py-8">
+  <div className="transition-shadow duration-150 p-4 shadow m-2 w-72 bg-white hover:shadow-xl py-8">
     <Link href="/projects/948885">
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className="flex flex-col items-center justify-center">
