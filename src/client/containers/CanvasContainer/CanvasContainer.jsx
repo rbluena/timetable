@@ -40,7 +40,7 @@ const CanvasContainer = () => {
       {/* END: CONTENT */}
 
       {/* start: FOOTER */}
-      <div className="absolute bottom-4 flex flex-wrap justify-between my-4">
+      <div className="mx-2 bottom-4 flex flex-wrap justify-between my-4 fixed">
         <ToggleSwitch
           options={[
             { label: 'About', value: 'about' },

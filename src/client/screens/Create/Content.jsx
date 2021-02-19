@@ -1,7 +1,7 @@
 import { ToggleSwitch } from '@app/components';
 
 const Content = () => (
-  <div className="bg-white mx-auto max-w-4xl mt-4 shadow-sm rounded p-4">
+  <div className="bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-4">
     Creating something useful.
     <ToggleSwitch
       options={[

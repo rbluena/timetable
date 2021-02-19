@@ -1,20 +1,15 @@
 import PropTypes from 'prop-types';
+import CalendarContainer from '../CalendarContainer';
+import AboutContainer from '../AboutContainer';
+import TimelineContainer from '../TimelineContainer';
 
 const Content = ({ view }) => {
   if (view === 'calendar') {
-    return (
-      <div>
-        <h2 className="font-bold text-2xl">Calendar</h2>
-      </div>
-    );
+    return <CalendarContainer />;
   }
 
   if (view === 'timeline') {
-    return (
-      <div>
-        <h2 className="font-bold text-2xl">Timeline</h2>
-      </div>
-    );
+    return <TimelineContainer />;
   }
 
   if (view === 'board') {
@@ -25,11 +20,7 @@ const Content = ({ view }) => {
     );
   }
 
-  return (
-    <div>
-      <h2 className="font-bold text-2xl">About</h2>
-    </div>
-  );
+  return <AboutContainer />;
 };
 
 Content.defaultProps = {
