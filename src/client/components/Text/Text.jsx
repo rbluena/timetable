@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 
-const Text = ({ type, text, variant, className = '' }) => {
+const Text = ({ type, text, variant, weight, className = '' }) => {
+  console.log(type);
   if (variant === 'primary') {
-    className += ' text-primary-700';
+    className += ' text-primary-600';
   }
 
   if (variant === 'secondary') {
@@ -10,7 +11,15 @@ const Text = ({ type, text, variant, className = '' }) => {
   }
 
   if (variant === 'neutral') {
-    className += ' text-neutral-500';
+    className += ' text-neutral-400';
+  }
+
+  if (weight === 'bold') {
+    className += ' font-bold';
+  }
+
+  if (weight === 'light') {
+    className += ' font-light';
   }
 
   if (type === 'title') {
@@ -26,7 +35,11 @@ const Text = ({ type, text, variant, className = '' }) => {
   }
 
   if (type === 'large') {
-    <p className={`text-lg ${className}`}>{text}</p>;
+    return <p className={`text-lg ${className}`}>{text}</p>;
+  }
+
+  if (type === 'xl') {
+    return <p className={`text-xl ${className}`}>{text}</p>;
   }
 
   return <p className={`${className}`}>{text}</p>;
@@ -34,7 +47,7 @@ const Text = ({ type, text, variant, className = '' }) => {
 
 Text.defaultProps = {
   className: '',
-  variant: 'neutral',
+  variant: '',
   type: '',
 };
 

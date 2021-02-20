@@ -1,6 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
-import { Button } from '@app/components';
+import { Button, ToggleSwitch, Text } from '@app/components';
+import Organizers from './Organizers';
+import Members from './Members';
 
 const AboutContainer = () => (
   <div className="bg-white mx-auto max-w-4xl my-4 shadow-sm rounded p-4 pb-8 relative">
@@ -27,15 +28,28 @@ const AboutContainer = () => (
       <br />
     </div>
 
+    <div className="py-2">
+      <ToggleSwitch
+        options={[
+          { label: 'Private', value: 'private' },
+          { label: 'Public', value: 'public' },
+        ]}
+        value="private"
+      />
+    </div>
+
     {/* start: Organizers */}
     <div className="py-6">
-      <div className="text-2xl">
+      <div className="text-xl font-bold mb-2">
         <span className="text-success-600">Organizers</span>&nbsp;
         <span className="text-neutral-500 font-bold">0</span>
       </div>
+      {/*  */}
+      <Organizers />
+      {/*  */}
       <Button
         variant="text-button"
-        className="text-success-600 hover:underline"
+        className="text-success-600 hover:underline text-sm"
       >
         +&nbsp;Add
       </Button>
@@ -44,25 +58,60 @@ const AboutContainer = () => (
 
     {/* start: Member */}
     <div className="py-6">
-      <div className="text-2xl">
+      <div className="text-xl font-bold mb-2">
         <span className="text-success-600">Members</span>&nbsp;
         <span className="text-neutral-500 font-bold">0</span>
       </div>
+
+      {/* start: members */}
+      <Members />
+      {/* end: members */}
+
       <Button
         variant="text-button"
-        className="text-success-600 hover:underline"
+        className="text-success-600 hover:underline text-sm"
       >
         +&nbsp;Add
       </Button>
     </div>
     {/* end: Member */}
 
-    <Link href="/projects/3939943/edit">
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className=" absolute top-2 right-2 rounded px-4 py-2 font-bold bg-secondary-600 text-white p-1 hover:bg-primary-500">
-        Edit
-      </a>
-    </Link>
+    {/* start: Topics */}
+    <div className="py-6">
+      <div className="text-xl font-bold mb-2">
+        <span className="text-success-600">Categories</span>&nbsp;
+      </div>
+
+      <ul className="flex">
+        <li className="px-2">
+          <Text weight="bold" variant="neutral" text="Physics" />
+        </li>
+        <li className="px-2">
+          <Text weight="bold" variant="neutral" text="Chemistry" />
+        </li>
+        <li className="px-2">
+          <Text weight="bold" variant="neutral" text="Mathematics" />
+        </li>
+        <li className="px-2">
+          <Text weight="bold" variant="neutral" text="Geography" />
+        </li>
+      </ul>
+
+      <Button
+        variant="text-button"
+        className="text-success-600 hover:underline text-sm"
+      >
+        +&nbsp;Add
+      </Button>
+    </div>
+    {/* end: Member */}
+
+    <button
+      type="button"
+      className=" absolute top-2 right-2 rounded px-4 py-2 font-bold bg-secondary-600 hover:bg-secondary-400 text-white p-1"
+    >
+      Edit
+    </button>
   </div>
 );
 
