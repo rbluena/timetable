@@ -3,7 +3,7 @@ import { Button, TimeTicker, Text } from '@app/components';
 import { BellOutlineIcon } from '@app/components/Icons';
 
 const Header = ({ showTimer, heading, title }) => (
-  <div className="w-full fixed top-0 border-b z-50 bg-white border-neutral-100 flex justify-between p-2 px-4">
+  <div className="fixed top-0 left-0 w-full border-b z-50 bg-white border-neutral-100 flex justify-between p-2 px-4">
     <div className={`items-center ${showTimer ? 'absolute' : ''}`}>
       <h2 className=" font-extrabold text-lg text-secondary-400 m-0 p-0 whitespace-pre-wrap">
         {heading}

@@ -20,14 +20,14 @@ const TimeTicker = () => {
   }
 
   return (
-    <div className="flex max-w-md">
+    <div className="flex items-center max-w-md">
       <span className="text-primary-500 text-lg font-bold">{`${formttedHours}:${formttedMinutes}:${formttedSeconds}`}</span>
       &nbsp;
       <Button onClick={startTimer}>
         {isRunning ? (
           <PauseIcon size="sm" className="text-secondary-600" />
         ) : (
-          <PlayIcon size="sm" variant="neutral" />
+          <PlayIcon size="sm" />
         )}
       </Button>
     </div>
