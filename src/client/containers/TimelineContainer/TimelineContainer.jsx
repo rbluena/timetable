@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, Link, Text } from '@app/components';
 import ProjectScheduledList from './ProjectScheduledList';
 import TimelineHeader from './TimelineHeader';
 
@@ -9,7 +8,7 @@ const TimelineContainer = () => (
       Today
     </Link> */}
 
-    <div className="max-w-4xl mx-auto bg-white shadow-sm p-2 divide-y divide-neutral-100">
+    <div className="divide-y divide-neutral-100 bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-4">
       <div className="py-4">
         <TimelineHeader />
         <div className="pl-2">

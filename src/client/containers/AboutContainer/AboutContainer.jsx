@@ -4,7 +4,7 @@ import Organizers from './Organizers';
 import Members from './Members';
 
 const AboutContainer = () => (
-  <div className="bg-white mx-auto max-w-4xl my-4 shadow-sm rounded p-4 pb-8 relative">
+  <div className="bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-4 pb-8 relative">
     <h2 className="text-2xl py-6 text-neutral-800 font-secondary">
       Title of the project{' '}
     </h2>
