@@ -10,6 +10,8 @@ import AvatarList from './AvatarList';
 import Text from './Text';
 import Container from './Container';
 import ProjectList from './ProjectList';
+import Link from './Link';
+import ProjectScheduleItem from './ProjectScheduleItem';
 
 export {
   Avatar,
@@ -24,4 +26,6 @@ export {
   Text,
   Container,
   ProjectList,
+  Link,
+  ProjectScheduleItem,
 };
