@@ -38,7 +38,7 @@ const Price = () => {
 
   return (
     <div className="pt-4">
-      <h2 className="text-4xl text-center mb-12">Upgrade</h2>
+      <h2 className="text-4xl text-center mb-12 font-light">Subscription</h2>
 
       <div className="mx-auto max-w-3xl">
         <div className="mb-2">
