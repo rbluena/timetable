@@ -1,9 +1,10 @@
 import CalendarHeader from './Header';
+import CalendarBody from './CalendarBody/CalendarBody';
 
 const CalendarContainer = () => (
-  <div className="bg-white">
+  <div className="bg-white p-2">
     <CalendarHeader />
-    <h2>Calendar</h2>
+    <CalendarBody />
   </div>
 );
 

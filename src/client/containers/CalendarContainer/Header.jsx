@@ -2,7 +2,7 @@ import { Button } from '@app/components';
 import { ChevronLeftIcon, ChevronRightIcon } from '@app/components/Icons';
 
 const Header = () => (
-  <div className="w-full flex p-2">
+  <div className="flex w-full p-2 z-50 bg-white border-b border-neutral-300">
     <div className="flex">
       <Button variant="primary">
         <ChevronLeftIcon />
