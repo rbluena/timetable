@@ -3,16 +3,13 @@ import TimeColumn from './TimeColumn';
 import Column from './Column';
 
 const CalendarBody = () => {
-  function addTimeBlock(startTime, startMinutes) {
-    console.log(startTime);
-    console.log(startMinutes);
-  }
+  function addTimeBlock(startTime, startMinutes) {}
 
   return (
-    <div className="flex divide-x divide-neutral-100 pt-10">
+    <div className="flex  pt-10">
       <CreateTask />
       <TimeColumn />
-      <div className="divide-x divide-neutral-100 flex calendar-bound">
+      <div className="border-l border-neutral-100 divide-x divide-neutral-100 flex calendar-bound">
         <Column addTimeBlock={addTimeBlock} />
         <Column addTimeBlock={addTimeBlock} />
         <Column addTimeBlock={addTimeBlock} />

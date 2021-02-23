@@ -30,7 +30,7 @@ const minuteBlocks = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
 const TimeColumn = () => (
   <div className="" style={{ width: 65 }}>
-    <div className="text-neutral-600 font-bold text-lg">GMT&nbsp;+3</div>
+    <div className="text-neutral-600 text-center h-8">GMT&nbsp;+3</div>
     <div>
       {hourBlocks.map((time) => (
         <div className="">

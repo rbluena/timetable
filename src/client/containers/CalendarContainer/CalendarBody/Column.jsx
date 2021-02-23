@@ -224,9 +224,7 @@ const Column = ({ addTimeBlock }) => {
   function cardClicked() {}
   return (
     <div className="w-44 relative">
-      <div className="text-neutral-600 font-bold text-center text-lg">
-        Mon 12
-      </div>
+      <div className="text-neutral-600 font-bold text-center h-8">Mon 12</div>
       <div className=" text-center">
         {/* start: Columns times and minutes */}
         {hourBlocks.map((timeBlock) => (

@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  Input,
-  Button,
-  Form,
-  TimePicker,
-  DatePicker,
-  Select,
-  Transfer,
-} from 'antd';
+import { Input, Button, Form, TimePicker, DatePicker, Select } from 'antd';
 import { RichEditor } from '@app/components';
 
 import { ControlWrapper } from '@app/components/Form';
@@ -39,7 +31,7 @@ const CreateTask = () => {
 
   return (
     <div
-      className="bg-white w-full max-w-lg left-4 top-4 fixed rounded shadow-lg border border-neutral-50 overflow-x-hidden"
+      className="bg-white w-full max-w-lg left-4 top-4 fixed hidden rounded shadow-lg border border-neutral-50 overflow-x-hidden"
       style={{ maxHeight: 'calc(100vh - 80px)', zIndex: '1000' }}
     >
       <div className="bg-neutral-100">
