@@ -14,22 +14,6 @@ const Members = () => (
       ]}
       size="lg"
     />
-
-    {/* <div className="flex ml-4">
-      <Text
-        text="Organizers"
-        variant="primary"
-        type="subheading"
-        className="font-bold"
-      />
-      &nbsp; &nbsp;
-      <Text
-        type="subheading"
-        variant="neutral"
-        text="3"
-        className="font-bold"
-      />
-    </div> */}
   </div>
 );
 
