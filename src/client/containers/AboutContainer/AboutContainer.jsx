@@ -17,6 +17,11 @@ const AboutContainer = () => {
   return (
     <>
       <div className="bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-6 pb-8 relative">
+        <div className="absolute right-4">
+          <Button type="primary" size="large" ghost>
+            Follow
+          </Button>
+        </div>
         <div className="max-w-2xl">
           <Title
             level={4}
@@ -66,11 +71,13 @@ const AboutContainer = () => {
             </div>
             <Organizers />
             <Button
+              type="primary"
               className="mt-2"
               size="small"
               onClick={() => setModal('organizers')}
+              ghost
             >
-              View
+              View all
             </Button>
           </div>
           {/* end: Organizers */}
@@ -83,11 +90,13 @@ const AboutContainer = () => {
             </div>
             <Members />
             <Button
+              type="primary"
               className="mt-2"
               size="small"
               onClick={() => setModal('members')}
+              ghost
             >
-              View
+              View all
             </Button>
           </div>
           {/* end: Member */}
@@ -113,9 +122,14 @@ const AboutContainer = () => {
               </li>
             </ul>
 
-            <Button size="small" onClick={() => setModal('categories')}>
-              View
-            </Button>
+            {/* <Button
+              type="primary"
+              size="small"
+              ghost
+              onClick={() => setModal('categories')}
+            >
+              View all
+            </Button> */}
           </div>
           {/* end: Member */}
         </div>

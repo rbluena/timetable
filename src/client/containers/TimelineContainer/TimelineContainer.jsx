@@ -20,17 +20,19 @@ const TimelineContainer = () => (
           </Button>
         </Tooltip>
       </div>
-      <div className="py-4 max-w-md pl-4">
-        <TimelineHeader date="Tuesday 23" />
-        <Timeline />
-      </div>
-      <div className="py-4 max-w-md pl-4">
-        <TimelineHeader date="Thursday 24" />
-        <Timeline />
-      </div>
-      <div className="py-4 max-w-md pl-4">
-        <TimelineHeader date="Monday 27" />
-        <Timeline />
+      <div className="divide-y divide-primary-100">
+        <div className="py-4 max-w-md pl-4">
+          <TimelineHeader date="Tuesday 23" />
+          <Timeline />
+        </div>
+        <div className="py-4 max-w-md pl-4">
+          <TimelineHeader date="Thursday 24" />
+          <Timeline />
+        </div>
+        <div className="py-4 max-w-md pl-4">
+          <TimelineHeader date="Monday 27" />
+          <Timeline />
+        </div>
       </div>
     </div>
   </div>

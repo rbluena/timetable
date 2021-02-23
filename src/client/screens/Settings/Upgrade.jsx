@@ -1,4 +1,5 @@
 import React from 'react';
+import { Radio } from 'antd';
 import { Button, ToggleSwitch } from '@app/components';
 
 const freeDescription = [
@@ -42,14 +43,15 @@ const Price = () => {
 
       <div className="mx-auto max-w-3xl">
         <div className="mb-2">
-          <ToggleSwitch
-            options={[
-              { label: 'Monthly', value: 'monthly' },
-              { label: 'Yearly', value: 'yearly' },
-            ]}
+          <Radio.Group
+            defaultValue="monthly"
             value={paymentOption}
+            buttonStyle="solid"
             onChange={(evt) => setPaymentOption(evt.target.value)}
-          />
+          >
+            <Radio.Button value="monthly">Monthly</Radio.Button>
+            <Radio.Button value="yearly">Yearly</Radio.Button>
+          </Radio.Group>
         </div>
         <div className="flex flex-wrap">
           <div className="max-w-2xl flex-col justify-between md:mr-4">
@@ -73,7 +75,7 @@ const Price = () => {
               onClick={() => setSelectedPrice('premium')}
             >
               <div className="flex justify-between">
-                <div className="text-lg font-bold">Premium</div>
+                <div className="text-lg font-bold">Pro</div>
                 <div className="text-lg font-bold">
                   <span>
                     {paymentOption === 'monthly'
@@ -106,7 +108,7 @@ const Price = () => {
 
             <div className="mt-4">
               <Button variant="secondary" wide size="lg">
-                Select
+                {selectedPrice === 'free' ? 'Free' : 'Pro'}
               </Button>
             </div>
           </div>
