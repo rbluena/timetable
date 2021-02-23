@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { Header, ToggleSwitch } from '@app/components';
+import { Header } from '@app/components';
+import { Radio } from 'antd';
 import Content from './Content';
 
 const CanvasContainer = () => {
@@ -10,8 +11,8 @@ const CanvasContainer = () => {
   let view = 'about';
   let showTimer = false;
 
-  if (pathname === '/projects/[id]/timeline') {
-    view = 'timeline';
+  if (pathname === '/projects/[id]/agenda') {
+    view = 'agenda';
   }
 
   if (pathname === '/projects/[id]/board') {
@@ -43,17 +44,18 @@ const CanvasContainer = () => {
       {/* END: CONTENT */}
 
       {/* start: FOOTER */}
-      <div className="mx-2 bottom-1 flex flex-wrap justify-between fixed">
-        <ToggleSwitch
-          options={[
-            { label: 'About', value: 'about' },
-            { label: 'Timeline', value: 'timeline' },
-            { label: 'Calendar', value: 'calendar' },
-            { label: 'Board', value: 'board' },
-          ]}
-          value={view || 'about'}
+      <div className="mx-2 bottom-2 flex flex-wrap justify-between fixed">
+        <Radio.Group
+          defaultValue="about"
+          value={view}
+          buttonStyle="solid"
           onChange={changeProjectView}
-        />
+        >
+          <Radio.Button value="about">About</Radio.Button>
+          <Radio.Button value="agenda">Agenda</Radio.Button>
+          <Radio.Button value="calendar">Calendar</Radio.Button>
+          <Radio.Button value="board">Board</Radio.Button>
+        </Radio.Group>
       </div>
       {/* END: FOOTER */}
     </div>

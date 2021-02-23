@@ -8,7 +8,7 @@ const Content = ({ view }) => {
     return <CalendarContainer />;
   }
 
-  if (view === 'timeline') {
+  if (view === 'agenda') {
     return <TimelineContainer />;
   }
 
