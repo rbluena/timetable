@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import Dropdown from './Dropdown';
+
+<Meta title="Design System/Form/Dropdown" component={Dropdown} />
+
+# Dropdown
+
+export const Template = (args) => <Dropdown {...args} />;
+
+<ArgsTable of={Dropdown} />
+
+<Canvas>
+  <Story name="Dropdown">
+    <Dropdown
+      isOpen={true}
+      options={[
+        { label: 'View', value: 'view' },
+        { label: 'Edit', value: 'edit' },
+        { label: 'Delete', value: 'delete' },
+      ]}
+      onValueChanged={() => {}}
+      changeDropdownVisibility={() => {}}
+    />
+  </Story>
+</Canvas>

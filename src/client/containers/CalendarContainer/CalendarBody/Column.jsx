@@ -220,37 +220,46 @@ const hourBlocks = [
 
 const minuteBlocks = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
-const Column = () => (
-  <div className="w-44 relative">
-    <div className="text-neutral-600 font-bold text-center text-lg">Mon 12</div>
-    <div className=" text-center">
-      {/* start: Columns times and minutes */}
-      {hourBlocks.map(() => (
-        <>
-          <div
-            className="border-t border-primary-100"
-            style={{ height: '7px' }}
-          />
-          {minuteBlocks.map((minuteBlock) => (
+const Column = ({ addTimeBlock }) => {
+  function cardClicked() {}
+  return (
+    <div className="w-44 relative">
+      <div className="text-neutral-600 font-bold text-center text-lg">
+        Mon 12
+      </div>
+      <div className=" text-center">
+        {/* start: Columns times and minutes */}
+        {hourBlocks.map((timeBlock) => (
+          <>
             <div
-              className={`${
-                minuteBlock === 30
-                  ? 'border-t border-neutral-100'
-                  : 'border-t border-neutral-50'
-              } `}
+              className=" cursor-default border-t border-primary-100"
               style={{ height: '7px' }}
+              role="button"
+              onClick={() => addTimeBlock(timeBlock, 0)}
             />
-          ))}
-        </>
-      ))}
-      {/* start: Columns times and minutes */}
+            {minuteBlocks.map((minuteBlock) => (
+              <div
+                className={` cursor-default ${
+                  minuteBlock === 30
+                    ? 'border-t border-neutral-100'
+                    : 'border-t border-neutral-50'
+                } `}
+                style={{ height: '7px' }}
+                role="button"
+                onClick={() => addTimeBlock(timeBlock, minuteBlock)}
+              />
+            ))}
+          </>
+        ))}
+        {/* start: Columns times and minutes */}
 
-      {/* start: List of blocked times */}
-      <TaskCard />
-      <TaskCard />
-      {/* end: List of blocked times */}
+        {/* start: List of blocked times */}
+        <TaskCard cardClicked={cardClicked} />
+        <TaskCard cardClicked={cardClicked} />
+        {/* end: List of blocked times */}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Column;

@@ -12,6 +12,9 @@ import Container from './Container';
 import ProjectList from './ProjectList';
 import Link from './Link';
 import ProjectScheduleItem from './ProjectScheduleItem';
+import CreateTask from './CreateTask';
+import DatePicker from './Form/DatePicker';
+import RichEditor from './RichEditor';
 
 export {
   Avatar,
@@ -28,4 +31,7 @@ export {
   ProjectList,
   Link,
   ProjectScheduleItem,
+  CreateTask,
+  DatePicker,
+  RichEditor,
 };

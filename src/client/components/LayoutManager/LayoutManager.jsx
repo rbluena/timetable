@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { LeftSidebarContainer } from '@app/containers';
 import { Container } from '@app/components';
+import 'antd/dist/antd.css';
 
 const LayoutManager = ({ children }) => (
   <div className="flex">

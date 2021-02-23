@@ -1,0 +1,22 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import TextInput from './TextInput';
+
+<Meta title="Design System/Form/TextInput" component={TextInput} />
+
+# TextInput
+
+export const Template = (args) => <TextInput {...args} />;
+
+<ArgsTable of={TextInput} />
+
+<Canvas>
+	<Story name="TextInput">
+		<TextInput
+			id="username"
+			name="username"
+			label="Username"
+			error="Something wrong here"
+			placeholder="Enter username"
+		/>
+	</Story>
+</Canvas>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Rnd as Draggable } from 'react-rnd';
 
-const TaskCard = () => {
+const TaskCard = ({ cardClicked }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dimension, setDimension] = useState({ width: 165, height: 49 });
   const [isInteract, setIsInteract] = useState(false);
@@ -39,6 +39,11 @@ const TaskCard = () => {
     setIsInteract(false);
   }
 
+  function onClick() {
+    // setIsInteract(true);
+    cardClicked();
+  }
+
   return (
     <Draggable
       className={`text-left px-2 bg-primary-100 relative text-primary-700 border-l-2 rounded z-50 ${
@@ -60,24 +65,29 @@ const TaskCard = () => {
       onDrag={onDrag}
       onResize={onResize}
       onResizeStop={onResizeEnd}
+      onClick={onClick}
     >
-      <p className="text-sm font-secondary flex items-center">
-        <span
-          className={`truncate block ${
-            dimension.height <= 21 ? 'text-xs' : ''
-          }`}
-        >
-          This is dragable and text is very long
-        </span>
-        {dimension.height <= 35 && (
-          <span className="block text-xs text-neutral-700 truncate">
-            10:00am - 11:30am
+      <div>
+        <p className="text-sm font-secondary flex items-center">
+          <span
+            className={`truncate block ${
+              dimension.height <= 21 ? 'text-xs' : ''
+            }`}
+          >
+            This is dragable and text is very long
           </span>
+          {dimension.height <= 35 && (
+            <span className="block text-xs text-neutral-700 truncate">
+              10:00am - 11:30am
+            </span>
+          )}
+        </p>
+        {dimension.height > 35 && (
+          <p className="text-xs font-bold text-neutral-900">
+            10:00am - 11:30am
+          </p>
         )}
-      </p>
-      {dimension.height > 35 && (
-        <p className="text-xs font-bold text-neutral-900">10:00am - 11:30am</p>
-      )}
+      </div>
     </Draggable>
   );
 };
