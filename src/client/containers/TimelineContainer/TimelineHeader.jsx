@@ -1,11 +1,18 @@
-import { Text } from '@app/components';
+import PropTypes from 'prop-types';
+import { Typography } from 'antd';
 
-const TimelineHeader = () => (
+const { Title } = Typography;
+
+const TimelineHeader = ({ date }) => (
   <div className="flex items-center pb-3">
-    <Text text="TUESDAY" type="subheading" variant="primary" weight="bold" />{' '}
-    &nbsp;&nbsp;
-    <Text text="23" type="subheading" weight="bold" variant="neutral" />
+    <Title type="secondary" level={4}>
+      {date}
+    </Title>
   </div>
 );
+
+TimelineHeader.propTypes = {
+  date: PropTypes.string.isRequired,
+};
 
 export default TimelineHeader;
