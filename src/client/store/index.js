@@ -1,45 +1,34 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { persistReducer, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable global-require */
+import { applyMiddleware, createStore } from 'redux';
+// import { persistReducer, REGISTER } from 'redux-persist';
 import { createLogger } from 'redux-logger';
-import rootReducer from '../slices';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from '../reducers';
 
-const logger = createLogger({
+const loggerMiddleware = createLogger({
   timestamp: false,
   collapsed: true,
 });
 
 const isProduction = process.env.NODE_ENV !== 'development';
 
-const middleware = !isProduction
-  ? [logger, ...getDefaultMiddleware()]
-  : [
-      ...getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [REGISTER],
-        },
-      }),
-    ];
+export default function configureStore(preloadedState) {
+  const middlewares = isProduction
+    ? [thunkMiddleware]
+    : [
+        require('redux-immutable-state-invariant').default(),
+        loggerMiddleware,
+        thunkMiddleware,
+      ];
 
-const persistedReducer = persistReducer(
-  {
-    key: 'root',
-    storage,
-    version: 0,
-    whitelist: ['auth'],
-  },
-  rootReducer
-);
+  const middlewareEnhancer = applyMiddleware(...middlewares);
 
-function configureAppStore(preloadedState) {
-  const store = configureStore({
-    reducer: persistedReducer,
-    middleware,
-    preloadedState,
-    devTools: !isProduction,
-  });
+  const enhancers = [middlewareEnhancer];
+  const composedEnhancers = composeWithDevTools(...enhancers);
+
+  const store = createStore(rootReducer, preloadedState, composedEnhancers);
 
   return store;
 }
-
-export default configureAppStore;
