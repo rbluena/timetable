@@ -20,6 +20,7 @@
     "filepond": "^4.25.1",
     "immer": "^8.0.1",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "next": "10.0.6",
     "normalizr": "^3.6.1",
     "prettier": "^2.2.1",
