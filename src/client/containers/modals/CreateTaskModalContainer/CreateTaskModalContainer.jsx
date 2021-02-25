@@ -1,7 +1,7 @@
 import { CreateTask } from '@app/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { globalStateSelector, tasksStateSelector } from '@app/selectors';
-import { closeModalAction, submitTaskAction } from '@app/actions';
+import { closeModalAction, createTaskAction } from '@app/actions';
 
 const CreateTaskModalContainer = () => {
   const { modal } = useSelector(globalStateSelector);
@@ -9,7 +9,8 @@ const CreateTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   function onSubmit(data) {
-    dispatch(submitTaskAction(data));
+    dispatch(createTaskAction(data));
+    dispatch(closeModalAction());
   }
 
   return (

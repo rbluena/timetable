@@ -1,239 +1,62 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import { format, setHours } from 'date-fns';
 import TaskCard from './TaskCard';
 
-// const hourBlocks = [
-//   {
-//     time: '12:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '12:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '01:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '01:30 am',
-//     title: 'Title of the card',
-//     description:
-//       'Description of the card. We will be doing all these thing together.',
-//     hasData: true,
-//   },
-//   {
-//     time: '02:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '02:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '03:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '03:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '04:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '04:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '05:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '05:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '06:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '06:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '07:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '07:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '08:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '08:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '09:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '09:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '10:00 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '11:30 am',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '12:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '12:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '07:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '07:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '08:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '08:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '09:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '09:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '09:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '09:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '10:00 pm',
-//     start: '10:00 pm',
-//     end: '10:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//     hasData: true,
-//   },
-//   {
-//     time: '10:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '11:00 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-//   {
-//     time: '11:30 pm',
-//     title: 'Title of the card',
-//     description: 'Description of the card.',
-//   },
-// ];
-
 const hourBlocks = [
-  { time: '12:00 am' },
-  { time: '01:00 am' },
-  { time: '02:00 am' },
-  { time: '03:00 am' },
-  { time: '04:00 am' },
-  { time: '05:00 am' },
-  { time: '06:00 am' },
-  { time: '07:00 am' },
-  { time: '08:00 am' },
-  { time: '09:00 am' },
-  { time: '10:00 am' },
-  { time: '11:00 am' },
-  { time: '12:00 pm' },
-  { time: '07:00 pm' },
-  { time: '08:00 pm' },
-  { time: '03:00 pm' },
-  { time: '04:00 pm' },
-  { time: '05:00 pm' },
-  { time: '06:00 pm' },
-  { time: '07:00 pm' },
-  { time: '08:00 pm' },
-  { time: '09:00 pm' },
-  { time: '10:00 pm' },
-  { time: '11:00 pm' },
+  { hour: '00', minutes: '00' },
+  { hour: '01', minutes: '00' },
+  { hour: '02', minutes: '00' },
+  { hour: '03', minutes: '00' },
+  { hour: '04', minutes: '00' },
+  { hour: '05', minutes: '00' },
+  { hour: '06', minutes: '00' },
+  { hour: '07', minutes: '00' },
+  { hour: '08', minutes: '00' },
+  { hour: '09', minutes: '00' },
+  { hour: '10', minutes: '00' },
+  { hour: '11', minutes: '00' },
+  { hour: '12', minutes: '00' },
+  { hour: '13', minutes: '00' },
+  { hour: '14', minutes: '00' },
+  { hour: '15', minutes: '00' },
+  { hour: '16', minutes: '00' },
+  { hour: '17', minutes: '00' },
+  { hour: '18', minutes: '00' },
+  { hour: '19', minutes: '00' },
+  { hour: '20', minutes: '00' },
+  { hour: '21', minutes: '00' },
+  { hour: '22', minutes: '00' },
+  { hour: '23', minutes: '00' },
 ];
 
 const minuteBlocks = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
-const Column = ({ addTimeBlock }) => {
+const Column = ({ openEditTaskModal, date }) => {
   function cardClicked() {}
+
   return (
     <div className="w-44 relative">
-      <div className="text-neutral-600 font-bold text-center h-8">Mon 12</div>
+      <div className="text-neutral-600 font-bold text-center h-8">
+        {format(date, 'MMM dd')}
+      </div>
       <div className=" text-center">
-        {/* start: Columns times and minutes */}
+        {/* start: Columns hours and' }, { minutes: 'mi'},n{ period: 'utes */}
         {hourBlocks.map((timeBlock) => (
           <>
             <div
               className=" cursor-default border-t border-primary-100"
               style={{ height: '7px' }}
               role="button"
-              onClick={() => addTimeBlock(timeBlock, 0)}
+              onClick={() =>
+                openEditTaskModal({
+                  date,
+                  startHour: timeBlock.hour,
+                  startMinutes: 0,
+                })
+              }
             />
             {minuteBlocks.map((minuteBlock) => (
               <div
@@ -244,7 +67,13 @@ const Column = ({ addTimeBlock }) => {
                 } `}
                 style={{ height: '7px' }}
                 role="button"
-                onClick={() => addTimeBlock(timeBlock, minuteBlock)}
+                onClick={() =>
+                  openEditTaskModal({
+                    date,
+                    startHour: timeBlock.hour,
+                    startMinutes: minuteBlock,
+                  })
+                }
               />
             ))}
           </>
