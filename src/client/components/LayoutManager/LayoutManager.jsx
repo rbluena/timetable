@@ -4,10 +4,12 @@ import { Container } from '@app/components';
 import 'antd/dist/antd.css';
 
 const LayoutManager = ({ children }) => (
-  <div className="flex">
-    <LeftSidebarContainer />
-    <Container>{children}</Container>
-  </div>
+  <>
+    <div className="flex">
+      <LeftSidebarContainer />
+      <Container>{children}</Container>
+    </div>
+  </>
 );
 
 LayoutManager.propTypes = {

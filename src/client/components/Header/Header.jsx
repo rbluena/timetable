@@ -26,6 +26,10 @@ const Header = ({ showTimer, heading, title }) => (
     )}
     <div>
       <Button className="relative">
+        {/* <span className="flex h-2 w-2 relative">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary-500" />
+        </span> */}
         <span className="bg-secondary-500 h-2 w-2 rounded-full block absolute top-1 left-1" />
         <BellOutlineIcon size="sm" variant="secondary" />
       </Button>
