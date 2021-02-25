@@ -35,7 +35,7 @@ module.exports = {
         ['@app/screens', './src/client/screens'],
         ['@app/containers', './src/client/containers'],
         ['@app/actions', './src/client/actions'],
-        ['@app/slices', './src/client/slices'],
+        ['@app/reducers', './src/client/reducers'],
         ['@app/hooks', './src/client/hooks'],
         ['@app/utils', './src/client/utils'],
         ['@app/services', './src/client/services'],

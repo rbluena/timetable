@@ -14,7 +14,7 @@ const plugins = [
         '@app/actions': './src/client/actions',
         '@app/utils': './src/client/utils',
         '@app/hooks': './src/client/hooks',
-        '@app/slices': './src/client/slices',
+        '@app/reducers': './src/client/reducers',
         '@app/services': './src/client/services',
       },
     },
