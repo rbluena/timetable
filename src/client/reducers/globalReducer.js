@@ -17,25 +17,25 @@ export default function globalReducer(state = initialState, action) {
   switch (action.type) {
     case toggleLoading: {
       state.isLoading = action.payload ? action.payload : !state.isLoading;
-      break;
+      return state;
     }
 
     case openModal: {
       state.modal = action.payload;
-      break;
+      return state;
     }
 
     case closeModal: {
       state.modal = null;
-      break;
+      return state;
     }
 
     case setUploadingFile: {
       state.uploadingFile = action.payload;
-      break;
+      return state;
     }
 
     default:
-      break;
+      return state;
   }
 }

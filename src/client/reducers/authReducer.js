@@ -36,44 +36,44 @@ export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case registerUser:
       state.fetching = true;
-      break;
+      return state;
 
     case registerUserSuccess:
       state.fetching = false;
       state.token = action.payload;
-      break;
+      return state;
 
     case registerUserFailure:
       state.fetching = false;
-      break;
+      return state;
 
     case loginUser:
       state.fetching = true;
-      break;
+      return state;
 
     case loginUserSuccess:
       state.fetching = false;
       state.token = action.payload;
-      break;
+      return state;
 
     case loginUserFailure:
       state.fetching = false;
-      break;
+      return state;
 
     case logoutUser:
       state.fetching = true;
-      break;
+      return state;
 
     case logoutUserSuccess:
       state.fetching = false;
       state.token = null;
-      break;
+      return state;
 
     case logoutUserFailure:
       state.fetching = false;
-      break;
+      return state;
 
     default:
-      break;
+      return state;
   }
 }
