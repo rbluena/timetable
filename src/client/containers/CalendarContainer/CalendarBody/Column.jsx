@@ -2,7 +2,8 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { format, setHours } from 'date-fns';
+import PropTypes from 'prop-types';
+import { format, isSameDay } from 'date-fns';
 import TaskCard from './TaskCard';
 
 const hourBlocks = [
@@ -34,19 +35,28 @@ const hourBlocks = [
 
 const minuteBlocks = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
-const Column = ({ openEditTaskModal, date }) => {
+const Column = ({ updateTask, openEditTaskModal, date, tasks }) => {
+  const today = new Date();
+  const isTheSameDate = isSameDay(today, date);
+
   function cardClicked() {}
 
   return (
     <div className="w-44 relative">
-      <div className="text-neutral-600 font-bold text-center h-8">
-        {format(date, 'MMM dd')}
+      <div className="font-bold text-center flex justify-center">
+        <div
+          className={`flex items-center justify-center rounded-full w-10 h-10 p-4 ${
+            isTheSameDate ? 'bg-primary-500 text-white' : 'text-neutral-600 '
+          }`}
+        >
+          {format(date, 'MMM dd')}
+        </div>
       </div>
       <div className=" text-center">
-        {/* start: Columns hours and' }, { minutes: 'mi'},n{ period: 'utes */}
         {hourBlocks.map((timeBlock) => (
           <>
             <div
+              key={timeBlock}
               className=" cursor-default border-t border-primary-100"
               style={{ height: '7px' }}
               role="button"
@@ -58,35 +68,54 @@ const Column = ({ openEditTaskModal, date }) => {
                 })
               }
             />
-            {minuteBlocks.map((minuteBlock) => (
-              <div
-                className={` cursor-default ${
-                  minuteBlock === 30
-                    ? 'border-t border-neutral-100'
-                    : 'border-t border-neutral-50'
-                } `}
-                style={{ height: '7px' }}
-                role="button"
-                onClick={() =>
-                  openEditTaskModal({
-                    date,
-                    startHour: timeBlock.hour,
-                    startMinutes: minuteBlock,
-                  })
-                }
-              />
-            ))}
+            {minuteBlocks.map((minuteBlock) => {
+              const key = `${timeBlock}-${minuteBlock}`;
+
+              return (
+                <div
+                  key={key}
+                  className={` cursor-default ${
+                    minuteBlock === 30
+                      ? 'border-t border-neutral-100'
+                      : 'border-t border-neutral-50'
+                  } `}
+                  style={{ height: '7px' }}
+                  role="button"
+                  onClick={() =>
+                    openEditTaskModal({
+                      date,
+                      startHour: timeBlock.hour,
+                      startMinutes: minuteBlock,
+                    })
+                  }
+                />
+              );
+            })}
           </>
         ))}
         {/* start: Columns times and minutes */}
 
         {/* start: List of blocked times */}
-        <TaskCard cardClicked={cardClicked} />
-        <TaskCard cardClicked={cardClicked} />
+        {tasks.length > 0 &&
+          tasks.map((task) => (
+            <TaskCard
+              key={task._id}
+              cardClicked={cardClicked}
+              task={task}
+              updateTask={updateTask}
+            />
+          ))}
         {/* end: List of blocked times */}
       </div>
     </div>
   );
+};
+
+Column.propTypes = {
+  updateTask: PropTypes.func.isRequired,
+  openEditTaskModal: PropTypes.func.isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  date: PropTypes.objectOf(PropTypes.objectOf(PropTypes.object)).isRequired,
 };
 
 export default Column;

@@ -1,10 +1,14 @@
 import { useDispatch } from 'react-redux';
 import { setHours, setMinutes } from 'date-fns';
-import { openModalAction, setEditingTaskAction } from '@app/actions';
+import {
+  openModalAction,
+  setEditingTaskAction,
+  updateTaskAction,
+} from '@app/actions';
 import TimeColumn from './TimeColumn';
 import Column from './Column';
 
-const CalendarBody = () => {
+const CalendarBody = ({ calendarDates }) => {
   const dispatch = useDispatch();
 
   function openEditTaskModal(data) {
@@ -14,17 +18,38 @@ const CalendarBody = () => {
     dispatch(openModalAction('task'));
   }
 
+  /**
+   *
+   */
+  function updateTask(task) {
+    delete task.dimension;
+    delete task.position;
+
+    dispatch(updateTaskAction(task._id, task));
+  }
+
   return (
     <div className="flex  pt-10">
+      {/* start: Time columns */}
       <TimeColumn />
+      {/* start: Time columns */}
+
       <div className="border-l border-neutral-100 divide-x divide-neutral-100 flex calendar-bound">
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
-        <Column openEditTaskModal={openEditTaskModal} date={new Date()} />
+        {calendarDates &&
+          calendarDates.length > 0 &&
+          calendarDates.map((date) => {
+            const key = `${date}`;
+
+            return (
+              <Column
+                key={key}
+                updateTask={updateTask}
+                openEditTaskModal={openEditTaskModal}
+                date={date.date}
+                tasks={date.tasks}
+              />
+            );
+          })}
       </div>
     </div>
   );

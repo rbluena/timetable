@@ -1,6 +1,6 @@
 import { Modal, Button } from 'antd';
 
-export default ({ modal, closeModal }) => {
+const AddUserContainer = ({ modal, closeModal }) => {
   let title = '';
 
   if (modal === 'organizers') {
@@ -49,3 +49,5 @@ export default ({ modal, closeModal }) => {
     </Modal>
   );
 };
+
+export default AddUserContainer;

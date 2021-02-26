@@ -60,8 +60,8 @@ export function updateTaskAction(id, taskData) {
     try {
       dispatch({ type: updateTask });
       const { token } = getState().AUTH;
-      const { data, message } = await updateTaskService(token, id, taskData);
-      dispatch({ type: updateTaskSuccess, payload: data });
+      // const { data, message } = await updateTaskService(token, id, taskData);
+      dispatch({ type: updateTaskSuccess, payload: taskData });
       // dispatch(setNotification({ type: 'success', message }));
     } catch (error) {
       dispatch({ type: updateTaskFailure });

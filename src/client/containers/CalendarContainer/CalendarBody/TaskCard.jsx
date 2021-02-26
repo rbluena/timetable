@@ -1,14 +1,36 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
+// import { get } from 'lodash';
+import { positionToTime } from '@app/utils';
+
 import { Rnd as Draggable } from 'react-rnd';
 
-const TaskCard = ({ cardClicked }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [dimension, setDimension] = useState({ width: 165, height: 49 });
+const TaskCard = ({ task, updateTask }) => {
+  const [position, setPosition] = useState(task.position);
+  const [time, setTime] = useState({
+    startTime: task.startTime,
+    endTime: task.endTime,
+  });
+  const [dimension, setDimension] = useState(task.dimension);
   const [isInteract, setIsInteract] = useState(false);
 
-  function onDrag(e, data) {
-    setIsInteract(true);
+  const { title } = task;
+  // const bgColor = get(task, 'category.bgColor');
 
+  function updateTime(data) {
+    setTime(() => {
+      const newStartTime = positionToTime[position.y + data.deltaY];
+      const newEndTime =
+        positionToTime[position.y + data.deltaY + dimension.height];
+
+      return {
+        startTime: newStartTime,
+        endTime: newEndTime,
+      };
+    });
+  }
+
+  function updatePosition(data) {
     if (data.y < 0) {
       setPosition((state) => ({
         y: 0,
@@ -22,26 +44,63 @@ const TaskCard = ({ cardClicked }) => {
     }
   }
 
-  function onDragEnd() {
-    setIsInteract(false);
-  }
-
-  function onResize(e, direction, ref) {
-    setIsInteract(true);
-
+  function updateDimensionOnResize(ref) {
     setDimension((state) => ({
       ...state,
       height: ref.offsetHeight,
     }));
+
+    setTime((state) => ({
+      ...state,
+      endTime: positionToTime[position.y + ref.offsetHeight],
+    }));
   }
 
+  /**
+   *
+   */
+  function onDrag(e, data) {
+    setIsInteract(true);
+    updatePosition(data);
+    updateTime(data);
+  }
+
+  /**
+   *
+   */
+  function onDragEnd() {
+    setIsInteract(false);
+    updateTask({
+      ...task,
+      ...time,
+    });
+  }
+
+  /**
+   *
+   */
+  function onResize(e, direction, ref) {
+    setIsInteract(true);
+    updateDimensionOnResize(ref);
+  }
+
+  /**
+   *
+   */
   function onResizeEnd() {
     setIsInteract(false);
+    updateTask({
+      ...task,
+      ...time,
+    });
   }
 
+  /**
+   *
+   */
   function onClick() {
     // setIsInteract(true);
-    cardClicked();
+    // cardClicked();
   }
 
   return (
@@ -49,8 +108,8 @@ const TaskCard = ({ cardClicked }) => {
       className={`text-left px-2 bg-primary-100 relative text-primary-700 border-l-2 rounded z-50 ${
         dimension.height <= 21 ? '' : 'p-2'
       } ${isInteract ? 'shadow-lg' : 'shadow-sm'}`}
-      // size={{ width: dimension.width, height: dimension.height }}
-      position={{ x: position.x, y: position.y }}
+      size={{ width: dimension.width, height: dimension.height }}
+      position={position}
       dragGrid={[176, 7]}
       resizeGrid={[0, 7]}
       default={{
@@ -68,28 +127,33 @@ const TaskCard = ({ cardClicked }) => {
       onClick={onClick}
     >
       <div>
-        <p className="text-sm font-secondary flex items-center">
+        <p className="text-sm font-secondary flex items-center p-0 m-0">
           <span
             className={`truncate block ${
-              dimension.height <= 21 ? 'text-xs' : ''
+              dimension.height <= 28 ? 'text-xs' : ''
             }`}
           >
-            This is dragable and text is very long
+            {title}
           </span>
           {dimension.height <= 35 && (
             <span className="block text-xs text-neutral-700 truncate">
-              10:00am - 11:30am
+              {`${time.startTime} - ${time.endTime}`}
             </span>
           )}
         </p>
         {dimension.height > 35 && (
-          <p className="text-xs font-bold text-neutral-900">
-            10:00am - 11:30am
-          </p>
+          <span className="inline-block mt-0 text-xs font-bold text-neutral-900">
+            {`${time.startTime} - ${time.endTime}`}
+          </span>
         )}
       </div>
     </Draggable>
   );
+};
+
+TaskCard.propTypes = {
+  task: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateTask: PropTypes.func.isRequired,
 };
 
 export default TaskCard;
