@@ -1,5 +1,7 @@
 export const [
   setEditingTask,
+  setNewTask,
+  cancelEditingTask,
   createTask,
   createTaskSuccess,
   createTaskFailure,
@@ -11,6 +13,8 @@ export const [
   deleteTaskFailure,
 ] = [
   'TASK/SET_EDITING',
+  'TASK/SET_NEW',
+  'TASK/CANCEL_EDITING',
   'TASK/CREATE_TASK',
   'TASK/CREATE_TASK_SUCCESS',
   'TASK/CREATE_TASK_FAILURE',
@@ -27,9 +31,17 @@ const initialState = {
   data: {
     '329473847b12': {
       _id: '329473847b12',
+      project: {
+        _id: '3499uhsd',
+        title: 'My own project trying to create.',
+      },
       title: 'Semantic for all subjects.',
       description: 'This are some description about the task.',
       date: new Date('2021-02-25 03:25:00'),
+      schedule: {
+        startTime: '10:35',
+        endTime: '15:55',
+      },
       startTime: '10:35',
       endTime: '15:55',
       repeat: {
@@ -60,6 +72,10 @@ const initialState = {
       title: 'Working on physics the whole day.',
       description: 'This are some description about the task.',
       date: new Date('2021-02-26 03:25:00'),
+      schedule: {
+        startTime: '03:25',
+        endTime: '13:45',
+      },
       startTime: '03:25',
       endTime: '13:45',
       repeat: {
@@ -85,6 +101,10 @@ const initialState = {
       title: 'Studying chemistry with my buddies.',
       description: 'This are some description about the task.',
       date: new Date('2021-02-26 03:25:00'),
+      schedule: {
+        startTime: '11:25',
+        endTime: '10:45',
+      },
       startTime: '11:25',
       endTime: '10:45',
       repeat: {
@@ -126,6 +146,18 @@ export default function taskReducer(state = initialState, action) {
       return state;
     }
 
+    case setNewTask: {
+      state.editingTask = payload;
+      state.data[payload._id] = payload;
+      return state;
+    }
+
+    case cancelEditingTask: {
+      state.editingTask = null;
+      delete state.data[payload];
+      return state;
+    }
+
     case createTask: {
       state.fetching = true;
       return state;
@@ -133,7 +165,8 @@ export default function taskReducer(state = initialState, action) {
 
     case createTaskSuccess: {
       state.fetching = false;
-      state.data[JSON.stringify(payload._id)] = payload;
+      state.editingTask = null;
+      state.data[payload._id] = payload;
       return state;
     }
 

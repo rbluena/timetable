@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setHours, setMinutes } from 'date-fns';
 import {
   openModalAction,
-  setEditingTaskAction,
+  addNewTaskAction,
   updateTaskAction,
 } from '@app/actions';
 import TimeColumn from './TimeColumn';
@@ -11,10 +12,20 @@ import Column from './Column';
 const CalendarBody = ({ calendarDates }) => {
   const dispatch = useDispatch();
 
-  function openEditTaskModal(data) {
+  function createTask(data) {
+    data.title = 'New task';
     data.date = setHours(data.date, data.startHour);
     data.date = setMinutes(data.date, data.startMinutes);
-    dispatch(setEditingTaskAction(data));
+    data.schedule = {
+      startTime: `${data.startHour}:${data.startMinutes}`,
+      endTime: `${data.startHour}:${data.startMinutes}`,
+    };
+    data.startTime = `${data.startHour}:${data.startMinutes}`;
+    data.endTime = `${data.startHour}:${data.startMinutes}`;
+    data._id = 'random_string';
+    data.new = true;
+
+    dispatch(addNewTaskAction(data));
     dispatch(openModalAction('task'));
   }
 
@@ -44,7 +55,7 @@ const CalendarBody = ({ calendarDates }) => {
               <Column
                 key={key}
                 updateTask={updateTask}
-                openEditTaskModal={openEditTaskModal}
+                createTask={createTask}
                 date={date.date}
                 tasks={date.tasks}
               />
@@ -53,6 +64,10 @@ const CalendarBody = ({ calendarDates }) => {
       </div>
     </div>
   );
+};
+
+CalendarBody.propTypes = {
+  calendarDates: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default CalendarBody;

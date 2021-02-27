@@ -33,9 +33,21 @@ const hourBlocks = [
   { hour: '23', minutes: '00' },
 ];
 
-const minuteBlocks = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+const minuteBlocks = [
+  '05',
+  '10',
+  '15',
+  '20',
+  '25',
+  '30',
+  '35',
+  '40',
+  '45',
+  '50',
+  '55',
+];
 
-const Column = ({ updateTask, openEditTaskModal, date, tasks }) => {
+const Column = ({ updateTask, createTask, date, tasks }) => {
   const today = new Date();
   const isTheSameDate = isSameDay(today, date);
 
@@ -49,7 +61,7 @@ const Column = ({ updateTask, openEditTaskModal, date, tasks }) => {
             isTheSameDate ? 'bg-primary-500 text-white' : 'text-neutral-600 '
           }`}
         >
-          {format(date, 'MMM dd')}
+          {format(date, 'E dd')}
         </div>
       </div>
       <div className=" text-center">
@@ -61,10 +73,10 @@ const Column = ({ updateTask, openEditTaskModal, date, tasks }) => {
               style={{ height: '7px' }}
               role="button"
               onClick={() =>
-                openEditTaskModal({
+                createTask({
                   date,
                   startHour: timeBlock.hour,
-                  startMinutes: 0,
+                  startMinutes: timeBlock.minutes,
                 })
               }
             />
@@ -75,14 +87,14 @@ const Column = ({ updateTask, openEditTaskModal, date, tasks }) => {
                 <div
                   key={key}
                   className={` cursor-default ${
-                    minuteBlock === 30
+                    minuteBlock === '30'
                       ? 'border-t border-neutral-100'
                       : 'border-t border-neutral-50'
                   } `}
                   style={{ height: '7px' }}
                   role="button"
                   onClick={() =>
-                    openEditTaskModal({
+                    createTask({
                       date,
                       startHour: timeBlock.hour,
                       startMinutes: minuteBlock,
@@ -113,7 +125,7 @@ const Column = ({ updateTask, openEditTaskModal, date, tasks }) => {
 
 Column.propTypes = {
   updateTask: PropTypes.func.isRequired,
-  openEditTaskModal: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   date: PropTypes.objectOf(PropTypes.objectOf(PropTypes.object)).isRequired,
 };

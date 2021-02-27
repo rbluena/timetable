@@ -2,10 +2,6 @@ import { isSameDay } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { timeToPosition } from './positionMapper';
 
-export const getTimeFromPosition = (position) => {
-  const time = pos;
-};
-
 export const setCalendarPositionFromTime = (task) => {
   const startPos = timeToPosition[task.startTime];
   const endPos = timeToPosition[task.endTime];
@@ -14,7 +10,7 @@ export const setCalendarPositionFromTime = (task) => {
   const newTask = {
     ...task,
     position: { x: 0, y: startPos.y },
-    dimension: { width: 165, height },
+    dimension: { width: 165, height: height === 0 ? 21 : height },
   };
 
   return newTask;

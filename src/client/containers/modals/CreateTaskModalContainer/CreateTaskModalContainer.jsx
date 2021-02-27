@@ -1,7 +1,11 @@
 import { CreateTask } from '@app/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { globalStateSelector, tasksStateSelector } from '@app/selectors';
-import { closeModalAction, createTaskAction } from '@app/actions';
+import {
+  closeModalAction,
+  createTaskAction,
+  cancelEditingTaskAction,
+} from '@app/actions';
 
 const CreateTaskModalContainer = () => {
   const { modal } = useSelector(globalStateSelector);
@@ -9,14 +13,20 @@ const CreateTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   function onSubmit(data) {
+    console.log(data);
     dispatch(createTaskAction(data));
+    dispatch(closeModalAction());
+  }
+
+  function onCancel() {
+    dispatch(cancelEditingTaskAction(editingTask));
     dispatch(closeModalAction());
   }
 
   return (
     <CreateTask
       isOpen={modal === 'task'}
-      closeModal={() => dispatch(closeModalAction())}
+      closeModal={onCancel}
       onSubmit={onSubmit}
       editingTask={editingTask}
     />

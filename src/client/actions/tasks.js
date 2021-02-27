@@ -1,24 +1,53 @@
 import { decode } from 'jsonwebtoken';
 import {
   createTaskService,
-  updateTaskService,
+  // updateTaskService,
   deleteTaskService,
 } from '@app/services';
 
 import {
   setEditingTask,
+  setNewTask,
+  cancelEditingTask,
   createTask,
   createTaskSuccess,
   createTaskFailure,
   updateTask,
   updateTaskSuccess,
   updateTaskFailure,
+  // removeTask,
+  // removeTaskSuccess,
 } from '@app/reducers/tasksReducer';
 
 export function setEditingTaskAction(data) {
   return {
     type: setEditingTask,
     payload: data,
+  };
+}
+
+export function addNewTaskAction(data) {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: setNewTask,
+        payload: data,
+      });
+    } catch (error) {}
+  };
+}
+
+export function cancelEditingTaskAction(data) {
+  return async (dispatch) => {
+    try {
+      // Remove task if exists
+      dispatch({
+        type: cancelEditingTask,
+        payload: data._id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 /**
@@ -33,7 +62,7 @@ export function createTaskAction(taskData) {
       const { token } = getState().AUTH;
       const user = decode(token);
 
-      const { data, message } = await createTaskService(token, {
+      const { data } = await createTaskService(token, {
         ...taskData,
         creator: user._id,
       });
