@@ -1,6 +1,9 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { calendarTasksSelector } from '@app/selectors';
+import { groupTasksBasedOnDate } from '@app/utils';
 import { CreateTaskModalContainer } from '@app/containers/modals';
+import { TaskDetailsDrawer } from '@app/containers/drawers';
 import { Button, Tooltip } from 'antd';
 import { openModalAction } from '@app/actions';
 import { PlusIcon } from '@app/components/Icons';
@@ -8,12 +11,14 @@ import Timeline from './Timeline';
 import TimelineHeader from './TimelineHeader';
 
 const TimelineContainer = () => {
+  const tasks = useSelector(calendarTasksSelector);
   const dispatch = useDispatch();
+  const mappedTasks = groupTasksBasedOnDate(tasks);
 
   return (
     <>
       <div className="w-full">
-        <div className="relative bg-white mx-auto max-w-6xl shadow-sm rounded p-4">
+        <div className="relative mx-auto max-w-6xl">
           <div className="fixed right-4 md:right-12 top-16">
             {/* start: Add task button */}
             <Tooltip title="Add task">
@@ -30,25 +35,28 @@ const TimelineContainer = () => {
             </Tooltip>
             {/* start: End task button */}
           </div>
+
           <div className="divide-y divide-primary-100">
-            <div className="py-4 max-w-md pl-4">
-              <TimelineHeader date="Tuesday 23" />
-              <Timeline />
-            </div>
-            <div className="py-4 max-w-md pl-4">
-              <TimelineHeader date="Thursday 24" />
-              <Timeline />
-            </div>
-            <div className="py-4 max-w-md pl-4">
-              <TimelineHeader date="Monday 27" />
-              <Timeline />
-            </div>
+            {mappedTasks &&
+              mappedTasks.length > 0 &&
+              mappedTasks.map((item) => (
+                <div
+                  key={JSON.stringify(item.date)}
+                  className="pl-4 shadow-sm rounded p-4 bg-white mb-4"
+                >
+                  <div className="max-w-lg">
+                    <TimelineHeader date={item.date} />
+                    <Timeline tasks={item.tasks} />
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>
 
       {/* start: Create task modal */}
       <CreateTaskModalContainer />
+      <TaskDetailsDrawer />
       {/* end: Create task modal */}
     </>
   );

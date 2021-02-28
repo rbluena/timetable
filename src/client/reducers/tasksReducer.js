@@ -1,4 +1,5 @@
 export const [
+  openTaskDrawer,
   setEditingTask,
   setNewTask,
   cancelEditingTask,
@@ -12,6 +13,7 @@ export const [
   deleteTaskSuccess,
   deleteTaskFailure,
 ] = [
+  'TASK/OPEN_DRAWER',
   'TASK/SET_EDITING',
   'TASK/SET_NEW',
   'TASK/CANCEL_EDITING',
@@ -58,12 +60,15 @@ const initialState = {
         {
           _id: '349dsda9998893',
           name: 'Rabii Luena',
-          image: { thumbnail: 'https://images.com/path/to/the/photo.png' },
+          image: {},
         },
         {
           _id: '349dsda999993',
           name: 'Kelvin Cage',
-          image: { thumbnail: 'https://images.com/path/to/the/photo.png' },
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
         },
       ],
     },
@@ -90,7 +95,7 @@ const initialState = {
       },
       assignees: [
         { _id: '349dsda999993', name: 'Rabii Luena' },
-        { _id: '349dsda999993', name: 'Rabii Luena' },
+        { _id: '349dsda999993', name: 'Gwamaka Destius' },
       ],
       assets: [],
       references: [],
@@ -121,20 +126,115 @@ const initialState = {
         {
           _id: '349dsda9998893',
           name: 'Rabii Luena',
-          image: { thumbnail: 'https://images.com/path/to/the/photo.png' },
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
         },
         {
           _id: '349dsda999993',
-          name: 'Kelvin Cage',
-          image: { thumbnail: 'https://images.com/path/to/the/photo.png' },
+          name: 'Deogratius Kweni',
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
         },
       ],
       assets: [],
       references: [],
       timer: '00:00:00',
     },
+    '329473847b02': {
+      _id: '329473847b02',
+      project: {
+        _id: '3499uhsd',
+        title: 'My own project trying to create.',
+      },
+      title: 'Semantic for all subjects.',
+      description: 'This are some description about the task.',
+      date: new Date('2021-02-24 10:35:00'),
+      schedule: {
+        startTime: '10:35',
+        endTime: '15:55',
+      },
+      startTime: '10:35',
+      endTime: '15:55',
+      repeat: {
+        isRepeating: true,
+        type: 'daily', // 'dates' Happens only on selected dates
+        at: null, // [12, 23, 34]
+      },
+      category: {
+        _id: '34jd940f',
+        name: 'English',
+        bgColor: '#087580',
+      },
+      assignees: [
+        {
+          _id: '349dsda9998893',
+          name: 'Rabii Luena',
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
+        },
+        {
+          _id: '349dsda999993',
+          name: 'Kelvin Cage',
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
+        },
+      ],
+    },
+    '32947384cb12': {
+      _id: '32947384cb12',
+      project: {
+        _id: '3499uhsd',
+        title: 'My own project trying to create.',
+      },
+      title: 'Semantic for all subjects.',
+      description: 'This are some description about the task.',
+      date: new Date('2021-02-24 02:35:00'),
+      schedule: {
+        startTime: '02:35',
+        endTime: '04:55',
+      },
+      startTime: '10:35',
+      endTime: '15:55',
+      repeat: {
+        isRepeating: true,
+        type: 'daily', // 'dates' Happens only on selected dates
+        at: null, // [12, 23, 34]
+      },
+      category: {
+        _id: '34jd940f',
+        name: 'English',
+        bgColor: '#087580',
+      },
+      assignees: [
+        {
+          _id: '349dsda9998893',
+          name: 'Rabii Luena',
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
+        },
+        {
+          _id: '349dsda999993',
+          name: 'Kelvin Cage',
+          image: {
+            thumbnail:
+              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          },
+        },
+      ],
+    },
   },
   editingTask: null,
+  openedTask: null,
 };
 
 export default function taskReducer(state = initialState, action) {

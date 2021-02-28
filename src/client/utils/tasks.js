@@ -1,4 +1,4 @@
-import { isSameDay } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { timeToPosition } from './positionMapper';
 
@@ -38,4 +38,32 @@ export const mergingTasksBasedOnDate = (dates, tasks) => {
   });
 
   return mergedDates;
+};
+
+export const groupTasksBasedOnDate = (tasks) => {
+  if (isEmpty(tasks)) {
+    return [];
+  }
+
+  const tasksKeys = Object.keys(tasks);
+
+  const items = [];
+
+  tasksKeys.forEach((key) => {
+    const task = tasks[key];
+    const newItem = {
+      date: task.date,
+      tasks: [task],
+    };
+
+    const found = items.find((item) => isSameDay(task.date, item.date));
+
+    if (found) {
+      found.tasks.push(task); // Interesting
+    } else {
+      items.push(newItem);
+    }
+  });
+
+  return items;
 };

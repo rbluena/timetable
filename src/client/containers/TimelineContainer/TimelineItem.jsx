@@ -1,60 +1,73 @@
 import { Timeline, Button, Typography, Avatar, Tooltip } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
+// import { TimeTicker } from '@app/components';
 
-const { Text, Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 
-const TimelineItem = () => (
-  <Timeline.Item color="blue">
-    <div>
-      <div className="flex flex-wrap">
-        <p className="text-primary-500 font-bold">11:00am - 12:35am</p>
+const TimelineItem = ({ task }) => {
+  console.log(task);
+
+  return (
+    <Timeline.Item color="blue">
+      <p className="text-primary-500 text-sm font-bold">11:00am - 12:35am</p>
+      <Title level={5}>{task.title}</Title>
+      <Paragraph type="secondary">{task.description}</Paragraph>
+
+      <div className="py-2">
+        {task.assignees && task.assignees.length > 0 && (
+          <Avatar.Group
+            size="small"
+            maxCount={3}
+            maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+          >
+            {task.assignees.map((user) => {
+              if (
+                user.image &&
+                user.image.thumbnail &&
+                user.image.thumbnail.length
+              ) {
+                return (
+                  <Tooltip title={user.name} placement="top">
+                    <Avatar src={user.image.thumbnail} />
+                  </Tooltip>
+                );
+              }
+              return (
+                <Tooltip title={user.name} placement="top">
+                  <Avatar style={{ backgroundColor: '#f56a00' }}>
+                    {user.name[0]}
+                  </Avatar>
+                </Tooltip>
+              );
+            })}
+          </Avatar.Group>
+        )}
       </div>
 
-      <Text strong>Newton&apos; law of motion.</Text>
-    </div>
-    <Paragraph type="secondary" className="mt-2">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis
-      recusandae fugit vel placeat voluptatibus labore nulla dolores ut
-      consequuntur facere. Distinctio neque nesciunt velit maiores reprehenderit
-      iusto ipsam ullam repudiandae.
-    </Paragraph>
+      {/* <TimeTicker /> */}
 
-    <div className="py-2 pb-4">
-      <Avatar.Group
-        maxCount={2}
-        maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-      >
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-        <Tooltip title="Ant User" placement="top">
-          <Avatar
-            style={{ backgroundColor: '#87d068' }}
-            icon={<UserOutlined />}
-          />
-        </Tooltip>
-        <Avatar
-          style={{ backgroundColor: '#1890ff' }}
-          icon={<AntDesignOutlined />}
-        />
-      </Avatar.Group>
-    </div>
-    <div className="pb-4 flex justify-between items-center">
-      <Button type="primary" size="small" ghost>
-        Details
-      </Button>
-      &nbsp;
-      <div className="p-0">
-        <Button className="flex items-end" size="small">
-          Edit
+      <div className="pb-4 flex justify-between items-center">
+        <Button type="primary" size="small" ghost>
+          Details
         </Button>
         &nbsp;
-        <Button type="primary" className="flex items-end" size="small" danger>
-          Delete
-        </Button>
+        <div className="p-0">
+          <Button className="flex items-end" size="small">
+            Edit
+          </Button>
+          &nbsp;
+          <Button type="primary" className="flex items-end" size="small" danger>
+            Delete
+          </Button>
+        </div>
       </div>
-      {/* <TimeTicker /> */}
-    </div>
-  </Timeline.Item>
-);
+    </Timeline.Item>
+  );
+};
+
+TimelineItem.propTypes = {
+  task: PropTypes.objectOf(PropTypes).isRequired,
+};
 
 export default TimelineItem;

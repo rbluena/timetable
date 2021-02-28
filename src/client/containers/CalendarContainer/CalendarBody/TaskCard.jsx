@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 // import { get } from 'lodash';
-import { positionToTime } from '@app/utils';
-
 import { Rnd as Draggable } from 'react-rnd';
+import { positionToTime } from '@app/utils';
 
 const TaskCard = ({ task, updateTask }) => {
   const [position, setPosition] = useState(task.position);
@@ -98,7 +97,7 @@ const TaskCard = ({ task, updateTask }) => {
   /**
    *
    */
-  function onClick() {
+  function openTaskCard() {
     // setIsInteract(true);
     // cardClicked();
   }
@@ -124,9 +123,8 @@ const TaskCard = ({ task, updateTask }) => {
       onDrag={onDrag}
       onResize={onResize}
       onResizeStop={onResizeEnd}
-      onClick={onClick}
     >
-      <div>
+      <div role="button" onClick={() => console.log('+++++++ CLICKED ++++++')}>
         <p className="text-sm font-secondary flex items-center p-0 m-0">
           <span
             className={`truncate block ${
@@ -146,6 +144,9 @@ const TaskCard = ({ task, updateTask }) => {
             {`${time.startTime} - ${time.endTime}`}
           </span>
         )}
+        <button onClick={openTaskCard} className="absolute bottom-0 right-0">
+          Button
+        </button>
       </div>
     </Draggable>
   );
