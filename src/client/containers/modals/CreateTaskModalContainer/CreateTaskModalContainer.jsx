@@ -13,7 +13,6 @@ const CreateTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   function onSubmit(data) {
-    console.log(data);
     dispatch(createTaskAction(data));
     dispatch(closeModalAction());
   }

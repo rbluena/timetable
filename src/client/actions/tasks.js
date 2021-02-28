@@ -6,6 +6,7 @@ import {
 } from '@app/services';
 
 import {
+  setOpenedTask,
   setEditingTask,
   setNewTask,
   cancelEditingTask,
@@ -122,3 +123,8 @@ export function deleteTaskAction(id) {
     }
   };
 }
+
+export const setOpenedTaskAction = (id) => ({
+  type: setOpenedTask,
+  payload: id,
+});

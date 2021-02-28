@@ -38,7 +38,9 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
   return (
     <div
       className={` transform transition-all duration-200 bg-white w-full max-w-lg left-4 top-4 fixed rounded shadow-lg border border-neutral-50 overflow-x-hidden ${
-        isOpen ? 'opacity-100 translate-x-0' : 'hidden opacity-0  translate-x-5'
+        isOpen
+          ? 'opacity-100 translate-x-0'
+          : 'invisible opacity-0  translate-x-5'
       }`}
       style={{ maxHeight: 'calc(100vh - 80px)', zIndex: '1000' }}
     >

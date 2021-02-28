@@ -1,5 +1,5 @@
 export const [
-  openTaskDrawer,
+  setOpenedTask,
   setEditingTask,
   setNewTask,
   cancelEditingTask,
@@ -13,7 +13,8 @@ export const [
   deleteTaskSuccess,
   deleteTaskFailure,
 ] = [
-  'TASK/OPEN_DRAWER',
+  'TASK/OPEN_TASK',
+  'TASK/CLOSE_TASK',
   'TASK/SET_EDITING',
   'TASK/SET_NEW',
   'TASK/CANCEL_EDITING',
@@ -29,7 +30,9 @@ export const [
 ];
 
 const initialState = {
-  fetching: true,
+  fetching: false,
+  openedTask: null,
+  editingTask: null,
   data: {
     '329473847b12': {
       _id: '329473847b12',
@@ -233,14 +236,23 @@ const initialState = {
       ],
     },
   },
-  editingTask: null,
-  openedTask: null,
 };
 
 export default function taskReducer(state = initialState, action) {
   const { payload } = action;
 
   switch (action.type) {
+    case setOpenedTask: {
+      const openingData = state.data[payload];
+
+      if (openingData) {
+        state.openedTask = openingData;
+      } else {
+        state.openedTask = null;
+      }
+      return state;
+    }
+
     case setEditingTask: {
       state.editingTask = payload;
       return state;

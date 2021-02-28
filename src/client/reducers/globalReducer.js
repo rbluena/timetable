@@ -1,7 +1,16 @@
-export const [toggleLoading, openModal, closeModal, setUploadingFile] = [
+export const [
+  toggleLoading,
+  openModal,
+  closeModal,
+  openDrawer,
+  closeDrawer,
+  setUploadingFile,
+] = [
   'GLOBAL/TOGGLE_LOADING',
   'GLOBAL/OPEN_MODAL',
   'GLOBAL/CLOSE_MODAL',
+  'GLOBAL/OPEN_DRAWER',
+  'GLOBAL/CLOSE_DRAWER',
   'GLOBAL/UPLOADING_FILE',
 ];
 
@@ -27,6 +36,16 @@ export default function globalReducer(state = initialState, action) {
 
     case closeModal: {
       state.modal = null;
+      return state;
+    }
+
+    case openDrawer: {
+      state.drawer = action.payload;
+      return state;
+    }
+
+    case closeDrawer: {
+      state.drawer = null;
       return state;
     }
 

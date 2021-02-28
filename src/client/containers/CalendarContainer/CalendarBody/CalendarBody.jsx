@@ -2,10 +2,13 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setHours, setMinutes } from 'date-fns';
 import {
+  openDrawerAction,
   openModalAction,
+  setOpenedTaskAction,
   addNewTaskAction,
   updateTaskAction,
 } from '@app/actions';
+
 import TimeColumn from './TimeColumn';
 import Column from './Column';
 
@@ -39,6 +42,15 @@ const CalendarBody = ({ calendarDates }) => {
     dispatch(updateTaskAction(task._id, task));
   }
 
+  /**
+   *
+   * @param {*} id
+   */
+  function openTask(id) {
+    dispatch(setOpenedTaskAction(id));
+    dispatch(openDrawerAction('task'));
+  }
+
   return (
     <div className="flex  pt-10">
       {/* start: Time columns */}
@@ -55,6 +67,7 @@ const CalendarBody = ({ calendarDates }) => {
               <Column
                 key={key}
                 updateTask={updateTask}
+                openTask={openTask}
                 createTask={createTask}
                 date={date.date}
                 tasks={date.tasks}

@@ -47,11 +47,11 @@ const minuteBlocks = [
   '55',
 ];
 
-const Column = ({ updateTask, createTask, date, tasks }) => {
+const Column = ({ updateTask, createTask, openTask, date, tasks }) => {
   const today = new Date();
-  const isTheSameDate = isSameDay(today, date);
 
-  function cardClicked() {}
+  // Checking if task is qualified to be shown today.
+  const isTheSameDate = isSameDay(today, date);
 
   return (
     <div className="w-44 relative">
@@ -112,7 +112,7 @@ const Column = ({ updateTask, createTask, date, tasks }) => {
           tasks.map((task) => (
             <TaskCard
               key={task._id}
-              cardClicked={cardClicked}
+              openTask={openTask}
               task={task}
               updateTask={updateTask}
             />
@@ -124,6 +124,7 @@ const Column = ({ updateTask, createTask, date, tasks }) => {
 };
 
 Column.propTypes = {
+  openTask: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,

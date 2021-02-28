@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Avatar, Tooltip } from 'antd';
+import { ExpandOutlined } from '@ant-design/icons';
 // import { get } from 'lodash';
 import { Rnd as Draggable } from 'react-rnd';
 import { positionToTime } from '@app/utils';
 
-const TaskCard = ({ task, updateTask }) => {
+const TaskCard = ({ task, updateTask, openTask }) => {
   const [position, setPosition] = useState(task.position);
   const [time, setTime] = useState({
     startTime: task.startTime,
@@ -97,9 +99,8 @@ const TaskCard = ({ task, updateTask }) => {
   /**
    *
    */
-  function openTaskCard() {
-    // setIsInteract(true);
-    // cardClicked();
+  function openTaskCard(id) {
+    openTask(id);
   }
 
   return (
@@ -124,7 +125,7 @@ const TaskCard = ({ task, updateTask }) => {
       onResize={onResize}
       onResizeStop={onResizeEnd}
     >
-      <div role="button" onClick={() => console.log('+++++++ CLICKED ++++++')}>
+      <div>
         <p className="text-sm font-secondary flex items-center p-0 m-0">
           <span
             className={`truncate block ${
@@ -144,9 +145,48 @@ const TaskCard = ({ task, updateTask }) => {
             {`${time.startTime} - ${time.endTime}`}
           </span>
         )}
-        <button onClick={openTaskCard} className="absolute bottom-0 right-0">
-          Button
+
+        {/* START: ASSIGNEES */}
+        {task.assignees && task.assignees.length > 0 && (
+          <Avatar.Group
+            size="small"
+            maxCount={2}
+            maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+            className="absolute left-1 bottom-1 cursor-default"
+          >
+            {task.assignees.map((user) => {
+              if (
+                user.image &&
+                user.image.thumbnail &&
+                user.image.thumbnail.length
+              ) {
+                return (
+                  <Tooltip title={user.name} placement="top">
+                    <Avatar src={user.image.thumbnail} />
+                  </Tooltip>
+                );
+              }
+              return (
+                <Tooltip title={user.name} placement="top">
+                  <Avatar style={{ backgroundColor: '#f56a00' }}>
+                    {user.name[0]}
+                  </Avatar>
+                </Tooltip>
+              );
+            })}
+          </Avatar.Group>
+        )}
+        {/* END: ASSIGNEES */}
+
+        {/* START: EXPANDING CARD BUTTON */}
+        <button
+          type="button"
+          onClick={() => openTaskCard(task._id)}
+          className="absolute bottom-1 right-2 cursor-pointer"
+        >
+          <ExpandOutlined size="large" />
         </button>
+        {/* END: EXPANDING CARD BUTTON */}
       </div>
     </Draggable>
   );
@@ -155,6 +195,7 @@ const TaskCard = ({ task, updateTask }) => {
 TaskCard.propTypes = {
   task: PropTypes.objectOf(PropTypes.any).isRequired,
   updateTask: PropTypes.func.isRequired,
+  openTask: PropTypes.func.isRequired,
 };
 
 export default TaskCard;
