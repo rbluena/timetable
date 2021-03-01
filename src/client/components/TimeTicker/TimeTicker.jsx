@@ -21,7 +21,7 @@ const TimeTicker = () => {
 
   return (
     <div className="flex items-center max-w-sm">
-      <span className="text-primary-500 text-lg font-bold">{`${formttedHours}:${formttedMinutes}:${formttedSeconds}`}</span>
+      <span className="text-primary-500 font-bold">{`${formttedHours}:${formttedMinutes}:${formttedSeconds}`}</span>
       &nbsp;
       <Button onClick={startTimer}>
         {isRunning ? (
