@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { calendarTasksSelector } from '@app/selectors';
 import { groupTasksBasedOnDate } from '@app/utils';
 import { CreateTaskModalContainer } from '@app/containers/modals';
-import { TaskDetailsDrawer } from '@app/containers/drawers';
 import { Button, Tooltip } from 'antd';
 import { openModalAction } from '@app/actions';
 import { PlusIcon } from '@app/components/Icons';
@@ -56,7 +55,6 @@ const TimelineContainer = () => {
 
       {/* start: Create task modal */}
       <CreateTaskModalContainer />
-      <TaskDetailsDrawer />
       {/* end: Create task modal */}
     </>
   );

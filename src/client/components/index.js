@@ -15,6 +15,7 @@ import ProjectScheduleItem from './ProjectScheduleItem';
 import CreateTask from './CreateTask';
 import DatePicker from './Form/DatePicker';
 import RichEditor from './RichEditor';
+import Drawer from './Drawer';
 
 export {
   Avatar,
@@ -34,4 +35,5 @@ export {
   CreateTask,
   DatePicker,
   RichEditor,
+  Drawer,
 };
