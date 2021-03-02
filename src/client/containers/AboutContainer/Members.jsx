@@ -12,7 +12,6 @@ const Members = () => (
         },
         { initials: 'AL' },
       ]}
-      size="lg"
     />
   </div>
 );

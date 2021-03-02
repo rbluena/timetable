@@ -1,3 +1,4 @@
+// import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import { Typography, Radio, Button } from 'antd';
 import { Text } from '@app/components';
@@ -5,23 +6,31 @@ import Organizers from './Organizers';
 import Members from './Members';
 import AddUserContainer from '../AddUserContainer';
 
+// const RichEditor = dynamic(
+//   () => import('@app/components').then((mod) => mod.RichEditor),
+//   {
+//     ssr: false,
+//   }
+// );
+
 const { Title, Paragraph } = Typography;
+
+// export const getTextContentsFromHtmlString = (html) => {
+//   const el = document && document.createElement('div');
+//   el.innerHTML = html;
+//   return el.textContent;
+// };
 
 const AboutContainer = () => {
   const [modal, setModal] = useState(null);
   const [editableTitle, setEditableTitle] = useState('BSc and Mathematics');
-  const [editableDescription, setEditableDescription] = useState(
-    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fuga laboriosam voluptas, eum aspernatur recusandae ipsam id, sint exercitationem totam quo magnam, magni delectus mollitia a dolorum. Reiciendis assumenda velit aut.'
+  const [description, setDescription] = useState(
+    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione unde necessitatibus autem velit nulla ipsum natus qui fugiat doloribus nihil! Laudantium architecto fugiat ipsum aspernatur veritatis. Reprehenderit obcaecati cum fugit?'
   );
 
   return (
     <>
       <div className="bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-6 pb-8 relative">
-        <div className="absolute right-4">
-          <Button type="primary" size="large" ghost>
-            Follow
-          </Button>
-        </div>
         <div className="max-w-2xl">
           <Title
             level={4}
@@ -31,11 +40,16 @@ const AboutContainer = () => {
             {editableTitle}
           </Title>
 
+          {/* <RichEditor
+            defaultValue={description}
+            onChange={(html) => setDescription(html)}
+          /> */}
+
           <Paragraph
-            editable={{ onChange: setEditableDescription }}
+            editable={{ onChange: setDescription }}
             className=" text-neutral-800"
           >
-            {editableDescription}
+            {description}
           </Paragraph>
 
           {/* start: toggle public vs private */}

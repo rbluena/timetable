@@ -12,7 +12,6 @@ const Organizers = () => (
         },
         { initials: 'AL' },
       ]}
-      size="lg"
     />
 
     {/* <div className="flex ml-4">
