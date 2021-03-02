@@ -3,9 +3,11 @@ import produce from 'immer';
 import authReducer from './authReducer';
 import globalReducer from './globalReducer';
 import tasksReducer from './tasksReducer';
+import projectsReducer from './projectsReducer';
 
 export default combineReducers(produce, {
   AUTH: authReducer,
   GLOBAL: globalReducer,
   TASKS: tasksReducer,
+  PROJECTS: projectsReducer,
 });

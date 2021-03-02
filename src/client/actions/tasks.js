@@ -40,15 +40,11 @@ export function addNewTaskAction(data) {
 
 export function cancelEditingTaskAction(data) {
   return async (dispatch) => {
-    try {
-      // Remove task if exists
-      dispatch({
-        type: cancelEditingTask,
-        payload: data._id,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    // Remove task if exists
+    dispatch({
+      type: cancelEditingTask,
+      payload: data._id,
+    });
   };
 }
 /**
@@ -89,7 +85,8 @@ export function updateTaskAction(id, taskData) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: updateTask });
-      const { token } = getState().AUTH;
+
+      // const { token } = getState().AUTH;
       // const { data, message } = await updateTaskService(token, id, taskData);
       dispatch({ type: updateTaskSuccess, payload: taskData });
       // dispatch(setNotification({ type: 'success', message }));

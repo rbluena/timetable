@@ -1,12 +1,14 @@
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Header } from '@app/components';
+import { projectsStateSelector } from '@app/selectors';
 import { Radio } from 'antd';
 import Content from './Content';
 
 const CanvasContainer = () => {
+  const { activeProject } = useSelector(projectsStateSelector);
   const router = useRouter();
   const { pathname } = router;
-  const id = 389898983;
 
   let view = 'about';
   let showTimer = false;
@@ -29,15 +31,15 @@ const CanvasContainer = () => {
     const { value } = evt.target;
 
     if (value === 'about') {
-      router.push(`/projects/${id}`);
+      router.push(`/projects/${activeProject._id}`);
     } else {
-      router.push(`/projects/${id}/${value}`);
+      router.push(`/projects/${activeProject._id}/${value}`);
     }
   }
 
   return (
     <div className="w-full">
-      <Header showTimer={showTimer} heading="BSc and Mathematics" />
+      <Header showTimer={showTimer} heading={activeProject.title} />
 
       {/* START: CONTENT */}
       <Content view={view} />

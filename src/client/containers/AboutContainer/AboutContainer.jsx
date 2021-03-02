@@ -1,7 +1,8 @@
 // import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Typography, Radio, Button } from 'antd';
-import { Text } from '@app/components';
+import { projectsStateSelector } from '@app/selectors';
 import Organizers from './Organizers';
 import Members from './Members';
 import AddUserContainer from '../AddUserContainer';
@@ -13,20 +14,25 @@ import AddUserContainer from '../AddUserContainer';
 //   }
 // );
 
-const { Title, Paragraph } = Typography;
-
-// export const getTextContentsFromHtmlString = (html) => {
-//   const el = document && document.createElement('div');
-//   el.innerHTML = html;
-//   return el.textContent;
-// };
+const { Title, Paragraph, Text } = Typography;
 
 const AboutContainer = () => {
+  const { activeProject } = useSelector(projectsStateSelector);
   const [modal, setModal] = useState(null);
-  const [editableTitle, setEditableTitle] = useState('BSc and Mathematics');
-  const [description, setDescription] = useState(
-    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione unde necessitatibus autem velit nulla ipsum natus qui fugiat doloribus nihil! Laudantium architecto fugiat ipsum aspernatur veritatis. Reprehenderit obcaecati cum fugit?'
+  const [editableTitle, setEditableTitle] = useState(activeProject.title);
+  const [description, setDescription] = useState(activeProject.description);
+  const [organizersTitle, setOrganizersTitle] = useState(
+    activeProject.settings.organizers.name
   );
+  const [membersTitle, setMembersTitle] = useState('Members');
+  const [categoriesTitle, setCategoriesTitle] = useState('Categories');
+  const [publicStatus, setProjectStatus] = useState(
+    activeProject.isPrivate ? 'private' : 'public'
+  );
+
+  function changeProjectStatus(evt) {
+    setProjectStatus(evt.target.value);
+  }
 
   return (
     <>
@@ -40,11 +46,6 @@ const AboutContainer = () => {
             {editableTitle}
           </Title>
 
-          {/* <RichEditor
-            defaultValue={description}
-            onChange={(html) => setDescription(html)}
-          /> */}
-
           <Paragraph
             editable={{ onChange: setDescription }}
             className=" text-neutral-800"
@@ -55,10 +56,10 @@ const AboutContainer = () => {
           {/* start: toggle public vs private */}
           <div className="py-4">
             <Radio.Group
-              defaultValue="private"
-              value="private"
+              defaultValue={publicStatus}
+              value={publicStatus}
               buttonStyle="solid"
-              // onChange={changeProjectView}
+              onChange={changeProjectStatus}
             >
               <Radio.Button value="private">Private</Radio.Button>
               <Radio.Button value="public">Public</Radio.Button>
@@ -79,9 +80,10 @@ const AboutContainer = () => {
 
           {/* start: Organizers */}
           <div className="py-6">
-            <div className="text-lg mb-2">
-              <span className="text-success-600">Organizers</span>&nbsp;
-              <span className="text-neutral-500 font-bold">0</span>
+            <div className="text-lg mb-2 font-bold">
+              <Text editable={{ onChange: setOrganizersTitle }}>
+                {activeProject.settings.organizers.name}
+              </Text>
             </div>
             <Organizers />
             <Button
@@ -98,9 +100,10 @@ const AboutContainer = () => {
 
           {/* start: Member */}
           <div className="py-6">
-            <div className="text-lg mb-2">
-              <span className="text-success-600">Members</span>&nbsp;
-              <span className="text-neutral-500 font-bold">0</span>
+            <div className="text-lg mb-2 font-bold text-primary-300">
+              <Text editable={{ onChange: setMembersTitle }}>
+                {activeProject.settings.members.name}
+              </Text>
             </div>
             <Members />
             <Button
@@ -117,33 +120,35 @@ const AboutContainer = () => {
 
           {/* start: Topics */}
           <div className="py-6">
-            <div className="text-lg mb-2">
-              <span className="text-success-600">Categories</span>&nbsp;
+            <div className="text-lg mb-2 font-bold">
+              <Text editable={{ onChange: setCategoriesTitle }}>
+                {categoriesTitle}
+              </Text>
             </div>
 
             <ul className="flex">
-              <li className="px-2">
-                <Text weight="bold" variant="neutral" text="Physics" />
+              <li className="pr-2">
+                <Text type="secondary">Physics</Text>
               </li>
               <li className="px-2">
-                <Text weight="bold" variant="neutral" text="Chemistry" />
+                <Text type="secondary">Chemistry</Text>
               </li>
               <li className="px-2">
-                <Text weight="bold" variant="neutral" text="Mathematics" />
+                <Text type="secondary">Mathematics</Text>
               </li>
-              <li className="px-2">
-                <Text weight="bold" variant="neutral" text="Geography" />
+              <li className="pl-2">
+                <Text type="secondary">Geography</Text>
               </li>
             </ul>
 
-            {/* <Button
-              type="primary"
+            <Button
+              type="danger"
               size="small"
               ghost
               onClick={() => setModal('categories')}
             >
-              View all
-            </Button> */}
+              Edit
+            </Button>
           </div>
           {/* end: Member */}
         </div>
