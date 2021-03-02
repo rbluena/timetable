@@ -34,7 +34,7 @@ export function createProjectAction(projectData) {
   };
 }
 
-export function updateProjectAction(id, data) {
+export function updateProjectAction(id, projectData) {
   return async (dispatch) => {
     try {
       dispatch({ type: updateProject });
@@ -48,7 +48,7 @@ export function updateProjectAction(id, data) {
 
       dispatch({
         type: updateProjectSuccess,
-        payload: data,
+        payload: projectData,
       });
     } catch (error) {
       dispatch({

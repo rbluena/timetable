@@ -1,37 +1,34 @@
 // import dynamic from 'next/dynamic';
+import { set } from 'lodash';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Radio, Button } from 'antd';
+import { updateProjectAction } from '@app/actions';
 import { projectsStateSelector } from '@app/selectors';
 import Organizers from './Organizers';
 import Members from './Members';
 import AddUserContainer from '../AddUserContainer';
 
-// const RichEditor = dynamic(
-//   () => import('@app/components').then((mod) => mod.RichEditor),
-//   {
-//     ssr: false,
-//   }
-// );
-
 const { Title, Paragraph, Text } = Typography;
 
 const AboutContainer = () => {
-  const { activeProject } = useSelector(projectsStateSelector);
   const [modal, setModal] = useState(null);
-  const [editableTitle, setEditableTitle] = useState(activeProject.title);
-  const [description, setDescription] = useState(activeProject.description);
-  const [organizersTitle, setOrganizersTitle] = useState(
-    activeProject.settings.organizers.name
-  );
-  const [membersTitle, setMembersTitle] = useState('Members');
-  const [categoriesTitle, setCategoriesTitle] = useState('Categories');
-  const [publicStatus, setProjectStatus] = useState(
-    activeProject.isPrivate ? 'private' : 'public'
-  );
+  const { activeProject } = useSelector(projectsStateSelector);
+  const dispatch = useDispatch();
 
-  function changeProjectStatus(evt) {
-    setProjectStatus(evt.target.value);
+  function updateProject(property, data) {
+    if (property === 'isPrivate') {
+      dispatch(
+        updateProjectAction(activeProject._id, {
+          ...activeProject,
+          isPrivate: data === 'private',
+        })
+      );
+      return;
+    }
+
+    const newData = set({ ...activeProject }, property, data);
+    dispatch(updateProjectAction(activeProject._id, newData));
   }
 
   return (
@@ -40,26 +37,27 @@ const AboutContainer = () => {
         <div className="max-w-2xl">
           <Title
             level={4}
-            editable={{ onChange: setEditableTitle }}
+            editable={{ onChange: (value) => updateProject('title', value) }}
             className="py-4"
           >
-            {editableTitle}
+            {activeProject.title}
           </Title>
 
           <Paragraph
-            editable={{ onChange: setDescription }}
+            editable={{
+              onChange: (value) => updateProject('description', value),
+            }}
             className=" text-neutral-800"
           >
-            {description}
+            {activeProject.description}
           </Paragraph>
 
           {/* start: toggle public vs private */}
           <div className="py-4">
             <Radio.Group
-              defaultValue={publicStatus}
-              value={publicStatus}
+              value={activeProject.isPrivate ? 'private' : 'public'}
               buttonStyle="solid"
-              onChange={changeProjectStatus}
+              onChange={(evt) => updateProject('isPrivate', evt.target.value)}
             >
               <Radio.Button value="private">Private</Radio.Button>
               <Radio.Button value="public">Public</Radio.Button>
@@ -81,7 +79,12 @@ const AboutContainer = () => {
           {/* start: Organizers */}
           <div className="py-6">
             <div className="text-lg mb-2 font-bold">
-              <Text editable={{ onChange: setOrganizersTitle }}>
+              <Text
+                editable={{
+                  onChange: (value) =>
+                    updateProject('settings.organizers.name', value),
+                }}
+              >
                 {activeProject.settings.organizers.name}
               </Text>
             </div>
@@ -101,7 +104,12 @@ const AboutContainer = () => {
           {/* start: Member */}
           <div className="py-6">
             <div className="text-lg mb-2 font-bold text-primary-300">
-              <Text editable={{ onChange: setMembersTitle }}>
+              <Text
+                editable={{
+                  onChange: (value) =>
+                    updateProject('settings.members.name', value),
+                }}
+              >
                 {activeProject.settings.members.name}
               </Text>
             </div>
@@ -121,8 +129,13 @@ const AboutContainer = () => {
           {/* start: Topics */}
           <div className="py-6">
             <div className="text-lg mb-2 font-bold">
-              <Text editable={{ onChange: setCategoriesTitle }}>
-                {categoriesTitle}
+              <Text
+                editable={{
+                  onChange: (value) =>
+                    updateProject('settings.categories.name', value),
+                }}
+              >
+                {activeProject.settings.categories.name}
               </Text>
             </div>
 
