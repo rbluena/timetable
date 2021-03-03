@@ -1,5 +1,5 @@
 // import dynamic from 'next/dynamic';
-import { set } from 'lodash';
+import { set, setWith } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Radio, Button } from 'antd';
@@ -27,7 +27,11 @@ const AboutContainer = () => {
       return;
     }
 
-    const newData = set({ ...activeProject }, property, data);
+    // const newData = set({ ...activeProject }, property, data);
+    const newData = setWith({ ...activeProject }, property, data, (items) => ({
+      ...items,
+    }));
+
     dispatch(updateProjectAction(activeProject._id, newData));
   }
 
