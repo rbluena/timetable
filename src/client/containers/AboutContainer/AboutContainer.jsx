@@ -1,8 +1,10 @@
 // import dynamic from 'next/dynamic';
-import { set, setWith } from 'lodash';
+import { setWith } from 'lodash';
 import React, { useState } from 'react';
+import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Radio, Button } from 'antd';
+import { Typography, Radio, Button, DatePicker } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import { projectsStateSelector } from '@app/selectors';
 import Organizers from './Organizers';
@@ -10,9 +12,11 @@ import Members from './Members';
 import AddUserContainer from '../AddUserContainer';
 
 const { Title, Paragraph, Text } = Typography;
+const { RangePicker } = DatePicker;
 
 const AboutContainer = () => {
   const [modal, setModal] = useState(null);
+  const [editDate, setEditDate] = useState(false);
   const { activeProject } = useSelector(projectsStateSelector);
   const dispatch = useDispatch();
 
@@ -33,6 +37,14 @@ const AboutContainer = () => {
     }));
 
     dispatch(updateProjectAction(activeProject._id, newData));
+  }
+
+  function updateDate(data) {
+    const startDate = data[0]._d;
+    const endDate = data[1]._d;
+    const project = { ...activeProject, startDate, endDate };
+
+    dispatch(updateProjectAction(activeProject._id, project));
   }
 
   return (
@@ -69,7 +81,40 @@ const AboutContainer = () => {
           </div>
           {/* end: toggle public vs private */}
 
-          <div className="flex flex-col md:flex-row md:flex-wrap py-4">
+          <div className="py-4">
+            {editDate ? (
+              <RangePicker
+                format="MMM DD, YYYY"
+                bordered={false}
+                defaultValue={[
+                  moment(activeProject.startDate),
+                  moment(activeProject.endDate),
+                ]}
+                allowClear={false}
+                onChange={updateDate}
+              />
+            ) : (
+              <div className="flex">
+                <div className="flex flex-col">
+                  <span className="font-bold text-success-600">Start</span>
+                  <span className=" text-neutral-400">
+                    {moment(activeProject.startDate).format('MMM DD, YYYY')}
+                  </span>
+                </div>
+                <div className="flex flex-col ml-10">
+                  <span className="font-bold text-success-600">End</span>
+                  <span className="text-neutral-400">
+                    {moment(activeProject.endDate).format('MMM DD, YYYY')}
+                  </span>
+                </div>
+                <Button type="link" onClick={() => setEditDate(true)}>
+                  <EditOutlined />
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* <div className="flex flex-col md:flex-row md:flex-wrap py-4">
             <div className="flex flex-col">
               <span className="font-bold text-success-600">Start</span>
               <span className=" text-neutral-400">Feb 21, 2022</span>
@@ -78,7 +123,7 @@ const AboutContainer = () => {
               <span className="font-bold text-success-600">End</span>
               <span className="text-neutral-400">Feb 21, 2022</span>
             </div>
-          </div>
+          </div> */}
 
           {/* start: Organizers */}
           <div className="py-6">

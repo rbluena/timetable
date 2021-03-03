@@ -51,8 +51,8 @@ const initialState = {
         },
       },
     ],
-    from: new Date('2021-02-25 03:25:00'),
-    end: new Date('2021-02-25 03:25:00'),
+    startDate: new Date('2021-02-25 03:25:00'),
+    endDate: new Date('2021-02-25 03:25:00'),
     settings: {
       organizers: {
         name: 'Organizers',
@@ -93,8 +93,8 @@ const initialState = {
           },
         },
       ],
-      from: new Date('2021-02-25 03:25:00'),
-      end: new Date('2021-02-25 03:25:00'),
+      startDate: new Date('2021-02-25 03:25:00'),
+      endDate: new Date('2021-02-25 03:25:00'),
       settings: {
         organizers: {
           name: 'Teachers',
@@ -134,8 +134,8 @@ const initialState = {
           },
         },
       ],
-      from: new Date('2021-02-25 03:25:00'),
-      end: new Date('2021-02-25 03:25:00'),
+      startDate: new Date('2021-02-25 03:25:00'),
+      endDate: new Date('2021-02-25 03:25:00'),
       settings: {
         organizers: {
           name: 'Organizers',
