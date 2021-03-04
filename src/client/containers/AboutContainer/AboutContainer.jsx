@@ -9,7 +9,6 @@ import { updateProjectAction } from '@app/actions';
 import { generateRandomColor } from '@app/utils';
 import { projectsStateSelector } from '@app/selectors';
 import { AboutModalContainer } from '@app/containers/modals';
-import Organizers from './Organizers';
 import Members from './Members';
 
 const { Title, Paragraph, Text } = Typography;
@@ -123,6 +122,7 @@ const AboutContainer = () => {
           </div>
           {/* end: toggle public vs private */}
 
+          {/* start: Project date */}
           <div className="py-4">
             {editDate ? (
               <RangePicker
@@ -155,58 +155,9 @@ const AboutContainer = () => {
               </div>
             )}
           </div>
+          {/* end: Project date */}
 
-          {/* start: Organizers */}
-          <div className="py-6">
-            <div className="text-lg mb-2 font-bold">
-              <Text
-                editable={{
-                  onChange: (value) =>
-                    updateProject('settings.organizers.name', value),
-                }}
-              >
-                {activeProject.settings.organizers.name}
-              </Text>
-            </div>
-            <Organizers />
-            <Button
-              type="primary"
-              className="mt-2"
-              size="small"
-              onClick={() => setModal('organizers')}
-              ghost
-            >
-              View all
-            </Button>
-          </div>
-          {/* end: Organizers */}
-
-          {/* start: Member */}
-          <div className="py-6">
-            <div className="text-lg mb-2 font-bold text-primary-300">
-              <Text
-                editable={{
-                  onChange: (value) =>
-                    updateProject('settings.members.name', value),
-                }}
-              >
-                {activeProject.settings.members.name}
-              </Text>
-            </div>
-            <Members />
-            <Button
-              type="primary"
-              className="mt-2"
-              size="small"
-              onClick={() => setModal('members')}
-              ghost
-            >
-              View all
-            </Button>
-          </div>
-          {/* end: Member */}
-
-          {/* start: Topics */}
+          {/* start: Categories */}
           <div className="py-6">
             <div className="text-lg mb-2 font-bold">
               <Text
@@ -249,12 +200,77 @@ const AboutContainer = () => {
               )}
               {!showTagInput && (
                 <Tag onClick={onShowTagInput}>
-                  <PlusOutlined /> New Tag
+                  <PlusOutlined /> New Category
                 </Tag>
               )}
               {/* Start: New tag input */}
             </div>
           </div>
+          {/* end: Categories */}
+
+          {/* start: Project roles */}
+          {Object.keys(activeProject.roles) &&
+            Object.keys(activeProject.roles).map((roleKey) => {
+              const role = activeProject.roles[roleKey];
+
+              const users = activeProject.team.filter(
+                (member) => member.role === role._id
+              );
+
+              return (
+                <div key={role._id} className="py-6">
+                  <div className="text-lg mb-2 font-bold">
+                    <Text
+                      editable={{
+                        onChange: (value) =>
+                          updateProject(`roles.${role._id}.name`, value),
+                      }}
+                    >
+                      {role.name}
+                    </Text>
+                  </div>
+
+                  <Members users={users || []} />
+
+                  {/* start: View all */}
+                  <Button
+                    type="primary"
+                    className="mt-4"
+                    size="small"
+                    onClick={() => setModal('members')}
+                    ghost
+                  >
+                    View all
+                  </Button>
+                  {/* end: View all */}
+                </div>
+              );
+            })}
+          {/* end: Project roles */}
+
+          {/* start: Member */}
+          {/* <div className="py-6">
+            <div className="text-lg mb-2 font-bold text-primary-300">
+              <Text
+                editable={{
+                  onChange: (value) =>
+                    updateProject('settings.members.name', value),
+                }}
+              >
+                {activeProject.settings.members.name}
+              </Text>
+            </div>
+            <Members />
+            <Button
+              type="primary"
+              className="mt-2"
+              size="small"
+              onClick={() => setModal('members')}
+              ghost
+            >
+              View all
+            </Button>
+          </div> */}
           {/* end: Member */}
         </div>
       </div>

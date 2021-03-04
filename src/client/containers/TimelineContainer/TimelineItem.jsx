@@ -1,8 +1,7 @@
 import { Timeline, Button, Typography, Avatar, Tooltip, Tag } from 'antd';
 import PropTypes from 'prop-types';
-// import { TimeTicker } from '@app/components';
 
-const { Paragraph, Title } = Typography;
+const { Title } = Typography;
 
 const TimelineItem = ({ task }) => (
   <Timeline.Item color="blue">
@@ -16,7 +15,7 @@ const TimelineItem = ({ task }) => (
       )}
     </div>
     <Title level={5}>{task.title}</Title>
-    <Paragraph type="secondary">{task.description}</Paragraph>
+    {/* <Paragraph type="secondary">{task.description}</Paragraph> */}
     <div className="py-2">
       {task.assignees && task.assignees.length > 0 && (
         <Avatar.Group

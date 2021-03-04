@@ -57,13 +57,19 @@ const initialState = {
       {
         _id: '349dsda9998893',
         name: 'Rabii Luena',
-        type: 'orginizer',
+        role: '88497jd9s8904',
+        image: {},
+      },
+      {
+        _id: '349dsda9998893',
+        name: 'Rabii Luena',
+        role: '88497jd9s10904',
         image: {},
       },
       {
         _id: '349dsda099993',
         name: 'Kelvin Cage',
-        type: 'member',
+        role: '88497jd9s8904',
         image: {
           thumbnail:
             'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -72,13 +78,31 @@ const initialState = {
     ],
     startDate: new Date('2021-02-25 03:25:00'),
     endDate: new Date('2021-02-25 03:25:00'),
-    settings: {
-      organizers: {
+    roles: {
+      '88497jd9s8904': {
+        _id: '88497jd9s8904',
         name: 'Organizers',
+        actions: ['add_task', 'delete_task', 'add_user', 'remove_user'],
+        // actions: [
+        //   { name: 'Add project', code: 'add_project' },
+        //   { name: 'Delete project', code: 'delete_project' },
+        //   { name: 'Remove user', code: 'remove_user' },
+        //   { name: 'Add User', code: 'add_user' },
+        // ],
       },
-      members: {
+      '88497jd9s10904': {
+        _id: '88497jd9s10904',
         name: 'Members',
+        actions: ['add_task', 'delete_task', 'add_user', 'remove_user'],
+        // actions: [
+        //   { name: 'Add project', code: 'add_project' },
+        //   { name: 'Delete project', code: 'delete_project' },
+        //   { name: 'Remove user', code: 'remove_user' },
+        //   { name: 'Add User', code: 'add_user' },
+        // ],
       },
+    },
+    settings: {
       categories: {
         name: 'Categories',
       },
