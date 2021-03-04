@@ -1,3 +1,4 @@
 import CreateTaskModalContainer from './CreateTaskModalContainer';
+import AboutModalContainer from './AboutModalContainer';
 
-export { CreateTaskModalContainer };
+export { CreateTaskModalContainer, AboutModalContainer };
