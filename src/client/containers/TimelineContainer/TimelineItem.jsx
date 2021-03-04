@@ -1,4 +1,4 @@
-import { Timeline, Button, Typography, Avatar, Tooltip } from 'antd';
+import { Timeline, Button, Typography, Avatar, Tooltip, Tag } from 'antd';
 import PropTypes from 'prop-types';
 // import { TimeTicker } from '@app/components';
 
@@ -6,12 +6,17 @@ const { Paragraph, Title } = Typography;
 
 const TimelineItem = ({ task }) => (
   <Timeline.Item color="blue">
-    <p className="text-primary-500 text-sm font-bold p-0 m-0">
-      {task.startTime} - {task.endTime}
-    </p>
+    <div className="py-2 flex flex-wrap">
+      <p className="text-primary-500 text-sm font-bold p-0 m-0">
+        {task.startTime} - {task.endTime}
+      </p>
+      &nbsp; &nbsp;
+      {task.category && (
+        <Tag color={task.category.colorName}>{task.category.name}</Tag>
+      )}
+    </div>
     <Title level={5}>{task.title}</Title>
     <Paragraph type="secondary">{task.description}</Paragraph>
-
     <div className="py-2">
       {task.assignees && task.assignees.length > 0 && (
         <Avatar.Group

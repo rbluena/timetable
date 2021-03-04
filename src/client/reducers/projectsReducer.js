@@ -84,9 +84,9 @@ const initialState = {
       },
     },
     categories: [
-      { _id: '89840hh33', name: 'Physics' },
-      { _id: '89840hg33', name: 'Chemistry' },
-      { _id: '8984dhh33', name: 'Mathematics' },
+      { _id: '89840hh33', name: 'Physics', colorName: 'magenta' },
+      { _id: '89840hg33', name: 'Chemistry', colorName: 'red' },
+      { _id: '8984dhh33', name: 'Mathematics', colorName: 'cyan' },
     ],
   },
   data: {

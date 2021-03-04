@@ -94,7 +94,7 @@ const initialState = {
       category: {
         _id: '34jd940f',
         name: 'Physics',
-        bgColor: '#087580',
+        colorName: 'magenta',
       },
       assignees: [
         { _id: '349dsda999993', name: 'Rabii Luena' },
@@ -123,7 +123,7 @@ const initialState = {
       category: {
         _id: '34jd940f',
         name: 'Chemistry',
-        bgColor: '#087580',
+        colorName: 'gold',
       },
       assignees: [
         {
@@ -170,7 +170,7 @@ const initialState = {
       category: {
         _id: '34jd940f',
         name: 'English',
-        bgColor: '#087580',
+        colorName: 'geekblue',
       },
       assignees: [
         {

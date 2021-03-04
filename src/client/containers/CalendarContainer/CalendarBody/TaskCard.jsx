@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { Avatar, Tooltip } from 'antd';
+import { Avatar, Tooltip, Tag } from 'antd';
 import { ExpandOutlined } from '@ant-design/icons';
 // import { get } from 'lodash';
 import { Rnd as Draggable } from 'react-rnd';
-import { positionToTime } from '@app/utils';
+import { positionToTime, getColor } from '@app/utils';
 
 const TaskCard = ({ task, updateTask, openTask }) => {
   const [position, setPosition] = useState(task.position);
@@ -103,6 +103,8 @@ const TaskCard = ({ task, updateTask, openTask }) => {
     openTask(id);
   }
 
+  const taskCategoryColor = task.category && getColor(task.category.colorName);
+
   return (
     <Draggable
       className={`text-left px-2 bg-primary-100 relative text-primary-700 border-l-2 rounded z-50 ${
@@ -124,6 +126,10 @@ const TaskCard = ({ task, updateTask, openTask }) => {
       onDrag={onDrag}
       onResize={onResize}
       onResizeStop={onResizeEnd}
+      style={{
+        backgroundColor: taskCategoryColor ? taskCategoryColor.bgColor : '',
+        color: taskCategoryColor ? taskCategoryColor.color : '',
+      }}
     >
       <div>
         <p className="text-sm font-secondary flex items-center p-0 m-0">
@@ -144,6 +150,11 @@ const TaskCard = ({ task, updateTask, openTask }) => {
           <span className="inline-block mt-0 text-xs font-bold text-neutral-900">
             {`${time.startTime} - ${time.endTime}`}
           </span>
+        )}
+        {taskCategoryColor && dimension.height > 74 && (
+          <div>
+            <Tag color={taskCategoryColor.name}>{task.category.name}</Tag>
+          </div>
         )}
 
         {/* START: ASSIGNEES */}

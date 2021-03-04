@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Typography, Radio, Button, DatePicker, Tag, Input } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
+import { generateRandomColor } from '@app/utils';
 import { projectsStateSelector } from '@app/selectors';
 import { AboutModalContainer } from '@app/containers/modals';
 import Organizers from './Organizers';
@@ -66,11 +67,13 @@ const AboutContainer = () => {
    */
   function handleNewTag(value) {
     if (value && value.length) {
+      const color = generateRandomColor();
+
       const newCategories = {
         ...activeProject,
         categories: [
           ...activeProject.categories,
-          { _id: '94884', name: value },
+          { _id: '94884', name: value, colorName: color.name },
         ],
       };
       dispatch(updateProjectAction(activeProject._id, newCategories));
@@ -224,8 +227,11 @@ const AboutContainer = () => {
                     closable
                     onClose={() => handleTagClose(tag)}
                     key={tag._id}
+                    color={tag.colorName}
                   >
-                    {tag.name}
+                    {tag.name.length > 12
+                      ? `${tag.name.slice(0, 12)}...`
+                      : tag.name}
                   </Tag>
                 ))}
             </div>
@@ -242,7 +248,7 @@ const AboutContainer = () => {
                 />
               )}
               {!showTagInput && (
-                <Tag onClick={onShowTagInput} className="site-tag-plus">
+                <Tag onClick={onShowTagInput}>
                   <PlusOutlined /> New Tag
                 </Tag>
               )}
