@@ -1,22 +1,24 @@
 // import dynamic from 'next/dynamic';
-import { setWith } from 'lodash';
-import React, { useState } from 'react';
-import moment from 'moment';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Radio, Button, DatePicker } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { setWith } from 'lodash';
+import moment from 'moment';
+import { Typography, Radio, Button, DatePicker, Tag, Input } from 'antd';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import { projectsStateSelector } from '@app/selectors';
+import { AboutModalContainer } from '@app/containers/modals';
 import Organizers from './Organizers';
 import Members from './Members';
-import AddUserContainer from '../AddUserContainer';
 
 const { Title, Paragraph, Text } = Typography;
 const { RangePicker } = DatePicker;
 
 const AboutContainer = () => {
   const [modal, setModal] = useState(null);
+  const [showTagInput, setShowTagInput] = useState(false);
   const [editDate, setEditDate] = useState(false);
+  const tagInputRef = useRef(null);
   const { activeProject } = useSelector(projectsStateSelector);
   const dispatch = useDispatch();
 
@@ -45,6 +47,43 @@ const AboutContainer = () => {
     const project = { ...activeProject, startDate, endDate };
 
     dispatch(updateProjectAction(activeProject._id, project));
+  }
+
+  /**
+   * Removing tag
+   * @param {*} tag
+   */
+  function handleTagClose(tag) {
+    const newCategories = activeProject.categories.filter(
+      (item) => item._id !== tag._id
+    );
+    updateProject('categories', newCategories);
+  }
+
+  /**
+   *
+   * @param {*} value
+   */
+  function handleNewTag(value) {
+    if (value && value.length) {
+      const newCategories = {
+        ...activeProject,
+        categories: [
+          ...activeProject.categories,
+          { _id: '94884', name: value },
+        ],
+      };
+      dispatch(updateProjectAction(activeProject._id, newCategories));
+    }
+    setShowTagInput(false);
+  }
+
+  function onShowTagInput() {
+    setShowTagInput(true);
+
+    if (tagInputRef.current) {
+      tagInputRef.current.focus();
+    }
   }
 
   return (
@@ -114,17 +153,6 @@ const AboutContainer = () => {
             )}
           </div>
 
-          {/* <div className="flex flex-col md:flex-row md:flex-wrap py-4">
-            <div className="flex flex-col">
-              <span className="font-bold text-success-600">Start</span>
-              <span className=" text-neutral-400">Feb 21, 2022</span>
-            </div>
-            <div className="flex flex-col ml-10">
-              <span className="font-bold text-success-600">End</span>
-              <span className="text-neutral-400">Feb 21, 2022</span>
-            </div>
-          </div> */}
-
           {/* start: Organizers */}
           <div className="py-6">
             <div className="text-lg mb-2 font-bold">
@@ -188,36 +216,45 @@ const AboutContainer = () => {
               </Text>
             </div>
 
-            <ul className="flex">
-              <li className="pr-2">
-                <Text type="secondary">Physics</Text>
-              </li>
-              <li className="px-2">
-                <Text type="secondary">Chemistry</Text>
-              </li>
-              <li className="px-2">
-                <Text type="secondary">Mathematics</Text>
-              </li>
-              <li className="pl-2">
-                <Text type="secondary">Geography</Text>
-              </li>
-            </ul>
+            <div>
+              {activeProject.categories &&
+                activeProject.categories.length > 0 &&
+                activeProject.categories.map((tag) => (
+                  <Tag
+                    closable
+                    onClose={() => handleTagClose(tag)}
+                    key={tag._id}
+                  >
+                    {tag.name}
+                  </Tag>
+                ))}
+            </div>
 
-            <Button
-              type="danger"
-              size="small"
-              ghost
-              onClick={() => setModal('categories')}
-            >
-              Edit
-            </Button>
+            {/* Start: New tag input */}
+            <div className="py-2">
+              {showTagInput && (
+                <Input
+                  ref={tagInputRef}
+                  size="small"
+                  onBlur={(evt) => handleNewTag(evt.target.value)}
+                  onPressEnter={(evt) => handleNewTag(evt.target.value)}
+                  style={{ width: 100 }}
+                />
+              )}
+              {!showTagInput && (
+                <Tag onClick={onShowTagInput} className="site-tag-plus">
+                  <PlusOutlined /> New Tag
+                </Tag>
+              )}
+              {/* Start: New tag input */}
+            </div>
           </div>
           {/* end: Member */}
         </div>
       </div>
 
       {/* start: Add modal */}
-      <AddUserContainer modal={modal} closeModal={() => setModal(null)} />
+      <AboutModalContainer modal={modal} closeModal={() => setModal(null)} />
       {/* end: Add modal */}
     </>
   );

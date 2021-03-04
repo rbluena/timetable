@@ -24,6 +24,23 @@ export const [
 
 const initialState = {
   fetching: false,
+  projectTeam: {
+    '349dsda9998893': {
+      _id: '349dsda9998893',
+      name: 'Rabii Luena',
+      type: 'orginizer',
+      image: {},
+    },
+    '349dsda099993': {
+      _id: '349dsda099993',
+      name: 'Kelvin Cage',
+      type: 'member',
+      image: {
+        thumbnail:
+          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+      },
+    },
+  },
   activeProject: {
     _id: '329473847b12',
     title: 'MSC of Geography',
@@ -40,11 +57,13 @@ const initialState = {
       {
         _id: '349dsda9998893',
         name: 'Rabii Luena',
+        type: 'orginizer',
         image: {},
       },
       {
-        _id: '349dsda999993',
+        _id: '349dsda099993',
         name: 'Kelvin Cage',
+        type: 'member',
         image: {
           thumbnail:
             'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -64,6 +83,11 @@ const initialState = {
         name: 'Categories',
       },
     },
+    categories: [
+      { _id: '89840hh33', name: 'Physics' },
+      { _id: '89840hg33', name: 'Chemistry' },
+      { _id: '8984dhh33', name: 'Mathematics' },
+    ],
   },
   data: {
     '329473847b12': {
