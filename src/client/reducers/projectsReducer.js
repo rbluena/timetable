@@ -222,6 +222,7 @@ export default function taskReducer(state = initialState, action) {
     case createProjectSuccess: {
       state.fetching = false;
       state.data[payload._id] = payload;
+      state.activeProject = payload;
       return state;
     }
 

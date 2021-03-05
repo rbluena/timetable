@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import {
   createProject,
   createProjectSuccess,
@@ -22,10 +23,27 @@ export function createProjectAction(projectData) {
       //   creator: user._id,
       // });
 
+      const payload = {
+        ...projectData,
+        _id: '4569884tyy45',
+        settings: { categories: { name: 'Categories' } },
+        categories: [],
+        roles: [
+          {
+            _id: '88497jd9s8904',
+            projectId: '4569884tyy45',
+            name: 'Organizers',
+            actions: [],
+          },
+        ],
+      };
+
       dispatch({
         type: createProjectSuccess,
-        payload: projectData,
+        payload,
       });
+
+      return Router.push(`/projects/4569884tyy45`);
     } catch (error) {
       dispatch({
         type: createProjectFailure,

@@ -1,7 +1,7 @@
 // import dynamic from 'next/dynamic';
 import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setWith } from 'lodash';
+import { isEmpty, setWith } from 'lodash';
 import moment from 'moment';
 import { Typography, Radio, Button, DatePicker, Tag, Input } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
@@ -209,7 +209,8 @@ const AboutContainer = () => {
           {/* end: Categories */}
 
           {/* start: Project roles */}
-          {Object.keys(activeProject.roles) &&
+          {!isEmpty(activeProject.roles) &&
+            Object.keys(activeProject.roles) &&
             Object.keys(activeProject.roles).map((roleKey) => {
               const role = activeProject.roles[roleKey];
 

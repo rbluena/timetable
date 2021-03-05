@@ -1,15 +1,8 @@
-import { ToggleSwitch } from '@app/components';
+import CreateForm from './CreateForm';
 
 const Content = () => (
   <div className="bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-4">
-    Creating something useful.
-    <ToggleSwitch
-      options={[
-        { label: 'Public', value: 'public' },
-        { label: 'Private', value: 'Private' },
-      ]}
-      value="public"
-    />
+    <CreateForm />
   </div>
 );
 
