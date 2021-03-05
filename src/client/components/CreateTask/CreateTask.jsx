@@ -18,6 +18,9 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
         range: editingTask.startTime
           ? [moment(editingTask.date), moment(editingTask.date)]
           : null,
+        title: editingTask.title,
+        category: editingTask.category ? editingTask.category._id : null,
+        assignees: editingTask.asignees,
       });
     }
   }, [form, editingTask]);
@@ -104,7 +107,7 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
             <Select
               mode="multiple"
               style={{ width: '100%' }}
-              placeholder="Assignee"
+              placeholder="Assignees"
               // defaultValue={['rabii']}
               showSearch
               optionLabelProp="label"

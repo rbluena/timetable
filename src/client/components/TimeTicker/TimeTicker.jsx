@@ -2,14 +2,14 @@ import { useStopwatch } from 'react-timer-hook';
 import { Button } from '@app/components';
 import { PauseIcon, PlayIcon } from '@app/components/Icons';
 
-const TimeTicker = () => {
+const TimeTicker = ({ startTime, task }) => {
   const { seconds, minutes, hours, start, pause, isRunning } = useStopwatch({
     autoStart: false,
   });
 
-  const formttedHours = `0${hours}`.slice(-2);
-  const formttedMinutes = `0${minutes}`.slice(-2);
-  const formttedSeconds = `0${seconds}`.slice(-2);
+  const formattedHours = `0${hours}`.slice(-2);
+  const formattedMinutes = `0${minutes}`.slice(-2);
+  const formattedSeconds = `0${seconds}`.slice(-2);
 
   function startTimer() {
     if (isRunning) {
@@ -21,7 +21,7 @@ const TimeTicker = () => {
 
   return (
     <div className="flex items-center max-w-sm">
-      <span className="text-primary-500 font-bold">{`${formttedHours}:${formttedMinutes}:${formttedSeconds}`}</span>
+      <span className="text-primary-500 font-bold">{`${formattedHours}:${formattedMinutes}:${formattedSeconds}`}</span>
       &nbsp;
       <Button onClick={startTimer}>
         {isRunning ? (

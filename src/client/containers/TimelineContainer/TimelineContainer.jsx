@@ -4,7 +4,12 @@ import { calendarTasksSelector } from '@app/selectors';
 import { groupTasksBasedOnDate } from '@app/utils';
 import { CreateTaskModalContainer } from '@app/containers/modals';
 import { Button, Tooltip } from 'antd';
-import { openModalAction } from '@app/actions';
+import {
+  openModalAction,
+  setOpenedTaskAction,
+  openDrawerAction,
+  setEditingTaskAction,
+} from '@app/actions';
 import { PlusIcon } from '@app/components/Icons';
 import Timeline from './Timeline';
 import TimelineHeader from './TimelineHeader';
@@ -13,6 +18,18 @@ const TimelineContainer = () => {
   const tasks = useSelector(calendarTasksSelector);
   const dispatch = useDispatch();
   const mappedTasks = groupTasksBasedOnDate(tasks);
+
+  function openTask(id) {
+    dispatch(setOpenedTaskAction(id));
+    dispatch(openDrawerAction('task'));
+  }
+
+  function editTask(task) {
+    dispatch(setEditingTaskAction(task));
+    dispatch(openModalAction('task'));
+  }
+
+  function deleteTask(id) {}
 
   return (
     <>
@@ -45,7 +62,12 @@ const TimelineContainer = () => {
                 >
                   <div className="max-w-lg">
                     <TimelineHeader date={item.date} />
-                    <Timeline tasks={item.tasks} />
+                    <Timeline
+                      tasks={item.tasks}
+                      openTask={openTask}
+                      editTask={editTask}
+                      delete={deleteTask}
+                    />
                   </div>
                 </div>
               ))}

@@ -63,11 +63,13 @@ const initialState = {
         {
           _id: '349dsda9998893',
           name: 'Rabii Luena',
+          email: 'itisrabii@gmail.com',
           image: {},
         },
         {
           _id: '349dsda999993',
           name: 'Kelvin Cage',
+          email: 'kevincage@gmail.com',
           image: {
             thumbnail:
               'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',

@@ -129,6 +129,7 @@ const TaskCard = ({ task, updateTask, openTask }) => {
       style={{
         backgroundColor: taskCategoryColor ? taskCategoryColor.bgColor : '',
         color: taskCategoryColor ? taskCategoryColor.color : '',
+        zIndex: isInteract ? '1000' : '',
       }}
     >
       <div>
