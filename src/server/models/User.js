@@ -40,11 +40,10 @@ const userSchema = new Schema(
         default: 'FREE',
       },
     },
-
+    team: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     timer: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
     task: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
-    groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   },
   { timestamps: true }
 );

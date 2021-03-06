@@ -89,11 +89,11 @@ const updateUser = async (userData) => {
  * Deleting user by email address.
  * @param {String} email
  */
-/* const deleteUserByEmail = async (email) => {
+const deleteUserByEmail = async (email) => {
   const deleted = await User.deleteOne({ email });
   return deleted;
 };
- */
+
 /**
  * Cheking is authenticated user is the author of the content.
  * @param {String} userId
@@ -211,7 +211,7 @@ module.exports = {
   findUserById,
   createUser,
   updateUser,
-  // deleteUserByEmail,
+  deleteUserByEmail,
   // isUserOwnLinkService,
   // followingUserService,
   // unFollowUserService,
