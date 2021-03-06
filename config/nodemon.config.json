@@ -1,0 +1,16 @@
+{
+  "ignore": [
+    ".git",
+    ".eslintrc",
+    "node_modules/**",
+    "src/client/**",
+    "test/**",
+    "public/**",
+    "pages/**",
+    "httpClient/**",
+    "*.test.js"
+  ],
+  "watch": ["src/server/"],
+  "ext": "js",
+  "exec": "NODE_ENV=development node ./src/server/app.js"
+}
