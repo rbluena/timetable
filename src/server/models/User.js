@@ -42,8 +42,8 @@ const userSchema = new Schema(
     },
     team: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
-    timer: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
-    task: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
+    timeEntries: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
+    tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
   },
   { timestamps: true }
 );
