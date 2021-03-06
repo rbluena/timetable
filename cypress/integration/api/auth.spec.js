@@ -4,8 +4,8 @@ describe('testing authentication', () => {
   Cypress.config('baseUrl', Cypress.env('API'));
 
   const user = {
-    userName: 'rbluena',
-    email: 'rbluena@gmail.com',
+    userName: 'luenarabii',
+    email: 'luenarabii@gmail.com',
     password: 'password',
     type: 'local',
   };
@@ -73,7 +73,7 @@ describe('testing authentication', () => {
     const decoded = decode(jwt);
 
     const userData = {
-      email: 'rbluena@gmail.com',
+      email: 'luenarabii@gmail.com',
       oldPassword: user.password,
       newPassword: 'newpassword',
     };
