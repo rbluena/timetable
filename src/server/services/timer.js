@@ -76,8 +76,8 @@ const updateTimerService = async (timerId, data) => {
  * Service to retrieve time entries.
  * @param {Object} options
  */
-const getTimeEntries = async (options) => {
-  const match = {};
+const getTimeEntriesService = async (options) => {
+  const match = { deleted: false };
   const paginateOptions = { limit: 15 };
   let sort = { start: -1 };
 
@@ -148,10 +148,7 @@ const getTimeEntries = async (options) => {
  * @param {String} timerId
  */
 const deleteTimeEntryService = async (timerId) => {
-  const found = await Timer.findOne({ _id: timerId });
-
-  found.deleted = true;
-  const deleted = await found.save();
+  const deleted = await Timer.findOneAndDelete({ _id: timerId });
 
   return {
     _id: deleted._doc._id,
@@ -163,5 +160,5 @@ module.exports = {
   stopTimerService,
   updateTimerService,
   deleteTimeEntryService,
-  getTimeEntries,
+  getTimeEntriesService,
 };

@@ -168,42 +168,6 @@ describe('testing timer', () => {
 
   it.skip('should assign a task', () => {});
 
-  it.skip('should update a task', () => {
-    const data = {
-      title: 'This is changed title',
-      description: 'This is changing description.',
-    };
-
-    cy.request({
-      method: 'PUT',
-      url: `/tasks/${taskId}`,
-      body: data,
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }).then((response) => {
-      const { status, body } = response;
-
-      expect(status).to.equal(200);
-      expect(body).to.have.property('data');
-    });
-  });
-
-  it.skip('should retrieve a task', () => {
-    cy.request({
-      method: 'get',
-      url: `/tasks/${taskId}`,
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }).then((response) => {
-      const { status, body } = response;
-
-      expect(status).to.equal(200);
-      expect(body).to.have.property('data');
-    });
-  });
-
   it('should retrieve all time entries', () => {
     cy.request({
       method: 'GET',
@@ -222,10 +186,10 @@ describe('testing timer', () => {
     });
   });
 
-  it.skip('should delete a task', () => {
+  it('should delete a timer', () => {
     cy.request({
       method: 'DELETE',
-      url: `/tasks/${taskId}`,
+      url: `/time_entries/${timerId}`,
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
