@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { isAuthenticated } = require('../../middleware/auth');
-// const { validateLinkData } = require('../../middleware/link');
-const { validateCommentData } = require('../../middleware/comments');
+// const { validateCommentData } = require('../../middleware/comments');
 const {
   createCommentHandler,
   updateCommentHandler,
@@ -10,12 +9,7 @@ const {
   getCommentHandler,
 } = require('../../handlers/comments');
 
-router.post(
-  '/create',
-  isAuthenticated,
-  validateCommentData,
-  createCommentHandler
-);
+router.post('/create', isAuthenticated, createCommentHandler);
 router.put('/:id/', isAuthenticated, updateCommentHandler);
 router.delete('/:id', isAuthenticated, deleteCommentHandler);
 router.get('/:id', getCommentHandler);
