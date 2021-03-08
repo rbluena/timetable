@@ -4,18 +4,18 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 
 const { Schema } = mongoose;
 
-const attachmentsSchema = new Schema(
+const boardSchema = new Schema(
   {
     name: String,
     description: String,
     project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
-    tasks: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    columns: [{ type: Schema.Types.ObjectId, ref: 'BoardColumn' }],
     filePath: String,
   },
   { timestamps: true }
 );
 
-attachmentsSchema.plugin(mongooseAggregatePaginateV2);
-attachmentsSchema.plugin(mongoosePaginate);
+boardSchema.plugin(mongooseAggregatePaginateV2);
+boardSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('Task', attachmentsSchema);
+module.exports = mongoose.model('Board', boardSchema);
