@@ -30,7 +30,7 @@ describe('testing projects', () => {
 
     cy.request({
       method: 'POST',
-      url: '/projects/create',
+      url: '/projects',
       body: data,
       headers: {
         Authorization: `Bearer ${authToken}`,

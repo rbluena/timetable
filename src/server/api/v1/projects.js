@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { isAuthenticated, isAuthorized } = require('../../middleware/auth');
-const { validateProjectData } = require('../../middleware/project');
+// const { validateProjectData } = require('../../middleware/project');
 const {
   createProjectHandler,
   updateProjectHandler,
@@ -9,17 +9,11 @@ const {
   getProjectsHandler,
 } = require('../../handlers/project');
 
-router.post(
-  '/create',
-  isAuthenticated,
-  validateProjectData,
-  createProjectHandler
-);
-
-// router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
 /**
  * TODO: CHECK AUTHORIZATION OF USER
  */
+// router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
+router.post('/', isAuthenticated, createProjectHandler);
 router.put('/:id/', isAuthenticated, updateProjectHandler);
 router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
 router.get('/', getProjectsHandler);
