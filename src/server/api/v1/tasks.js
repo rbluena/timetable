@@ -4,6 +4,7 @@ const { isAuthenticated } = require('../../middleware/auth');
 const {
   createTaskHandler,
   updateTaskHandler,
+  assignTaskHandler,
   deleteTaskHandler,
   getTaskHandler,
   getTasksHandler,
@@ -11,7 +12,7 @@ const {
 
 router.post('/create', isAuthenticated, createTaskHandler);
 router.put('/:id/', isAuthenticated, updateTaskHandler);
-// router.put('/:id/', isAuthenticated, isAuthorized, updateTaskHandler);
+router.put('/:id/assign', isAuthenticated, assignTaskHandler);
 router.delete('/:id', isAuthenticated, deleteTaskHandler);
 router.get('/', getTasksHandler);
 router.get('/:id', getTaskHandler);

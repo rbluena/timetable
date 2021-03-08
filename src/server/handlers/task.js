@@ -2,6 +2,7 @@ const { omit } = require('lodash');
 const {
   createTaskService,
   updateTaskService,
+  assignUserTaskService,
   deleteTaskService,
   getTaskByIdService,
   getTasksService,
@@ -37,6 +38,22 @@ exports.updateTaskHandler = async (req, res, next) => {
       status: 200,
       success: true,
       message: 'Task was updated successfully.',
+      data: doc,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.assignTaskHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const doc = await assignUserTaskService(id, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Task was assigned successfully.',
       data: doc,
     });
   } catch (error) {

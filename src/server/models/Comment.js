@@ -6,12 +6,12 @@ const { Schema } = mongoose;
 
 const commentSchema = new Schema(
   {
+    author: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+    task: { type: mongoose.Types.ObjectId, ref: 'Task', required: true },
     text: String,
     pinned: { type: Boolean, default: false },
     likes: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
-    parent: { type: mongoose.Types.ObjectId, ref: 'Comment' },
-    link: { type: mongoose.Types.ObjectId, ref: 'Link', required: true },
-    author: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+    mentions: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
 );

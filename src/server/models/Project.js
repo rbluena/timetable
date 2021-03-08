@@ -15,19 +15,8 @@ const projectSchema = new Schema(
     endDate: { type: Date },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }],
-    groups: {
-      type: Array,
-      default: [
-        { name: 'Admins', roles: 2 }, // Can edit project, can add user and can create task and
-        { name: 'Members', roles: 1 }, // Can add task, 0 can only view project
-      ],
-    },
-    users: [
-      {
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
-        group: String,
-      },
-    ],
+    groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
+    users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     categories: [
       {
         name: String,

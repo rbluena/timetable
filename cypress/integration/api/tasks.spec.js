@@ -82,7 +82,23 @@ describe('testing tasks', () => {
     });
   });
 
-  it('should assign a task', () => {});
+  it('should assign a task', () => {
+    const data = ['604337c09514b24b5ea90d67', '604337c09514b24b5ea90d67'];
+
+    cy.request({
+      method: 'PUT',
+      url: `/tasks/${taskId}/assign`,
+      body: data,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    }).then((response) => {
+      const { status, body } = response;
+
+      expect(status).to.equal(200);
+      expect(body).to.have.property('data');
+    });
+  });
 
   it('should update a task', () => {
     const data = {

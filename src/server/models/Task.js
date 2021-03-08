@@ -23,7 +23,7 @@ const taskSchema = new Schema(
     },
     assignees: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     todos: [{ type: Schema.Types.ObjectId, ref: 'Todo' }],
-    attachements: [{ type: Schema.Types.ObjectId, ref: 'Attachements' }],
+    attachments: [{ type: Schema.Types.ObjectId, ref: 'Attachments' }],
     timeEntries: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
     deleted: { type: Boolean, default: false },
   },

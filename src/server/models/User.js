@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const mongooseAggregatePaginateV2 = require('mongoose-aggregate-paginate-v2');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const { generateHash } = require('../utils/auth');
 
 const { Schema } = mongoose;
@@ -40,10 +42,11 @@ const userSchema = new Schema(
         default: 'FREE',
       },
     },
-    team: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     timeEntries: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
+    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
+    assignedTasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
+    groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   },
   { timestamps: true }
 );
@@ -60,5 +63,8 @@ userSchema.pre('save', function (next) {
 
   return next();
 });
+
+userSchema.plugin(mongooseAggregatePaginateV2);
+userSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('User', userSchema);

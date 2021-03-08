@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
+const { uniq } = require('lodash');
 const Task = require('../models/Task');
 const Project = require('../models/Project');
 const User = require('../models/User');
 const { findUserById } = require('./user');
 
 /**
- * Service to create new task
- *
+ * Service to create new task.
  * @param {Object} data
  */
 const createTaskService = async (data) => {
@@ -17,6 +17,15 @@ const createTaskService = async (data) => {
     const user = await findUserById(data.creator);
     user.tasks.push(saved._id);
     await user.save();
+
+    if (data.assignees) {
+      data.assignees.forEach((userId) => {
+        User.updateOne(
+          { _id: mongoose.Types.ObjectId(userId) },
+          { $addToSet: { assignedTasks: saved._id } }
+        );
+      });
+    }
   }
 
   if (saved) {
@@ -30,7 +39,6 @@ const createTaskService = async (data) => {
 
 /**
  * Service to update existing task
- *
  * @param {String} taskId
  * @param {Object} data
  */
@@ -50,6 +58,34 @@ const updateTaskService = async (taskId, data) => {
   // await Task.populate(updated, 'owner');
 
   return updated.toObject();
+};
+
+/**
+ * Assigning tasks to the user.
+ * @param {String} taskId
+ * @param {Array} assignees
+ */
+const assignUserTaskService = async (taskId, assignees) => {
+  const found = await Task.findOne({ _id: taskId });
+
+  if (assignees && assignees.length > 0) {
+    const newAssignees = uniq([...found.assignees, ...assignees]);
+    found.assignees = newAssignees;
+    const saved = await found.save();
+
+    if (saved) {
+      assignees.forEach((userId) => {
+        User.updateOne(
+          { _id: mongoose.Types.ObjectId(userId) },
+          { $addToSet: { assignedTasks: taskId } }
+        );
+      });
+    }
+
+    return saved.toObject();
+  }
+
+  throw new Error('Failed to create a task.');
 };
 
 /**
@@ -302,6 +338,7 @@ const getTasksService = async (options) => {
 module.exports = {
   createTaskService,
   updateTaskService,
+  assignUserTaskService,
   deleteTaskService,
   getTaskByIdService,
   getTasksService,
