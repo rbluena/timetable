@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import { Radio, InputNumber } from 'antd';
+import { Radio } from 'antd';
 import { Button } from '@app/components';
 
 const freeDescription = [
@@ -21,16 +22,12 @@ const premiumDescription = [
   'Board view.',
 ];
 
-const COSTS = {
-  daily: 0.1,
-  monthly: 2,
-};
-
-const Price = () => {
+const Price = ({
+  weeklyPrice: weeklyStripePrice,
+  monthlyPrice: monthlyStripePrice,
+}) => {
   const [selectedPrice, setSelectedPrice] = useState('free');
   const [paymentOption, setPaymentOption] = useState('monthly');
-  const [numberOfMonths, setNumberOfMonths] = useState(1);
-  const [numberOfDays, setNumberOfDays] = useState(1);
 
   const router = useRouter();
 
@@ -44,23 +41,29 @@ const Price = () => {
       : 'border-2 border-primary-400';
 
   function onProUpgradeSelected() {
-    if (selectedPrice === 'pro') {
+    if (selectedPrice === 'pro' && monthlyStripePrice && weeklyStripePrice) {
       if (paymentOption === 'monthly') {
         localStorage.setItem(
-          'paymentOptions',
+          'subscription',
           JSON.stringify({
             selected: 'pro',
+            priceId: monthlyStripePrice.id,
+            cost: monthlyStripePrice.unit_amount,
+            type: monthlyStripePrice.type,
             paymentOption,
-            count: numberOfMonths,
+            count: 1,
           })
         );
       } else {
         localStorage.setItem(
-          'paymentOptions',
+          'subscription',
           JSON.stringify({
             selected: 'pro',
+            priceId: weeklyStripePrice.id,
+            cost: weeklyStripePrice.unit_amount,
+            type: weeklyStripePrice.type,
             paymentOption,
-            count: numberOfDays,
+            count: 1,
           })
         );
       }
@@ -71,11 +74,25 @@ const Price = () => {
 
   return (
     <div className="pt-4">
-      <div className="max-w-md mx-auto">
-        <h2 className="text-3xl text-center text-primary-400">Subscription</h2>
-        <p className="text-lg font-light text-neutral-400 text-center">
-          You are about to upgrade Ashton Conference project.
-        </p>
+      <div className="max-w-md mx-auto mb-12">
+        <h2 className="text-3xl text-center text-primary-400 font-light">
+          {paymentOption === 'monthly' ? 'Subscription' : 'Purchase'}
+        </h2>
+        {paymentOption === 'monthly' && (
+          <p className="font-light text-neutral-400 text-center">
+            This is monthly subscription per user per project. Each project is
+            upgraded separately, and you are about to upgrade{' '}
+            <span className="font-bold">Ashton Conference</span> project.
+          </p>
+        )}
+        {paymentOption === 'weekly' && (
+          <p className="font-light text-neutral-400 text-center">
+            This is one-time payment for one week upgrade per user per per
+            project. Each project is upgraded separately, and you are about to
+            upgrade <span className="font-bold">Ashton Conference</span>{' '}
+            project.
+          </p>
+        )}
       </div>
 
       <div className="mx-auto max-w-3xl">
@@ -87,29 +104,10 @@ const Price = () => {
             onChange={(evt) => setPaymentOption(evt.target.value)}
           >
             <Radio.Button value="monthly">Monthly</Radio.Button>
-            <Radio.Button value="daily">Daily</Radio.Button>
+            <Radio.Button value="weekly">Weekly</Radio.Button>
           </Radio.Group>
         </div>
 
-        <div className="py-2">
-          {selectedPrice === 'pro' && paymentOption === 'monthly' && (
-            <InputNumber
-              min={1}
-              max={12}
-              defaultValue={1}
-              onChange={(value) => setNumberOfMonths(value)}
-            />
-          )}
-
-          {selectedPrice === 'pro' && paymentOption === 'daily' && (
-            <InputNumber
-              min={1}
-              max={15}
-              defaultValue={1}
-              onChange={(value) => setNumberOfDays(value)}
-            />
-          )}
-        </div>
         <div className="flex flex-wrap mx-auto">
           <div className="max-w-2xl flex-col justify-between md:mr-4">
             <button
@@ -121,7 +119,7 @@ const Price = () => {
                 <div className="text-lg font-bold">Free</div>
                 <div className="text-lg font-bold">
                   <span>
-                    {paymentOption === 'monthly' ? '$ 0 / Month' : '$ 0 / Day'}
+                    {paymentOption === 'monthly' ? '$ 0 / Month' : '$ 0 / Week'}
                   </span>{' '}
                 </div>
               </div>
@@ -136,16 +134,21 @@ const Price = () => {
                 <div className="text-lg font-bold text-left">
                   <span>
                     {paymentOption === 'monthly'
-                      ? `$ ${(COSTS.monthly * numberOfMonths).toFixed(
-                          2
-                        )} / Month`
-                      : `$ ${(COSTS.daily * numberOfDays).toFixed(2)} / Day`}
+                      ? `$ ${
+                          monthlyStripePrice &&
+                          (monthlyStripePrice.unit_amount / 100).toFixed(2)
+                        } / Month`
+                      : `$ ${
+                          weeklyStripePrice &&
+                          (weeklyStripePrice.unit_amount / 100).toFixed(2)
+                        } / Week`}
                   </span>{' '}
                   <br /> Per User
                 </div>
               </div>
             </button>
           </div>
+
           {/* start: price description */}
           <div className="bg-neutral-50 p-4" style={{ minWidth: '250px' }}>
             <div className={`${selectedPrice === 'free' ? '' : 'hidden'} pl-4`}>
@@ -185,6 +188,16 @@ const Price = () => {
       </div>
     </div>
   );
+};
+
+Price.defaultProps = {
+  monthlyPrice: undefined,
+  weeklyPrice: undefined,
+};
+
+Price.propTypes = {
+  monthlyPrice: PropTypes.objectOf(PropTypes.any),
+  weeklyPrice: PropTypes.objectOf(PropTypes.any),
 };
 
 export default Price;

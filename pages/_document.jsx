@@ -52,7 +52,6 @@ class MyDocument extends Document {
             content="Create a link for you future content, and discover what happening on the internet!"
           />
           <meta property="og:site_name" content="Asteyo" />
-
           {/* start: GOOGLE ANALYTICS */}
           <script
             async
