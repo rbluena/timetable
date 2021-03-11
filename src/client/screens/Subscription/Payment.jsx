@@ -1,21 +1,28 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { InputNumber, Button } from 'antd';
+import { InputNumber, Button, message } from 'antd';
 import { loadStripe } from '@stripe/stripe-js';
 import { createCheckoutSession } from 'next-stripe/client';
+import { Spin } from '@app/components';
 
 const Payment = () => {
   const [numberOfUsers, setNumberOfUsers] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const paymentInfo = process.browser
     ? JSON.parse(localStorage.getItem('subscription'))
     : {};
 
   const router = useRouter();
+  const { query } = router;
 
-  console.log(router);
-
+  /**
+   * Processing the checkout
+   */
   async function checkoutProcessing() {
     try {
+      setIsLoading(true);
+
       const stripe = await loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
       const session = await createCheckoutSession({
@@ -27,18 +34,56 @@ const Payment = () => {
           },
         ],
         mode: paymentInfo.type === 'one_time' ? 'payment' : 'subscription',
-        success_url: `${window.location.href}/?sessionId={CHECKOUT_SESSION_ID}`,
-        cancel_url: window.location.href,
+        success_url: `${window.location.href}/?session_id={CHECKOUT_SESSION_ID}&checkout_session_completed=true`,
+        cancel_url: `${window.location.href}/?checkout_session_completed=false`,
       });
 
       if (stripe) {
-        const response = await stripe.redirectToCheckout({
+        await stripe.redirectToCheckout({
           sessionId: session.id,
         });
       }
-    } catch (error) {
-      console.log(error);
+
+      setIsLoading(false);
+    } catch (errors) {
+      message.error(errors.message);
+      setIsLoading(false);
     }
+  }
+
+  if (query.checkout_session_completed) {
+    return (
+      <div className="py-6">
+        <h2 className="text-2xl text-center text-tertiary-400">
+          Thank you for the upgrade.
+        </h2>
+        <br />
+        {paymentInfo.paymentOption === 'weekly' ? (
+          <p className="text-base text-neutral-400 text-center">
+            You have successfully upgraded{' '}
+            <span className="font-bold">Ashton Conference</span> to{' '}
+            <span className="font-bold">pro</span> for one week. <br />
+            Please continue enjoying our service.
+          </p>
+        ) : (
+          <p className="text-base text-neutral-400 text-center">
+            You have successfully upgraded{' '}
+            <span className="font-bold">Ashton Conference</span> to{' '}
+            <span className="font-bold">pro</span> in monthly subscription.{' '}
+            <br />
+            Please continue enjoying our service.
+          </p>
+        )}
+
+        <div className="text-center py-8">
+          <Link href="/projects/445544/">
+            <Button size="large" type="primary" ghost>
+              View project
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -55,7 +100,7 @@ const Payment = () => {
           <p className="text-lg font-light text-neutral-400 text-center">
             You are upgrading{' '}
             <span className="font-bold">Ashton Conference</span> project to pro
-            monthly basis.
+            monthly subscription.
           </p>
         )}
       </div>
@@ -85,7 +130,7 @@ const Payment = () => {
           </div>
 
           <div className="py-4">
-            <p className="text-lg text-primary-300">
+            <p className="text-lg text-primary-400 font-bold">
               Total cost is{' '}
               {(
                 paymentInfo.count *
@@ -100,9 +145,18 @@ const Payment = () => {
             ghost
             onClick={() => checkoutProcessing()}
           >
+            {isLoading && (
+              <>
+                <Spin />
+                &nbsp;
+              </>
+            )}
             Process the checkout
           </Button>
         </div>
+        <p className="text-sm text-neutral-500 py-4">
+          * Use your registered email address on stripe checkout form.
+        </p>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import CreateTask from './CreateTask';
 import DatePicker from './Form/DatePicker';
 import RichEditor from './RichEditor';
 import Drawer from './Drawer';
+import Spin from './Spin';
 
 export {
   Avatar,
@@ -36,4 +37,5 @@ export {
   DatePicker,
   RichEditor,
   Drawer,
+  Spin,
 };

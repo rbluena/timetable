@@ -25,7 +25,7 @@ const LeftSidebar = () => {
         <div className="mt-16 flex flex-col w-full justify-center">
           <div
             className={`${
-              pathname === '/' && 'border-r-2 border-neutral-900'
+              pathname === '/' && 'border-r-2 border-primary-400'
             } pl-5`}
           >
             <Link href="/">
