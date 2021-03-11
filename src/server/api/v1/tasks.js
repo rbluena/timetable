@@ -10,8 +10,8 @@ const {
   getTaskHandler,
   getTasksHandler,
   getTaskCommentsHandler,
-  updateTaskCommentHandler,
-  deleteTaskCommentHandler,
+  // updateTaskCommentHandler,
+  // deleteTaskCommentHandler,
 } = require('../../handlers/task');
 
 router.post('/', isAuthenticated, createTaskHandler);
@@ -21,7 +21,7 @@ router.delete('/:id', isAuthenticated, deleteTaskHandler);
 router.get('/', getTasksHandler);
 router.get('/:id', getTaskHandler);
 router.get('/:id/comments', getTaskCommentsHandler);
-router.put('/:id/comments/:commentId', updateTaskCommentHandler);
-router.delete('/:id/comments/:commentId', deleteTaskCommentHandler);
+// router.put('/:id/comments/:commentId', updateTaskCommentHandler);
+// router.delete('/:id/comments/:commentId', deleteTaskCommentHandler);
 
 module.exports = router;

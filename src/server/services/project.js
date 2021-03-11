@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { isEmpty } = require('lodash');
 const Project = require('../models/Project');
-const User = require('../models/User');
+const Subscription = require('../models/Subscription');
 const { findUserById } = require('./user');
 
 const findProjectById = async (id) =>
@@ -118,6 +118,74 @@ const getProjectsService = async (options) => {
   const aggregate = Project.aggregate([{ $match: match }, { $sort: sort }]);
 
   return Project.aggregatePaginate(aggregate, paginateOptions);
+};
+
+/**
+ * Upgrading project to pro.
+ *
+ * @param {String} projectId ID of a project
+ * @param {Object} data Data for the project.
+ */
+const upgradeProjectService = async (projectId, data) => {
+  const foundProject = await Project.findOne({
+    _id: mongoose.Types.ObjectId(projectId),
+    'subscription.checkoutId': data.checkoutId,
+  });
+
+  let upgradedProject = null;
+
+  if (!foundProject) {
+    upgradedProject = Project.updateOne(
+      { _id: mongoose.Types.ObjectId(projectId) },
+      {
+        $set: {
+          subscription: {
+            isTrial: false,
+            checkoutId: data.checkoutId,
+            maxUsers: data.users,
+            isRecurring: data.isRecurring,
+            subscriptionDate: data.subscriptionDate,
+            expiringDate: data.expiringDate,
+            subscribedTo: 'PRO',
+          },
+        },
+      }
+    );
+
+    if (upgradedProject) {
+      const subscription = new Subscription({
+        checkoutId: data.checkoutId,
+        isRecurring: data.isRecurring,
+        email: data.customer.email,
+        project: projectId,
+        amount: data.amountTotal,
+        subscriptionDate: data.subscriptionDate,
+        expiringDate: data.expiringDate,
+        subscribedTo: 'PRO',
+      });
+
+      await subscription.save();
+    }
+  }
+
+  return upgradedProject;
+};
+
+const donwngradeProjectService = async (projectId) => {
+  const project = Project.updateOne(
+    { _id: mongoose.Types.ObjectId(projectId) },
+    {
+      $set: {
+        maxUsers: 1,
+        isRecurring: false,
+        subscriptionDate: null,
+        expiringDate: null,
+        subscribedTo: 'FREE',
+      },
+    }
+  );
+
+  return project;
 };
 
 /**
@@ -377,6 +445,8 @@ module.exports = {
   deleteProjectService,
   getProjectByIdService,
   getProjectsService,
+  upgradeProjectService,
+  donwngradeProjectService,
   // getWaitingLinksService,
   // addWaitingService,
   // removeWaitingService,

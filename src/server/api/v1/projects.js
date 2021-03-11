@@ -7,6 +7,7 @@ const {
   deleteProjectHandler,
   getProjectHandler,
   getProjectsHandler,
+  upgradeProjectHandler,
 } = require('../../handlers/project');
 
 /**
@@ -16,6 +17,7 @@ const {
 router.post('/', isAuthenticated, createProjectHandler);
 router.put('/:id/', isAuthenticated, updateProjectHandler);
 router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
+router.put('/:id/upgrade', upgradeProjectHandler);
 router.get('/', getProjectsHandler);
 router.get('/:id', getProjectHandler);
 

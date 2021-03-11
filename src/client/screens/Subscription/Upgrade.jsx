@@ -87,10 +87,9 @@ const Price = ({
         )}
         {paymentOption === 'weekly' && (
           <p className="font-light text-neutral-400 text-center">
-            This is one-time payment for one week upgrade per user per per
-            project. Each project is upgraded separately, and you are about to
-            upgrade <span className="font-bold">Ashton Conference</span>{' '}
-            project.
+            This is one-time payment for one week upgrade per user per project.
+            Each project is upgraded separately, and you are about to upgrade{' '}
+            <span className="font-bold">Ashton Conference</span> project.
           </p>
         )}
       </div>

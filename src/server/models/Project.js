@@ -31,6 +31,19 @@ const projectSchema = new Schema(
         name: { type: String, default: 'Categories' },
       },
     },
+    subscription: {
+      isTrial: { type: Boolean, default: false },
+      checkoutId: String,
+      isRecurring: false,
+      maxUsers: { type: Number, default: 1 },
+      subscriptionDate: { type: Date, default: null },
+      expiringDate: { type: Date, default: null },
+      subscribedTo: {
+        type: String,
+        enum: ['FREE', 'PRO'],
+        default: 'FREE',
+      },
+    },
   },
   { timestamps: true }
 );

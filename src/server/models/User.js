@@ -34,14 +34,6 @@ const userSchema = new Schema(
     },
     verified: { type: Boolean, default: false },
     verificationToken: String,
-    subscription: {
-      isTrial: { type: Boolean, default: false },
-      subscribedTo: {
-        type: String,
-        enum: ['FREE', 'BASIC', 'PREMIUM'],
-        default: 'FREE',
-      },
-    },
     timeEntries: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],

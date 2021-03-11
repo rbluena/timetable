@@ -1,4 +1,6 @@
 const { decode } = require('jsonwebtoken');
+const { add } = require('date-fns');
+const Stripe = require('stripe');
 const { omit } = require('lodash');
 const {
   createProjectService,
@@ -6,6 +8,7 @@ const {
   deleteLinkService,
   getProjectByIdService,
   getProjectsService,
+  upgradeProjectService,
 } = require('../services/project');
 
 /**
@@ -108,5 +111,45 @@ exports.getProjectsHandler = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.upgradeProjectHandler = async (req, res, next) => {
+  try {
+    const { id: projectId } = req.params;
+    const { stripeSessionId, stripePriceId } = req.body;
+
+    let project = null;
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2020-08-27',
+    });
+
+    const session = await stripe.checkout.sessions.retrieve(stripeSessionId);
+    const price = await stripe.prices.retrieve(stripePriceId);
+
+    if (session && session.payment_status === 'paid') {
+      project = await upgradeProjectService(projectId, {
+        checkoutId: session.id,
+        customer: session.customer_details,
+        amountTotal: session.amount_total,
+        users: session.amount_total / price.unit_amount,
+        isRecurring: session.mode === 'subscription',
+        subscriptionDate: Date.now(),
+        expiringDate:
+          session.mode === 'subscription'
+            ? add(Date.now(), { month: 1 })
+            : add(Date.now(), { week: 1 }),
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
+      data: { data: project },
+    });
+  } catch (error) {
+    return next(error);
   }
 };

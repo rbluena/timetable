@@ -178,6 +178,28 @@ export const getUserProfileService = async (username) => {
   }
 };
 
+export const upgradeProjectService = async (projectId, data) => {
+  try {
+    try {
+      const response = await request({
+        method: 'PUT',
+        url: path.upgradeProject(projectId),
+        data,
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        //   'Content-Type': 'application/json',
+        // },
+      });
+
+      return response.data;
+    } catch (error) {
+      return errorHandler(error);
+    }
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 /**
  * Service to create task
  * @param {Object} data

@@ -1,5 +1,5 @@
 const { omit } = require('lodash');
-const { getCommentsService } = require('../services/comments');
+// const { getCommentsService } = require('../services/comments');
 const {
   createTaskService,
   updateTaskService,
@@ -125,7 +125,8 @@ exports.getTaskCommentsHandler = async (req, res, next) => {
   try {
     const { id } = req.param;
 
-    const data = await getCommentsService({ task: id });
+    // const data = await getCommentsService({ task: id });
+    const data = {};
 
     const meta = omit(data, 'docs');
     const { docs } = data;

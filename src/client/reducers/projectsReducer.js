@@ -239,7 +239,11 @@ export default function taskReducer(state = initialState, action) {
     case updateProjectSuccess: {
       state.fetching = false;
       state.data[payload._id] = payload;
-      state.activeProject = payload;
+
+      if (payload._id === state.activeProject._id) {
+        state.activeProject = payload;
+      }
+
       return state;
     }
 

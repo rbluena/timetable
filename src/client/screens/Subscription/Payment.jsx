@@ -34,7 +34,7 @@ const Payment = () => {
           },
         ],
         mode: paymentInfo.type === 'one_time' ? 'payment' : 'subscription',
-        success_url: `${window.location.href}/?session_id={CHECKOUT_SESSION_ID}&checkout_session_completed=true`,
+        success_url: `${window.location.href}/?price_id=${paymentInfo.priceId}&session_id={CHECKOUT_SESSION_ID}&checkout_session_completed=true`,
         cancel_url: `${window.location.href}/?checkout_session_completed=false`,
       });
 
