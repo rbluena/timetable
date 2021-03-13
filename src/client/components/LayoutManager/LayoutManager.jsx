@@ -3,16 +3,22 @@ import { LeftSidebarContainer, TaskDrawerContainer } from '@app/containers';
 import { Container } from '@app/components';
 import 'antd/dist/antd.css';
 
-const LayoutManager = ({ children }) => (
-  <>
-    <div className="flex">
-      <LeftSidebarContainer />
-      <Container>{children}</Container>
-    </div>
+const LayoutManager = ({ children, authenticated }) => {
+  if (authenticated) {
+    return (
+      <>
+        <div className="flex">
+          <LeftSidebarContainer />
+          <Container>{children}</Container>
+        </div>
 
-    <TaskDrawerContainer />
-  </>
-);
+        <TaskDrawerContainer />
+      </>
+    );
+  }
+
+  return <div>{children}</div>;
+};
 
 LayoutManager.propTypes = {
   children: PropTypes.node.isRequired,
