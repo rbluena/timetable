@@ -21,7 +21,7 @@ function errorHandler(error) {
  *
  * @param {Object} data { email, password }
  */
-export const logUserInService = async (data) => {
+export const signInUserService = async (data) => {
   try {
     const response = await request({
       method: 'POST',
@@ -132,7 +132,7 @@ export const uploadProfileService = async (token, userId, data, config) => {
 /**
  * Logging user out
  */
-export const logUserOutService = async (token) => {
+export const signUserOutService = async (token) => {
   try {
     const response = await request({
       method: 'GET',

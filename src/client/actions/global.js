@@ -3,6 +3,8 @@ import {
   openModal,
   openDrawer,
   closeDrawer,
+  setNotification,
+  clearNotification,
 } from '@app/reducers/globalReducer';
 
 export const closeModalAction = () => ({
@@ -21,4 +23,13 @@ export const openDrawerAction = (name) => ({
 
 export const closeDrawerAction = () => ({
   type: closeDrawer,
+});
+
+export const setNotificationAction = (data) => ({
+  type: setNotification,
+  payload: data,
+});
+
+export const clearNotificationAction = () => ({
+  type: clearNotification,
 });

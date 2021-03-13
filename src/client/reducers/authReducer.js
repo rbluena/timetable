@@ -2,15 +2,15 @@ export const [
   registerUser,
   registerUserSuccess,
   registerUserFailure,
-  loginUser,
-  loginUserSuccess,
-  loginUserFailure,
+  signInUser,
+  signInUserSuccess,
+  signInUserFailure,
   updateUser,
   updateUserSuccess,
   updateUserFailure,
-  logoutUser,
-  logoutUserSuccess,
-  logoutUserFailure,
+  signOutUser,
+  signOutUserSuccess,
+  signOutUserFailure,
 ] = [
   'AUTH/REGISTER',
   'AUTH/REGISTER_SUCCESS',
@@ -47,29 +47,29 @@ export default function authReducer(state = initialState, action) {
       state.fetching = false;
       return state;
 
-    case loginUser:
+    case signInUser:
       state.fetching = true;
       return state;
 
-    case loginUserSuccess:
+    case signInUserSuccess:
       state.fetching = false;
       state.token = action.payload;
       return state;
 
-    case loginUserFailure:
+    case signInUserFailure:
       state.fetching = false;
       return state;
 
-    case logoutUser:
+    case signOutUser:
       state.fetching = true;
       return state;
 
-    case logoutUserSuccess:
+    case signOutUserSuccess:
       state.fetching = false;
       state.token = null;
       return state;
 
-    case logoutUserFailure:
+    case signOutUserFailure:
       state.fetching = false;
       return state;
 

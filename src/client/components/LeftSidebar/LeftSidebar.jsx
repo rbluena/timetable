@@ -14,6 +14,10 @@ const LeftSidebar = () => {
   const router = useRouter();
   const { pathname } = router;
 
+  if (process.browser) {
+    console.log(window.location);
+  }
+
   return (
     <div
       className="flex flex-col items-center w-16 fixed justify-between h-screen bg-tertiary-50 border-r-2 border-primary-200"
@@ -25,15 +29,15 @@ const LeftSidebar = () => {
         <div className="mt-16 flex flex-col w-full justify-center">
           <div
             className={`${
-              pathname === '/' && 'border-r-2 border-primary-400'
+              pathname === '/projects' && 'border-r-2 border-primary-400'
             } pl-5`}
           >
-            <Link href="/">
+            <Link href="/projects">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>
                 <GridIcon
                   size="sm"
-                  variant={pathname === '/' ? '' : 'neutral'}
+                  variant={pathname === '/projects' ? '' : 'neutral'}
                 />
               </a>
             </Link>

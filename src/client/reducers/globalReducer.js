@@ -5,6 +5,8 @@ export const [
   openDrawer,
   closeDrawer,
   setUploadingFile,
+  setNotification,
+  clearNotification,
 ] = [
   'GLOBAL/TOGGLE_LOADING',
   'GLOBAL/OPEN_MODAL',
@@ -12,6 +14,8 @@ export const [
   'GLOBAL/OPEN_DRAWER',
   'GLOBAL/CLOSE_DRAWER',
   'GLOBAL/UPLOADING_FILE',
+  'GLOBAL/SET_NOTIFICATION',
+  'GLOBAL/CLEAR_NOTIFICATION',
 ];
 
 const initialState = {
@@ -51,6 +55,15 @@ export default function globalReducer(state = initialState, action) {
 
     case setUploadingFile: {
       state.uploadingFile = action.payload;
+      return state;
+    }
+    case setNotification: {
+      state.notification = action.payload;
+      return state;
+    }
+
+    case clearNotification: {
+      state.notification = null;
       return state;
     }
 

@@ -1,10 +1,7 @@
-import { LayoutManager } from '@app/components';
-import HomePage from '@app/screens/Home';
+const index = () => (
+  <div>
+    <h2>This is home page.</h2>
+  </div>
+);
 
-export default function Home() {
-  return (
-    <LayoutManager>
-      <HomePage />
-    </LayoutManager>
-  );
-}
+export default index;

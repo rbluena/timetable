@@ -2,7 +2,7 @@ import { LayoutManager } from '@app/components';
 import SigninScreen from '@app/screens/Signin';
 
 const Signin = () => (
-  <LayoutManager>
+  <LayoutManager authenticated={false}>
     <SigninScreen />
   </LayoutManager>
 );

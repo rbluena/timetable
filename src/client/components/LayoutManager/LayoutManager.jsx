@@ -20,8 +20,13 @@ const LayoutManager = ({ children, authenticated }) => {
   return <div>{children}</div>;
 };
 
+LayoutManager.defaultProps = {
+  authenticated: true,
+};
+
 LayoutManager.propTypes = {
   children: PropTypes.node.isRequired,
+  authenticated: PropTypes.bool,
 };
 
 export default LayoutManager;
