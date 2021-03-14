@@ -24,7 +24,7 @@ router.put(
 );
 router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
 router.put('/:id/upgrade', upgradeProjectHandler);
-router.get('/', getProjectsHandler);
+router.get('/', isAuthenticated, getProjectsHandler);
 router.get('/:id', getProjectHandler);
 
 module.exports = router;

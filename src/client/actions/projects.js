@@ -66,6 +66,9 @@ export function updateProjectAction(id, projectData) {
 
       dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({
         type: updateProjectFailure,
       });
@@ -74,12 +77,12 @@ export function updateProjectAction(id, projectData) {
 }
 
 export function deleteProjectAction(id) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       dispatch({ type: deleteProject });
-      // const { token } = getState().AUTH;
+      const { token } = getState().AUTH;
 
-      // const { data, message } = await updateProjectService(token, id);
+      await updateProjectService(token, id);
 
       dispatch({
         type: deleteProjectSuccess,

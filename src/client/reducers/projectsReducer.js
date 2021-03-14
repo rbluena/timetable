@@ -1,4 +1,5 @@
 export const [
+  setCurrentProject,
   setActiveProject,
   createProject,
   createProjectSuccess,
@@ -10,6 +11,7 @@ export const [
   deleteProjectSuccess,
   deleteProjectFailure,
 ] = [
+  'PROJECTS/CURRENT_PROJECT',
   'PROJECTS/ACTIVE_PROJECT',
   'PROJECTS/CREATE_PROJECT',
   'PROJECTS/CREATE_PROJECT_SUCCESS',
@@ -24,6 +26,7 @@ export const [
 
 const initialState = {
   fetching: false,
+  currentProject: null,
   projectTeam: {
     '349dsda9998893': {
       _id: '349dsda9998893',
@@ -203,6 +206,11 @@ export default function taskReducer(state = initialState, action) {
   const { payload } = action;
 
   switch (action.type) {
+    case setCurrentProject: {
+      state.currentProject = payload;
+      return state;
+    }
+
     case setActiveProject: {
       const activeProject = state.data[payload];
 

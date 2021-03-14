@@ -13,6 +13,7 @@ export default {
   uploadProfile: (userId) => `${SERVER_API}/auth/profile/upload/${userId}`,
   createProject: `${SERVER_API}/projects`,
   updateProject: (id) => `${SERVER_API}/projects/${id}`,
+  getProject: (id) => `${SERVER_API}/projects/${id}`,
   upgradeProject: (id) => `${SERVER_API}/projects/${id}/upgrade`,
   createTask: `${SERVER_API}/tasks/create`,
   updateTask: (id) => `${SERVER_API}/tasks/${id}`,

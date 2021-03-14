@@ -1,10 +1,10 @@
 // import dynamic from 'next/dynamic';
 import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty, setWith } from 'lodash';
+import { isEmpty, setWith, get } from 'lodash';
 import moment from 'moment';
 import { Typography, Radio, Button, DatePicker, Tag, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import { generateRandomColor } from '@app/utils';
 import { projectsStateSelector } from '@app/selectors';
@@ -21,6 +21,9 @@ const AboutContainer = () => {
   const tagInputRef = useRef(null);
   const { activeProject } = useSelector(projectsStateSelector);
   const dispatch = useDispatch();
+
+  const categoriesTitle = get(activeProject, 'settings.categories.name');
+  const membersGroupsTitle = get(activeProject, 'settings.groups.name');
 
   function updateProject(property, data) {
     if (property === 'isPrivate') {
@@ -71,7 +74,7 @@ const AboutContainer = () => {
         ...activeProject,
         categories: [
           ...activeProject.categories,
-          { _id: '94884', name: value, colorName: color.name },
+          { colorName: color.name, name: value },
         ],
       };
       dispatch(updateProjectAction(activeProject._id, newCategories));
@@ -79,6 +82,9 @@ const AboutContainer = () => {
     setShowTagInput(false);
   }
 
+  /**
+   * Show tag input for categories
+   */
   function onShowTagInput() {
     setShowTagInput(true);
 
@@ -156,6 +162,23 @@ const AboutContainer = () => {
           </div>
           {/* end: Project date */}
 
+          {/* start: Members groups */}
+          {membersGroupsTitle && membersGroupsTitle.length > 0 && (
+            <div className="py-6">
+              <div className="text-lg mb-2 font-bold">
+                <Text
+                  editable={{
+                    onChange: (value) =>
+                      updateProject('settings.groups.name', value),
+                  }}
+                >
+                  {membersGroupsTitle}
+                </Text>
+              </div>
+            </div>
+          )}
+          {/* end: Members groups */}
+
           {/* start: Categories */}
           <div className="py-6">
             <div className="text-lg mb-2 font-bold">
@@ -165,7 +188,7 @@ const AboutContainer = () => {
                     updateProject('settings.categories.name', value),
                 }}
               >
-                {activeProject.settings.categories.name}
+                {categoriesTitle}
               </Text>
             </div>
 
@@ -198,9 +221,7 @@ const AboutContainer = () => {
                 />
               )}
               {!showTagInput && (
-                <Tag onClick={onShowTagInput}>
-                  <PlusOutlined /> New Category
-                </Tag>
+                <Tag onClick={onShowTagInput}>{`New ${categoriesTitle}`}</Tag>
               )}
               {/* Start: New tag input */}
             </div>

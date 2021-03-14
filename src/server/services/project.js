@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { isEmpty } = require('lodash');
 const Project = require('../models/Project');
+const Group = require('../models/Group');
 const Subscription = require('../models/Subscription');
 const { findUserById } = require('./user');
 
@@ -14,15 +15,33 @@ const findProjectById = async (id) =>
  */
 const createProjectService = async (data) => {
   const project = new Project(data);
-  const saveProject = await project.save();
+  const savedProject = await project.save();
+  let updatedProject = null;
 
-  if (saveProject) {
+  if (savedProject) {
+    // Assign owner of the project
     const user = await findUserById(data.owner);
-    user.projects.push(saveProject._id);
+    user.projects.push(savedProject._id);
     await user.save();
   }
 
-  return saveProject;
+  if (savedProject) {
+    const group = new Group({
+      name: 'Admins',
+      description:
+        'This is an example of user group you can create to categories members of the project. Feel free to update the details of the group.',
+      project: savedProject._id,
+      members: [],
+    });
+
+    const savedGroup = await group.save();
+    savedProject.groups.push(savedGroup._id);
+    updatedProject = await savedProject.save();
+  }
+
+  await Project.populate(updatedProject, 'groups');
+
+  return updatedProject;
 };
 
 /**
@@ -81,19 +100,11 @@ const deleteProjectService = async (projectId) => {
  * @param {String} projectId
  */
 const getProjectByIdService = async (projectId) => {
-  const project = await Project.findOne(
-    { _id: mongoose.Types.ObjectId(projectId) },
-    {
-      _id: 1,
-      title: 1,
-      description: 1,
-      isPrivate: 1,
-      startDate: 1,
-      endDate: 1,
-      owner: 1,
-      groups: 1,
-    }
-  ).lean();
+  const project = await Project.findOne({
+    _id: mongoose.Types.ObjectId(projectId),
+  }).lean();
+
+  await Project.populate(project, 'groups');
 
   return project;
 };

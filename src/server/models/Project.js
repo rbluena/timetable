@@ -20,6 +20,7 @@ const projectSchema = new Schema(
     categories: [
       {
         name: String,
+        colorName: String,
       },
     ],
     archived: { type: Boolean, default: false },
@@ -29,6 +30,9 @@ const projectSchema = new Schema(
     settings: {
       categories: {
         name: { type: String, default: 'Categories' },
+      },
+      groups: {
+        name: { type: String, default: 'Members Groups' },
       },
     },
     subscription: {

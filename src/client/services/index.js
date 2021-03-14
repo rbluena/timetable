@@ -231,6 +231,23 @@ export const updateProjectService = async (id, data, token) => {
 };
 
 /**
+ * Service to retrieve project.
+ * @param {String} id
+ */
+export const getProjectService = async (id) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getProject(id),
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
  * Service to upgrade project.
  * @param {String} projectId
  * @param {Object} data
