@@ -1,8 +1,9 @@
 import CreatePage from '@app/screens/Create';
-import { LayoutManager } from '@app/components';
+import { LayoutManager, Head } from '@app/components';
 
 const Create = () => (
-  <LayoutManager>
+  <LayoutManager showSidebar>
+    <Head title="Create Project" />
     <CreatePage />
   </LayoutManager>
 );

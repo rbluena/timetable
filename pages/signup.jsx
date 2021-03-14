@@ -1,9 +1,10 @@
 import { getCookieToken } from '@app/utils';
-import { LayoutManager } from '@app/components';
+import { LayoutManager, Head } from '@app/components';
 import SignupScreen from '@app/screens/Signup';
 
 const Signup = () => (
   <LayoutManager authenticated={false}>
+    <Head title="Asteyo | Sign Up" />
     <SignupScreen />
   </LayoutManager>
 );

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { Alert } from 'antd';
 import {
   LeftSidebarContainer,
   TaskDrawerContainer,
@@ -12,13 +11,13 @@ const LayoutManager = ({ children, showSidebar }) => {
   if (showSidebar) {
     return (
       <>
+        <AlertNotificationsContainer />
         <div className="flex">
           <LeftSidebarContainer />
           <Container>{children}</Container>
         </div>
 
         <TaskDrawerContainer />
-        <AlertNotificationsContainer />
       </>
     );
   }
