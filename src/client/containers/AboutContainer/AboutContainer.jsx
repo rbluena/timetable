@@ -33,7 +33,6 @@ const AboutContainer = () => {
       return;
     }
 
-    // const newData = set({ ...activeProject }, property, data);
     const newData = setWith({ ...activeProject }, property, data, (items) => ({
       ...items,
     }));
@@ -90,7 +89,7 @@ const AboutContainer = () => {
 
   return (
     <>
-      <div className="bg-white mx-auto max-w-6xl mt-4 shadow-sm rounded p-6 pb-8 relative">
+      <div className="bg-white mx-auto max-w-6xl  shadow-sm rounded relative p-6 md:pl-12">
         <div className="max-w-2xl">
           <Title
             level={4}

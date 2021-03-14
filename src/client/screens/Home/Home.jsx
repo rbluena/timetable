@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { Header, ProjectList } from '@app/components';
+import { AuthHeader, ProjectList } from '@app/components';
 import { projectsStateSelector } from '@app/selectors';
 import { PlusIcon } from '@app/components/Icons';
 import ProjectCard from './ProjectCard';
@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div className="w-full">
-      <Header />
+      <AuthHeader />
       <div>
         <h2 className="text-3xl text-center text-primary-300 py-8">Projects</h2>
 

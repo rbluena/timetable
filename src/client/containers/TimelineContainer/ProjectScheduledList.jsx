@@ -1,5 +1,4 @@
 import { ProjectScheduleItem } from '@app/components';
-import { PlayIcon } from '@app/components/Icons';
 
 const item = {
   title: "Newton's law of motion.",

@@ -20,6 +20,7 @@ import Spin from './Spin';
 import Head from './Head';
 import Nav from './Nav';
 import AlertNotifications from './AlertNotifications';
+import AuthHeader from './AuthHeader';
 
 export {
   Avatar,
@@ -44,4 +45,5 @@ export {
   Head,
   Nav,
   AlertNotifications,
+  AuthHeader,
 };

@@ -3,7 +3,7 @@ import ViewProject from '@app/screens/ViewProject';
 
 export default function Board() {
   return (
-    <LayoutManager>
+    <LayoutManager showSidebar>
       <ViewProject />
     </LayoutManager>
   );

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Header } from '@app/components';
+import { AuthHeader } from '@app/components';
 import { projectsStateSelector } from '@app/selectors';
 import { Radio } from 'antd';
 import Content from './Content';
@@ -39,7 +39,7 @@ const CanvasContainer = () => {
 
   return (
     <div className="w-full">
-      <Header showTimer={showTimer} heading={activeProject.title} />
+      <AuthHeader showTimer={showTimer} heading={activeProject.title} />
 
       {/* START: CONTENT */}
       <Content view={view} />
