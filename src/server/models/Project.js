@@ -8,7 +8,7 @@ const projectSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String },
-    code: { type: String, required: true },
+    code: { type: String },
     image: { thumbnail: { type: String }, medium: { type: String } },
     isPrivate: { type: Boolean, default: true },
     startDate: { type: Date },

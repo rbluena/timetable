@@ -9,6 +9,10 @@ const CreateForm = () => {
   const [projectStatus, setProjectStatus] = useState('private');
   const dispatch = useDispatch();
 
+  /**
+   * Creating project.
+   * @param {Object} values
+   */
   const onFinish = (values) => {
     const data = { ...values, isPrivate: projectStatus === 'private' };
 
@@ -55,7 +59,7 @@ const CreateForm = () => {
           <Input />
         </Form.Item> */}
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button size="large" block type="primary" htmlType="submit" ghost>
             Submit
           </Button>
         </Form.Item>

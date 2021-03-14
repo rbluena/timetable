@@ -38,7 +38,7 @@ export function signUserOutAction() {
       dispatch({
         type: signOutUserSuccess,
       });
-      window.location.href = '/';
+      window.location.href = '/signin';
     }
   };
 }

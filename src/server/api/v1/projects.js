@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { isAuthenticated, isAuthorized } = require('../../middleware/auth');
-// const { validateProjectData } = require('../../middleware/project');
+const { isAuthorizedToUpdate } = require('../../middleware/project');
+
 const {
   createProjectHandler,
   updateProjectHandler,
@@ -15,7 +16,12 @@ const {
  */
 // router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
 router.post('/', isAuthenticated, createProjectHandler);
-router.put('/:id/', isAuthenticated, updateProjectHandler);
+router.put(
+  '/:id/',
+  isAuthenticated,
+  isAuthorizedToUpdate,
+  updateProjectHandler
+);
 router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
 router.put('/:id/upgrade', upgradeProjectHandler);
 router.get('/', getProjectsHandler);

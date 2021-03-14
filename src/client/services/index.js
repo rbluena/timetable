@@ -165,6 +165,10 @@ export const verifyUserService = async (verificationToken) => {
   }
 };
 
+/**
+ * Grabbing user's profile.
+ * @param {String} username
+ */
 export const getUserProfileService = async (username) => {
   try {
     const response = await request({
@@ -178,23 +182,73 @@ export const getUserProfileService = async (username) => {
   }
 };
 
-export const upgradeProjectService = async (projectId, data) => {
+/**
+ * Service to create project.
+ * @param {String} projectId
+ * @param {Object} data
+ * @param {String} token
+ */
+export const createProjectService = async (token, data) => {
   try {
-    try {
-      const response = await request({
-        method: 'PUT',
-        url: path.upgradeProject(projectId),
-        data,
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        //   'Content-Type': 'application/json',
-        // },
-      });
+    const response = await request({
+      method: 'POST',
+      url: path.createProject,
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-      return response.data;
-    } catch (error) {
-      return errorHandler(error);
-    }
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Service to update project.
+ * @param {String} id
+ * @param {Object} data
+ * @param {String} token
+ */
+export const updateProjectService = async (id, data, token) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: path.updateProject(id),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Service to upgrade project.
+ * @param {String} projectId
+ * @param {Object} data
+ * @param {String} token
+ */
+export const upgradeProjectService = async (projectId, data, token) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: path.upgradeProject(projectId),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
   } catch (error) {
     return errorHandler(error);
   }

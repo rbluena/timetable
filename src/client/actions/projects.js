@@ -1,4 +1,9 @@
+import { decode } from 'jsonwebtoken';
 import Router from 'next/router';
+import { createProjectService, updateProjectService } from '@app/services';
+
+import { setNotificationAction, signUserOutAction } from '@app/actions';
+
 import {
   createProject,
   createProjectSuccess,
@@ -12,39 +17,28 @@ import {
 } from '@app/reducers/projectsReducer';
 
 export function createProjectAction(projectData) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       dispatch({ type: createProject });
 
-      // const { token } = getState().AUTH;
+      const { token } = getState().AUTH;
+      const user = decode(token);
 
-      // const { data } = await createProjectService(token, {
-      //   ...taskData,
-      //   creator: user._id,
-      // });
-
-      const payload = {
+      const { data } = await createProjectService(token, {
+        owner: user._id,
         ...projectData,
-        _id: '4569884tyy45',
-        settings: { categories: { name: 'Categories' } },
-        categories: [],
-        roles: [
-          {
-            _id: '88497jd9s8904',
-            projectId: '4569884tyy45',
-            name: 'Organizers',
-            actions: [],
-          },
-        ],
-      };
+      });
 
       dispatch({
         type: createProjectSuccess,
-        payload,
+        payload: data,
       });
 
-      return Router.push(`/projects/4569884tyy45`);
+      Router.push(`/projects/${data._id}`);
     } catch (error) {
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({
         type: createProjectFailure,
       });
@@ -53,21 +47,24 @@ export function createProjectAction(projectData) {
 }
 
 export function updateProjectAction(id, projectData) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       dispatch({ type: updateProject });
 
-      // const { token } = getState().AUTH;
+      const { token } = getState().AUTH;
 
-      // const { data, message } = await updateProjectService(token, {
-      //   ...taskData,
-      //   creator: user._id,
-      // });
+      const { data, message } = await updateProjectService(
+        id,
+        projectData,
+        token
+      );
 
       dispatch({
         type: updateProjectSuccess,
-        payload: projectData,
+        payload: data,
       });
+
+      dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
       dispatch({
         type: updateProjectFailure,
