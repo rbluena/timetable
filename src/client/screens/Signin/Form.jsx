@@ -6,19 +6,21 @@ import { Form, Input, Button } from 'antd';
 const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   async function onSubmit(values) {
     try {
       setIsLoading(true);
       dispatch(signInUserAction(values));
       setIsLoading(false);
+      form.resetFields();
     } catch (error) {
       setIsLoading(false);
     }
   }
 
   return (
-    <Form layout="vertical" onFinish={onSubmit}>
+    <Form layout="vertical" onFinish={onSubmit} form={form}>
       <Form.Item
         name="email"
         rules={[
@@ -38,6 +40,10 @@ const Signin = () => {
           {
             required: true,
             message: 'Please input your password!',
+          },
+          {
+            min: 5,
+            message: 'Minimum length for the password is 5 characters.',
           },
         ]}
       >

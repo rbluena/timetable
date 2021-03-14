@@ -35,7 +35,9 @@ export function signUserOutAction() {
       window.location.href = '/';
     } catch (err) {
       await deleteCookieToken();
-      dispatch(signOutUserSuccess());
+      dispatch({
+        type: signOutUserSuccess,
+      });
       window.location.href = '/';
     }
   };
@@ -73,16 +75,19 @@ export function signInUserAction(userData) {
   return async (dispatch) => {
     try {
       dispatch({ type: signInUser });
-      const { data: token } = await signInUserService(userData);
-      dispatch({ type: signInUserSuccess, payload: token });
+      const { data } = await signInUserService(userData);
+      dispatch({ type: signInUserSuccess, payload: data.jwt });
+      setCookieToken(data.jwt);
       window.location.href = `${window.location.origin}/projects`;
     } catch (error) {
       const err = {
         type: 'error',
         message: error.errors || error.message,
       };
-      dispatch(signInUserFailure());
-      throw err;
+      dispatch(setNotificationAction(err));
+      dispatch({
+        type: signInUserFailure,
+      });
     }
   };
 }
