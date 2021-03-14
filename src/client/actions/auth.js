@@ -49,16 +49,18 @@ export function signUpUserAction(userData) {
   return async (dispatch) => {
     try {
       dispatch({ type: registerUser });
-      const { data, message } = await registerUserService(userData);
-      dispatch({ type: registerUserSuccess, payload: data });
+      const { message } = await registerUserService(userData);
+      dispatch({ type: registerUserSuccess });
       dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
       const err = {
         type: 'error',
         message: error.errors || error.message,
       };
-      dispatch(registerUserFailure());
-      throw err;
+      dispatch(setNotificationAction(err));
+      dispatch({
+        type: registerUserFailure,
+      });
     }
   };
 }

@@ -6,29 +6,31 @@ import { Form, Input, Button } from 'antd';
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   async function onSubmit(values) {
     try {
       setIsLoading(true);
       dispatch(signUpUserAction({ ...values, type: 'local' }));
       setIsLoading(false);
+      form.resetFields();
     } catch (error) {
       setIsLoading(false);
     }
   }
 
   return (
-    <Form layout="vertical" onFinish={onSubmit}>
+    <Form layout="vertical" onFinish={onSubmit} form={form}>
       <Form.Item
-        name="fullName"
+        name="userName"
         rules={[
           {
             required: true,
-            message: 'Please input your full name!',
+            message: 'Please input your username!',
           },
         ]}
       >
-        <Input size="large" placeholder="Enter full name" />
+        <Input size="large" placeholder="Choose username" />
       </Form.Item>
       <Form.Item
         name="email"

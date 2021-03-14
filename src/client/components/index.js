@@ -17,6 +17,9 @@ import DatePicker from './Form/DatePicker';
 import RichEditor from './RichEditor';
 import Drawer from './Drawer';
 import Spin from './Spin';
+import Head from './Head';
+import Nav from './Nav';
+import AlertNotifications from './AlertNotifications';
 
 export {
   Avatar,
@@ -38,4 +41,7 @@ export {
   RichEditor,
   Drawer,
   Spin,
+  Head,
+  Nav,
+  AlertNotifications,
 };

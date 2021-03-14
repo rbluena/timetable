@@ -11,10 +11,10 @@ const findUserByVerificationToken = async (verificationToken) =>
 
 /**
  * Find user by username.
- * @param {String} username
+ * @param {String} userName
  */
-const findUserByUsername = async (username) => {
-  const doc = await User.findOne({ username });
+const findUserByUsername = async (userName) => {
+  const doc = await User.findOne({ userName });
 
   if (doc) {
     const user = doc.toObject();

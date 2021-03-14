@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
-import { LeftSidebarContainer, TaskDrawerContainer } from '@app/containers';
+import { Alert } from 'antd';
+import {
+  LeftSidebarContainer,
+  TaskDrawerContainer,
+  AlertNotificationsContainer,
+} from '@app/containers';
 import { Container } from '@app/components';
 import 'antd/dist/antd.css';
 
-const LayoutManager = ({ children, authenticated }) => {
-  if (authenticated) {
+const LayoutManager = ({ children, showSidebar }) => {
+  if (showSidebar) {
     return (
       <>
         <div className="flex">
@@ -13,20 +18,26 @@ const LayoutManager = ({ children, authenticated }) => {
         </div>
 
         <TaskDrawerContainer />
+        <AlertNotificationsContainer />
       </>
     );
   }
 
-  return <div>{children}</div>;
+  return (
+    <>
+      <AlertNotificationsContainer />
+      <div className="bg-neutral-50 min-h-screen">{children}</div>{' '}
+    </>
+  );
 };
 
 LayoutManager.defaultProps = {
-  authenticated: true,
+  showSidebar: false,
 };
 
 LayoutManager.propTypes = {
   children: PropTypes.node.isRequired,
-  authenticated: PropTypes.bool,
+  showSidebar: PropTypes.bool,
 };
 
 export default LayoutManager;

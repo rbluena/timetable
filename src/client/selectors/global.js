@@ -9,3 +9,8 @@ export const getOpenedTaskSelector = createSelector(
   (state) => state.TASKS.openedTask,
   (task) => task
 );
+
+export const getGlobalNotification = createSelector(
+  (state) => state.GLOBAL.notification,
+  (notification) => notification
+);

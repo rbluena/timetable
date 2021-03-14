@@ -40,7 +40,6 @@ export default function authReducer(state = initialState, action) {
 
     case registerUserSuccess:
       state.fetching = false;
-      state.token = action.payload;
       return state;
 
     case registerUserFailure:
