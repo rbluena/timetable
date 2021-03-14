@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 exports.registerValidation = async (data) => {
   const joiSchema = Joi.object({
-    userName: Joi.string(),
+    fullName: Joi.string(),
     accessToken: Joi.string(),
     image: Joi.string(),
     email: Joi.string().email().min(3).required(),

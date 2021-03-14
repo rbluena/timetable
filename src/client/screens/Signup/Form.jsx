@@ -10,7 +10,7 @@ const Signup = () => {
   async function onSubmit(values) {
     try {
       setIsLoading(true);
-      dispatch(signUpUserAction(values));
+      dispatch(signUpUserAction({ ...values, type: 'local' }));
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -49,6 +49,10 @@ const Signup = () => {
           {
             required: true,
             message: 'Please input your password!',
+          },
+          {
+            min: 5,
+            message: 'Minimum characters for the password is 5.',
           },
         ]}
       >
