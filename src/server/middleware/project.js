@@ -1,5 +1,5 @@
 const { decode } = require('jsonwebtoken');
-const { findProjectById } = require('../services/project');
+
 /**
  * Validating data comming from the client
  *
@@ -43,10 +43,9 @@ exports.isAuthorizedToUpdate = (req, res, next) => {
   try {
     const user = decode(req.app.jwt);
     const data = req.body;
-    const project = findProjectById(data._id);
 
-    if (String(user._id) === String(project.owner)) {
-      next();
+    if (String(user._id) === String(data.owner)) {
+      return next();
     }
 
     return res.status(400).json({

@@ -36,7 +36,15 @@ export function createProjectAction(projectData) {
 
       Router.push(`/projects/${data._id}`);
     } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
       if (error.status === 403) {
+        // Sign user out if not authenticated
         dispatch(signUserOutAction());
       }
       dispatch({
@@ -66,6 +74,13 @@ export function updateProjectAction(id, projectData) {
 
       dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
       if (error.status === 403) {
         dispatch(signUserOutAction());
       }

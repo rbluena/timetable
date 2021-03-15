@@ -1,9 +1,5 @@
 import { CanvasContainer } from '@app/containers';
 
-const ViewProject = () => (
-  <>
-    <CanvasContainer />
-  </>
-);
+const ViewProject = () => <CanvasContainer />;
 
 export default ViewProject;
