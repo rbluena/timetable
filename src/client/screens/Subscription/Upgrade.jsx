@@ -7,8 +7,9 @@ import { Button } from '@app/components';
 const freeDescription = [
   'Personal project.',
   'Only 1 user.',
+  '0 user groups.',
   'Agenda view.',
-  'Timer.',
+  'Time tracker.',
   'Calendar view.',
   'No board view.',
 ];
@@ -16,8 +17,9 @@ const freeDescription = [
 const premiumDescription = [
   'Team project.',
   'Unlimited users.',
+  'Unlimited user groups.',
   'Agenda view.',
-  'Timer.',
+  'Time tracker.',
   'Calendar view.',
   'Board view.',
 ];

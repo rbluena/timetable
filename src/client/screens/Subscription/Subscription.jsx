@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { Header } from '@app/components';
 import Upgrade from './Upgrade';
-// import Payment from './Payment';
 import Payment from './Payment';
 
 const Subscription = ({ weeklyPrice, monthlyPrice }) => {
@@ -21,6 +21,11 @@ const Subscription = ({ weeklyPrice, monthlyPrice }) => {
       </div>
     </div>
   );
+};
+
+Subscription.propTypes = {
+  weeklyPrice: PropTypes.objectOf(PropTypes.any).isRequired,
+  monthlyPrice: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Subscription;
