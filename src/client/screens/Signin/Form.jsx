@@ -12,15 +12,13 @@ const Signin = () => {
     try {
       setIsLoading(true);
       dispatch(signInUserAction(values));
-      setIsLoading(false);
-      form.resetFields();
     } catch (error) {
       setIsLoading(false);
     }
   }
 
   return (
-    <Form layout="vertical" onFinish={onSubmit} form={form}>
+    <Form className=" w-72" layout="vertical" onFinish={onSubmit} form={form}>
       <Form.Item
         name="email"
         rules={[

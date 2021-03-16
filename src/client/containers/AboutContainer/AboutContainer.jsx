@@ -7,11 +7,17 @@ import { Typography, Radio, Button, DatePicker, Tag, Input } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import { generateRandomColor } from '@app/utils';
-import { projectsStateSelector } from '@app/selectors';
+import {
+  projectsStateSelector,
+  projectSelector,
+  projectGroupsSelector,
+  projectCategoriesSelector,
+} from '@app/selectors';
 import { AboutModalContainer } from '@app/containers/modals';
-import Members from './Members';
+import GroupsComponent from './GroupsComponent';
+import CategoriesComponent from './CategoriesComponent';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 const { RangePicker } = DatePicker;
 
 const AboutContainer = () => {
@@ -20,10 +26,16 @@ const AboutContainer = () => {
   const [editDate, setEditDate] = useState(false);
   const tagInputRef = useRef(null);
   const { activeProject } = useSelector(projectsStateSelector);
+  const project = useSelector(projectSelector);
+  const groups = useSelector(projectGroupsSelector);
+  const projectCategories = useSelector(projectCategoriesSelector);
   const dispatch = useDispatch();
 
-  const categoriesTitle = get(activeProject, 'settings.categories.name');
-  const membersGroupsTitle = get(activeProject, 'settings.groups.name');
+  console.log(project);
+
+  const categoriesTitle = get(project, 'settings.categories.name');
+  const membersGroupsTitle = get(project, 'settings.groups.name');
+  const groupsKeys = get(project, 'groups');
 
   function updateProject(property, data) {
     if (property === 'isPrivate') {
@@ -79,7 +91,6 @@ const AboutContainer = () => {
       };
       dispatch(updateProjectAction(activeProject._id, newCategories));
     }
-    setShowTagInput(false);
   }
 
   /**
@@ -102,7 +113,7 @@ const AboutContainer = () => {
             editable={{ onChange: (value) => updateProject('title', value) }}
             className="py-4"
           >
-            {activeProject.title}
+            {project.title}
           </Title>
 
           <Paragraph
@@ -111,13 +122,13 @@ const AboutContainer = () => {
             }}
             className=" text-neutral-800"
           >
-            {activeProject.description}
+            {project.description}
           </Paragraph>
 
           {/* start: toggle public vs private */}
           <div className="py-4">
             <Radio.Group
-              value={activeProject.isPrivate ? 'private' : 'public'}
+              value={project.isPrivate ? 'private' : 'public'}
               buttonStyle="solid"
               onChange={(evt) => updateProject('isPrivate', evt.target.value)}
             >
@@ -134,8 +145,8 @@ const AboutContainer = () => {
                 format="MMM DD, YYYY"
                 bordered={false}
                 defaultValue={[
-                  moment(activeProject.startDate),
-                  moment(activeProject.endDate),
+                  moment(project.startDate),
+                  moment(project.endDate),
                 ]}
                 allowClear={false}
                 onChange={updateDate}
@@ -145,13 +156,13 @@ const AboutContainer = () => {
                 <div className="flex flex-col">
                   <span className="font-bold text-success-600">Start</span>
                   <span className=" text-neutral-400">
-                    {moment(activeProject.startDate).format('MMM DD, YYYY')}
+                    {moment(project.startDate).format('MMM DD, YYYY')}
                   </span>
                 </div>
                 <div className="flex flex-col ml-10">
                   <span className="font-bold text-success-600">End</span>
                   <span className="text-neutral-400">
-                    {moment(activeProject.endDate).format('MMM DD, YYYY')}
+                    {moment(project.endDate).format('MMM DD, YYYY')}
                   </span>
                 </div>
                 <Button type="link" onClick={() => setEditDate(true)}>
@@ -162,137 +173,25 @@ const AboutContainer = () => {
           </div>
           {/* end: Project date */}
 
-          {/* start: Members groups */}
-          {membersGroupsTitle && membersGroupsTitle.length > 0 && (
-            <div className="py-6">
-              <div className="text-lg mb-2 font-bold">
-                <Text
-                  editable={{
-                    onChange: (value) =>
-                      updateProject('settings.groups.name', value),
-                  }}
-                >
-                  {membersGroupsTitle}
-                </Text>
-              </div>
-            </div>
-          )}
-          {/* end: Members groups */}
-
           {/* start: Categories */}
-          <div className="py-6">
-            <div className="text-lg mb-2 font-bold">
-              <Text
-                editable={{
-                  onChange: (value) =>
-                    updateProject('settings.categories.name', value),
-                }}
-              >
-                {categoriesTitle}
-              </Text>
-            </div>
-
-            <div>
-              {activeProject.categories &&
-                activeProject.categories.length > 0 &&
-                activeProject.categories.map((tag) => (
-                  <Tag
-                    closable
-                    onClose={() => handleTagClose(tag)}
-                    key={tag._id}
-                    color={tag.colorName}
-                  >
-                    {tag.name.length > 12
-                      ? `${tag.name.slice(0, 12)}...`
-                      : tag.name}
-                  </Tag>
-                ))}
-            </div>
-
-            {/* Start: New tag input */}
-            <div className="py-2">
-              {showTagInput && (
-                <Input
-                  ref={tagInputRef}
-                  size="small"
-                  onBlur={(evt) => handleNewTag(evt.target.value)}
-                  onPressEnter={(evt) => handleNewTag(evt.target.value)}
-                  style={{ width: 100 }}
-                />
-              )}
-              {!showTagInput && (
-                <Tag onClick={onShowTagInput}>{`New ${categoriesTitle}`}</Tag>
-              )}
-              {/* Start: New tag input */}
-            </div>
-          </div>
+          <CategoriesComponent
+            categoriesKeys={project.categories}
+            categories={projectCategories}
+            title={categoriesTitle}
+            projectId={project._id}
+          />
           {/* end: Categories */}
 
-          {/* start: Project roles */}
-          {!isEmpty(activeProject.roles) &&
-            Object.keys(activeProject.roles) &&
-            Object.keys(activeProject.roles).map((roleKey) => {
-              const role = activeProject.roles[roleKey];
+          {/* start: Members groups */}
 
-              const users = activeProject.team.filter(
-                (member) => member.role === role._id
-              );
-
-              return (
-                <div key={role._id} className="py-6">
-                  <div className="text-lg mb-2 font-bold">
-                    <Text
-                      editable={{
-                        onChange: (value) =>
-                          updateProject(`roles.${role._id}.name`, value),
-                      }}
-                    >
-                      {role.name}
-                    </Text>
-                  </div>
-
-                  <Members users={users || []} />
-
-                  {/* start: View all */}
-                  <Button
-                    type="primary"
-                    className="mt-4"
-                    size="small"
-                    onClick={() => setModal('members')}
-                    ghost
-                  >
-                    View all
-                  </Button>
-                  {/* end: View all */}
-                </div>
-              );
-            })}
-          {/* end: Project roles */}
-
-          {/* start: Member */}
-          {/* <div className="py-6">
-            <div className="text-lg mb-2 font-bold text-primary-300">
-              <Text
-                editable={{
-                  onChange: (value) =>
-                    updateProject('settings.members.name', value),
-                }}
-              >
-                {activeProject.settings.members.name}
-              </Text>
-            </div>
-            <Members />
-            <Button
-              type="primary"
-              className="mt-2"
-              size="small"
-              onClick={() => setModal('members')}
-              ghost
-            >
-              View all
-            </Button>
-          </div> */}
-          {/* end: Member */}
+          <GroupsComponent
+            groups={groups}
+            groupsKeys={groupsKeys}
+            projectId={project._id}
+            title={membersGroupsTitle}
+            updateProject={updateProject}
+          />
+          {/* end: Members groups */}
         </div>
       </div>
 

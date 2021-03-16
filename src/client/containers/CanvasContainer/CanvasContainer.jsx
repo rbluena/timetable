@@ -39,7 +39,7 @@ const CanvasContainer = () => {
 
   return (
     <div className="w-full">
-      <AuthHeader showTimer={showTimer} heading={activeProject.title} />
+      {/* <AuthHeader showTimer={showTimer} heading={activeProject.title} /> */}
 
       {/* START: CONTENT */}
       <Content view={view} />

@@ -10,6 +10,12 @@ export const [
   deleteProject,
   deleteProjectSuccess,
   deleteProjectFailure,
+  addProjectGroup,
+  addProjectGroupSuccess,
+  addProjectGroupFailure,
+  updateProjectGroup,
+  updateProjectGroupSuccess,
+  updateProjectGroupFailure,
 ] = [
   'PROJECTS/CURRENT_PROJECT',
   'PROJECTS/ACTIVE_PROJECT',
@@ -22,6 +28,12 @@ export const [
   'PROJECTS/DELETE_PROJECT',
   'PROJECTS/DELETE_PROJECT_SUCCESS',
   'PROJECTS/DELETE_PROJECT_FAILURE',
+  'PROJECTS/ADD_PROJECT_GROUP',
+  'PROJECTS/ADD_PROJECT_GROUP_SUCCESS',
+  'PROJECTS/ADD_PROJECT_GROUP_FAILURE',
+  'PROJECTS/UPDATE_PROJECT_GROUP',
+  'PROJECTS/UPDATE_PROJECT_GROUP_SUCCESS',
+  'PROJECTS/UPDATE_PROJECT_GROUP_FAILURE',
 ];
 
 const initialState = {
@@ -202,13 +214,16 @@ const initialState = {
   },
 };
 
-export default function taskReducer(state = initialState, action) {
+export default function projectsReducer(state = initialState, action) {
   const { payload } = action;
 
   switch (action.type) {
     case setCurrentProject: {
-      state.currentProject = payload;
-      return state;
+      return {
+        ...state,
+        ...action.payload.entities,
+        projectId: payload.result,
+      };
     }
 
     case setActiveProject: {
@@ -246,13 +261,12 @@ export default function taskReducer(state = initialState, action) {
 
     case updateProjectSuccess: {
       state.fetching = false;
-      state.data[payload._id] = payload;
+      // state.data[payload._id] = payload;
 
-      if (payload._id === state.activeProject._id) {
-        state.activeProject = payload;
-      }
-
-      return state;
+      return {
+        ...state,
+        ...action.payload.entities,
+      };
     }
 
     case updateProjectFailure: {

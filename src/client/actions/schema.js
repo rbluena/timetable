@@ -1,32 +1,38 @@
 import { normalize, schema } from 'normalizr';
 
-const datani = {
-  title: 'Masters of Science and Chemistry',
-  isPrivate: true,
-  _id: '4569884tyy45',
-  settings: {
-    categories: {
-      name: 'Categories',
-    },
-  },
-  categories: [],
-  roles: [
-    {
-      _id: '88497jd9s8904',
-      projectId: '4569884tyy45',
-      name: 'Organizers',
-      actions: [],
-    },
-  ],
-};
+/**
+ * Normalizing project from API.
+ * @param {Object} data Project data from API
+ */
+export function getNormalizedProject(data = {}) {
+  const membersSchema = new schema.Entity(
+    'members',
+    {},
+    { idAttribute: '_id' }
+  );
+  const membersListSchema = new schema.Array(membersSchema);
 
-const rolesSchema = new schema.Entity('roles', {}, { idAttribute: '_id' });
-const rolesListSchema = new schema.Array(rolesSchema);
+  const groupsSchema = new schema.Entity(
+    'groups',
+    { members: membersListSchema },
+    { idAttribute: '_id' }
+  );
+  const groupsListSchema = new schema.Array(groupsSchema);
 
-const projectSchema = new schema.Entity(
-  'project',
-  { roles: rolesListSchema },
-  { idAttribute: '_id' }
-);
+  const categoriesSchema = new schema.Entity(
+    'categories',
+    {},
+    { idAttribute: '_id' }
+  );
+  const categoriesListSchema = new schema.Array(categoriesSchema);
 
-console.log(normalize(datani, projectSchema));
+  const projectSchema = new schema.Entity(
+    'project',
+    { groups: groupsListSchema, categories: categoriesListSchema },
+    { idAttribute: '_id' }
+  );
+
+  return normalize(data, projectSchema);
+}
+
+export function getNormalizedProjects() {}

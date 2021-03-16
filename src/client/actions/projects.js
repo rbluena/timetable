@@ -1,6 +1,13 @@
 import { decode } from 'jsonwebtoken';
 import Router from 'next/router';
-import { createProjectService, updateProjectService } from '@app/services';
+
+import {
+  createProjectService,
+  updateProjectService,
+  addProjectGroupService,
+  updateProjectGroupService,
+  deleteProjectGroupService,
+} from '@app/services';
 
 import { setNotificationAction, signUserOutAction } from '@app/actions';
 
@@ -14,7 +21,15 @@ import {
   deleteProject,
   deleteProjectSuccess,
   deleteProjectFailure,
+  addProjectGroup,
+  addProjectGroupSuccess,
+  addProjectGroupFailure,
+  updateProjectGroup,
+  updateProjectGroupSuccess,
+  updateProjectGroupFailure,
 } from '@app/reducers/projectsReducer';
+
+import { getNormalizedProject } from './schema';
 
 export function createProjectAction(projectData) {
   return async (dispatch, getState) => {
@@ -60,16 +75,19 @@ export function updateProjectAction(id, projectData) {
       dispatch({ type: updateProject });
 
       const { token } = getState().AUTH;
+      const user = decode(token);
 
       const { data, message } = await updateProjectService(
         id,
-        projectData,
+        { ...projectData, owner: user ? user._id : null },
         token
       );
 
+      const normalizedProject = getNormalizedProject(data);
+
       dispatch({
         type: updateProjectSuccess,
-        payload: data,
+        payload: normalizedProject,
       });
 
       dispatch(setNotificationAction({ type: 'success', message }));
@@ -106,6 +124,63 @@ export function deleteProjectAction(id) {
       dispatch({
         type: deleteProjectFailure,
       });
+    }
+  };
+}
+
+export function addProjectGroupAction(projectId, groupData) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: addProjectGroup });
+      const { token } = getState().AUTH;
+
+      const { message, data } = addProjectGroupService(
+        projectId,
+        groupData,
+        token
+      );
+
+      // dispatch({ type: addProjectGroupSuccess });
+    } catch (error) {
+      dispatch({ type: addProjectGroupFailure });
+    }
+  };
+}
+
+export function updateProjectGroupAction(projectId, groupId, groupData) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: updateProjectGroup });
+      const { token } = getState().AUTH;
+
+      const { message, data } = updateProjectGroupService(
+        projectId,
+        groupId,
+        groupData,
+        token
+      );
+
+      dispatch({ type: updateProjectGroupSuccess, payload: data });
+    } catch (error) {
+      dispatch({ type: updateProjectGroupFailure });
+    }
+  };
+}
+
+export function deleteProjectGroupAction(projectId, groupId) {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: addProjectGroup });
+      const { token } = getState().AUTH;
+
+      const { data, message } = deleteProjectGroupService(
+        projectId,
+        groupId,
+        token
+      );
+      dispatch({ type: addProjectGroupSuccess });
+    } catch (error) {
+      dispatch({ type: addProjectGroupFailure });
     }
   };
 }
