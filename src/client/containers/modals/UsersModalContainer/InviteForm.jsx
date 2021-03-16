@@ -1,31 +1,39 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Input } from 'antd';
+import { Button, Input, Form } from 'antd';
 
 const InviteForm = ({ inviteUser }) => {
-  const [email, setEmail] = useState('');
+  const [form] = Form.useForm();
 
-  function inviteUserHandler() {
-    if (email.length > 0) {
-      inviteUser({ email });
-      setEmail('');
-    }
+  /**
+   * Inviting user to the group project.
+   * @param {Object} values
+   */
+  function onSubmit(values) {
+    inviteUser(values);
+    form.resetFields();
   }
 
   return (
-    <div className="flex p-0 m-0">
-      <Input
-        placeholder="Email address"
-        onChange={(evt) => setEmail(evt.target.value)}
-      />
-      &nbsp;
-      <Button
-        type="primary"
-        disabled={!email.length}
-        onClick={inviteUserHandler}
-      >
-        Invite
-      </Button>
+    <div className="flex justify-center p-0 m-0">
+      <Form layout="inline" onFinish={onSubmit} form={form}>
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              type: 'email',
+              message: 'Please put a valid email address!',
+            },
+          ]}
+        >
+          <Input placeholder="Email address" />
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" type="primary">
+            Invite
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
