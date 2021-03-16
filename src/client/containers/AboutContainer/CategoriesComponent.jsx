@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Tag, Input } from 'antd';
+import { PlusCircleTwoTone } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import { generateRandomColor } from '@app/utils';
 
@@ -106,7 +107,12 @@ const CategoriesComponent = ({
             style={{ width: 100 }}
           />
         )}
-        {!showTagInput && <Tag onClick={onShowTagInput}>{`New ${title}`}</Tag>}
+        {!showTagInput && (
+          <Tag
+            onClick={onShowTagInput}
+            icon={<PlusCircleTwoTone />}
+          >{`New ${title}`}</Tag>
+        )}
       </div>
     </div>
   );

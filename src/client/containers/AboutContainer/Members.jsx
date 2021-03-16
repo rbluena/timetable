@@ -18,16 +18,16 @@ const Members = ({ users }) => (
             user.image.thumbnail.length
           ) {
             return (
-              <Tooltip title={user.name} placement="top">
+              <Tooltip title={user.fullName} placement="top">
                 <Avatar src={user.image.thumbnail} />
               </Tooltip>
             );
           }
 
           return (
-            <Tooltip title={user.name} placement="top">
+            <Tooltip title={user.fullName} placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>
-                {user.name[0]}
+                {user.fullName[0]}
               </Avatar>
             </Tooltip>
           );

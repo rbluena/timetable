@@ -83,7 +83,13 @@ const AboutContainer = () => {
             }}
             className=" text-neutral-800"
           >
-            {project.description}
+            {project.description ? (
+              project.description
+            ) : (
+              <span className="text-xs text-neutral-400">
+                Add description of the project.
+              </span>
+            )}
           </Paragraph>
 
           {/* start: toggle public vs private */}

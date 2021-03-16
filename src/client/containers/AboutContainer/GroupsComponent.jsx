@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Button, Tag, Input } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusCircleTwoTone } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import {
   addProjectGroupAction,
@@ -53,7 +53,7 @@ const GroupsComponent = ({
       </Title>
 
       {/* start: Rendering a new group. */}
-      <div className="pl-4">
+      <div className="pl-4 divide-y divide-neutral-100">
         {groupsKeys &&
           groupsKeys.length > 0 &&
           groupsKeys.map((key) => {
@@ -78,16 +78,29 @@ const GroupsComponent = ({
                       updateGroup(group._id, { description: value }),
                   }}
                 >
-                  {group.description ? group.description : 'Add description'}
+                  {group.description ? (
+                    group.description
+                  ) : (
+                    <span className="text-xs text-neutral-400">
+                      Add description
+                    </span>
+                  )}
                 </Text>
 
-                <div>
-                  <Members users={[]} />
+                <div className="py-2">
+                  <Members users={group.members || []} />
                 </div>
 
-                <div className="py-2 flex flex-row">
-                  <Button size="small" type="primary" ghost>
-                    View
+                <div className="py-1 flex flex-row">
+                  <Button size="small" type="link" ghost>
+                    {group.members && group.members.length > 0 ? (
+                      'All users'
+                    ) : (
+                      <span>
+                        <PlusCircleTwoTone />
+                        &nbsp; Add users
+                      </span>
+                    )}
                   </Button>
                   <Button
                     type="text"
@@ -118,7 +131,9 @@ const GroupsComponent = ({
           />
         )}
         {!showGroupInput && (
-          <Tag onClick={showGroupInputHandler}>New group</Tag>
+          <Tag onClick={showGroupInputHandler} icon={<PlusCircleTwoTone />}>
+            New group
+          </Tag>
         )}
       </div>
       {/* end: Adding a new group */}
