@@ -6,4 +6,8 @@
   @font-face {
     font-family: Lato, Helvetica;
   }
+
+  svg {
+    vertical-align: baseline;
+  }
 }
