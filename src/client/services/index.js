@@ -272,7 +272,77 @@ export const upgradeProjectService = async (projectId, data, token) => {
 };
 
 /**
- * Service to create task
+ * Creating user group for a project
+ * @param {String} projectId
+ * @param {Object} data
+ * @param {String} token
+ */
+export const addProjectGroupService = async (projectId, data, token) => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: path.addProjectGroup(projectId),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const updateProjectGroupService = async (
+  projectId,
+  groupId,
+  data,
+  token
+) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: path.updateProjectGroup(projectId, groupId),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Deleting project group.
+ * @param {String} projectId
+ * @param {String} groupId
+ * @param {String} token
+ */
+export const deleteProjectGroupService = async (projectId, groupId, token) => {
+  try {
+    const response = await request({
+      method: 'DELETE',
+      url: path.deleteProjectGroup(projectId, groupId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Service to create task.
  * @param {Object} data
  */
 export const createTaskService = async (token, data) => {

@@ -15,6 +15,11 @@ export default {
   updateProject: (id) => `${SERVER_API}/projects/${id}`,
   getProject: (id) => `${SERVER_API}/projects/${id}`,
   upgradeProject: (id) => `${SERVER_API}/projects/${id}/upgrade`,
+  addProjectGroup: (id) => `${SERVER_API}/projects/${id}/groups`,
+  updateProjectGroup: (projectId, groupId) =>
+    `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
+  deleteProjectGroup: (projectId, groupId) =>
+    `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
   createTask: `${SERVER_API}/tasks/create`,
   updateTask: (id) => `${SERVER_API}/tasks/${id}`,
   deleteTask: (id) => `${SERVER_API}/tasks/${id}`,

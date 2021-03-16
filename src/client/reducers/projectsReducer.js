@@ -290,6 +290,12 @@ export default function projectsReducer(state = initialState, action) {
       return state;
     }
 
+    case updateProjectGroupSuccess: {
+      state.fetching = false;
+      state.groups[payload._id] = payload;
+      return state;
+    }
+
     default:
       return state;
   }

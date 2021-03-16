@@ -66,7 +66,7 @@ const updateProjectService = async (projectId, data) => {
   }
 
   // await Project.populate(updated, 'owner');
-  // await Project.populate(updated, 'comments');
+  await Project.populate(updated, 'groups');
   // await Project.populate(updated, 'waitings');
 
   const updatedObj = updated.toObject();
@@ -200,7 +200,66 @@ const donwngradeProjectService = async (projectId) => {
 };
 
 /**
- * Grabing all links for the user.
+ * Service to create new group for a project.
+ * @param {String} projectId
+ * @param {Object} groupData
+ */
+const createProjectGroupService = async (projectId, groupData) => {
+  const group = new Group({ project: projectId, ...groupData });
+  const savedGroup = await group.save();
+
+  if (savedGroup) {
+    await Project.updateOne(
+      { _id: mongoose.Types.ObjectId(projectId) },
+      { $push: { groups: savedGroup } }
+    );
+  }
+
+  await Group.populate(savedGroup, 'members');
+  return savedGroup;
+};
+
+/**
+ * Updating project group.
+ * @param {String} groupId
+ * @param {String} data
+ */
+const updateProjectGroupService = async (groupId, data) => {
+  const group = await Group.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(groupId) },
+    { $set: { ...data } },
+    { new: true }
+  );
+
+  await Group.populate(group, 'members');
+  return group;
+};
+
+/**
+ * Deleting project group.
+ * @param {String} projectId
+ * @param {String} groupId
+ */
+const deleteProjectGroupService = async (projectId, groupId) => {
+  const deleted = await Group.deleteOne({
+    project: mongoose.Types.ObjectId(projectId),
+    _id: mongoose.Types.ObjectId(groupId),
+  });
+
+  if (deleted) {
+    await Project.updateOne(
+      { _id: mongoose.Types.ObjectId(projectId) },
+      { $pull: mongoose.Types.ObjectId(groupId) }
+    );
+  }
+
+  return {
+    _id: deleted._id,
+  };
+};
+
+/**
+ * Grabing all links for the user.*
  * @param {Object} options
  */
 /* const getAllLinksService = async (options, userId) => {
@@ -458,8 +517,8 @@ module.exports = {
   getProjectsService,
   upgradeProjectService,
   donwngradeProjectService,
-  // getWaitingLinksService,
-  // addWaitingService,
-  // removeWaitingService,
+  createProjectGroupService,
+  updateProjectGroupService,
+  deleteProjectGroupService,
   projectVisitCount,
 };

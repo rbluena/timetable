@@ -9,6 +9,9 @@ const {
   getProjectByIdService,
   getProjectsService,
   upgradeProjectService,
+  createProjectGroupService,
+  updateProjectGroupService,
+  deleteProjectGroupService,
 } = require('../services/project');
 
 /**
@@ -151,5 +154,61 @@ exports.upgradeProjectHandler = async (req, res, next) => {
     });
   } catch (error) {
     return next(error);
+  }
+};
+
+/**
+ * Request handler for getting all projects.
+ */
+exports.createProjectGroupHandler = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+
+    const data = await createProjectGroupService(projectId, req.body);
+
+    res.status(201).json({
+      status: 201,
+      success: true,
+      message: 'Project group was created successfully.',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update project.
+ */
+exports.updateProjectGroupHandler = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+    const data = await updateProjectGroupService(groupId, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Project group was updated successfully.',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteProjectGroupHandler = async (req, res, next) => {
+  try {
+    const { projectId, groupId } = req.params;
+
+    const data = await deleteProjectGroupService(projectId, groupId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Project group was deleted successfully.',
+      data,
+    });
+  } catch (error) {
+    next(error);
   }
 };

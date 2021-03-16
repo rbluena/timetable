@@ -9,11 +9,11 @@ const {
   getProjectHandler,
   getProjectsHandler,
   upgradeProjectHandler,
+  createProjectGroupHandler,
+  updateProjectGroupHandler,
+  deleteProjectGroupHandler,
 } = require('../../handlers/project');
 
-/**
- * TODO: CHECK AUTHORIZATION OF USER
- */
 // router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
 router.post('/', isAuthenticated, createProjectHandler);
 router.put(
@@ -26,5 +26,18 @@ router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
 router.put('/:id/upgrade', upgradeProjectHandler);
 router.get('/', isAuthenticated, getProjectsHandler);
 router.get('/:id', getProjectHandler);
+router.post('/:id/groups', isAuthenticated, createProjectGroupHandler);
+router.put(
+  '/:projectId/groups/:groupId',
+  isAuthenticated,
+  updateProjectGroupHandler
+);
+router.delete(
+  '/:projectId/groups/:groupId',
+  isAuthenticated,
+  deleteProjectGroupHandler
+);
+// router.post('/:projectId/groups/:groupId/assign');
+// router.delete('/:projectId/groups/:groupId/assign/:userId');
 
 module.exports = router;
