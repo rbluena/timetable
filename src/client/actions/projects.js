@@ -27,9 +27,9 @@ import {
   updateProjectGroup,
   updateProjectGroupSuccess,
   updateProjectGroupFailure,
+  deleteProjectGroupSuccess,
 } from '@app/reducers/projectsReducer';
 
-import { compareSync } from 'bcryptjs';
 import { getNormalizedProject } from './schema';
 
 export function createProjectAction(projectData) {
@@ -145,6 +145,16 @@ export function addProjectGroupAction(projectId, groupData) {
         payload: { group: data, projectId },
       });
     } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({ type: addProjectGroupFailure });
     }
   };
@@ -156,7 +166,7 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
       dispatch({ type: updateProjectGroup });
       const { token } = getState().AUTH;
 
-      const { message, data } = await updateProjectGroupService(
+      const { data } = await updateProjectGroupService(
         projectId,
         groupId,
         groupData,
@@ -164,28 +174,51 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
       );
 
       dispatch({ type: updateProjectGroupSuccess, payload: data });
-
-      dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
-      console.log(error);
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({ type: updateProjectGroupFailure });
     }
   };
 }
 
 export function deleteProjectGroupAction(projectId, groupId) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       dispatch({ type: addProjectGroup });
       const { token } = getState().AUTH;
 
-      const { data, message } = deleteProjectGroupService(
+      const { data, message } = await deleteProjectGroupService(
         projectId,
         groupId,
         token
       );
-      dispatch({ type: addProjectGroupSuccess });
+
+      dispatch({
+        type: deleteProjectGroupSuccess,
+        payload: { projectId, groupId: data._id },
+      });
+
+      dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({ type: addProjectGroupFailure });
     }
   };
