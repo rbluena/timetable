@@ -3,7 +3,7 @@ import ViewProject from '@app/screens/ViewProject';
 
 export default function Calendar() {
   return (
-    <LayoutManager showSidebar>
+    <LayoutManager>
       <ViewProject />
     </LayoutManager>
   );

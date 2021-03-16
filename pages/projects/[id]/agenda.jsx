@@ -3,7 +3,7 @@ import ViewProject from '@app/screens/ViewProject';
 
 export default function Agenda() {
   return (
-    <LayoutManager showSidebar>
+    <LayoutManager>
       <ViewProject />
     </LayoutManager>
   );
