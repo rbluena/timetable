@@ -7,6 +7,8 @@ import {
   addProjectGroupService,
   updateProjectGroupService,
   deleteProjectGroupService,
+  addUserToGroupService,
+  removeGroupInvitationService,
 } from '@app/services';
 
 import { setNotificationAction, signUserOutAction } from '@app/actions';
@@ -220,6 +222,62 @@ export function deleteProjectGroupAction(projectId, groupId) {
         dispatch(signUserOutAction());
       }
       dispatch({ type: addProjectGroupFailure });
+    }
+  };
+}
+
+export function inviteUserAction(projectId, groupId, userData) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: addProjectGroup });
+      const { token } = getState().AUTH;
+      const { data } = await addUserToGroupService(
+        projectId,
+        groupId,
+        userData,
+        token
+      );
+
+      dispatch({ type: updateProjectGroupSuccess, payload: data });
+    } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
+    }
+  };
+}
+
+export function removeInvitationAction(projectId, groupId, invitationId) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: addProjectGroup });
+      const { token } = getState().AUTH;
+      const { data } = await removeGroupInvitationService(
+        projectId,
+        groupId,
+        invitationId,
+        token
+      );
+
+      dispatch({ type: updateProjectGroupSuccess, payload: data });
+    } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
     }
   };
 }

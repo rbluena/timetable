@@ -146,7 +146,7 @@ const upgradeProjectService = async (projectId, data) => {
   let upgradedProject = null;
 
   if (!foundProject) {
-    upgradedProject = Project.updateOne(
+    upgradedProject = await Project.updateOne(
       { _id: mongoose.Types.ObjectId(projectId) },
       {
         $set: {
@@ -236,7 +236,7 @@ const updateProjectGroupService = async (groupId, data) => {
 };
 
 /**
- * Deleting project group.
+ * Service to delete project group.
  * @param {String} projectId
  * @param {String} groupId
  */
@@ -256,6 +256,36 @@ const deleteProjectGroupService = async (projectId, groupId) => {
   return {
     _id: deleted._id,
   };
+};
+
+/**
+ * Adding user into invitation group.
+ * @param {String} groupId
+ * @param {Object} data
+ */
+const addGroupInviteeService = async (groupId, data) => {
+  const updatedGroup = await Group.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(groupId) },
+    { $push: { invitees: data } },
+    { new: true }
+  );
+
+  return updatedGroup;
+};
+
+/**
+ * Removing invitee from the group.
+ * @param {String} groupId
+ * @param {String} invitationId
+ */
+const removeGroupInviteeService = async (groupId, invitationId) => {
+  const updatedGroup = await Group.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(groupId) },
+    { $pull: { invitees: { _id: mongoose.Types.ObjectId(invitationId) } } },
+    { new: true }
+  );
+
+  return updatedGroup;
 };
 
 /**
@@ -521,4 +551,6 @@ module.exports = {
   updateProjectGroupService,
   deleteProjectGroupService,
   projectVisitCount,
+  addGroupInviteeService,
+  removeGroupInviteeService,
 };

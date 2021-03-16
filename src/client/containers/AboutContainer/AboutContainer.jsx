@@ -11,7 +11,7 @@ import {
   projectCategoriesSelector,
 } from '@app/selectors';
 
-import { AboutModalContainer } from '@app/containers/modals';
+import { UsersModalContainer } from '@app/containers/modals';
 import GroupsComponent from './GroupsComponent';
 import CategoriesComponent from './CategoriesComponent';
 
@@ -19,7 +19,8 @@ const { Title, Paragraph } = Typography;
 const { RangePicker } = DatePicker;
 
 const AboutContainer = () => {
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [modalGroupId, setModalGroupId] = useState(null);
   const [editDate, setEditDate] = useState(false);
   const project = useSelector(projectSelector);
   const groups = useSelector(projectGroupsSelector);
@@ -158,13 +159,22 @@ const AboutContainer = () => {
             projectId={project._id}
             title={membersGroupsTitle}
             updateProject={updateProject}
+            openGroupModal={setModal}
+            setModalGroupId={setModalGroupId}
           />
           {/* end: Members groups */}
         </div>
       </div>
 
       {/* start: Add modal */}
-      <AboutModalContainer modal={modal} closeModal={() => setModal(null)} />
+      <UsersModalContainer
+        isOpen={modal}
+        group={groups[modalGroupId]}
+        closeModal={() => {
+          setModal(false);
+          setModalGroupId(null);
+        }}
+      />
       {/* end: Add modal */}
     </>
   );

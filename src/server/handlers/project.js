@@ -12,6 +12,8 @@ const {
   createProjectGroupService,
   updateProjectGroupService,
   deleteProjectGroupService,
+  addGroupInviteeService,
+  removeGroupInviteeService,
 } = require('../services/project');
 
 /**
@@ -206,6 +208,46 @@ exports.deleteProjectGroupHandler = async (req, res, next) => {
       status: 200,
       success: true,
       message: 'Project group was deleted successfully.',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Inviting users to the group
+ */
+exports.addGroupInviteeHandler = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+
+    const data = await addGroupInviteeService(groupId, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'User was invited to join the group successfully.',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Removing invited users
+ */
+exports.removeGroupInviteeHandler = async (req, res, next) => {
+  try {
+    const { groupId, invitationId } = req.params;
+
+    const data = await removeGroupInviteeService(groupId, invitationId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'User was invited to join the group successfully.',
       data,
     });
   } catch (error) {

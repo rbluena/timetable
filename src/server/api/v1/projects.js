@@ -12,6 +12,8 @@ const {
   createProjectGroupHandler,
   updateProjectGroupHandler,
   deleteProjectGroupHandler,
+  addGroupInviteeHandler,
+  removeGroupInviteeHandler,
 } = require('../../handlers/project');
 
 // router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
@@ -37,7 +39,16 @@ router.delete(
   isAuthenticated,
   deleteProjectGroupHandler
 );
-// router.post('/:projectId/groups/:groupId/assign');
+router.post(
+  '/:projectId/groups/:groupId/invite',
+  isAuthenticated,
+  addGroupInviteeHandler
+);
+router.delete(
+  '/:projectId/groups/:groupId/invite/:invitationId',
+  isAuthenticated,
+  removeGroupInviteeHandler
+);
 // router.delete('/:projectId/groups/:groupId/assign/:userId');
 
 module.exports = router;

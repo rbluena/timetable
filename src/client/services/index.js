@@ -342,6 +342,58 @@ export const deleteProjectGroupService = async (projectId, groupId, token) => {
 };
 
 /**
+ * Adding user to the project group.
+ * @param {String} projectId
+ * @param {String} groupId
+ * @param {Object} data
+ * @param {String} token
+ */
+export const addUserToGroupService = async (
+  projectId,
+  groupId,
+  data,
+  token
+) => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: path.inviteUserToGroup(projectId, groupId),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const removeGroupInvitationService = async (
+  projectId,
+  groupId,
+  invitationId,
+  token
+) => {
+  try {
+    const response = await request({
+      method: 'DELETE',
+      url: path.removeInvitation(projectId, groupId, invitationId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
  * Service to create task.
  * @param {Object} data
  */

@@ -20,6 +20,10 @@ export default {
     `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
   deleteProjectGroup: (projectId, groupId) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
+  inviteUserToGroup: (projectId, groupId) =>
+    `${SERVER_API}/projects/${projectId}/groups/${groupId}/invite`,
+  removeInvitation: (projectId, groupId, invitationId) =>
+    `${SERVER_API}/projects/${projectId}/groups/${groupId}/invite/${invitationId}`,
   createTask: `${SERVER_API}/tasks/create`,
   updateTask: (id) => `${SERVER_API}/tasks/${id}`,
   deleteTask: (id) => `${SERVER_API}/tasks/${id}`,

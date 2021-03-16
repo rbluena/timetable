@@ -14,6 +14,8 @@ import Members from './Members';
 const { Title, Text } = Typography;
 
 const GroupsComponent = ({
+  setModalGroupId,
+  openGroupModal,
   updateProject,
   title,
   groupsKeys,
@@ -38,6 +40,11 @@ const GroupsComponent = ({
 
   function showGroupInputHandler() {
     setShowGroupInput(true);
+  }
+
+  function openModal(groupId) {
+    setModalGroupId(groupId);
+    openGroupModal(true);
   }
 
   return (
@@ -92,7 +99,11 @@ const GroupsComponent = ({
                 </div>
 
                 <div className="py-1 flex flex-row">
-                  <Button size="small" type="link" ghost>
+                  <Button
+                    size="small"
+                    type="link"
+                    onClick={() => openModal(group._id)}
+                  >
                     {group.members && group.members.length > 0 ? (
                       'All users'
                     ) : (
@@ -152,6 +163,8 @@ GroupsComponent.propTypes = {
   title: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
   groupsKeys: PropTypes.arrayOf(PropTypes.string),
+  setModalGroupId: PropTypes.func.isRequired,
+  openGroupModal: PropTypes.func.isRequired,
 };
 
 export default GroupsComponent;
