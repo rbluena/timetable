@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Button, Tag, Form, Input } from 'antd';
+import { Typography, Button, Tag, Input } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import {
   addProjectGroupAction,
@@ -31,7 +32,7 @@ const GroupsComponent = ({
     dispatch(updateProjectGroupAction(projectId, groupId, data));
   }
 
-  function deleteGroup(groupId) {
+  function deleteGroupHandler(groupId) {
     dispatch(deleteProjectGroupAction(projectId, groupId));
   }
 
@@ -51,14 +52,15 @@ const GroupsComponent = ({
         {title}
       </Title>
 
+      {/* start: Rendering a new group. */}
       <div className="pl-4">
         {groupsKeys &&
-          groupsKeys.length &&
+          groupsKeys.length > 0 &&
           groupsKeys.map((key) => {
             const group = groups[key];
 
             return (
-              <div key={key} className="py-3">
+              <div key={key} className="py-3 max-w-sm">
                 <Title
                   level={5}
                   className=" text-primary-400"
@@ -83,16 +85,28 @@ const GroupsComponent = ({
                   <Members users={[]} />
                 </div>
 
-                <div className="py-2">
+                <div className="py-2 flex flex-row">
                   <Button size="small" type="primary" ghost>
                     View
+                  </Button>
+                  <Button
+                    type="text"
+                    size="small"
+                    ghost
+                    danger
+                    className="ml-auto"
+                    onClick={() => deleteGroupHandler(group._id)}
+                  >
+                    <DeleteOutlined />
                   </Button>
                 </div>
               </div>
             );
           })}
       </div>
+      {/* end: Rendering a new group. */}
 
+      {/* start: Adding a new group */}
       <div className="py-4">
         {showGroupInput && (
           <Input
@@ -107,16 +121,22 @@ const GroupsComponent = ({
           <Tag onClick={showGroupInputHandler}>New group</Tag>
         )}
       </div>
+      {/* end: Adding a new group */}
     </div>
   );
 };
 
 GroupsComponent.defaultProps = {
   groups: undefined,
+  groupsKeys: undefined,
 };
 
 GroupsComponent.propTypes = {
-  groups: PropTypes.arrayOf(PropTypes.string),
+  groups: PropTypes.objectOf(PropTypes.any),
+  updateProject: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  projectId: PropTypes.string.isRequired,
+  groupsKeys: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default GroupsComponent;

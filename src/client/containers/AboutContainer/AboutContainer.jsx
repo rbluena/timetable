@@ -1,18 +1,16 @@
-// import dynamic from 'next/dynamic';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty, setWith, get } from 'lodash';
+import { setWith, get } from 'lodash';
 import moment from 'moment';
-import { Typography, Radio, Button, DatePicker, Tag, Input } from 'antd';
+import { Typography, Radio, Button, DatePicker } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
-import { generateRandomColor } from '@app/utils';
 import {
-  projectsStateSelector,
   projectSelector,
   projectGroupsSelector,
   projectCategoriesSelector,
 } from '@app/selectors';
+
 import { AboutModalContainer } from '@app/containers/modals';
 import GroupsComponent from './GroupsComponent';
 import CategoriesComponent from './CategoriesComponent';

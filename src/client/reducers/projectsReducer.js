@@ -16,6 +16,8 @@ export const [
   updateProjectGroup,
   updateProjectGroupSuccess,
   updateProjectGroupFailure,
+  deleteProjectGroup,
+  deleteProjectGroupSuccess,
 ] = [
   'PROJECTS/CURRENT_PROJECT',
   'PROJECTS/ACTIVE_PROJECT',
@@ -34,6 +36,8 @@ export const [
   'PROJECTS/UPDATE_PROJECT_GROUP',
   'PROJECTS/UPDATE_PROJECT_GROUP_SUCCESS',
   'PROJECTS/UPDATE_PROJECT_GROUP_FAILURE',
+  'PROJECTS/DELETE_PROJECT_GROUP',
+  'PROJECTS/DELETE_PROJECT_GROUP_SUCCESS',
 ];
 
 const initialState = {
@@ -307,6 +311,18 @@ export default function projectsReducer(state = initialState, action) {
     case updateProjectGroupSuccess: {
       state.fetching = false;
       state.groups[payload._id] = payload;
+      return state;
+    }
+
+    case deleteProjectGroupSuccess: {
+      const { projectId, groupId } = payload;
+
+      state.fetching = false;
+      delete state.groups[groupId];
+
+      if (state.project) {
+        state.project[projectId].groups = Object.keys(state.groups);
+      }
       return state;
     }
 

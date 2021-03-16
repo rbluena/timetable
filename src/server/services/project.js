@@ -209,7 +209,7 @@ const createProjectGroupService = async (projectId, groupData) => {
   const savedGroup = await group.save();
 
   if (savedGroup) {
-    await Project.findOneAndUpdate(
+    await Project.updateOne(
       { _id: mongoose.Types.ObjectId(projectId) },
       { $push: { groups: savedGroup } }
     );
@@ -241,7 +241,7 @@ const updateProjectGroupService = async (groupId, data) => {
  * @param {String} groupId
  */
 const deleteProjectGroupService = async (projectId, groupId) => {
-  const deleted = await Group.deleteOne({
+  const deleted = await Group.findOneAndDelete({
     project: mongoose.Types.ObjectId(projectId),
     _id: mongoose.Types.ObjectId(groupId),
   });
