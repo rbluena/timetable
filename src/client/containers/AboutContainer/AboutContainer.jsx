@@ -22,86 +22,49 @@ const { RangePicker } = DatePicker;
 
 const AboutContainer = () => {
   const [modal, setModal] = useState(null);
-  const [showTagInput, setShowTagInput] = useState(false);
   const [editDate, setEditDate] = useState(false);
-  const tagInputRef = useRef(null);
-  const { activeProject } = useSelector(projectsStateSelector);
   const project = useSelector(projectSelector);
   const groups = useSelector(projectGroupsSelector);
   const projectCategories = useSelector(projectCategoriesSelector);
   const dispatch = useDispatch();
 
-  console.log(project);
-
   const categoriesTitle = get(project, 'settings.categories.name');
   const membersGroupsTitle = get(project, 'settings.groups.name');
   const groupsKeys = get(project, 'groups');
 
+  /**
+   * Updating project.
+   * @param {String} property
+   * @param {Object} data Data to be updated
+   */
   function updateProject(property, data) {
+    let newData = {};
+
     if (property === 'isPrivate') {
-      dispatch(
-        updateProjectAction(activeProject._id, {
-          ...activeProject,
-          isPrivate: data === 'private',
+      newData = { isPrivate: data === 'private' };
+    } else {
+      newData = setWith(
+        { settings: { ...project.settings } },
+        property,
+        data,
+        (items) => ({
+          ...items,
         })
       );
-      return;
     }
 
-    const newData = setWith({ ...activeProject }, property, data, (items) => ({
-      ...items,
-    }));
-
-    dispatch(updateProjectAction(activeProject._id, newData));
+    dispatch(updateProjectAction(project._id, newData));
   }
 
+  /**
+   * Updating date span for the project.
+   * @param {Object} data Date range
+   */
   function updateDate(data) {
     const startDate = data[0]._d;
     const endDate = data[1]._d;
-    const project = { ...activeProject, startDate, endDate };
-
-    dispatch(updateProjectAction(activeProject._id, project));
-  }
-
-  /**
-   * Removing tag
-   * @param {*} tag
-   */
-  function handleTagClose(tag) {
-    const newCategories = activeProject.categories.filter(
-      (item) => item._id !== tag._id
-    );
-    updateProject('categories', newCategories);
-  }
-
-  /**
-   *
-   * @param {*} value
-   */
-  function handleNewTag(value) {
-    if (value && value.length) {
-      const color = generateRandomColor();
-
-      const newCategories = {
-        ...activeProject,
-        categories: [
-          ...activeProject.categories,
-          { colorName: color.name, name: value },
-        ],
-      };
-      dispatch(updateProjectAction(activeProject._id, newCategories));
-    }
-  }
-
-  /**
-   * Show tag input for categories
-   */
-  function onShowTagInput() {
-    setShowTagInput(true);
-
-    if (tagInputRef.current) {
-      tagInputRef.current.focus();
-    }
+    const projectData = { startDate, endDate };
+    dispatch(updateProjectAction(project._id, projectData));
   }
 
   return (
@@ -179,6 +142,7 @@ const AboutContainer = () => {
             categories={projectCategories}
             title={categoriesTitle}
             projectId={project._id}
+            updateProject={updateProject}
           />
           {/* end: Categories */}
 

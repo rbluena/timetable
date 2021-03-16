@@ -12,6 +12,7 @@ const CategoriesComponent = ({
   categoriesKeys,
   categories,
   projectId,
+  updateProject,
 }) => {
   const dispatch = useDispatch();
   const [showTagInput, setShowTagInput] = useState(false);
@@ -66,7 +67,13 @@ const CategoriesComponent = ({
 
   return (
     <div className="py-6">
-      <Title level={4} type="secondary">
+      <Title
+        level={4}
+        type="secondary"
+        editable={{
+          onChange: (value) => updateProject('settings.categories.name', value),
+        }}
+      >
         {title}
       </Title>
 
@@ -111,6 +118,7 @@ CategoriesComponent.propTypes = {
     .isRequired,
   categories: PropTypes.objectOf(PropTypes.any).isRequired,
   projectId: PropTypes.string.isRequired,
+  updateProject: PropTypes.func.isRequired,
 };
 
 export default CategoriesComponent;
