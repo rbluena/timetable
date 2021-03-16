@@ -8,15 +8,11 @@ import {
   TemplatesIcon,
   ClockIcon,
 } from '@app/components/Icons';
-import { Avatar, Button } from '@app/components';
+import { Avatar } from '@app/components';
 
 const LeftSidebar = () => {
   const router = useRouter();
   const { pathname } = router;
-
-  if (process.browser) {
-    console.log(window.location);
-  }
 
   return (
     <div
@@ -93,9 +89,12 @@ const LeftSidebar = () => {
         </div>
       </div>
       <div className="flex flex-col items-center pb-2">
-        <Button>
-          <LogoutIcon size="sm" variant="neutral" />
-        </Button>
+        <Link href="/signout">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a>
+            <LogoutIcon size="sm" variant="neutral" />
+          </a>
+        </Link>
         &nbsp;
         <Avatar initials="NA" size="lg" />
       </div>
