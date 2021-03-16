@@ -1,6 +1,7 @@
-import { Typography, Button } from 'antd';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Typography, Button, Tag, Form, Input } from 'antd';
+import PropTypes from 'prop-types';
 import {
   addProjectGroupAction,
   updateProjectGroupAction,
@@ -18,10 +19,12 @@ const GroupsComponent = ({
   groups,
   projectId,
 }) => {
+  const [showGroupInput, setShowGroupInput] = useState(false);
   const dispatch = useDispatch();
 
-  function addGroup(data) {
+  function addGroupHandler(data) {
     dispatch(addProjectGroupAction(projectId, data));
+    setShowGroupInput(false);
   }
 
   function updateGroup(groupId, data) {
@@ -30,6 +33,10 @@ const GroupsComponent = ({
 
   function deleteGroup(groupId) {
     dispatch(deleteProjectGroupAction(projectId, groupId));
+  }
+
+  function showGroupInputHandler() {
+    setShowGroupInput(true);
   }
 
   return (
@@ -49,8 +56,9 @@ const GroupsComponent = ({
           groupsKeys.length &&
           groupsKeys.map((key) => {
             const group = groups[key];
+
             return (
-              <div key={key}>
+              <div key={key} className="py-3">
                 <Title
                   level={5}
                   className=" text-primary-400"
@@ -68,7 +76,7 @@ const GroupsComponent = ({
                       updateGroup(group._id, { description: value }),
                   }}
                 >
-                  {group.description}
+                  {group.description ? group.description : 'Add description'}
                 </Text>
 
                 <div>
@@ -83,6 +91,21 @@ const GroupsComponent = ({
               </div>
             );
           })}
+      </div>
+
+      <div className="py-4">
+        {showGroupInput && (
+          <Input
+            size="sm"
+            placeholder="Group name"
+            onBlur={(evt) => addGroupHandler({ name: evt.target.value })}
+            onPressEnter={(evt) => addGroupHandler({ name: evt.target.value })}
+            style={{ width: 200 }}
+          />
+        )}
+        {!showGroupInput && (
+          <Tag onClick={showGroupInputHandler}>New group</Tag>
+        )}
       </div>
     </div>
   );

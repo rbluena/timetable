@@ -29,6 +29,7 @@ import {
   updateProjectGroupFailure,
 } from '@app/reducers/projectsReducer';
 
+import { compareSync } from 'bcryptjs';
 import { getNormalizedProject } from './schema';
 
 export function createProjectAction(projectData) {
@@ -134,13 +135,15 @@ export function addProjectGroupAction(projectId, groupData) {
       dispatch({ type: addProjectGroup });
       const { token } = getState().AUTH;
 
-      const { message, data } = addProjectGroupService(
+      const { data } = await addProjectGroupService(
         projectId,
         groupData,
         token
       );
-
-      // dispatch({ type: addProjectGroupSuccess });
+      dispatch({
+        type: addProjectGroupSuccess,
+        payload: { group: data, projectId },
+      });
     } catch (error) {
       dispatch({ type: addProjectGroupFailure });
     }
@@ -153,7 +156,7 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
       dispatch({ type: updateProjectGroup });
       const { token } = getState().AUTH;
 
-      const { message, data } = updateProjectGroupService(
+      const { message, data } = await updateProjectGroupService(
         projectId,
         groupId,
         groupData,
@@ -161,7 +164,10 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
       );
 
       dispatch({ type: updateProjectGroupSuccess, payload: data });
+
+      dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
+      console.log(error);
       dispatch({ type: updateProjectGroupFailure });
     }
   };

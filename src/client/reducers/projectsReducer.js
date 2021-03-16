@@ -290,6 +290,20 @@ export default function projectsReducer(state = initialState, action) {
       return state;
     }
 
+    case addProjectGroupSuccess: {
+      state.fetching = false;
+      const { group, projectId } = payload;
+
+      if (state.groups) {
+        state.groups[group._id] = group;
+      } else {
+        state.groups = { [group._id]: group };
+      }
+
+      state.project[projectId].groups = Object.keys(state.groups);
+      return state;
+    }
+
     case updateProjectGroupSuccess: {
       state.fetching = false;
       state.groups[payload._id] = payload;

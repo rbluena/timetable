@@ -26,7 +26,7 @@ router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
 router.put('/:id/upgrade', upgradeProjectHandler);
 router.get('/', isAuthenticated, getProjectsHandler);
 router.get('/:id', getProjectHandler);
-router.post('/:id/groups', isAuthenticated, createProjectGroupHandler);
+router.post('/:projectId/groups', isAuthenticated, createProjectGroupHandler);
 router.put(
   '/:projectId/groups/:groupId',
   isAuthenticated,
