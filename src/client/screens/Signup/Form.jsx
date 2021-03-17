@@ -5,6 +5,7 @@ import { Form, Input, Button } from 'antd';
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [userNameValue, setUserNameValue] = useState('');
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
@@ -19,8 +20,16 @@ const Signup = () => {
     }
   }
 
+  function onUserNameChange(evt) {
+    if (evt.which === 32) {
+      return;
+    }
+
+    setUserNameValue(evt.target.value.toLowerCase());
+  }
+
   return (
-    <Form layout="vertical" onFinish={onSubmit} form={form}>
+    <Form className="w-72" layout="vertical" onFinish={onSubmit} form={form}>
       <Form.Item
         name="userName"
         rules={[
@@ -30,7 +39,12 @@ const Signup = () => {
           },
         ]}
       >
-        <Input size="large" placeholder="Choose username" />
+        <Input
+          size="large"
+          placeholder="Choose username"
+          value={userNameValue}
+          onChange={onUserNameChange}
+        />
       </Form.Item>
       <Form.Item
         name="email"

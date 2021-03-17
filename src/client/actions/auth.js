@@ -1,3 +1,4 @@
+import { decode } from 'jsonwebtoken';
 import { setCookieToken, deleteCookieToken } from '@app/utils/session';
 
 import {
@@ -78,7 +79,13 @@ export function signInUserAction(userData) {
       const { data } = await signInUserService(userData);
       dispatch({ type: signInUserSuccess, payload: data.jwt });
       setCookieToken(data.jwt);
-      window.location.href = `${window.location.origin}/projects`;
+      const user = decode(data.jwt);
+
+      if (!user.accountName || !user.fullName) {
+        window.location.href = `${window.location.origin}/settings`;
+      } else {
+        window.location.href = `${window.location.origin}/projects`;
+      }
     } catch (error) {
       const err = {
         type: 'error',
