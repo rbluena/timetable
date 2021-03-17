@@ -110,7 +110,7 @@ const getProjectByIdService = async (projectId) => {
 };
 
 const getProjectsService = async (options) => {
-  const match = {};
+  const match = { deleted: false };
   const paginateOptions = { limit: 15 };
   const sort = { createdAt: -1 };
 

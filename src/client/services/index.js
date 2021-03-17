@@ -231,7 +231,7 @@ export const updateProjectService = async (id, data, token) => {
 };
 
 /**
- * Service to retrieve project.
+ * Service to retrieve a project.
  * @param {String} id
  */
 export const getProjectService = async (id) => {
@@ -239,6 +239,24 @@ export const getProjectService = async (id) => {
     const response = await request({
       method: 'GET',
       url: path.getProject(id),
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const getUserProjectsService = async (token, query = {}) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getProjects,
+      params: query,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
 
     return response.data;

@@ -35,4 +35,12 @@ export function getNormalizedProject(data = {}) {
   return normalize(data, projectSchema);
 }
 
-export function getNormalizedProjects() {}
+export function getNormalizedProjects(data = []) {
+  const projectSchema = new schema.Entity(
+    'projects',
+    {},
+    { idAttribute: '_id' }
+  );
+
+  return normalize(data, [projectSchema]);
+}

@@ -6,6 +6,16 @@ export const projectsStateSelector = createSelector(
   (projects) => projects
 );
 
+const selectProjects = (state) => {
+  const { projects, result, meta } = state.PROJECTS;
+
+  if (result && result.length) {
+    return { projects, result, meta };
+  }
+
+  return {};
+};
+
 const selectProject = (state) => {
   const { project, projectId } = state.PROJECTS;
 
@@ -34,6 +44,11 @@ const selectProjectCategories = (state) => {
 
   return {};
 };
+
+export const projectsSelector = createSelector(
+  selectProjects,
+  (projects) => projects
+);
 
 export const projectSelector = createSelector(
   selectProject,

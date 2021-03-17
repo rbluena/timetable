@@ -1,6 +1,7 @@
 export const [
   setCurrentProject,
   setActiveProject,
+  retrieveUserProjectsSuccess,
   createProject,
   createProjectSuccess,
   createProjectFailure,
@@ -21,6 +22,7 @@ export const [
 ] = [
   'PROJECTS/CURRENT_PROJECT',
   'PROJECTS/ACTIVE_PROJECT',
+  'PROJECTS/RETRIEVE_USER_PROJECTS_SUCCESS',
   'PROJECTS/CREATE_PROJECT',
   'PROJECTS/CREATE_PROJECT_SUCCESS',
   'PROJECTS/CREATE_PROJECT_FAILURE',
@@ -227,6 +229,15 @@ export default function projectsReducer(state = initialState, action) {
         ...state,
         ...action.payload.entities,
         projectId: payload.result,
+      };
+    }
+
+    case retrieveUserProjectsSuccess: {
+      return {
+        ...state,
+        ...action.payload.entities,
+        result: action.payload.result,
+        meta: action.payload.meta,
       };
     }
 

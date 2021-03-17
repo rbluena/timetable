@@ -14,6 +14,7 @@ export default {
   createProject: `${SERVER_API}/projects`,
   updateProject: (id) => `${SERVER_API}/projects/${id}`,
   getProject: (id) => `${SERVER_API}/projects/${id}`,
+  getProjects: `${SERVER_API}/projects`,
   upgradeProject: (id) => `${SERVER_API}/projects/${id}/upgrade`,
   addProjectGroup: (id) => `${SERVER_API}/projects/${id}/groups`,
   updateProjectGroup: (projectId, groupId) =>
