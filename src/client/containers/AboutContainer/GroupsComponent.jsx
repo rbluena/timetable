@@ -26,7 +26,10 @@ const GroupsComponent = ({
   const dispatch = useDispatch();
 
   function addGroupHandler(data) {
-    dispatch(addProjectGroupAction(projectId, data));
+    if (data.name && data.name.length > 0) {
+      const newData = { ...data };
+      dispatch(addProjectGroupAction(projectId, newData));
+    }
     setShowGroupInput(false);
   }
 

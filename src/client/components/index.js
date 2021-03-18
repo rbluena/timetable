@@ -21,6 +21,7 @@ import Head from './Head';
 import Nav from './Nav';
 import AlertNotifications from './AlertNotifications';
 import AuthHeader from './AuthHeader';
+import PingAnimation from './PingAnimation';
 
 export {
   Avatar,
@@ -46,4 +47,5 @@ export {
   Nav,
   AlertNotifications,
   AuthHeader,
+  PingAnimation,
 };

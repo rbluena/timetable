@@ -2,9 +2,9 @@ import { Mentions, Affix } from 'antd';
 import AnnouncementMessage from './AnnouncementMessage';
 
 const AnnouncementsComponent = () => (
-  <Affix>
+  <Affix className="ml-auto">
     <div
-      className="bg-white shadow rounded-md p-4 my-6 md:pl-8 md:ml-4 w-full md:w-72 md:my-0"
+      className="bg-white shadow mr-auto rounded-md p-4 my-6 md:pl-8 md:ml-4 w-full md:w-72 md:my-0"
       style={{ height: '350px' }}
     >
       <h2 className="text-lg font-bold text-neutral-500 border-b border-primary-100">

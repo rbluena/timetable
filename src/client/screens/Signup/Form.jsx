@@ -72,11 +72,7 @@ const Signup = () => {
           },
         ]}
       >
-        <Input.Password
-          defaultValue="luenarabii@gmail.com"
-          size="large"
-          placeholder="Create password"
-        />
+        <Input.Password size="large" placeholder="Create password" />
       </Form.Item>
 
       <Form.Item>
