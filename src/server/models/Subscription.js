@@ -15,6 +15,13 @@ const subscriptionsSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     subscriptionDate: Date,
     expiringDate: Date,
+    maxUsers: { type: Number, default: 5 },
+    isTrial: { type: Boolean, default: false },
+    subscribedTo: {
+      type: String,
+      enum: ['BASIC', 'PRO', 'GOLD'],
+      default: 'BASIC',
+    },
   },
   { timestamps: true }
 );
