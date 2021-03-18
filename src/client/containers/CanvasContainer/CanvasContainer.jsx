@@ -1,17 +1,14 @@
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { AuthHeader } from '@app/components';
-import { projectsStateSelector } from '@app/selectors';
+// import { AuthHeader } from '@app/components';
 import { Radio } from 'antd';
 import Content from './Content';
 
 const CanvasContainer = () => {
-  const { activeProject } = useSelector(projectsStateSelector);
   const router = useRouter();
-  const { pathname } = router;
+  const { pathname, query } = router;
 
   let view = 'about';
-  let showTimer = false;
+  // let showTimer = false;
 
   if (pathname === '/projects/[id]/agenda') {
     view = 'agenda';
@@ -19,21 +16,21 @@ const CanvasContainer = () => {
 
   if (pathname === '/projects/[id]/board') {
     view = 'board';
-    showTimer = true;
+    // showTimer = true;
   }
 
   if (pathname === '/projects/[id]/calendar') {
     view = 'calendar';
-    showTimer = true;
+    // showTimer = true;
   }
 
   function changeProjectView(evt) {
     const { value } = evt.target;
 
     if (value === 'about') {
-      router.push(`/projects/${activeProject._id}`);
+      router.push(`/projects/${query.id}`);
     } else {
-      router.push(`/projects/${activeProject._id}/${value}`);
+      router.push(`/projects/${query.id}/${value}`);
     }
   }
 

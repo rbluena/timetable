@@ -1,5 +1,7 @@
+/* eslint-disable react/sort-comp */
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addDays, eachDayOfInterval, startOfWeek, add, sub } from 'date-fns';
 import { mergingTasksBasedOnDate } from '@app/utils';
 import { calendarTasksSelector } from '@app/selectors';
@@ -16,6 +18,10 @@ class CalendarContainer extends Component {
       numberOfDays: 7,
       type: 'weekly',
     };
+
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
+    this.setToday = this.setToday.bind(this);
   }
 
   getWeeklyDays() {
@@ -34,37 +40,37 @@ class CalendarContainer extends Component {
    * Next week if is weekly calendar,
    * next month if monthly calendar.
    */
-  next = () => {
+  next() {
     const { currentDate } = this.state;
 
     this.setState((state) => ({
       ...state,
       currentDate: add(currentDate, { weeks: 1 }),
     }));
-  };
+  }
 
   /**
    * Previous week if is weekly  calendar,
    * previous month if monthly calendar.
    */
-  previous = () => {
+  previous() {
     const { currentDate } = this.state;
 
     this.setState((state) => ({
       ...state,
       currentDate: sub(currentDate, { weeks: 1 }),
     }));
-  };
+  }
 
   /**
    * Set today a current day.
    */
-  setToday = () => {
+  setToday() {
     this.setState((state) => ({
       ...state,
       currentDate: new Date(),
     }));
-  };
+  }
 
   /**
    * Extract days for calendar
@@ -107,6 +113,10 @@ class CalendarContainer extends Component {
     );
   }
 }
+
+CalendarContainer.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   tasks: calendarTasksSelector(state),
