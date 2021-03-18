@@ -19,7 +19,6 @@ import {
   signInUserSuccess,
   signInUserFailure,
   signOutUserSuccess,
-  updateUser,
   updateUserSuccess,
   updateUserFailure,
 } from '@app/reducers/authReducer';
@@ -125,10 +124,8 @@ export function requestVerificationTokenAction(data) {
 export function updateUserAction(userData) {
   return async (dispatch, getState) => {
     try {
-      dispatch(updateUser());
-      const {
-        auth: { token },
-      } = getState();
+      // dispatch(updateUser());
+      const { token } = getState().AUTH;
 
       if (!userData.password || !userData.password.length) {
         delete userData.password;
@@ -138,14 +135,21 @@ export function updateUserAction(userData) {
       const { message, data } = await updateUserService(token, userData);
 
       await setCookieToken(data);
-      dispatch(updateUserSuccess(data));
+
+      dispatch({
+        type: updateUserSuccess,
+        payload: data,
+      });
+
       dispatch(setNotificationAction({ type: 'success', message }));
     } catch (err) {
       const error = {
         type: 'error',
         message: err.errors,
       };
-      dispatch(updateUserFailure());
+      dispatch({
+        type: updateUserFailure,
+      });
       dispatch(setNotificationAction(error));
     }
   };

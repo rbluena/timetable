@@ -110,7 +110,7 @@ export const updateUserService = async (token, data) => {
  * @param {Object} data
  * @param {Object} config
  */
-export const uploadProfileService = async (token, userId, data, config) => {
+export const uploadProfileService = async (token, userId, data) => {
   try {
     const response = await request({
       method: 'POST',
@@ -120,7 +120,7 @@ export const uploadProfileService = async (token, userId, data, config) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
       },
-      onUploadProgress: config.onUploadProgress,
+      // onUploadProgress: config.onUploadProgress,
     });
 
     return response.data;

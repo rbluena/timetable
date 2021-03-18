@@ -49,8 +49,9 @@ const createUser = async (userData) => {
   delete savedUser.loginStrategy;
   delete savedUser.verificationToken;
   delete savedUser.projects;
-  delete savedUser.timer;
+  delete savedUser.timeEntries;
   delete savedUser.tasks;
+  delete savedUser.assignedTasks;
   delete savedUser.groups;
 
   return savedUser;
@@ -190,13 +191,16 @@ const userUploadImages = async (userId, data) => {
   if (user) {
     const savedData = await user.save();
 
+    delete savedData.loginStrategy;
+    delete savedData.verificationToken;
+    delete savedData.timeEntries;
     delete savedData.projects;
-    delete savedData.timer;
     delete savedData.tasks;
+    delete savedData.assignedTasks;
     delete savedData.groups;
     delete savedData.password;
 
-    return savedData;
+    return savedData.toObject();
   }
 
   throw new Error(

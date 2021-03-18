@@ -12,6 +12,7 @@ const subscriptionsSchema = new Schema(
     isRecurring: Boolean,
     project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
     amount: Number,
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     subscriptionDate: Date,
     expiringDate: Date,
   },

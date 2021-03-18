@@ -311,6 +311,16 @@ exports.loginHandler = async (req, res, next) => {
     }
 
     const user = userData.toObject();
+    delete user.password;
+    delete user.loginStrategy;
+    delete user.verificationToken;
+    delete user.projects;
+    delete user.timeEntries;
+    delete user.tasks;
+    delete user.assignedTasks;
+    delete user.groups;
+    delete user.subscriptions;
+
     const jwt = await generateAccessToken(user);
     req.app.jwt = jwt;
 
@@ -380,7 +390,7 @@ exports.uploadImageHandler = async (req, res, next) => {
       status: 200,
       success: true,
       message: 'Profile image updated successfully!',
-      data: { jwt },
+      data: jwt,
     });
   } catch (error) {
     return next(error);
@@ -505,6 +515,12 @@ exports.updateUserHandler = async (req, res, next) => {
     delete userObject.loginStrategy;
     delete userObject.password;
     delete userObject.verificationToken;
+    delete userObject.projects;
+    delete userObject.tasks;
+    delete userObject.groups;
+    delete userObject.timeEntries;
+    delete userObject.assignedTasks;
+    delete userObject.subscriptions;
 
     const jwt = await generateAccessToken(userObject);
 

@@ -72,6 +72,15 @@ export default function authReducer(state = initialState, action) {
       state.fetching = false;
       return state;
 
+    case updateUserSuccess:
+      state.fetching = false;
+      state.token = action.payload;
+      return state;
+
+    case updateUserFailure:
+      state.fetching = false;
+      return state;
+
     default:
       return state;
   }

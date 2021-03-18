@@ -17,6 +17,7 @@
     "@stripe/react-stripe-js": "^1.4.0",
     "@stripe/stripe-js": "^1.13.1",
     "antd": "^4.12.3",
+    "antd-img-crop": "^3.14.1",
     "autoprefixer": "^9",
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
