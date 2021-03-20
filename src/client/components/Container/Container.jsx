@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 
 const Container = ({ children }) => (
-  <div
-    className="bg-neutral-50 w-full ml-16 pt-14"
-    style={{ minHeight: '100vh' }}
-  >
+  <div className="bg-neutral-50 ml-16" style={{ minHeight: '100vh' }}>
     {children}
   </div>
 );

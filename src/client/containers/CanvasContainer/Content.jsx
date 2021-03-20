@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import CalendarContainer from '../CalendarContainer';
 import AboutContainer from '../AboutContainer';
+import BoardContainer from '../BoardContainer';
 import TimelineContainer from '../TimelineContainer';
 
 const Content = ({ view }) => {
@@ -13,11 +14,7 @@ const Content = ({ view }) => {
   }
 
   if (view === 'board') {
-    return (
-      <div>
-        <h2 className="font-bold text-2xl">Board</h2>
-      </div>
-    );
+    return <BoardContainer />;
   }
 
   return <AboutContainer />;
