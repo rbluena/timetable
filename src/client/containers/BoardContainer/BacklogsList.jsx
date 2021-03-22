@@ -8,6 +8,7 @@ const BacklogsList = ({ backlog }) => (
     <div className="mx-2 bg-neutral-50">
       <h2 className="ml-2 text-lg">Backlog</h2>
     </div>
+    {/* start: Backlog list */}
     <Droppable droppableId="50">
       {(provided) => (
         <div className="" {...provided.droppableProps} ref={provided.innerRef}>
@@ -23,9 +24,11 @@ const BacklogsList = ({ backlog }) => (
                 />
               );
             })}
+          {provided.placeholder}
         </div>
       )}
     </Droppable>
+    {/* end: Backlog list */}
 
     {/* start: Button to add a new task */}
     <div className="transition-shadow duration-150 border border-dashed border-primary-200 hover:shadow-xl">

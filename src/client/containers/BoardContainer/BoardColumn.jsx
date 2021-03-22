@@ -8,7 +8,7 @@ const BoardColumn = ({ columnIndex, columnTitle, tasks }) => (
   <Droppable key={columnIndex} droppableId={columnIndex.toString()}>
     {(provided) => (
       <div
-        className="bg-neutral-100 p-3 mx-3 shadow-sm border border-neutral-200 rounded-md overflow-y-auto"
+        className="bg-neutral-100 p-1 mx-3 shadow-sm border border-neutral-200 rounded-sm overflow-y-auto"
         style={{ minWidth: '280px', height: 'calc(100vh - 92px)' }}
         {...provided.droppableProps}
         ref={provided.innerRef}
