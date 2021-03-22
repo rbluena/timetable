@@ -69,7 +69,7 @@ const AboutContainer = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-6xl flex flex-wrap py-2">
+      <div className="mx-auto max-w-4xl flex flex-wrap py-2">
         <div className="bg-white shadow-sm rounded relative p-6 md:pl-12">
           <div className="max-w-2xl">
             <Title
@@ -167,7 +167,10 @@ const AboutContainer = () => {
             {/* end: Members groups */}
           </div>
         </div>
+
+        {/* start: Announcements/notifications */}
         <AnnouncementsComponent />
+        {/* end: Announcements/notifications */}
       </div>
       {/* start: Add modal */}
       <UsersModalContainer

@@ -69,7 +69,7 @@ const CategoriesComponent = ({
   return (
     <div className="py-6">
       <Title
-        level={4}
+        level={5}
         type="secondary"
         editable={{
           onChange: (value) => updateProject('settings.categories.name', value),
