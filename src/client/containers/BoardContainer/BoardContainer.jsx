@@ -88,19 +88,17 @@ const BoardContainer = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="h-screen">
-        <div className="flex">
-          <div className="md:w-2/12">
-            <BacklogsList backlog={backlogTasks} />
-          </div>
-          <div className="m-2 w-8/12">
-            <Title type="secondary" level={4}>
-              Title of the page.
-            </Title>
-            <div className="bg-white shadow rounded p-2">
-              <Header />
-              <BoardColumns board={board} />
-            </div>
+      <div className="flex">
+        <div className="md:w-2/12">
+          <BacklogsList backlog={backlogTasks} />
+        </div>
+        <div className="m-2 w-8/12">
+          <Title type="secondary" level={4}>
+            Title of the page.
+          </Title>
+          <div className="bg-white shadow rounded p-2">
+            <Header />
+            <BoardColumns board={board} />
           </div>
         </div>
       </div>
