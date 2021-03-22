@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { isEmpty } = require('lodash');
 const Project = require('../models/Project');
 const Group = require('../models/Group');
+const Status = require('../models/Status');
 const Subscription = require('../models/Subscription');
 const { findUserById } = require('./user');
 
@@ -16,7 +17,7 @@ const findProjectById = async (id) =>
 const createProjectService = async (data) => {
   const project = new Project(data);
   const savedProject = await project.save();
-  let updatedProject = null;
+  const updatedProject = null;
 
   if (savedProject) {
     // Assign owner of the project
@@ -35,12 +36,21 @@ const createProjectService = async (data) => {
     });
 
     const savedGroup = await group.save();
+
+    // Adding first status columns
+    const status = new Status({
+      name: 'Backlog',
+      project: savedProject._id,
+    });
+
+    const savedStatus = await status.save();
+
     savedProject.groups.push(savedGroup._id);
-    updatedProject = await savedProject.save();
+    savedProject.statuses.push(savedStatus._id);
+    savedProject.updatedProject = await savedProject.save();
   }
 
   await Project.populate(updatedProject, 'groups');
-
   return updatedProject;
 };
 

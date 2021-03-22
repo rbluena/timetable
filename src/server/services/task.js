@@ -19,12 +19,15 @@ const createTaskService = async (data) => {
     await user.save();
 
     if (data.assignees) {
+      /* Adding assigness */
       data.assignees.forEach((userId) => {
         User.updateOne(
           { _id: mongoose.Types.ObjectId(userId) },
           { $addToSet: { assignedTasks: saved._id } }
         );
       });
+
+      // Pushing task to the
     }
   }
 

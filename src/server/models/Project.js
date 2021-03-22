@@ -16,6 +16,7 @@ const projectSchema = new Schema(
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }],
     groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
+    statuses: [{ type: Schema.Types.ObjectId, ref: 'Status' }],
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     categories: [
       {

@@ -22,6 +22,7 @@ const taskSchema = new Schema(
       ref: 'Category',
     },
     assignees: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    status: { type: Schema.Types.ObjectId, ref: 'Status' },
     todos: [{ type: Schema.Types.ObjectId, ref: 'Todo' }],
     attachments: [{ type: Schema.Types.ObjectId, ref: 'Attachments' }],
     timeEntries: [{ type: Schema.Types.ObjectId, ref: 'Timer' }],
