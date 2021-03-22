@@ -1,6 +1,5 @@
-import { Button } from 'antd';
+import { Badge, Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { PingAnimation } from '@app/components';
 
 const AnnouncementMessage = () => {
   function deleteGroupHandler() {}
@@ -9,7 +8,7 @@ const AnnouncementMessage = () => {
       <div className="flex items-center">
         <span className="font-semibold italic">to:teachers </span>
         &nbsp;
-        <PingAnimation />
+        <Badge color="magenta" dot />
       </div>
       <div className="pt-1">
         These are some messages for{' '}
