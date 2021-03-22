@@ -44,42 +44,43 @@ const Header = () => {
   return (
     <div className="p-2 flex flex-wrap items-end">
       {/* start: Assignee filters */}
-      <div>
+      <div className="md:pl-4">
         <Avatar.Group
+          size="small"
           maxCount={6}
           maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
         >
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
           </Button>
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
           </Button>
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
           </Button>
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
           </Button>
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
           </Button>
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
           </Button>
-          <Button className="-mx-1" type="text" shape="circle">
+          <Button className="-mx-2" type="text" shape="circle">
             <Tooltip title="Rabii" placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>R</Avatar>
             </Tooltip>
