@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { cloneDeep } from 'lodash';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { Typography } from 'antd';
 import BoardColumns from './BoardColumns';
 import BacklogsList from './BacklogsList';
+import Header from './Header';
+
+const { Title } = Typography;
 
 function reorder(columnsData, taskId, source, destination) {
   const columns = cloneDeep(columnsData);
@@ -89,11 +93,14 @@ const BoardContainer = () => {
           <div className="md:w-2/12">
             <BacklogsList backlog={backlogTasks} />
           </div>
-          <div className="bg-white shadow rounded m-2 p-2 w-8/12">
-            <div>
-              <h2>Header</h2>
+          <div className="m-2 w-8/12">
+            <Title type="secondary" level={4}>
+              Title of the page.
+            </Title>
+            <div className="bg-white shadow rounded p-2">
+              <Header />
+              <BoardColumns board={board} />
             </div>
-            <BoardColumns board={board} />
           </div>
         </div>
       </div>

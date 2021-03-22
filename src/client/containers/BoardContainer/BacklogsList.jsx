@@ -1,4 +1,6 @@
+import { Button } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
+import { PlusIcon } from '@app/components/Icons';
 import BacklogCard from './BacklogCard';
 
 const BacklogsList = ({ backlog }) => (
@@ -24,6 +26,13 @@ const BacklogsList = ({ backlog }) => (
         </div>
       )}
     </Droppable>
+    <div className="transition-shadow duration-150 border border-dashed border-primary-200 hover:shadow-xl">
+      <Button size="large" type="text" block>
+        <div className="flex justify-center">
+          <PlusIcon />
+        </div>
+      </Button>
+    </div>
   </div>
 );
 export default BacklogsList;
