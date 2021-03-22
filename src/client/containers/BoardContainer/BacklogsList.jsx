@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
 import { PlusIcon } from '@app/components/Icons';
 import BacklogCard from './BacklogCard';
@@ -26,13 +26,18 @@ const BacklogsList = ({ backlog }) => (
         </div>
       )}
     </Droppable>
+
+    {/* start: Button to add a new task */}
     <div className="transition-shadow duration-150 border border-dashed border-primary-200 hover:shadow-xl">
-      <Button size="large" type="text" block>
-        <div className="flex justify-center">
-          <PlusIcon />
-        </div>
-      </Button>
+      <Tooltip title="Add task">
+        <Button size="large" type="text" block>
+          <div className="flex justify-center">
+            <PlusIcon />
+          </div>
+        </Button>
+      </Tooltip>
     </div>
+    {/* end: Button to add a new task */}
   </div>
 );
 export default BacklogsList;
