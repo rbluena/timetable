@@ -1,3 +1,5 @@
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Tooltip } from 'antd';
 import BoardColumn from './BoardColumn';
 
 const BoardColumns = ({ board }) => (
@@ -13,6 +15,12 @@ const BoardColumns = ({ board }) => (
         />
       );
     })}
+
+    <div className="mx-1">
+      <Tooltip title="Add column">
+        <Button size="large" type="text" icon={<PlusOutlined size="large" />} />
+      </Tooltip>
+    </div>
   </div>
 );
 
