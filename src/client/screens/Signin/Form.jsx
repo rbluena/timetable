@@ -8,13 +8,12 @@ const Signin = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  async function onSubmit(values) {
-    try {
-      setIsLoading(true);
-      dispatch(signInUserAction(values));
+  function onSubmit(values) {
+    setIsLoading(true);
+    dispatch(signInUserAction(values));
     } catch (error) {
-      setIsLoading(false);
-    }
+    setIsLoading(false);
+  }
   }
 
   return (

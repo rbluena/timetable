@@ -308,6 +308,15 @@ exports.loginHandler = async (req, res, next) => {
           errors: { password: 'You have entered incorrect password!' },
         });
       }
+    } else {
+      return res.status(400).json({
+        status: 400,
+        success: false,
+        message: 'Bad Request',
+        errors: {
+          email: 'It seems you signed up with google. Use it for sign in.',
+        },
+      });
     }
 
     const user = userData.toObject();
