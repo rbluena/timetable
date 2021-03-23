@@ -6,6 +6,7 @@ import { createProjectAction } from '@app/actions';
 const { RangePicker } = DatePicker;
 
 const CreateForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [projectStatus, setProjectStatus] = useState('private');
   const dispatch = useDispatch();
 
@@ -14,6 +15,7 @@ const CreateForm = () => {
    * @param {Object} values
    */
   const onFinish = (values) => {
+    setIsLoading(true);
     const data = { ...values, isPrivate: projectStatus === 'private' };
 
     if (values.range) {
@@ -23,6 +25,7 @@ const CreateForm = () => {
     }
 
     dispatch(createProjectAction(data));
+    setIsLoading(false);
   };
 
   return (
@@ -59,8 +62,15 @@ const CreateForm = () => {
           <Input />
         </Form.Item> */}
         <Form.Item>
-          <Button size="large" block type="primary" htmlType="submit" ghost>
-            Submit
+          <Button
+            size="large"
+            block
+            type="primary"
+            htmlType="submit"
+            ghost
+            loading={isLoading}
+          >
+            Create
           </Button>
         </Form.Item>
       </Form>

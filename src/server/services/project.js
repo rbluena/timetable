@@ -46,12 +46,12 @@ const createProjectService = async (data) => {
     const savedStatus = await status.save();
 
     savedProject.groups.push(savedGroup._id);
-    savedProject.statuses.push(savedStatus._id);
-    savedProject.updatedProject = await savedProject.save();
+    // savedProject.statuses.push(savedStatus._id);
+    updatedProject = await savedProject.save();
   }
 
   await Project.populate(updatedProject, 'groups');
-  return updatedProject;
+  return { _id: savedProject._id };
 };
 
 /**
