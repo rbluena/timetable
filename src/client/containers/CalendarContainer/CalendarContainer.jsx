@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { addDays, eachDayOfInterval, startOfWeek, add, sub } from 'date-fns';
 import { mergingTasksBasedOnDate } from '@app/utils';
 import { calendarTasksSelector } from '@app/selectors';
-import { CreateTaskModalContainer } from '@app/containers/modals';
 import CalendarHeader from './Header';
 import CalendarBody from './CalendarBody/CalendarBody';
 
@@ -95,21 +94,15 @@ class CalendarContainer extends Component {
     const { currentDate } = this.state;
 
     return (
-      <>
-        <div className="bg-white p-2">
-          <CalendarHeader
-            currentDate={currentDate}
-            setNext={this.next}
-            setPrev={this.previous}
-            setToday={this.setToday}
-          />
-          <CalendarBody calendarDates={this.calendarDates()} />
-        </div>
-
-        {/* start: Modal to create task */}
-        <CreateTaskModalContainer />
-        {/* end: Modal to create task */}
-      </>
+      <div className="bg-white p-2">
+        <CalendarHeader
+          currentDate={currentDate}
+          setNext={this.next}
+          setPrev={this.previous}
+          setToday={this.setToday}
+        />
+        <CalendarBody calendarDates={this.calendarDates()} />
+      </div>
     );
   }
 }

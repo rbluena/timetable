@@ -70,8 +70,8 @@ const AboutContainer = () => {
   return (
     <>
       <div className="mx-auto max-w-4xl flex flex-wrap py-2">
-        <div className="bg-white shadow-sm rounded relative p-6 md:pl-12">
-          <div className="max-w-2xl">
+        <div className="bg-white max-w-xl shadow-sm rounded relative p-6 md:pl-12">
+          <div className="">
             <Title
               level={4}
               editable={{ onChange: (value) => updateProject('title', value) }}
