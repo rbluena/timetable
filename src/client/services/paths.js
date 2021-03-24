@@ -15,19 +15,30 @@ export default {
   updateProject: (id) => `${SERVER_API}/projects/${id}`,
   getProject: (id) => `${SERVER_API}/projects/${id}`,
   getProjects: `${SERVER_API}/projects`,
+  getProjectStatuses: (projectId) =>
+    `${SERVER_API}/projects/${projectId}/statuses`,
   upgradeProject: (id) => `${SERVER_API}/projects/${id}/upgrade`,
+  getProjectTasks: (projectId) => `${SERVER_API}/projects/${projectId}/tasks`,
   addProjectGroup: (id) => `${SERVER_API}/projects/${id}/groups`,
   updateProjectGroup: (projectId, groupId) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
   deleteProjectGroup: (projectId, groupId) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
   inviteUserToGroup: (projectId, groupId) =>
-    `${SERVER_API}/projects/${projectId}/groups/${groupId}/invite`,
+    `${SERVER_API}/projects/${projectId}/groups/${groupId}/adduser`,
+  acceptGroupInvitation: (projectId, groupId) =>
+    `${SERVER_API}/projects/${projectId}/groups/${groupId}/adduser`,
   removeInvitation: (projectId, groupId, invitationId) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}/invite/${invitationId}`,
   createTask: `${SERVER_API}/tasks/create`,
   updateTask: (id) => `${SERVER_API}/tasks/${id}`,
+  assignTaskAStatus: (projectId, taskId, statusId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${taskId}/statuses/${statusId}`,
+  removeStatusFromTask: (projectId, taskId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${taskId}/statuses/unassign`,
   deleteTask: (id) => `${SERVER_API}/tasks/${id}`,
+  getTasksByStatus: (projectId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/statuses`,
   //   followUser: `${SERVER_API}/auth/follow`,
   //   createLink: `${SERVER_API}/links/create`,
   //   deleteLink: (id) => `${SERVER_API}/links/${id}`,

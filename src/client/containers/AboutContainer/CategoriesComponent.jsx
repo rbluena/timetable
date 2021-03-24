@@ -67,35 +67,35 @@ const CategoriesComponent = ({
   }
 
   return (
-    <div className="py-6">
+    <div className="p-4 bg-white rounded shadow my-2">
       <Title
         level={5}
-        type="secondary"
         editable={{
           onChange: (value) => updateProject('settings.categories.name', value),
         }}
       >
-        {title}
+        <span className="text-primary-400 font-bold">{title}</span>
       </Title>
+      <div className="py-4 border-t border-neutral-200">
+        {categoriesKeys &&
+          categoriesKeys.length > 0 &&
+          categoriesKeys.map((key) => {
+            const category = categories[key];
 
-      {categoriesKeys &&
-        categoriesKeys.length > 0 &&
-        categoriesKeys.map((key) => {
-          const category = categories[key];
-
-          return (
-            <Tag
-              closable
-              key={key}
-              color={category.colorName}
-              onClose={() => removeCategory(category._id)}
-            >
-              {category.name.length > 12
-                ? `${category.name.slice(0, 12)}...`
-                : category.name}
-            </Tag>
-          );
-        })}
+            return (
+              <Tag
+                closable
+                key={key}
+                color={category.colorName}
+                onClose={() => removeCategory(category._id)}
+              >
+                {category.name.length > 12
+                  ? `${category.name.slice(0, 12)}...`
+                  : category.name}
+              </Tag>
+            );
+          })}
+      </div>
 
       <div className="py-2">
         {showTagInput && (

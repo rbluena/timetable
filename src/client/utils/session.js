@@ -19,6 +19,11 @@ export const getCookieToken = (req = null) => {
   return cookies.get(COOKIE_TOKEN, { path: '/' });
 };
 
-export const deleteCookieToken = async () => {
-  await cookies.remove(COOKIE_TOKEN, { path: '/' });
+export const deleteCookieToken = (req) => {
+  if (req) {
+    req.cookies[COOKIE_TOKEN] = null;
+    return;
+  }
+
+  cookies.remove(COOKIE_TOKEN, { path: '/' });
 };

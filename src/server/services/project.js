@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const { isEmpty } = require('lodash');
 const Project = require('../models/Project');
 const Group = require('../models/Group');
-const Status = require('../models/Status');
+const User = require('../models/User');
+// const Status = require('../models/Status');
 const Subscription = require('../models/Subscription');
 const { findUserById } = require('./user');
 
@@ -17,7 +18,7 @@ const findProjectById = async (id) =>
 const createProjectService = async (data) => {
   const project = new Project(data);
   const savedProject = await project.save();
-  const updatedProject = null;
+  let updatedProject = null;
 
   if (savedProject) {
     // Assign owner of the project
@@ -38,12 +39,12 @@ const createProjectService = async (data) => {
     const savedGroup = await group.save();
 
     // Adding first status columns
-    const status = new Status({
-      name: 'Backlog',
-      project: savedProject._id,
-    });
+    // const status = new Status({
+    //   name: 'Backlog',
+    //   project: savedProject._id,
+    // });
 
-    const savedStatus = await status.save();
+    // const savedStatus = await status.save();
 
     savedProject.groups.push(savedGroup._id);
     // savedProject.statuses.push(savedStatus._id);
@@ -115,7 +116,9 @@ const getProjectByIdService = async (projectId) => {
   }).lean();
 
   await Project.populate(project, 'groups');
+  await Project.populate(project, 'groups.members fullName');
 
+  console.log(JSON.stringify(project, null, 2));
   return project;
 };
 
@@ -281,6 +284,41 @@ const addGroupInviteeService = async (groupId, data) => {
   );
 
   return updatedGroup;
+};
+
+/**
+ *
+ * @param {String} groupId
+ * @param {String} email
+ */
+const acceptUserInvitationService = async (groupId, email) => {
+  const user = await User.findOne({ email });
+
+  if (user) {
+    await User.updateOne(
+      { email },
+      { $push: { groups: groupId } },
+      { upsert: true }
+    );
+
+    await Group.updateOne(
+      { _id: mongoose.Types.ObjectId(groupId) },
+      { $push: { members: user._id } },
+      { upsert: true }
+    );
+
+    const updatedGroup = await Group.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(groupId) },
+      { $pull: { invitees: { email } } },
+      { new: true }
+    );
+
+    console.log(updatedGroup);
+
+    return { data: updatedGroup, meta: { isUserExist: true } };
+  }
+
+  return { meta: { isUserExist: false } };
 };
 
 /**
@@ -562,5 +600,6 @@ module.exports = {
   deleteProjectGroupService,
   projectVisitCount,
   addGroupInviteeService,
+  acceptUserInvitationService,
   removeGroupInviteeService,
 };

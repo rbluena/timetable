@@ -51,26 +51,26 @@ const GroupsComponent = ({
   }
 
   return (
-    <div className="py-6">
+    <div className="p-4 bg-white rounded shadow-md">
       <Title
         level={5}
-        type="secondary"
+        type="danger"
         editable={{
           onChange: (value) => updateProject('settings.groups.name', value),
         }}
       >
-        {title}
+        <span className="text-primary-400">{title}</span>
       </Title>
 
       {/* start: Rendering a new group. */}
-      <div className="pl-4 divide-y divide-neutral-100">
+      <div className="pl-2 divide-y divide-neutral-200 border-t border-neutral-200">
         {groupsKeys &&
           groupsKeys.length > 0 &&
           groupsKeys.map((key) => {
             const group = groups[key];
 
             return (
-              <div key={key} className="py-3 max-w-sm">
+              <div key={key} className="py-3">
                 <Title
                   level={5}
                   className=" text-primary-400"
@@ -101,7 +101,7 @@ const GroupsComponent = ({
                   <Members users={group.members || []} />
                 </div>
 
-                <div className="py-1 flex flex-row">
+                <div className="py-1 flex flex-row bg-neutral-100">
                   <Button
                     size="small"
                     type="link"

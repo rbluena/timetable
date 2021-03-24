@@ -69,79 +69,93 @@ const AboutContainer = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-4xl flex flex-wrap py-2">
-        <div className="bg-white max-w-xl shadow-sm rounded relative p-6 md:pl-12">
+      <div className="mx-auto max-w-4xl flex flex-wrap py-4">
+        {/* <div className="bg-white max-w-xl shadow-sm rounded relative p-6 md:pl-12"> */}
+        <div className="max-w-xl">
           <div className="">
-            <Title
-              level={4}
-              editable={{ onChange: (value) => updateProject('title', value) }}
-              className="py-4"
-            >
-              {project.title}
-            </Title>
-
-            <Paragraph
-              editable={{
-                onChange: (value) => updateProject('description', value),
-              }}
-              className=" text-neutral-800"
-            >
-              {project.description ? (
-                project.description
-              ) : (
-                <span className="text-xs text-neutral-400">
-                  Add description of the project.
-                </span>
-              )}
-            </Paragraph>
-
-            {/* start: toggle public vs private */}
-            <div className="py-4">
-              <Radio.Group
-                value={project.isPrivate ? 'private' : 'public'}
-                buttonStyle="solid"
-                onChange={(evt) => updateProject('isPrivate', evt.target.value)}
+            <div className="bg-white shadow rounded relative p-4">
+              <Title
+                level={4}
+                editable={{
+                  onChange: (value) => updateProject('title', value),
+                }}
               >
-                <Radio.Button value="private">Private</Radio.Button>
-                <Radio.Button value="public">Public</Radio.Button>
-              </Radio.Group>
-            </div>
-            {/* end: toggle public vs private */}
+                {project.title}
+              </Title>
 
-            {/* start: Project date */}
-            <div className="py-4">
-              {editDate ? (
-                <RangePicker
-                  format="MMM DD, YYYY"
-                  bordered={false}
-                  defaultValue={[
-                    moment(project.startDate),
-                    moment(project.endDate),
-                  ]}
-                  allowClear={false}
-                  onChange={updateDate}
-                />
-              ) : (
-                <div className="flex">
-                  <div className="flex flex-col">
-                    <span className="font-bold text-success-600">Start</span>
-                    <span className=" text-neutral-400">
-                      {moment(project.startDate).format('MMM DD, YYYY')}
-                    </span>
+              <Paragraph className="m-0">
+                <span className="text-neutral-400">By:</span>
+                &nbsp;
+                <span className="text-secondary-400 font-bold">
+                  University of Illinois
+                </span>
+              </Paragraph>
+
+              <Paragraph
+                editable={{
+                  onChange: (value) => updateProject('description', value),
+                }}
+                className=" text-neutral-800"
+              >
+                {project.description ? (
+                  project.description
+                ) : (
+                  <span className="text-xs text-neutral-400">
+                    Add description of the project.
+                  </span>
+                )}
+              </Paragraph>
+
+              {/* start: toggle public vs private */}
+              <div className="py-4">
+                <Radio.Group
+                  value={project.isPrivate ? 'private' : 'public'}
+                  buttonStyle="solid"
+                  onChange={(evt) =>
+                    updateProject('isPrivate', evt.target.value)
+                  }
+                >
+                  <Radio.Button value="private">Private</Radio.Button>
+                  <Radio.Button value="public">Public</Radio.Button>
+                </Radio.Group>
+              </div>
+              {/* end: toggle public vs private */}
+
+              {/* start: Project date */}
+              <div className="py-4">
+                {editDate ? (
+                  <RangePicker
+                    format="MMM DD, YYYY"
+                    bordered={false}
+                    defaultValue={[
+                      moment(project.startDate),
+                      moment(project.endDate),
+                    ]}
+                    allowClear={false}
+                    onChange={updateDate}
+                  />
+                ) : (
+                  <div className="flex">
+                    <div className="flex flex-col">
+                      <span className="font-bold text-primary-400">Start</span>
+                      <span className=" text-neutral-400">
+                        {moment(project.startDate).format('MMM DD, YYYY')}
+                      </span>
+                    </div>
+                    <div className="flex flex-col ml-10">
+                      <span className="font-bold text-primary-400">End</span>
+                      <span className="text-neutral-400">
+                        {moment(project.endDate).format('MMM DD, YYYY')}
+                      </span>
+                    </div>
+                    <Button type="link" onClick={() => setEditDate(true)}>
+                      <EditOutlined />
+                    </Button>
                   </div>
-                  <div className="flex flex-col ml-10">
-                    <span className="font-bold text-success-600">End</span>
-                    <span className="text-neutral-400">
-                      {moment(project.endDate).format('MMM DD, YYYY')}
-                    </span>
-                  </div>
-                  <Button type="link" onClick={() => setEditDate(true)}>
-                    <EditOutlined />
-                  </Button>
-                </div>
-              )}
+                )}
+              </div>
+              {/* end: Project date */}
             </div>
-            {/* end: Project date */}
 
             {/* start: Categories */}
             <CategoriesComponent

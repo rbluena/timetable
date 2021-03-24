@@ -9,6 +9,7 @@ const groupSchema = new Schema(
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     invitees: [{ email: String }],
     project: { type: Schema.Types.ObjectId, ref: 'Project' },
+    roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }]
   },
   { timestamps: true }
 );

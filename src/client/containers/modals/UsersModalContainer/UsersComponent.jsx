@@ -32,10 +32,15 @@ const UsersComponent = ({ members, invitees, removeInvitation }) => (
       renderItem={(data) => (
         <List.Item>
           <List.Item.Meta
-            avatar={<Avatar src={data.image.thumbnail} />}
+            avatar={<Avatar src={data.image && data.image.thumbnail} />}
             title={data.fullName}
             // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
           />
+          <Button type="text" danger onClick={() => removeInvitation(data._id)}>
+            <Tooltip title="Remove">
+              <MinusCircleOutlined size="large" />
+            </Tooltip>
+          </Button>
         </List.Item>
       )}
     />

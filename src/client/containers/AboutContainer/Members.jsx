@@ -12,6 +12,7 @@ const Members = ({ users }) => (
       {users &&
         users.length > 0 &&
         users.map((user) => {
+          console.log(user);
           if (
             user.image &&
             user.image.thumbnail &&
@@ -27,7 +28,7 @@ const Members = ({ users }) => (
           return (
             <Tooltip title={user.fullName} placement="top">
               <Avatar style={{ backgroundColor: '#f56a00' }}>
-                {user.fullName[0]}
+                {/* {user.fullName[0]} */}
               </Avatar>
             </Tooltip>
           );
