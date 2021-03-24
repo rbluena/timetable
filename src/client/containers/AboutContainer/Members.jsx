@@ -1,44 +1,50 @@
 import PropTypes from 'prop-types';
 import { Avatar, Tooltip } from 'antd';
-// import { AvatarList } from '@app/components';
+import { useSelector } from 'react-redux';
+import { projectMembersSelector } from '@app/selectors';
 
-const Members = ({ users }) => (
-  <div className="flex flex-wrap items-center">
-    <Avatar.Group
-      // size="small"
-      maxCount={5}
-      maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-    >
-      {users &&
-        users.length > 0 &&
-        users.map((user) => {
-          console.log(user);
-          if (
-            user.image &&
-            user.image.thumbnail &&
-            user.image.thumbnail.length
-          ) {
+const Members = ({ userIds }) => {
+  const users = useSelector(projectMembersSelector);
+
+  return (
+    <div className="flex flex-wrap items-center">
+      <Avatar.Group
+        size="small"
+        maxCount={5}
+        maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+      >
+        {userIds &&
+          userIds.length > 0 &&
+          userIds.map((userId) => {
+            const user = users[userId] || {};
+
+            if (
+              user.image &&
+              user.image.thumbnail &&
+              user.image.thumbnail.length
+            ) {
+              return (
+                <Tooltip title={user.fullName} placement="top">
+                  <Avatar src={user.image.thumbnail} />
+                </Tooltip>
+              );
+            }
+
             return (
               <Tooltip title={user.fullName} placement="top">
-                <Avatar src={user.image.thumbnail} />
+                <Avatar style={{ backgroundColor: '#f56a00' }}>
+                  {user.fullName[0]}
+                </Avatar>
               </Tooltip>
             );
-          }
-
-          return (
-            <Tooltip title={user.fullName} placement="top">
-              <Avatar style={{ backgroundColor: '#f56a00' }}>
-                {/* {user.fullName[0]} */}
-              </Avatar>
-            </Tooltip>
-          );
-        })}
-    </Avatar.Group>
-  </div>
-);
+          })}
+      </Avatar.Group>
+    </div>
+  );
+};
 
 Members.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  userIds: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Members;

@@ -116,9 +116,11 @@ const getProjectByIdService = async (projectId) => {
   }).lean();
 
   await Project.populate(project, 'groups');
-  await Project.populate(project, 'groups.members fullName');
+  await Project.populate(project, {
+    path: 'groups.members',
+    select: { fullName: 1, image: 1, userName: 1, email: 1 },
+  });
 
-  console.log(JSON.stringify(project, null, 2));
   return project;
 };
 

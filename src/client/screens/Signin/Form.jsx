@@ -11,9 +11,7 @@ const Signin = () => {
   function onSubmit(values) {
     setIsLoading(true);
     dispatch(signInUserAction(values));
-    } catch (error) {
     setIsLoading(false);
-  }
   }
 
   return (

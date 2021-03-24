@@ -1,51 +1,66 @@
 import PropTypes from 'prop-types';
-import { MinusCircleOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, CheckCircleTwoTone } from '@ant-design/icons';
 import { List, Avatar, Button, Tooltip } from 'antd';
+import { useSelector } from 'react-redux';
+import { projectMembersSelector } from '@app/selectors';
 
-const UsersComponent = ({ members, invitees, removeInvitation }) => (
-  <>
-    {invitees && invitees.length > 0 && (
-      <List
-        dataSource={invitees}
-        renderItem={(data) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src={data.image && data.image.thumbnail} />}
-              title={data.email}
-              description="Invited"
-            />
-            <Button
-              type="text"
-              danger
-              onClick={() => removeInvitation(data._id)}
-            >
-              <Tooltip title="Remove">
-                <MinusCircleOutlined size="large" />
-              </Tooltip>
-            </Button>
-          </List.Item>
-        )}
-      />
-    )}
-    <List
-      dataSource={members}
-      renderItem={(data) => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={<Avatar src={data.image && data.image.thumbnail} />}
-            title={data.fullName}
-            // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-          />
-          <Button type="text" danger onClick={() => removeInvitation(data._id)}>
-            <Tooltip title="Remove">
-              <MinusCircleOutlined size="large" />
-            </Tooltip>
-          </Button>
-        </List.Item>
+const UsersComponent = ({ memberIds, invitees, removeInvitation }) => {
+  const members = useSelector(projectMembersSelector);
+
+  return (
+    <>
+      {invitees && invitees.length > 0 && (
+        <List
+          dataSource={invitees}
+          renderItem={(data) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={data.image && data.image.thumbnail} />}
+                title={data.email}
+                description="Invitation"
+              />
+              <Button
+                type="text"
+                danger
+                onClick={() => removeInvitation(data._id)}
+              >
+                <Tooltip title="Remove">
+                  <MinusCircleOutlined size="large" />
+                </Tooltip>
+              </Button>
+            </List.Item>
+          )}
+        />
       )}
-    />
-  </>
-);
+      <List
+        dataSource={memberIds}
+        renderItem={(memberId) => {
+          const user = members[memberId] || {};
+
+          return (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={user.image && user.image.thumbnail} />}
+                title={user.fullName}
+                description="Member"
+              />
+              <CheckCircleTwoTone />
+              <Button
+                type="text"
+                danger
+                onClick={() => removeInvitation(memberId)}
+              >
+                <Tooltip title="Remove">
+                  <MinusCircleOutlined size="large" />
+                </Tooltip>
+              </Button>
+            </List.Item>
+          );
+        }}
+      />
+    </>
+  );
+};
 
 UsersComponent.propTypes = {
   members: PropTypes.arrayOf(PropTypes.any).isRequired,

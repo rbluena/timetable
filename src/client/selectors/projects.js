@@ -35,6 +35,16 @@ const selectProjectGroups = (state) => {
   return {};
 };
 
+const selectProjectMembers = (state) => {
+  const { members } = state.PROJECTS;
+
+  if (members) {
+    return members;
+  }
+
+  return {};
+};
+
 const selectProjectCategories = (state) => {
   const { categories } = state.PROJECTS;
 
@@ -63,4 +73,9 @@ export const projectGroupsSelector = createSelector(
 export const projectCategoriesSelector = createSelector(
   selectProjectCategories,
   (groups) => groups
+);
+
+export const projectMembersSelector = createSelector(
+  selectProjectMembers,
+  (members) => members
 );

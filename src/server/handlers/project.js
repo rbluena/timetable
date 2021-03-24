@@ -13,8 +13,17 @@ const {
   updateProjectGroupService,
   deleteProjectGroupService,
   addGroupInviteeService,
+  acceptUserInvitationService,
   removeGroupInviteeService,
 } = require('../services/project');
+
+const { getProjectStatusesService } = require('../services/status');
+const {
+  getProjectTasksService,
+  getProjectTasksByStatusService,
+  assignStatusToTaskService,
+  removeStatusFromTaskService,
+} = require('../services/task');
 
 /**
  * Request handler for creating new project.
@@ -236,6 +245,28 @@ exports.addGroupInviteeHandler = async (req, res, next) => {
 };
 
 /**
+ * User accepting invitation.
+ */
+exports.acceptUserInvitationHandler = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+    const { email } = req.body;
+
+    const { data, meta } = await acceptUserInvitationService(groupId, email);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'User was invited to join the group successfully.',
+      data,
+      meta,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Removing invited users
  */
 exports.removeGroupInviteeHandler = async (req, res, next) => {
@@ -248,6 +279,93 @@ exports.removeGroupInviteeHandler = async (req, res, next) => {
       status: 200,
       success: true,
       message: 'User was invited to join the group successfully.',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getProjectStatusesHandler = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+
+    const data = await getProjectStatusesService(projectId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getProjectTasksHandler = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+    const query = req.query || {};
+
+    const data = await getProjectTasksService(projectId, query);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getProjectTasksByStatusHandler = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+    const query = req.query || {};
+
+    const data = await getProjectTasksByStatusService(projectId, query);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.assignStatusToTaskHandler = async (req, res, next) => {
+  try {
+    const { statusId, taskId } = req.params;
+
+    const data = await assignStatusToTaskService(statusId, taskId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.removeStatusFromTaskHandler = async (req, res, next) => {
+  try {
+    const { statusId, taskId } = req.params;
+
+    const data = await removeStatusFromTaskService(statusId, taskId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
       data,
     });
   } catch (error) {

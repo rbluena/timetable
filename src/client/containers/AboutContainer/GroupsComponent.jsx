@@ -69,6 +69,8 @@ const GroupsComponent = ({
           groupsKeys.map((key) => {
             const group = groups[key];
 
+            console.log(group);
+
             return (
               <div key={key} className="py-3">
                 <Title
@@ -98,7 +100,10 @@ const GroupsComponent = ({
                 </Text>
 
                 <div className="py-2">
-                  <Members users={group.members || []} />
+                  <Members
+                    userIds={group.members || []}
+                    users={group.members || []}
+                  />
                 </div>
 
                 <div className="py-1 flex flex-row bg-neutral-100">

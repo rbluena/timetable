@@ -247,6 +247,33 @@ export const getProjectService = async (id) => {
   }
 };
 
+export const getProjectTasksService = async (projectId, options) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getProjectTasks(projectId),
+      params: options,
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const getProjectStatusesService = async (projectId) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getProjectStatuses(projectId),
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 export const getUserProjectsService = async (token, query = {}) => {
   try {
     const response = await request({
@@ -389,6 +416,31 @@ export const addUserToGroupService = async (
   }
 };
 
+export const acceptGroupInvitationService = async (
+  projectId,
+  groupId,
+  email,
+  token
+) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: path.acceptGroupInvitation(projectId, groupId),
+      data: {
+        email,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 export const removeGroupInvitationService = async (
   projectId,
   groupId,
@@ -450,6 +502,44 @@ export const updateTaskService = async (token, id, data) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const updateTaskStatusService = async (
+  token,
+  projectId,
+  taskId,
+  statusId = null
+) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: statusId
+        ? path.assignTaskAStatus(projectId, taskId, statusId)
+        : path.removeStatusFromTask(projectId, taskId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const getTasksByStatusService = async (projectId, options) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getTasksByStatus(projectId),
+      params: options,
     });
 
     return response.data;
