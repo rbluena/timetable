@@ -13,13 +13,21 @@ const ProjectCard = ({ project }) => (
         <h2 className="mx-auto font-bold text-md text-center text-neutral-400">
           {project.title}
         </h2>
-        <p className="text-neutral-500 mt-4 font-bold">Account Name</p>
+        <p className="text-neutral-500 mt-4 font-bold">
+          {project.owner.accountName}
+        </p>
       </a>
     </Link>
     <div className="p-2">
-      <Tag color="geekblue" size="large">
-        PRO
-      </Tag>
+      {project.subscription ? (
+        <Tag color="gold" size="large">
+          {project.subscription.subscribedTo}
+        </Tag>
+      ) : (
+        <Tag color="default" size="large">
+          BASIC
+        </Tag>
+      )}
     </div>
   </div>
 );

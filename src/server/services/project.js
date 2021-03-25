@@ -120,6 +120,10 @@ const getProjectByIdService = async (projectId) => {
     path: 'groups.members',
     select: { fullName: 1, image: 1, userName: 1, email: 1 },
   });
+  await Project.populate(project, {
+    path: 'owner',
+    select: { fullName: 1, accountName: 1, userName: 1, email: 1 },
+  });
 
   return project;
 };
@@ -141,7 +145,34 @@ const getProjectsService = async (options) => {
     });
   }
 
-  const aggregate = Project.aggregate([{ $match: match }, { $sort: sort }]);
+  const aggregate = Project.aggregate([
+    { $match: match },
+    { $sort: sort },
+    {
+      $lookup: {
+        from: User.collection.name,
+        localField: 'owner',
+        foreignField: '_id',
+        as: 'owner',
+      },
+    },
+    { $unwind: '$owner' },
+    {
+      $project: {
+        'owner.password': 0,
+        'owner.verificationToken': 0,
+        'owner.groups': 0,
+        'owner.team': 0,
+        'owner.projects': 0,
+        'owner.assignedTasks': 0,
+        'owner.timeEntries': 0,
+        'owner.tasks': 0,
+        'owner.loginStrategy': 0,
+        'owner.createdAt': 0,
+        'owner.updatedAt': 0,
+      },
+    },
+  ]);
 
   return Project.aggregatePaginate(aggregate, paginateOptions);
 };
