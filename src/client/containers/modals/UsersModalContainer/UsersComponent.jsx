@@ -41,7 +41,7 @@ const UsersComponent = ({ memberIds, invitees, removeInvitation }) => {
             <List.Item>
               <List.Item.Meta
                 avatar={<Avatar src={user.image && user.image.thumbnail} />}
-                title={user.fullName}
+                title={user.fullName ? user.fullName : user.userName}
                 description="Member"
               />
               <CheckCircleTwoTone />
@@ -63,7 +63,7 @@ const UsersComponent = ({ memberIds, invitees, removeInvitation }) => {
 };
 
 UsersComponent.propTypes = {
-  members: PropTypes.arrayOf(PropTypes.any).isRequired,
+  memberIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   invitees: PropTypes.arrayOf(PropTypes.any).isRequired,
   removeInvitation: PropTypes.func.isRequired,
 };

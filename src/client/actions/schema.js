@@ -10,29 +10,55 @@ export function getNormalizedProject(data = {}) {
     {},
     { idAttribute: '_id' }
   );
-  const membersListSchema = new schema.Array(membersSchema);
 
   const groupsSchema = new schema.Entity(
     'groups',
-    { members: membersListSchema },
+    { members: [membersSchema] },
     { idAttribute: '_id' }
   );
-  const groupsListSchema = new schema.Array(groupsSchema);
 
   const categoriesSchema = new schema.Entity(
     'categories',
     {},
     { idAttribute: '_id' }
   );
-  const categoriesListSchema = new schema.Array(categoriesSchema);
 
   const projectSchema = new schema.Entity(
     'project',
-    { groups: groupsListSchema, categories: categoriesListSchema },
+    { groups: [groupsSchema], categories: [categoriesSchema] },
     { idAttribute: '_id' }
   );
 
   return normalize(data, projectSchema);
+}
+
+/**
+ * Normalizing group data
+ * @param {Object} data Group data
+ */
+export function getNormalizedGroup(data = {}) {
+  const membersSchema = new schema.Entity(
+    'members',
+    {},
+    { idAttribute: '_id' }
+  );
+
+  const groupSchema = new schema.Entity(
+    'group',
+    { members: [membersSchema] },
+    { idAttribute: '_id' }
+  );
+
+  return normalize(data, groupSchema);
+}
+
+export function getNormalizedStatues(data = []) {
+  const statusesSchema = new schema.Entity(
+    'statuses',
+    {},
+    { idAttribute: '_id' }
+  );
+  return normalize(data, [statusesSchema]);
 }
 
 export function getNormalizedProjects(data = []) {

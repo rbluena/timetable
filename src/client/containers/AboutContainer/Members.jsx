@@ -33,7 +33,9 @@ const Members = ({ userIds }) => {
             return (
               <Tooltip title={user.fullName} placement="top">
                 <Avatar style={{ backgroundColor: '#f56a00' }}>
-                  {user.fullName[0]}
+                  {user.fullName
+                    ? user.fullName[0]
+                    : user.email[0].toUpperCase()}
                 </Avatar>
               </Tooltip>
             );

@@ -32,7 +32,7 @@ import {
   deleteProjectGroupSuccess,
 } from '@app/reducers/projectsReducer';
 
-import { getNormalizedProject } from './schema';
+import { getNormalizedProject, getNormalizedGroup } from './schema';
 
 export function createProjectAction(projectData) {
   return async (dispatch, getState) => {
@@ -175,7 +175,12 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
         token
       );
 
-      dispatch({ type: updateProjectGroupSuccess, payload: data });
+      const normalzedData = getNormalizedGroup(data);
+
+      dispatch({
+        type: updateProjectGroupSuccess,
+        payload: normalzedData.entities,
+      });
     } catch (error) {
       const err = {
         type: 'error',

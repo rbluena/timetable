@@ -290,10 +290,11 @@ const addGroupInviteeService = async (groupId, data) => {
 
 /**
  *
+ * @param {String} projectId
  * @param {String} groupId
  * @param {String} email
  */
-const acceptUserInvitationService = async (groupId, email) => {
+const acceptUserInvitationService = async (projectId, groupId, email) => {
   const user = await User.findOne({ email });
 
   if (user) {
@@ -315,7 +316,12 @@ const acceptUserInvitationService = async (groupId, email) => {
       { new: true }
     );
 
-    console.log(updatedGroup);
+    // Adding user to the team of the project.
+    await Project.updateOne(
+      { _id: mongoose.Types.ObjectId(projectId) },
+      { $push: { team: user._id } },
+      { upsert: true }
+    );
 
     return { data: updatedGroup, meta: { isUserExist: true } };
   }

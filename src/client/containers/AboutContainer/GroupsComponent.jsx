@@ -69,8 +69,6 @@ const GroupsComponent = ({
           groupsKeys.map((key) => {
             const group = groups[key];
 
-            console.log(group);
-
             return (
               <div key={key} className="py-3">
                 <Title
