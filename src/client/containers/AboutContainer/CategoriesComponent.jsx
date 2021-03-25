@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Tag, Input } from 'antd';
+import { Typography, Tag, Input, message } from 'antd';
 import { PlusCircleTwoTone } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import { generateRandomColor } from '@app/utils';

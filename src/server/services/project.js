@@ -264,7 +264,7 @@ const deleteProjectGroupService = async (projectId, groupId) => {
   if (deleted) {
     await Project.updateOne(
       { _id: mongoose.Types.ObjectId(projectId) },
-      { $pull: mongoose.Types.ObjectId(groupId) }
+      { $pull: { groups: mongoose.Types.ObjectId(groupId) } }
     );
   }
 
@@ -280,12 +280,19 @@ const deleteProjectGroupService = async (projectId, groupId) => {
  */
 const addGroupInviteeService = async (groupId, data) => {
   const updatedGroup = await Group.findOneAndUpdate(
-    { _id: mongoose.Types.ObjectId(groupId) },
+    {
+      _id: mongoose.Types.ObjectId(groupId),
+      'invitees.email': { $ne: data.email },
+    },
     { $push: { invitees: data } },
     { new: true }
   );
 
-  return updatedGroup;
+  if (updatedGroup) {
+    return updatedGroup;
+  }
+
+  throw new Error('User is already invited!');
 };
 
 /**
@@ -300,13 +307,13 @@ const acceptUserInvitationService = async (projectId, groupId, email) => {
   if (user) {
     await User.updateOne(
       { email },
-      { $push: { groups: groupId } },
+      { $addToSet: { groups: groupId } },
       { upsert: true }
     );
 
     await Group.updateOne(
       { _id: mongoose.Types.ObjectId(groupId) },
-      { $push: { members: user._id } },
+      { $addToSet: { members: user._id } },
       { upsert: true }
     );
 
@@ -319,7 +326,7 @@ const acceptUserInvitationService = async (projectId, groupId, email) => {
     // Adding user to the team of the project.
     await Project.updateOne(
       { _id: mongoose.Types.ObjectId(projectId) },
-      { $push: { team: user._id } },
+      { $addToSet: { team: user._id } },
       { upsert: true }
     );
 
@@ -349,6 +356,11 @@ const removeUserFromGroupService = async (groupId, id, type) => {
       { _id: mongoose.Types.ObjectId(groupId) },
       { $pull: { members: mongoose.Types.ObjectId(id) } },
       { new: true }
+    );
+
+    await User.updateOne(
+      { _id: mongoose.Types.ObjectId(id) },
+      { $pull: { groups: groupId } }
     );
 
     await Group.populate(updatedGroup, {
