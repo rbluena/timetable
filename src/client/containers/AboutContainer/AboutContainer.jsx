@@ -65,6 +65,7 @@ const AboutContainer = () => {
     const endDate = data[1]._d;
     const projectData = { startDate, endDate };
     dispatch(updateProjectAction(project._id, projectData));
+    setEditDate(false);
   }
 
   return (
@@ -133,6 +134,7 @@ const AboutContainer = () => {
                     ]}
                     allowClear={false}
                     onChange={updateDate}
+                    onBlur={() => setEditDate(false)}
                   />
                 ) : (
                   <div className="flex">
