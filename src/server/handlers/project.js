@@ -14,7 +14,7 @@ const {
   deleteProjectGroupService,
   addGroupInviteeService,
   acceptUserInvitationService,
-  removeGroupInviteeService,
+  removeUserFromGroupService,
 } = require('../services/project');
 
 const { getProjectStatusesService } = require('../services/status');
@@ -249,10 +249,14 @@ exports.addGroupInviteeHandler = async (req, res, next) => {
  */
 exports.acceptUserInvitationHandler = async (req, res, next) => {
   try {
-    const { groupId } = req.params;
+    const { projectId, groupId } = req.params;
     const { email } = req.body;
 
-    const { data, meta } = await acceptUserInvitationService(groupId, email);
+    const { data, meta } = await acceptUserInvitationService(
+      projectId,
+      groupId,
+      email
+    );
 
     res.status(200).json({
       status: 200,
@@ -269,11 +273,12 @@ exports.acceptUserInvitationHandler = async (req, res, next) => {
 /**
  * Removing invited users
  */
-exports.removeGroupInviteeHandler = async (req, res, next) => {
+exports.removeUserGroupHandler = async (req, res, next) => {
   try {
-    const { groupId, invitationId } = req.params;
+    const { groupId, id } = req.params;
+    const { type } = req.query;
 
-    const data = await removeGroupInviteeService(groupId, invitationId);
+    const data = await removeUserFromGroupService(groupId, id, type);
 
     res.status(200).json({
       status: 200,

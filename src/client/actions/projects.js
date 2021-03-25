@@ -8,7 +8,7 @@ import {
   updateProjectGroupService,
   deleteProjectGroupService,
   addUserToGroupService,
-  removeGroupInvitationService,
+  removeUserFromGroupService,
 } from '@app/services';
 
 import { setNotificationAction, signUserOutAction } from '@app/actions';
@@ -142,6 +142,7 @@ export function addProjectGroupAction(projectId, groupData) {
         groupData,
         token
       );
+
       dispatch({
         type: addProjectGroupSuccess,
         payload: { group: data, projectId },
@@ -179,7 +180,7 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
 
       dispatch({
         type: updateProjectGroupSuccess,
-        payload: normalzedData.entities,
+        payload: normalzedData,
       });
     } catch (error) {
       const err = {
@@ -243,7 +244,12 @@ export function inviteUserAction(projectId, groupId, userData) {
         token
       );
 
-      dispatch({ type: updateProjectGroupSuccess, payload: data });
+      const normalizedData = getNormalizedGroup(data);
+
+      dispatch({
+        type: updateProjectGroupSuccess,
+        payload: normalizedData,
+      });
     } catch (error) {
       const err = {
         type: 'error',
@@ -259,19 +265,24 @@ export function inviteUserAction(projectId, groupId, userData) {
   };
 }
 
-export function removeInvitationAction(projectId, groupId, invitationId) {
+export function removeUserFromGroupAction(projectId, groupId, id, type) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: addProjectGroup });
       const { token } = getState().AUTH;
-      const { data } = await removeGroupInvitationService(
+      const { data } = await removeUserFromGroupService(
         projectId,
         groupId,
-        invitationId,
-        token
+        id,
+        token,
+        { type }
       );
 
-      dispatch({ type: updateProjectGroupSuccess, payload: data });
+      const normalizedData = getNormalizedGroup(data);
+
+      console.log(normalizedData);
+
+      dispatch({ type: updateProjectGroupSuccess, payload: normalizedData });
     } catch (error) {
       const err = {
         type: 'error',

@@ -4,7 +4,7 @@ import { List, Avatar, Button, Tooltip } from 'antd';
 import { useSelector } from 'react-redux';
 import { projectMembersSelector } from '@app/selectors';
 
-const UsersComponent = ({ memberIds, invitees, removeInvitation }) => {
+const UsersComponent = ({ memberIds, invitees, removeUserFromGroup }) => {
   const members = useSelector(projectMembersSelector);
 
   return (
@@ -22,7 +22,7 @@ const UsersComponent = ({ memberIds, invitees, removeInvitation }) => {
               <Button
                 type="text"
                 danger
-                onClick={() => removeInvitation(data._id)}
+                onClick={() => removeUserFromGroup(data._id, 'invite')}
               >
                 <Tooltip title="Remove">
                   <MinusCircleOutlined size="large" />
@@ -48,7 +48,7 @@ const UsersComponent = ({ memberIds, invitees, removeInvitation }) => {
               <Button
                 type="text"
                 danger
-                onClick={() => removeInvitation(memberId)}
+                onClick={() => removeUserFromGroup(memberId, 'member')}
               >
                 <Tooltip title="Remove">
                   <MinusCircleOutlined size="large" />

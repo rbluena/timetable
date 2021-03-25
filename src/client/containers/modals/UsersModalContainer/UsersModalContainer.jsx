@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Modal } from 'antd';
-import { inviteUserAction, removeInvitationAction } from '@app/actions';
+import { inviteUserAction, removeUserFromGroupAction } from '@app/actions';
 import UsersComponent from './UsersComponent';
 import InviteForm from './InviteForm';
 
@@ -12,8 +12,8 @@ const UsersModalContainer = ({ isOpen, closeModal, group }) => {
     dispatch(inviteUserAction(group.project, group._id, data));
   }
 
-  function removeInvitation(id) {
-    dispatch(removeInvitationAction(group.project, group._id, id));
+  function removeUserFromGroup(id, type) {
+    dispatch(removeUserFromGroupAction(group.project, group._id, id, type));
   }
 
   return (
@@ -29,7 +29,7 @@ const UsersModalContainer = ({ isOpen, closeModal, group }) => {
         memberIds={group.members || {}}
         members={group.members || []}
         invitees={group.invitees || []}
-        removeInvitation={removeInvitation}
+        removeUserFromGroup={removeUserFromGroup}
       />
     </Modal>
   );

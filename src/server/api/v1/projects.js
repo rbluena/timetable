@@ -14,7 +14,7 @@ const {
   deleteProjectGroupHandler,
   addGroupInviteeHandler,
   acceptUserInvitationHandler,
-  removeGroupInviteeHandler,
+  removeUserGroupHandler,
   getProjectTasksHandler,
   getProjectStatusesHandler,
   getProjectTasksByStatusHandler,
@@ -65,9 +65,9 @@ router.put(
 );
 
 router.delete(
-  '/:projectId/groups/:groupId/invite/:email',
+  '/:projectId/groups/:groupId/invite/:id',
   isAuthenticated,
-  removeGroupInviteeHandler
+  removeUserGroupHandler
 );
 // router.delete('/:projectId/groups/:groupId/assign/:userId');
 

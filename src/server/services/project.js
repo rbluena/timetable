@@ -230,7 +230,7 @@ const createProjectGroupService = async (projectId, groupData) => {
     );
   }
 
-  await Group.populate(savedGroup, 'members');
+  // await Group.populate(savedGroup, 'members');
   return savedGroup;
 };
 
@@ -334,12 +334,28 @@ const acceptUserInvitationService = async (projectId, groupId, email) => {
  * @param {String} groupId
  * @param {String} invitationId
  */
-const removeGroupInviteeService = async (groupId, invitationId) => {
-  const updatedGroup = await Group.findOneAndUpdate(
-    { _id: mongoose.Types.ObjectId(groupId) },
-    { $pull: { invitees: { _id: mongoose.Types.ObjectId(invitationId) } } },
-    { new: true }
-  );
+const removeUserFromGroupService = async (groupId, id, type) => {
+  let updatedGroup = null;
+
+  if (type === 'invite') {
+    updatedGroup = await Group.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(groupId) },
+      { $pull: { invitees: { _id: mongoose.Types.ObjectId(id) } } },
+      { new: true }
+    );
+  } else {
+    // Removed user is a member
+    updatedGroup = await Group.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(groupId) },
+      { $pull: { members: mongoose.Types.ObjectId(id) } },
+      { new: true }
+    );
+
+    await Group.populate(updatedGroup, {
+      path: 'members',
+      select: { fullName: 1, image: 1, userName: 1, email: 1 },
+    });
+  }
 
   return updatedGroup;
 };
@@ -609,5 +625,5 @@ module.exports = {
   projectVisitCount,
   addGroupInviteeService,
   acceptUserInvitationService,
-  removeGroupInviteeService,
+  removeUserFromGroupService,
 };
