@@ -43,6 +43,16 @@ const CategoriesComponent = ({
         ...categories[item],
       }));
 
+      if (
+        categoriesData.find(
+          (category) =>
+            category.name.toLowerCase().trim() === value.toLowerCase().trim()
+        )
+      ) {
+        message.warn(`${value} has already created!`);
+        return;
+      }
+
       dispatch(
         updateProjectAction(projectId, {
           categories: [...categoriesData, data],
