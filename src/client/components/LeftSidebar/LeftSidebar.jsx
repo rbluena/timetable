@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Avatar } from 'antd';
 import {
   // MenuIcon,
   CogIcon,
@@ -8,9 +10,8 @@ import {
   TemplatesIcon,
   ClockIcon,
 } from '@app/components/Icons';
-import { Avatar } from '@app/components';
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ user }) => {
   const router = useRouter();
   const { pathname } = router;
 
@@ -88,7 +89,7 @@ const LeftSidebar = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center pb-2">
+      <div className="flex flex-col items-center pb-4">
         <Link href="/signout">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a>
@@ -96,10 +97,20 @@ const LeftSidebar = () => {
           </a>
         </Link>
         &nbsp;
-        <Avatar initials="NA" size="lg" />
+        {user.image && user.image.thumbnail ? (
+          <Avatar src={user.image.thumbnail} />
+        ) : (
+          <Avatar style={{ backgroundColor: '#f56a00' }}>
+            {user.fullName ? user.fullName[0] : 'U'}
+          </Avatar>
+        )}
       </div>
     </div>
   );
+};
+
+LeftSidebar.propTypes = {
+  user: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default LeftSidebar;

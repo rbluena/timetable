@@ -12,7 +12,7 @@ const selectAuthenticatedUser = (state) => {
   return null;
 };
 
-export const athenticatedUserSelector = createSelector(
+export const authenticatedUserSelector = createSelector(
   selectAuthenticatedUser,
   (global) => global
 );

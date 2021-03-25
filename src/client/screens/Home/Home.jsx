@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useSelector } from 'react-redux';
-import { AuthHeader, ProjectList } from '@app/components';
+import { ProjectList } from '@app/components';
 import { projectsSelector } from '@app/selectors';
 import NewProjectLink from './NewProjectLink';
 import ProjectCard from './ProjectCard';
@@ -10,20 +10,19 @@ const Home = () => {
 
   return (
     <div className="w-full">
-      <AuthHeader />
-      <div>
-        <h2 className="text-3xl text-center text-primary-300 py-8">Projects</h2>
+      <h2 className="text-3xl font-normal text-center text-primary-300 py-8">
+        Projects
+      </h2>
 
-        <ProjectList>
-          <NewProjectLink />
+      <ProjectList>
+        <NewProjectLink />
 
-          {result &&
-            result.length > 0 &&
-            result.map((projectKey) => (
-              <ProjectCard key={projectKey} project={projects[projectKey]} />
-            ))}
-        </ProjectList>
-      </div>
+        {result &&
+          result.length > 0 &&
+          result.map((projectKey) => (
+            <ProjectCard key={projectKey} project={projects[projectKey]} />
+          ))}
+      </ProjectList>
     </div>
   );
 };
