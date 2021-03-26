@@ -30,6 +30,9 @@ const Settings = () => {
               <h2>Subscriptions</h2>
             )}
           </TabPane>
+          <TabPane tab="Team" key="/settings/team">
+            {router.pathname === '/settings/team' && <h2>Team</h2>}
+          </TabPane>
         </Tabs>
       </div>
     </div>

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { athenticatedUserSelector, authTokenSelector } from '@app/selectors';
+import { authenticatedUserSelector, authTokenSelector } from '@app/selectors';
 import { updateUserAction } from '@app/actions';
 import { Form, Input, Button } from 'antd';
 import ProfileUpload from './ProfileUpload';
 
 const Profile = () => {
   const [changePassword, setChangePassword] = useState(false);
-  const userData = useSelector(athenticatedUserSelector);
+  const userData = useSelector(authenticatedUserSelector);
   const token = useSelector(authTokenSelector);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
