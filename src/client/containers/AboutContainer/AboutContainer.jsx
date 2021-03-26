@@ -88,7 +88,7 @@ const AboutContainer = () => {
                 <span className="text-neutral-400">By:</span>
                 &nbsp;
                 <span className="text-secondary-400 font-bold">
-                  University of Illinois
+                  {project.owner && project.owner.accountName}
                 </span>
               </Paragraph>
 
