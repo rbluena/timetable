@@ -85,10 +85,6 @@ const BoardContainer = () => {
     if (!destination) {
       return;
     }
-
-    const taskId = Number(draggableId);
-
-    console.log(taskId);
     console.log(draggableId);
     console.log(destination);
     console.log(source);

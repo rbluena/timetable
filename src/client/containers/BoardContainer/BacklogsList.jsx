@@ -39,7 +39,7 @@ const BacklogsList = ({ openNewTaskModal, backlog, backlogIds, categories, userA
                 <BacklogCard
                   key={taskId}
                   index={index}
-                  draggableId={`${taskId}`}
+                  draggableId={taskId}
                   task={task}
                   categories={categories}
                   groupAssignees={groupAssignees}

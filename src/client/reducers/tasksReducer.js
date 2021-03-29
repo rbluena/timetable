@@ -21,24 +21,6 @@ export const deleteTask = 'TASK/DELETE_TASK';
 export const deleteTaskSuccess = 'TASK/DELETE_TASK_SUCCESS';
 export const deleteTaskFailure = 'TASK/DELETE_TASK_FAILURE';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const initialState = {
   fetching: false,
   openedTask: null,
@@ -67,13 +49,11 @@ export default function taskReducer(state = initialState, action) {
 
     case setNewTask: {
       state.editingTask = payload;
-      state.data[payload._id] = payload;
       return state;
     }
 
     case cancelEditingTask: {
       state.editingTask = null;
-      delete state.data[payload];
       return state;
     }
 

@@ -3,13 +3,23 @@ import PropTypes from 'prop-types';
 import { Input, Button, Form, TimePicker, DatePicker, Select } from 'antd';
 import { ControlWrapper } from '@app/components/Form';
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 // import { RichEditor } from '@app/components';
 
 const { RangePicker } = TimePicker;
 const { Option } = Select;
 
-const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
+const CreateTask = ({
+  isOpen,
+  closeModal,
+  onSubmit,
+  editingTask,
+  categories,
+  assignees,
+}) => {
   const [form] = Form.useForm();
+
+  const { users, groups } = assignees;
 
   useEffect(() => {
     if (editingTask) {
@@ -25,17 +35,46 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
     }
   }, [form, editingTask]);
 
+  function mapAssignees(data) {
+    if (data && data.length) {
+      const mappingContent = { ...users, ...groups };
+
+      return data.map((itemId) => {
+        const item = mappingContent[itemId];
+
+        return {
+          _id: item._id,
+          type: item.email && !item.name ? 'user' : 'group',
+        };
+      });
+    }
+
+    return [];
+  }
+
   function handleSubmittedData(data) {
     if (editingTask) {
       data._id = editingTask._id;
     }
 
-    data.date = data.date._d;
-    data.startTime = moment(data.range[0]).format('HH:mm');
-    data.endTime = moment(data.range[1]).format('HH:mm');
+    data.date = data.date.format('YYYY-MM-DD');
+    const startTime = moment(data.range[0]).format('HH:mm');
+    const endTime = moment(data.range[1]).format('HH:mm');
+
+    data.startTime = moment(`${data.date} ${startTime}`)._d;
+    data.endTime = moment(`${data.date} ${endTime}`)._d;
+
+    data.schedule = {
+      start: data.startTime,
+      end: data.endTime,
+    };
+    data.date = data.startTime._d;
+    const mappedAssignees = mapAssignees(data.assignees);
+
     delete data.range;
-    onSubmit(data);
-    form.resetFields();
+
+    onSubmit({ ...data, assignees: mappedAssignees });
+    // form.resetFields();
   }
 
   return (
@@ -67,7 +106,7 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
               },
             ]}
           >
-            <Input placeholder="Add title" />
+            <Input autoComplete="off" placeholder="Add title" />
           </Form.Item>
 
           <div className="flex items-center justify-start">
@@ -97,9 +136,27 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
 
           <Form.Item name="category">
             <Select style={{ width: 120 }} placeholder="Category">
-              <Option value="physics">Physics</Option>
-              <Option value="chemistry">Chemistry</Option>
-              <Option value="Geography">Geography</Option>
+              {!isEmpty(categories) &&
+                Object.keys(categories).map((key) => {
+                  const category = categories[key];
+
+                  return <Option value={key}>{category.name}</Option>;
+                })}
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="reporter">
+            <Select style={{ width: '100%' }} placeholder="Reporter" showSearch>
+              {!isEmpty(users) &&
+                Object.keys(users).map((key) => {
+                  const user = users[key];
+
+                  return (
+                    <Option key={key} value={user._id}>
+                      {user.fullName}
+                    </Option>
+                  );
+                })}
             </Select>
           </Form.Item>
 
@@ -112,9 +169,33 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
               showSearch
               optionLabelProp="label"
             >
-              <Option value="kelvin" label="Kelvin">
-                Kelvin
-              </Option>
+              {!isEmpty(users) && (
+                <Select.OptGroup label="Users">
+                  {Object.keys(users).map((key) => {
+                    const user = users[key];
+
+                    return (
+                      <Option key={key} value={user._id} label={user.fullName}>
+                        {user.fullName}
+                      </Option>
+                    );
+                  })}
+                </Select.OptGroup>
+              )}
+
+              {!isEmpty(groups) && (
+                <Select.OptGroup label="Groups">
+                  {Object.keys(groups).map((key) => {
+                    const group = groups[key];
+
+                    return (
+                      <Option key={key} value={group._id} label={group.name}>
+                        {group.name}
+                      </Option>
+                    );
+                  })}
+                </Select.OptGroup>
+              )}
             </Select>
           </Form.Item>
 
@@ -152,6 +233,8 @@ const CreateTask = ({ isOpen, closeModal, onSubmit, editingTask }) => {
 
 CreateTask.defaultProps = {
   editingTask: null,
+  assignees: undefined,
+  categories: undefined,
 };
 
 CreateTask.propTypes = {
@@ -159,6 +242,8 @@ CreateTask.propTypes = {
   closeModal: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   editingTask: PropTypes.objectOf(PropTypes.any),
+  assignees: PropTypes.objectOf(PropTypes.any),
+  categories: PropTypes.objectOf(PropTypes.any),
 };
 
 export default CreateTask;

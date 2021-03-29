@@ -1,6 +1,11 @@
 import { CreateTask } from '@app/components';
 import { useSelector, useDispatch } from 'react-redux';
-import { globalStateSelector, tasksStateSelector } from '@app/selectors';
+import {
+  globalStateSelector,
+  tasksStateSelector,
+  taskCategoriesSelector,
+  projectAssigneesSelector
+} from '@app/selectors';
 import {
   closeModalAction,
   createTaskAction,
@@ -10,6 +15,8 @@ import {
 const CreateTaskModalContainer = () => {
   const { modal } = useSelector(globalStateSelector);
   const { editingTask } = useSelector(tasksStateSelector);
+  const assignees = useSelector(projectAssigneesSelector);
+  const categories = useSelector(taskCategoriesSelector);
   const dispatch = useDispatch();
 
   function onSubmit(data) {
@@ -28,6 +35,8 @@ const CreateTaskModalContainer = () => {
       closeModal={onCancel}
       onSubmit={onSubmit}
       editingTask={editingTask}
+      categories={categories}
+      assignees={assignees}
     />
   );
 };
