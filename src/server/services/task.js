@@ -2,40 +2,78 @@ const mongoose = require('mongoose');
 const { uniq } = require('lodash');
 const Task = require('../models/Task');
 const Project = require('../models/Project');
+const Group = require('../models/Group');
 const User = require('../models/User');
-const { findUserById } = require('./user');
+const Status = require('../models/Status');
+// const { findUserById } = require('./user');
 
 /**
  * Service to create new task.
  * @param {Object} data
  */
 const createTaskService = async (data) => {
-  const task = new Task(data);
+  // Group assigned to this task.
+  const groupAssignees = data.assignees
+    ? data.assignees
+        .filter((item) => item.type === 'group')
+        .map((item) => mongoose.Types.ObjectId(item._id))
+    : [];
+
+  // User assigned to this task
+  const userAssignees = data.assignees
+    ? data.assignees
+        .filter((item) => item.type === 'user')
+        .map((item) => mongoose.Types.ObjectId(item._id))
+    : [];
+
+  const newData = { ...data, groupAssignees, userAssignees };
+
+  // console.log(newData);
+
+  const task = new Task(newData);
   const saved = await task.save();
 
   if (saved) {
-    const user = await findUserById(data.creator);
-    user.tasks.push(saved._id);
-    await user.save();
-
-    if (data.assignees) {
-      /* Adding assigness */
-      data.assignees.forEach((userId) => {
-        User.updateOne(
-          { _id: mongoose.Types.ObjectId(userId) },
-          { $addToSet: { assignedTasks: saved._id } }
-        );
-      });
-
-      // Pushing task to the
+    if (userAssignees && userAssignees.length) {
+      await User.updateMany(
+        { _id: { $in: userAssignees } },
+        { $push: { assignedTasks: saved._id } }
+      );
     }
+
+    if (groupAssignees && groupAssignees.length > 0) {
+      await Group.updateMany(
+        { _id: { $in: groupAssignees } },
+        { $push: { assignedTasks: saved._id } }
+      );
+    }
+
+    await Project.updateOne(
+      { _id: mongoose.Types.ObjectId(data.project) },
+      { $push: { tasks: saved._id } }
+    );
   }
 
-  if (saved) {
-    const project = await Project.findOne({ _id: data.project });
-    project.tasks.push(saved._id);
-    project.save();
-  }
+  await Task.populate(saved, {
+    path: 'reporter',
+    select: { fullName: 1, accountName: 1, image: 1 },
+  });
+  await Task.populate(saved, {
+    path: 'groupAssignees',
+    select: { name: 1 },
+  });
+
+  await Task.populate(saved, {
+    path: 'userAssignees',
+    select: { fullName: 1, accountName: 1, image: 1 },
+  });
+
+  // await Task.populate(saved, {
+  //   path: 'attachments',
+  //   select: { name: 1, filePath: 1, description: 1 },
+  // });
+
+  await Task.populate(saved, 'todos');
 
   return saved;
 };
@@ -119,6 +157,149 @@ const getTaskByIdService = async (taskId) => {
 };
 
 /**
+ * Retreiving task for a particular project.
+ * @param {String} projectId
+ * @param {Object} options
+ */
+const getProjectTasksService = async (projectId, options) => {
+  const match = { project: mongoose.Types.ObjectId(projectId) };
+  const paginateOptions = { limit: 15 };
+  let sort = { 'schedule.start': -1 };
+
+  const { limit, page, sort: sortQuery } = options;
+
+  if (sortQuery) {
+    // Property to be sorted and type to be either ascending or descending
+    sort = { [sortQuery.property]: sortQuery.type };
+  }
+
+  if (limit) {
+    paginateOptions.limit = parseInt(limit, 10);
+  }
+
+  if (page) {
+    paginateOptions.page = parseInt(page, 10);
+  }
+
+  if (options.reporter) {
+    match.reporter = mongoose.Types.ObjectId(options.reporter);
+  }
+
+  if (options.category) {
+    match.category = mongoose.Types.ObjectId(options.category);
+  }
+
+  if (options.status) {
+    match.status = mongoose.Types.ObjectId(options.status);
+  }
+
+  const aggregate = Task.aggregate([
+    { $match: match },
+    { $sort: sort },
+    {
+      $lookup: {
+        from: User.collection.name,
+        localField: 'reporter',
+        foreignField: '_id',
+        as: 'reporter',
+      },
+    },
+    {
+      $lookup: {
+        from: User.collection.name,
+        localField: 'userAssignees',
+        foreignField: '_id',
+        as: 'userAssignees',
+      },
+    },
+    {
+      $lookup: {
+        from: Group.collection.name,
+        localField: 'groupAssignees',
+        foreignField: '_id',
+        as: 'groupAssignees',
+      },
+    },
+    // { $unwind: '$reporter' },
+    {
+      $project: {
+        'reporter.email': 0,
+        'reporter.password': 0,
+        'reporter.groups': 0,
+        'reporter.projects': 0,
+        'reporter.tasks': 0,
+        'reporter.verificationToken': 0,
+        'reporter.loginStrategy': 0,
+        'reporter.assignedTasks': 0,
+        'reporter.createdAt': 0,
+        'reporter.updatedAt': 0,
+        'userAssignees.email': 0,
+        'userAssignees.password': 0,
+        'userAssignees.groups': 0,
+        'userAssignees.projects': 0,
+        'userAssignees.tasks': 0,
+        'userAssignees.verificationToken': 0,
+        'userAssignees.loginStrategy': 0,
+        'userAssignees.assignedTasks': 0,
+        'userAssignees.createdAt': 0,
+        'userAssignees.updatedAt': 0,
+        'groupAssignees.invitees': 0,
+        'groupAssignees.assignedTasks': 0,
+        'groupAssignees.members': 0,
+      },
+    },
+  ]);
+
+  return Task.aggregatePaginate(aggregate, paginateOptions);
+};
+
+const getProjectTasksByStatusService = async (projectId) => {
+  const tasks = Status.find(
+    {
+      project: mongoose.Types.ObjectId(projectId),
+    },
+    { tasks: { $slice: [0, 15] } }
+  )
+    .populate('tasks')
+    .lean();
+
+  return tasks;
+};
+
+const assignStatusToTaskService = async (statusId, taskId) => {
+  await Status.updateOne(
+    { _id: mongoose.Types.ObjectId(statusId) },
+    { $push: { tasks: taskId } },
+    { upsert: true }
+  );
+
+  const updatedTask = await Task.updateOne(
+    { _id: mongoose.Types.ObjectId(taskId) },
+    { status: statusId }
+  )
+    .populate('status')
+    .lean();
+
+  return updatedTask;
+};
+
+const removeStatusFromTaskService = async (statusId, taskId) => {
+  await Status.updateOne(
+    { _id: mongoose.Types.ObjectId(statusId) },
+    { $pull: { tasks: taskId } }
+  );
+
+  const updatedTask = await Task.updateOne(
+    { _id: mongoose.Types.ObjectId(taskId) },
+    { status: null }
+  )
+    .populate('status')
+    .lean();
+
+  return updatedTask;
+};
+
+/**
  * Grabing all links for the user.
  * @param {Object} options
  */
@@ -154,18 +335,33 @@ const getTasksService = async (options) => {
     match.category = mongoose.Types.ObjectId(options.category);
   }
 
+  if (options.status) {
+    match.status = mongoose.Types.ObjectId(options.status);
+  }
+
   const aggregate = Task.aggregate([
     { $match: match },
     { $sort: sort },
     {
       $lookup: {
         from: User.collection.name,
-        localField: 'creator',
+        localField: 'reporter',
         foreignField: '_id',
-        as: 'creator',
+        as: 'reporter',
       },
     },
-    { $unwind: '$creator' },
+    { $unwind: '$reporter' },
+    {
+      $project: {
+        'reporter.email': 0,
+        'reporter.password': 0,
+        'reporter.groups': 0,
+        'reporter.projects': 0,
+        'reporter.tasks': 0,
+        'reporter.verifcationToken': 0,
+        'reporter.assignedTasks': 0,
+      },
+    },
   ]);
 
   return Task.aggregatePaginate(aggregate, paginateOptions);
@@ -345,6 +541,10 @@ module.exports = {
   deleteTaskService,
   getTaskByIdService,
   getTasksService,
+  getProjectTasksService,
+  getProjectTasksByStatusService,
+  assignStatusToTaskService,
+  removeStatusFromTaskService,
   // getWaitingLinksService,
   // addWaitingService,
   // removeWaitingService,

@@ -22,6 +22,8 @@ const {
   removeStatusFromTaskHandler,
 } = require('../../handlers/project');
 
+const { createTaskHandler } = require('../../handlers/task');
+
 // router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
 router.post('/', isAuthenticated, createProjectHandler);
 router.put(
@@ -70,6 +72,11 @@ router.delete(
   removeUserGroupHandler
 );
 // router.delete('/:projectId/groups/:groupId/assign/:userId');
+
+/**
+ * Creating new task
+ */
+router.post('/:projectId/tasks', createTaskHandler);
 
 /**
  * Get tasks for a project.

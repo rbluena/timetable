@@ -314,12 +314,14 @@ exports.getProjectTasksHandler = async (req, res, next) => {
     const query = req.query || {};
 
     const data = await getProjectTasksService(projectId, query);
+    const meta = omit(data, 'docs');
 
     res.status(200).json({
       status: 200,
       success: true,
       message: '',
-      data,
+      data: data.docs,
+      meta,
     });
   } catch (error) {
     next(error);
@@ -332,12 +334,14 @@ exports.getProjectTasksByStatusHandler = async (req, res, next) => {
     const query = req.query || {};
 
     const data = await getProjectTasksByStatusService(projectId, query);
+    const meta = omit(data, 'docs');
 
     res.status(200).json({
       status: 200,
       success: true,
       message: '',
-      data,
+      data: data.docs,
+      meta,
     });
   } catch (error) {
     next(error);

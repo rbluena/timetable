@@ -30,8 +30,9 @@ export default {
     `${SERVER_API}/projects/${projectId}/groups/${groupId}/adduser`,
   removeUserFromGroup: (projectId, groupId, id) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}/invite/${id}`,
-  createTask: `${SERVER_API}/tasks/create`,
-  updateTask: (id) => `${SERVER_API}/tasks/${id}`,
+  createTask: (projectId) => `${SERVER_API}/projects/${projectId}/tasks`,
+  updateTask: (projectId, id) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${id}`,
   assignTaskAStatus: (projectId, taskId, statusId) =>
     `${SERVER_API}/projects/${projectId}/tasks/${taskId}/statuses/${statusId}`,
   removeStatusFromTask: (projectId, taskId) =>

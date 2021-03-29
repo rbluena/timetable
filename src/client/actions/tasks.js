@@ -1,8 +1,10 @@
 import { decode } from 'jsonwebtoken';
+import { omit } from 'lodash';
 import {
   createTaskService,
   // updateTaskService,
   deleteTaskService,
+  getTasksByStatusService,
 } from '@app/services';
 
 import {
@@ -56,13 +58,22 @@ export function createTaskAction(taskData) {
     try {
       dispatch({ type: createTask });
 
-      const { token } = getState().AUTH;
+      const {
+        AUTH: { token },
+        PROJECTS: { projectId },
+      } = getState();
       const user = decode(token);
 
-      const { data } = await createTaskService(token, {
-        ...taskData,
-        creator: user._id,
-      });
+      const { data } = await createTaskService(
+        projectId,
+        {
+          ...omit(taskData, '_id'),
+
+          creator: user._id,
+          project: projectId,
+        },
+        token
+      );
 
       dispatch({
         type: createTaskSuccess,
@@ -120,6 +131,21 @@ export function deleteTaskAction(id) {
     }
   };
 }
+
+export const getTasksByStatusAction = (projectId, options) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const { token } = getState().AUTH;
+
+    const { data } = await getTasksByStatusService(projectId, options);
+
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const setOpenedTaskAction = (id) => ({
   type: setOpenedTask,

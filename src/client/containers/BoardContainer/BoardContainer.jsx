@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { cloneDeep } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Typography } from 'antd';
+import { openModalAction, addNewTaskAction } from '@app/actions';
+import { backlogSelector, taskCategoriesSelector, taskAssigneesSelector } from '@app/selectors';
 import BoardColumns from './BoardColumns';
 import BacklogsList from './BacklogsList';
 import Header from './Header';
@@ -31,6 +34,11 @@ function reorder(columnsData, taskId, source, destination) {
 }
 
 const BoardContainer = () => {
+  const dispatch = useDispatch();
+  const { backlogIds, backlog } = useSelector(backlogSelector);
+  const categories = useSelector(taskCategoriesSelector);
+  const { userAssignees, groupAssignees} = useSelector(taskAssigneesSelector);
+
   const [backlogTasks, setBacklogTasks] = useState({
     tasks: {
       2345644: {
@@ -86,11 +94,27 @@ const BoardContainer = () => {
     console.log(source);
   }
 
+  function openNewTaskModal(data) {
+    data.title = 'New task';
+    data.new = true;
+    data._id = 'new:reandom_string';
+
+    dispatch(addNewTaskAction(data));
+    dispatch(openModalAction('task'));
+  }
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <div className="flex">
         <div className="md:w-2/12">
-          <BacklogsList backlog={backlogTasks} />
+          <BacklogsList
+            openNewTaskModal={openNewTaskModal}
+            backlog={backlog}
+            backlogIds={backlogIds}
+            categories={categories}
+            groupAssignees={groupAssignees}
+            userAssignees={userAssignees}
+          />
         </div>
         <div className="m-2 w-8/12">
           <Title type="secondary" level={4}>

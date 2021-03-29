@@ -17,4 +17,4 @@ const categorySchema = new Schema(
 categorySchema.plugin(mongooseAggregatePaginateV2);
 categorySchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('Task', categorySchema);
+module.exports = mongoose.model('Category', categorySchema);

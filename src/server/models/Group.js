@@ -9,7 +9,8 @@ const groupSchema = new Schema(
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     invitees: [{ email: String }],
     project: { type: Schema.Types.ObjectId, ref: 'Project' },
-    roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }]
+    roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }],
+    assignedTasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
   },
   { timestamps: true }
 );

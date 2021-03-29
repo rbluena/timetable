@@ -441,16 +441,18 @@ export const acceptGroupInvitationService = async (
   }
 };
 
-export const removeGroupInvitationService = async (
+export const removeUserFromGroupService = async (
   projectId,
   groupId,
-  invitationId,
-  token
+  id,
+  token,
+  options
 ) => {
   try {
     const response = await request({
       method: 'DELETE',
-      url: path.removeInvitation(projectId, groupId, invitationId),
+      url: path.removeUserFromGroup(projectId, groupId, id),
+      params: options,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -467,11 +469,11 @@ export const removeGroupInvitationService = async (
  * Service to create task.
  * @param {Object} data
  */
-export const createTaskService = async (token, data) => {
+export const createTaskService = async (projectId, data, token) => {
   try {
     const response = await request({
       method: 'POST',
-      url: path.createLink,
+      url: path.createTask(projectId),
       data: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${token}`,

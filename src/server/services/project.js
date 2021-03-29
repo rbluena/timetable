@@ -76,7 +76,10 @@ const updateProjectService = async (projectId, data) => {
     throw Error('Something went wrong. Our team are fixing it');
   }
 
-  // await Project.populate(updated, 'owner');
+  await Project.populate(updated, {
+    path: 'owner',
+    select: { accountName: 1, fullName: 1 },
+  });
   await Project.populate(updated, 'groups');
   // await Project.populate(updated, 'waitings');
 

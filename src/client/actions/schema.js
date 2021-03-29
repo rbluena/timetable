@@ -61,6 +61,31 @@ export function getNormalizedStatues(data = []) {
   return normalize(data, [statusesSchema]);
 }
 
+export function getNormalizedBacklog(data = []) {
+  const groupAssigneesSchema = new schema.Entity(
+    'groupAssignees',
+    {},
+    { idAttribute: '_id' }
+  );
+
+  const userAssigneesSchema = new schema.Entity(
+    'userAssignees',
+    {},
+    { idAttribute: '_id' }
+  );
+
+  const backlogSchema = new schema.Entity(
+    'backlog',
+    {
+      groupAssignees: [groupAssigneesSchema],
+      userAssignees: [userAssigneesSchema],
+    },
+    { idAttribute: '_id' }
+  );
+
+  return normalize(data, [backlogSchema]);
+}
+
 export function getNormalizedProjects(data = []) {
   const projectSchema = new schema.Entity(
     'projects',
