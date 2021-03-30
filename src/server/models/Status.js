@@ -6,16 +6,11 @@ const { Schema } = mongoose;
 
 const statusSchema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String },
     description: String,
     board: { type: Schema.Types.ObjectId, ref: 'Board' },
     project: { type: Schema.Types.ObjectId, ref: 'Project' },
-    tasks: [
-      {
-        task: { type: Schema.Types.ObjectId, ref: 'Task' },
-        position: { type: Number, unique: true, default: 0 },
-      },
-    ],
+    tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
     position: { type: Number, default: 0 },
   },
   { timestamps: true }

@@ -4,10 +4,12 @@ import authReducer from './authReducer';
 import globalReducer from './globalReducer';
 import tasksReducer from './tasksReducer';
 import projectsReducer from './projectsReducer';
+import statusesReducer from './statusesReducer';
 
 export default combineReducers(produce, {
   AUTH: authReducer,
   GLOBAL: globalReducer,
   TASKS: tasksReducer,
   PROJECTS: projectsReducer,
+  STATUSES: statusesReducer,
 });

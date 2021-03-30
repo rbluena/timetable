@@ -16,6 +16,9 @@ const {
   acceptUserInvitationHandler,
   removeUserGroupHandler,
   getProjectTasksHandler,
+  createProjectStatusHandler,
+  updateProjectStatusHandler,
+  deleteProjectStatusHandler,
   getProjectStatusesHandler,
   getProjectTasksByStatusHandler,
   assignStatusToTaskHandler,
@@ -87,6 +90,21 @@ router.get(`/:projectId/tasks`, getProjectTasksHandler);
  * Get tasks by status.
  */
 router.get(`/:projectId/tasks/statuses`, getProjectTasksByStatusHandler);
+
+/**
+ * Creating project's status
+ */
+router.post(`/:projectId/statuses`, createProjectStatusHandler);
+
+/**
+ * Updating project's status
+ */
+router.put(`/:projectId/statuses/:statusId`, updateProjectStatusHandler);
+
+/**
+ * Deleting status item
+ */
+router.delete(`/:projectId/statuses/:statusId`, deleteProjectStatusHandler);
 
 /**
  * Get statuses for the project.

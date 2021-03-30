@@ -280,8 +280,6 @@ export function removeUserFromGroupAction(projectId, groupId, id, type) {
 
       const normalizedData = getNormalizedGroup(data);
 
-      console.log(normalizedData);
-
       dispatch({ type: updateProjectGroupSuccess, payload: normalizedData });
     } catch (error) {
       const err = {

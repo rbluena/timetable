@@ -17,7 +17,13 @@ const {
   removeUserFromGroupService,
 } = require('../services/project');
 
-const { getProjectStatusesService } = require('../services/status');
+const {
+  getProjectStatusesService,
+  createStatusService,
+  updateStatusService,
+  deleteStatusService,
+} = require('../services/status');
+
 const {
   getProjectTasksService,
   getProjectTasksByStatusService,
@@ -342,6 +348,61 @@ exports.getProjectTasksByStatusHandler = async (req, res, next) => {
       message: '',
       data: data.docs,
       meta,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Handler to create a status for a project
+ */
+exports.createProjectStatusHandler = async (req, res, next) => {
+  try {
+    const data = await createStatusService(req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Status was created successfully!',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateProjectStatusHandler = async (req, res, next) => {
+  try {
+    const { statusId } = req.params;
+
+    const data = await updateStatusService(statusId, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Status was updated successfully!',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Handler to delete project status.
+ */
+exports.deleteProjectStatusHandler = async (req, res, next) => {
+  try {
+    const { statusId } = req.params;
+
+    const data = await deleteStatusService(statusId, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Status was deleted successfully!',
+      data,
     });
   } catch (error) {
     next(error);

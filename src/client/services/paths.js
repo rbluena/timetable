@@ -15,6 +15,12 @@ export default {
   updateProject: (id) => `${SERVER_API}/projects/${id}`,
   getProject: (id) => `${SERVER_API}/projects/${id}`,
   getProjects: `${SERVER_API}/projects`,
+  createProjectStatus: (projectId) =>
+    `${SERVER_API}/projects/${projectId}/statuses`,
+  updateStatus: (projectId, statusId) =>
+    `${SERVER_API}/projects/${projectId}/statuses/${statusId}`,
+  deleteStatus: (projectId, statusId) =>
+    `${SERVER_API}/projects/${projectId}/statuses/${statusId}`,
   getProjectStatuses: (projectId) =>
     `${SERVER_API}/projects/${projectId}/statuses`,
   upgradeProject: (id) => `${SERVER_API}/projects/${id}/upgrade`,

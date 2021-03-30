@@ -8,13 +8,27 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 // const MongoStore = require('connect-mongo')(session);
 const dbConfiguration = require('./db');
+/** Database setup */
+// const dbConnection = dbConfiguration();
+dbConfiguration();
+
+require('../models/Attachment');
+require('../models/Board');
+require('../models/Category');
+require('../models/Comment');
+require('../models/Group');
+// require('../models/Notification');
+require('../models/Project');
+require('../models/Role');
+require('../models/Status');
+require('../models/Subscription');
+require('../models/Task');
+require('../models/Timer');
+require('../models/Todo');
+require('../models/User');
 
 module.exports = function initializedApp(router) {
   const isProduction = process.env.NODE_ENV === 'production';
-
-  /** Database setup */
-  // const dbConnection = dbConfiguration();
-  dbConfiguration();
 
   const app = express();
 

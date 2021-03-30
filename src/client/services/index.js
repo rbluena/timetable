@@ -261,6 +261,84 @@ export const getProjectTasksService = async (projectId, options) => {
   }
 };
 
+/**
+ * Creating new project's status.
+ * @param {String} projectId
+ */
+export const createProjectStatus = async (projectId, data, token) => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: path.createProjectStatus(projectId),
+      data: data || {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Updating status item for the project
+ * @param {String} projectId ID of the project
+ * @param {Object} data Data to be updated
+ * @param {String} token JWT Token
+ */
+export const updateStatusItemService = async (
+  projectId,
+  statusId,
+  data,
+  token
+) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: path.updateStatus(projectId, statusId),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Deleting project status item
+ * @param {String} token JWT
+ * @param {String} projectId
+ * @param {String} statusId
+ */
+export const deleteStatusItemService = async (token, projectId, statusId) => {
+  try {
+    const response = await request({
+      method: 'DELETE',
+      url: path.deleteStatus(projectId, statusId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Retrieving statuses for the project.
+ * @param {String} projectId
+ */
 export const getProjectStatusesService = async (projectId) => {
   try {
     const response = await request({
@@ -274,6 +352,11 @@ export const getProjectStatusesService = async (projectId) => {
   }
 };
 
+/**
+ * Retrieving user's projects.
+ * @param {String} token
+ * @param {Object} query
+ */
 export const getUserProjectsService = async (token, query = {}) => {
   try {
     const response = await request({

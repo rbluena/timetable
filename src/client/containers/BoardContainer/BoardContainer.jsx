@@ -1,13 +1,26 @@
-import { useState } from 'react';
 import { cloneDeep } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Typography } from 'antd';
-import { openModalAction, addNewTaskAction } from '@app/actions';
-import { backlogSelector, taskCategoriesSelector, taskAssigneesSelector } from '@app/selectors';
+import {
+  openModalAction,
+  addNewTaskAction,
+  createNewStatusAction,
+  updateStatusAction,
+  deleteStatusAction,
+} from '@app/actions';
+
+import {
+  backlogSelector,
+  taskCategoriesSelector,
+  taskAssigneesSelector,
+  projectSelector,
+  boardSelector,
+} from '@app/selectors';
+
 import BoardColumns from './BoardColumns';
 import BacklogsList from './BacklogsList';
-import Header from './Header';
+// import Header from './Header';
 
 const { Title } = Typography;
 
@@ -35,59 +48,22 @@ function reorder(columnsData, taskId, source, destination) {
 
 const BoardContainer = () => {
   const dispatch = useDispatch();
+  const { title, _id: projectId } = useSelector(projectSelector);
   const { backlogIds, backlog } = useSelector(backlogSelector);
   const categories = useSelector(taskCategoriesSelector);
-  const { userAssignees, groupAssignees} = useSelector(taskAssigneesSelector);
+  const board = useSelector(boardSelector);
+  const { userAssignees, groupAssignees } = useSelector(taskAssigneesSelector);
 
-  const [backlogTasks, setBacklogTasks] = useState({
-    tasks: {
-      2345644: {
-        _id: 2345644,
-        text: 'What do you do!',
-      },
-      2345641: {
-        _id: 2345641,
-        text: 'Something second',
-      },
-      2345601: {
-        _id: 2345601,
-        text: 'What else can we make reasonable.',
-      },
-    },
-    result: [2345601, 2345644, 2345641],
-  });
-
-  const [board, setBoard] = useState({
-    columns: {
-      1: {
-        tasks: [
-          { _id: 1, text: 'First' },
-          { _id: 2, text: 'Second' },
-          { _id: 3, text: 'Third' },
-          { _id: 4, text: 'Fourth' },
-          { _id: 5, text: 'Fifth' },
-        ],
-      },
-      2: {
-        tasks: [],
-      },
-      0: {
-        tasks: [{ _id: 6, text: 'Sixth' }],
-      },
-      3: {
-        tasks: [{ _id: 7, text: 'Seventh' }],
-      },
-    },
-    result: [2, 3, 1, 0],
-  });
-
+  /**
+   * Moving item from one position to another
+   * inside the same column or different column.
+   * @param {Object}
+   */
   function handleDragEnd({ draggableId, destination, source }) {
-    if (!destination) {
-      return;
-    }
-    console.log(draggableId);
-    console.log(destination);
-    console.log(source);
+    // if (!destination) return;
+    // console.log(draggableId);
+    // console.log(destination);
+    // console.log(source);
   }
 
   function openNewTaskModal(data) {
@@ -97,6 +73,30 @@ const BoardContainer = () => {
 
     dispatch(addNewTaskAction(data));
     dispatch(openModalAction('task'));
+  }
+
+  /**
+   * Creating new column
+   */
+  function createNewColumn() {
+    const data = { project: projectId };
+    dispatch(createNewStatusAction(projectId, data));
+  }
+
+  /**
+   * Updating column/status details
+   * @param {Object} data
+   */
+  function updateColumn(columnId, data) {
+    dispatch(updateStatusAction(projectId, columnId, data));
+  }
+
+  /**
+   * Deleting column
+   * @param {String} columnId
+   */
+  function deleteColumn(columnId) {
+    dispatch(deleteStatusAction(projectId, columnId));
   }
 
   return (
@@ -112,13 +112,18 @@ const BoardContainer = () => {
             userAssignees={userAssignees}
           />
         </div>
+
         <div className="m-2 w-8/12">
-          <Title type="secondary" level={4}>
-            Title of the page.
-          </Title>
+          <Title level={5}>{title}</Title>
+
           <div className="bg-white shadow rounded p-2">
-            <Header />
-            <BoardColumns board={board} />
+            {/* <Header /> */}
+            <BoardColumns
+              board={board}
+              createNewColumn={createNewColumn}
+              updateColumn={updateColumn}
+              deleteColumn={deleteColumn}
+            />
           </div>
         </div>
       </div>
