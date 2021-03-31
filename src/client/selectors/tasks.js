@@ -6,8 +6,8 @@ const selectCalendarTasks = (state) => {
 };
 
 const selectBacklog = (state) => {
-  const { backlogIds, backlog, backlogMeta } = state.TASKS;
-  return { backlogIds, backlog, backlogMeta };
+  const { backlogIds, tasks, backlogMeta } = state.TASKS;
+  return { backlogIds, tasks, backlogMeta };
 };
 
 const selectTaskAssignees = (state) => {

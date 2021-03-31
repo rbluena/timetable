@@ -52,10 +52,16 @@ export function getNormalizedGroup(data = {}) {
   return normalize(data, groupSchema);
 }
 
+/**
+ * Get normalized statuses.
+ * @param {Object} data
+ */
 export function getNormalizedStatues(data = []) {
+  const tasksSchema = new schema.Entity('tasks', {}, { idAttribute: '_id' });
+
   const statusesSchema = new schema.Entity(
     'statuses',
-    {},
+    { tasks: [tasksSchema] },
     { idAttribute: '_id' }
   );
   return normalize(data, [statusesSchema]);

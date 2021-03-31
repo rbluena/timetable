@@ -3,6 +3,7 @@ const { isEmpty } = require('lodash');
 const Project = require('../models/Project');
 const Group = require('../models/Group');
 const User = require('../models/User');
+const Task = require('../models/Task');
 // const Status = require('../models/Status');
 const Subscription = require('../models/Subscription');
 const { findUserById } = require('./user');
@@ -290,6 +291,7 @@ const updateProjectGroupService = async (groupId, data) => {
  * @param {String} groupId
  */
 const deleteProjectGroupService = async (projectId, groupId) => {
+  // Deleting the project
   const deleted = await Group.findOneAndDelete({
     project: mongoose.Types.ObjectId(projectId),
     _id: mongoose.Types.ObjectId(groupId),
@@ -299,6 +301,12 @@ const deleteProjectGroupService = async (projectId, groupId) => {
     await Project.updateOne(
       { _id: mongoose.Types.ObjectId(projectId) },
       { $pull: { groups: mongoose.Types.ObjectId(groupId) } }
+    );
+
+    // Remove all assignments of the group from tasks.
+    await Task.updateMany(
+      { groupAssignees: { $in: [mongoose.Types.ObjectId(groupId)] } },
+      { $pull: { groupAssignees: groupId } }
     );
   }
 

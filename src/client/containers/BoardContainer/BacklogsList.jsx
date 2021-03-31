@@ -1,11 +1,19 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Button, Tooltip } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
 import { PlusIcon } from '@app/components/Icons';
 import BacklogCard from './BacklogCard';
 
-const BacklogsList = ({ openNewTaskModal, backlog, backlogIds, categories, userAssignees, groupAssignees }) => (
-  <div className="h-screen overflow-y-auto p-2">
+const BacklogsList = ({
+  openNewTaskModal,
+  tasks,
+  backlogIds,
+  categories,
+  userAssignees,
+  groupAssignees,
+}) => (
+  // <div className="h-screen overflow-y-auto p-2">
+  <div>
     <div className="mx-2 bg-neutral-50">
       <h2 className="ml-2 text-lg">Backlog</h2>
     </div>
@@ -28,12 +36,13 @@ const BacklogsList = ({ openNewTaskModal, backlog, backlogIds, categories, userA
     {/* end: Button to add a new task */}
 
     {/* start: Backlog list */}
-    <Droppable droppableId="50">
+    <Droppable droppableId="backlog">
       {(provided) => (
         <div className="" {...provided.droppableProps} ref={provided.innerRef}>
-          {backlogIds && backlogIds.length &&
+          {backlogIds &&
+            backlogIds.length > 0 &&
             backlogIds.map((taskId, index) => {
-              const task = backlog[taskId];
+              const task = tasks[taskId];
 
               return (
                 <BacklogCard
@@ -54,25 +63,22 @@ const BacklogsList = ({ openNewTaskModal, backlog, backlogIds, categories, userA
     </Droppable>
     {/* end: Backlog list */}
   </div>
-)
-
+);
 
 BacklogsList.defaultProps = {
-  backlog: {},
+  tasks: {},
   categories: {},
   userAssignees: {},
-  groupAssignees: {}
-}
+  groupAssignees: {},
+};
 
-
-BacklogsList.propTypes  ={
+BacklogsList.propTypes = {
   openNewTaskModal: PropTypes.func.isRequired,
-  backlog: PropTypes.objectOf(PropTypes.any),
+  tasks: PropTypes.objectOf(PropTypes.any),
   backlogIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   categories: PropTypes.objectOf(PropTypes.any),
   userAssignees: PropTypes.objectOf(PropTypes.any),
-  groupAssignees: PropTypes.objectOf(PropTypes.any)
-}
-
+  groupAssignees: PropTypes.objectOf(PropTypes.any),
+};
 
 export default BacklogsList;

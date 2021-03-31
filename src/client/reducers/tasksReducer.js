@@ -1,11 +1,11 @@
 export const setOpenedTask = 'TASK/OPEN_TASK';
 export const setNewTask = 'TASK/SET_NEW';
 export const closeTask = 'TASK/CLOSE_TASK';
-export const setEditingTask =   'TASK/SET_EDITING';
+export const setEditingTask = 'TASK/SET_EDITING';
 export const cancelEditingTask = 'TASK/CANCEL_EDITING';
 export const getTask = 'TASK/GET_TASK';
 export const getTaskSuccess = 'TASK/GET_TASK_SUCCESS';
-export const getTaskFailure ='TASK/GET_TASK_FAILURE';
+export const getTaskFailure = 'TASK/GET_TASK_FAILURE';
 export const getTasks = 'TASK/GET_TASKS';
 export const getTasksSuccess = 'TASK/GET_TASKS_SUCCESS';
 export const getTasksFailure = 'TASK/GET_TASKS_FAILURE';
@@ -20,6 +20,8 @@ export const updateTaskFailure = 'TASK/UPDATE_TASK_FAILURE';
 export const deleteTask = 'TASK/DELETE_TASK';
 export const deleteTaskSuccess = 'TASK/DELETE_TASK_SUCCESS';
 export const deleteTaskFailure = 'TASK/DELETE_TASK_FAILURE';
+export const backlogTaskAssingingStatusSuccess =
+  'TASK/BACKLOG_ASSIGN_TASK_STATUS_SUCCESS';
 
 const initialState = {
   fetching: false,
@@ -62,9 +64,13 @@ export default function taskReducer(state = initialState, action) {
 
       return {
         ...state,
-        ...backlogData.entities,
         backlogIds: backlogData.result,
-        backlogMeta
+        backlogMeta,
+        ...backlogData.entities,
+        tasks: {
+          ...state.tasks,
+          ...backlogData.entities.backlog,
+        },
       };
     }
 
@@ -74,17 +80,17 @@ export default function taskReducer(state = initialState, action) {
     }
 
     case createTaskSuccess: {
-      state.editingTask =  null
-      state.fetching =  false
+      state.editingTask = null;
+      state.fetching = false;
 
       return {
         ...state,
-        backlog: {
-          ...state.backlog,
-          [payload._id]: payload
+        tasks: {
+          ...state.tasks,
+          [payload._id]: payload,
         },
-        backlogIds: [...state.backlogIds]
-      }
+        backlogIds: [payload._id, ...state.backlogIds],
+      };
     }
 
     case createTaskFailure: {
@@ -121,6 +127,21 @@ export default function taskReducer(state = initialState, action) {
 
     case deleteTaskFailure: {
       state.fetching = false;
+      return state;
+    }
+
+    case backlogTaskAssingingStatusSuccess: {
+      const { taskId, index, type } = payload;
+      const backlogs = state.backlogIds;
+
+      // Removing from backlog
+      if (type === 'remove') {
+        state.backlogIds = backlogs.filter((id) => id !== taskId);
+      } else {
+        backlogs.splice(index, 0, taskId);
+        state.backlogIds = backlogs;
+      }
+
       return state;
     }
 

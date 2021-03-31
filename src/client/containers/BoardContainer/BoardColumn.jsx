@@ -3,12 +3,22 @@ import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
 import { Typography, Button } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-// import TaskCard from './TaskCard';
+import TaskCard from './TaskCard';
+
 const { Title } = Typography;
 
-const BoardColumn = ({ columnIndex, column, updateColumn, deleteColumn }) => {
+const BoardColumn = ({
+  tasks,
+  columnIndex,
+  column,
+  categories,
+  userAssignees,
+  groupAssignees,
+  updateColumn,
+  deleteColumn,
+}) => {
   const [editingColumn, setEditingColumn] = useState(false);
-  const { name, tasks } = column;
+  const { name, tasks: taskIds } = column;
   const isEditingColumn = !name || name.length === 0 || editingColumn;
 
   function changeColumnTitle(value) {
@@ -26,12 +36,12 @@ const BoardColumn = ({ columnIndex, column, updateColumn, deleteColumn }) => {
     <Droppable key={columnIndex} droppableId={column._id}>
       {(provided) => (
         <div
-          className=""
+          className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-auto"
           style={{ minWidth: '280px', height: 'calc(100vh - 92px)' }}
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          <div className="bg-neutral-50 p-1 h-full mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-auto">
+          <div className="">
             {/* start: column header  */}
             <div className="flex items-start">
               <Title
@@ -62,24 +72,38 @@ const BoardColumn = ({ columnIndex, column, updateColumn, deleteColumn }) => {
           </div>
 
           {/* start: rendering tasks */}
-          {/* <div>
-            {tasks &&
-              tasks.length > 0 &&
-              tasks.map((item, index) => (
-                <TaskCard
-                  index={index}
-                  draggableId={`${item._id}`}
-                  task={item}
-                />
-              ))}
-          </div> */}
-          {/* end: rendering tasks */}
+          <div>
+            {taskIds &&
+              taskIds.length > 0 &&
+              taskIds.map((taskId, index) => {
+                const task = tasks[taskId];
 
-          {provided.placeholder}
+                return (
+                  <TaskCard
+                    key={taskId}
+                    index={index}
+                    draggableId={`${taskId}`}
+                    task={task}
+                    categories={categories}
+                    userAssignees={userAssignees}
+                    groupAssignees={groupAssignees}
+                  />
+                );
+              })}
+            {provided.placeholder}
+          </div>
+          {/* end: rendering tasks */}
         </div>
       )}
     </Droppable>
   );
+};
+
+BoardColumn.defaultProps = {
+  tasks: {},
+  categories: {},
+  userAssignees: {},
+  groupAssignees: {},
 };
 
 BoardColumn.propTypes = {
@@ -87,5 +111,11 @@ BoardColumn.propTypes = {
   column: PropTypes.objectOf(PropTypes.any).isRequired,
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
+  openNewTaskModal: PropTypes.func.isRequired,
+  backlogIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tasks: PropTypes.objectOf(PropTypes.any),
+  categories: PropTypes.objectOf(PropTypes.any),
+  userAssignees: PropTypes.objectOf(PropTypes.any),
+  groupAssignees: PropTypes.objectOf(PropTypes.any),
 };
 export default BoardColumn;

@@ -5,6 +5,10 @@ import BoardColumn from './BoardColumn';
 
 const BoardColumns = ({
   board,
+  tasks,
+  categories,
+  userAssignees,
+  groupAssignees,
   createNewColumn,
   updateColumn,
   deleteColumn,
@@ -21,7 +25,11 @@ const BoardColumns = ({
           return (
             <BoardColumn
               column={column}
+              tasks={tasks}
               columnIndex={index}
+              categories={categories}
+              userAssignees={userAssignees}
+              groupAssignees={groupAssignees}
               updateColumn={updateColumn}
               deleteColumn={deleteColumn}
             />
