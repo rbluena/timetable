@@ -36,14 +36,14 @@ const BoardColumn = ({
     <Droppable key={columnIndex} droppableId={column._id}>
       {(provided) => (
         <div
-          className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-auto"
-          style={{ minWidth: '280px', height: 'calc(100vh - 92px)' }}
+          className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-auto overflow-x-hidden"
+          style={{ width: '300px', height: 'calc(100vh - 92px)' }}
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
           <div className="">
             {/* start: column header  */}
-            <div className="flex items-start">
+            <div className="flex items-start p-2">
               <Title
                 level={5}
                 type="secondary"
@@ -72,26 +72,24 @@ const BoardColumn = ({
           </div>
 
           {/* start: rendering tasks */}
-          <div>
-            {taskIds &&
-              taskIds.length > 0 &&
-              taskIds.map((taskId, index) => {
-                const task = tasks[taskId];
+          {taskIds &&
+            taskIds.length > 0 &&
+            taskIds.map((taskId, index) => {
+              const task = tasks[taskId];
 
-                return (
-                  <TaskCard
-                    key={taskId}
-                    index={index}
-                    draggableId={`${taskId}`}
-                    task={task}
-                    categories={categories}
-                    userAssignees={userAssignees}
-                    groupAssignees={groupAssignees}
-                  />
-                );
-              })}
-            {provided.placeholder}
-          </div>
+              return (
+                <TaskCard
+                  key={taskId}
+                  index={index}
+                  draggableId={`${taskId}`}
+                  task={task}
+                  categories={categories}
+                  userAssignees={userAssignees}
+                  groupAssignees={groupAssignees}
+                />
+              );
+            })}
+          {provided.placeholder}
           {/* end: rendering tasks */}
         </div>
       )}

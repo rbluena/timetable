@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { Typography } from 'antd';
 import {
   openModalAction,
   addNewTaskAction,
@@ -22,11 +21,9 @@ import BoardColumns from './BoardColumns';
 import BacklogsList from './BacklogsList';
 // import Header from './Header';
 
-const { Title } = Typography;
-
 const BoardContainer = () => {
   const dispatch = useDispatch();
-  const { title, _id: projectId } = useSelector(projectSelector);
+  const { title, description, _id: projectId } = useSelector(projectSelector);
   const { backlogIds, tasks } = useSelector(backlogSelector);
   const categories = useSelector(taskCategoriesSelector);
   const board = useSelector(boardSelector);
@@ -78,8 +75,12 @@ const BoardContainer = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="flex">
-        <div className="md:w-2/12">
+      <div className="flex h-screen">
+        <div className="px-1 py-4">
+          <h2 className=" text-xl m-0 p-0 text-neutral-400 text-center">
+            Backlog
+          </h2>
+
           <BacklogsList
             openNewTaskModal={openNewTaskModal}
             tasks={tasks}
@@ -90,10 +91,13 @@ const BoardContainer = () => {
           />
         </div>
 
-        <div className="m-2 w-8/12">
-          <Title level={5}>{title}</Title>
+        <div className="bg-white w-full p-2 pl-5 shadow-md">
+          <div>
+            <h2 className=" text-xl m-0 p-0">{title}</h2>
+            <p className=" text-neutral-400">{description}</p>
+          </div>
 
-          <div className="bg-white shadow rounded p-2">
+          <div className="">
             {/* <Header /> */}
             <BoardColumns
               board={board}

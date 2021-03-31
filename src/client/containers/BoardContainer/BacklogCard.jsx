@@ -18,7 +18,7 @@ const BacklogCard = ({
     <Draggable draggableId={draggableId} index={index}>
       {(provided) => (
         <div
-          className="bg-white p-2 shadow rounded m-1 my-2 relative cursor-pointer"
+          className="bg-white p-2 shadow-sm rounded-sm m-1 my-2 relative"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}

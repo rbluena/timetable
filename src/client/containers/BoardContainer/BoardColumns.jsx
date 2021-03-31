@@ -16,7 +16,7 @@ const BoardColumns = ({
   const { columnIds, columns } = board;
 
   return (
-    <div className="p-4 overflow-x-auto flex pr-4 h-full">
+    <div className="overflow-x-auto flex h-full">
       {columnIds &&
         columnIds.length > 0 &&
         columnIds.map((columnId, index) => {
@@ -50,11 +50,22 @@ const BoardColumns = ({
   );
 };
 
+BoardColumns.defaultProps = {
+  tasks: {},
+  categories: {},
+  userAssignees: {},
+  groupAssignees: {},
+};
+
 BoardColumns.propTypes = {
   board: PropTypes.objectOf(PropTypes.any).isRequired,
   createNewColumn: PropTypes.func.isRequired,
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
+  tasks: PropTypes.objectOf(PropTypes.any),
+  categories: PropTypes.objectOf(PropTypes.any),
+  userAssignees: PropTypes.objectOf(PropTypes.any),
+  groupAssignees: PropTypes.objectOf(PropTypes.any),
 };
 
 export default BoardColumns;

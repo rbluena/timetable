@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Button, Tooltip } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
 import { PlusIcon } from '@app/components/Icons';
-import BacklogCard from './BacklogCard';
+import TaskCard from './TaskCard';
 
 const BacklogsList = ({
   openNewTaskModal,
@@ -12,14 +12,9 @@ const BacklogsList = ({
   userAssignees,
   groupAssignees,
 }) => (
-  // <div className="h-screen overflow-y-auto p-2">
-  <div>
-    <div className="mx-2 bg-neutral-50">
-      <h2 className="ml-2 text-lg">Backlog</h2>
-    </div>
-
+  <div className="h-full w-80 overflow-auto">
     {/* start: Button to add a new task */}
-    <div className="transition-shadow duration-150 border border-dashed border-primary-200 hover:shadow-xl">
+    <div className="transition-shadow duration-150 mx-1 border border-dashed border-primary-200 hover:shadow-xl">
       <Tooltip title="Add task">
         <Button
           size="large"
@@ -38,14 +33,14 @@ const BacklogsList = ({
     {/* start: Backlog list */}
     <Droppable droppableId="backlog">
       {(provided) => (
-        <div className="" {...provided.droppableProps} ref={provided.innerRef}>
+        <div {...provided.droppableProps} ref={provided.innerRef}>
           {backlogIds &&
             backlogIds.length > 0 &&
             backlogIds.map((taskId, index) => {
               const task = tasks[taskId];
 
               return (
-                <BacklogCard
+                <TaskCard
                   key={taskId}
                   index={index}
                   draggableId={taskId}
