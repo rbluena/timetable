@@ -1,5 +1,6 @@
 import { decode } from 'jsonwebtoken';
 import { omit } from 'lodash';
+
 import {
   createTaskService,
   // updateTaskService,
@@ -21,6 +22,8 @@ import {
   // removeTask,
   // removeTaskSuccess,
 } from '@app/reducers/tasksReducer';
+
+import { getNormalizedTask } from './schema';
 
 export function setEditingTaskAction(data) {
   return {
@@ -75,9 +78,11 @@ export function createTaskAction(taskData) {
         token
       );
 
+      const normalizedData = getNormalizedTask(data);
+
       dispatch({
         type: createTaskSuccess,
-        payload: data,
+        payload: normalizedData,
       });
 
       // dispatch(setNotification({ type: 'success', message }));

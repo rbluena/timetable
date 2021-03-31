@@ -393,7 +393,7 @@ const removeUserFromGroupService = async (groupId, id, type) => {
       { new: true }
     );
   } else {
-    // Removed user is a member
+    // Removed user who is an accepted member
     updatedGroup = await Group.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(groupId) },
       { $pull: { members: mongoose.Types.ObjectId(id) } },

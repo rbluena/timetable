@@ -80,6 +80,9 @@ export default function taskReducer(state = initialState, action) {
     }
 
     case createTaskSuccess: {
+      const { entities, result } = payload;
+      const { task, groupAssignees, userAssignees } = entities;
+
       state.editingTask = null;
       state.fetching = false;
 
@@ -87,9 +90,17 @@ export default function taskReducer(state = initialState, action) {
         ...state,
         tasks: {
           ...state.tasks,
-          [payload._id]: payload,
+          ...task,
         },
-        backlogIds: [payload._id, ...state.backlogIds],
+        groupAssignees: {
+          ...state.groupAssignees,
+          ...groupAssignees,
+        },
+        userAssignees: {
+          ...state.userAssignees,
+          ...userAssignees,
+        },
+        backlogIds: [result, ...state.backlogIds],
       };
     }
 
