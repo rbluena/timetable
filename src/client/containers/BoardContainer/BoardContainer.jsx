@@ -1,5 +1,12 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { Button } from 'antd';
+import {
+  ArrowRightOutlined,
+  CloseCircleOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
 import {
   openModalAction,
   addNewTaskAction,
@@ -23,6 +30,7 @@ import BacklogsList from './BacklogsList';
 
 const BoardContainer = () => {
   const dispatch = useDispatch();
+  const [toggleBacklog, setToggleBacklog] = useState(false);
   const { title, description, _id: projectId } = useSelector(projectSelector);
   const { backlogIds, tasks } = useSelector(backlogSelector);
   const categories = useSelector(taskCategoriesSelector);
@@ -75,11 +83,25 @@ const BoardContainer = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="flex h-screen">
-        <div className="px-1 py-4">
-          <h2 className=" text-xl m-0 p-0 text-neutral-400 text-center">
-            Backlog
-          </h2>
+      <div className="bg-white flex h-screen">
+        {/* start: Backlog container */}
+        <div
+          className="px-1 h-full relative bg-neutral-50 shadow border-r border-primary-300"
+          style={{
+            // height: 'calc(100vh - 90px)',
+            width: '280px',
+            minWidth: '280px',
+            marginLeft: toggleBacklog ? '' : '-280px',
+          }}
+        >
+          <div className="">
+            <h2 className=" text-xl m-0 p-0 text-neutral-400 text-center">
+              Backlog
+            </h2>
+            {/* <Button onClick={() => setToggleBacklog(!toggleBacklog)}>
+                <CloseOutlined />
+              </Button> */}
+          </div>
 
           <BacklogsList
             openNewTaskModal={openNewTaskModal}
@@ -90,27 +112,43 @@ const BoardContainer = () => {
             userAssignees={userAssignees}
           />
         </div>
+        {/* end: Backlog container */}
 
-        <div className="bg-white w-full p-2 pl-5 shadow-md">
-          <div>
-            <h2 className=" text-xl m-0 p-0">{title}</h2>
-            <p className=" text-neutral-400">{description}</p>
+        {/* start: Board container */}
+        <div className="p-2">
+          {/* start: Board header */}
+          <div className="my-2 border-b border-primary-100 flex">
+            <Button
+              type="primary"
+              className="mt-2"
+              onClick={() => setToggleBacklog(!toggleBacklog)}
+            >
+              <ArrowRightOutlined
+                className={`transform ${toggleBacklog ? 'rotate-180' : ''}`}
+              />
+            </Button>
+            &nbsp;&nbsp;
+            <div>
+              <h2 className=" text-lg m-0 p-0">{title}</h2>
+              <p className=" text-xs text-neutral-400">{description}</p>
+            </div>
           </div>
+          {/* end: Board header */}
 
-          <div className="">
-            {/* <Header /> */}
-            <BoardColumns
-              board={board}
-              tasks={tasks}
-              createNewColumn={createNewColumn}
-              categories={categories}
-              groupAssignees={groupAssignees}
-              userAssignees={userAssignees}
-              updateColumn={updateColumn}
-              deleteColumn={deleteColumn}
-            />
-          </div>
+          {/* start:  Board columns */}
+          <BoardColumns
+            board={board}
+            tasks={tasks}
+            createNewColumn={createNewColumn}
+            categories={categories}
+            groupAssignees={groupAssignees}
+            userAssignees={userAssignees}
+            updateColumn={updateColumn}
+            deleteColumn={deleteColumn}
+          />
+          {/* end: Board columns */}
         </div>
+        {/* end: Board Container */}
       </div>
     </DragDropContext>
   );

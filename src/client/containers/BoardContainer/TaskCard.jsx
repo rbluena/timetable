@@ -27,6 +27,7 @@ const BacklogCard = ({
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          // style={{ width: '256px' }}
         >
           <div className="flex">
             <p className="font-normal">{task.title}</p>

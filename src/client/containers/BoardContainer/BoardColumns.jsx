@@ -16,7 +16,7 @@ const BoardColumns = ({
   const { columnIds, columns } = board;
 
   return (
-    <div className="overflow-x-auto flex h-full">
+    <div className="flex w-full">
       {columnIds &&
         columnIds.length > 0 &&
         columnIds.map((columnId, index) => {

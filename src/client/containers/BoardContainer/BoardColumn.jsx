@@ -65,7 +65,7 @@ const BoardColumn = ({
                 <DeleteOutlined />
               </Button>
               <div className="ml-auto font-bold italic text-neutral-500">
-                {tasks.length}
+                {taskIds.length}
               </div>
             </div>
             {/* end: column header  */}

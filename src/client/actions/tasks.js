@@ -1,5 +1,6 @@
 import { decode } from 'jsonwebtoken';
 import { omit } from 'lodash';
+import { setNotificationAction, signUserOutAction } from '@app/actions';
 
 import {
   createTaskService,
@@ -87,6 +88,16 @@ export function createTaskAction(taskData) {
 
       // dispatch(setNotification({ type: 'success', message }));
     } catch (error) {
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({ type: createTaskFailure });
     }
   };

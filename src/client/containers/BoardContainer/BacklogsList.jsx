@@ -12,7 +12,7 @@ const BacklogsList = ({
   userAssignees,
   groupAssignees,
 }) => (
-  <div className="h-full w-80 overflow-auto">
+  <div className="overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
     {/* start: Button to add a new task */}
     <div className="transition-shadow duration-150 mx-1 border border-dashed border-primary-200 hover:shadow-xl">
       <Tooltip title="Add task">
