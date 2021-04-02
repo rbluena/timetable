@@ -33,67 +33,68 @@ const BoardColumn = ({
   }
 
   return (
-    <Droppable key={columnIndex} droppableId={column._id}>
-      {(provided) => (
-        <div
-          className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-auto overflow-x-hidden"
-          style={{ width: '300px', height: 'calc(100vh - 92px)' }}
-          {...provided.droppableProps}
-          ref={provided.innerRef}
-        >
-          <div className="">
-            {/* start: column header  */}
-            <div className="flex items-start p-2">
-              <Title
-                level={5}
-                type="secondary"
-                editable={{
-                  editing: isEditingColumn,
-                  onChange: changeColumnTitle,
-                  onStart: () => setEditingColumn(true),
-                }}
-              >
-                <span className="uppercase font-medium text-base">{name}</span>
-              </Title>
-              <Button
-                type="text"
-                size="small"
-                danger
-                onClick={deleteBoardColumn}
-              >
-                {/* <EllipsisOutlined /> */}
-                <DeleteOutlined />
-              </Button>
-              <div className="ml-auto font-bold italic text-neutral-500">
-                {taskIds.length}
-              </div>
-            </div>
-            {/* end: column header  */}
+    <div
+      className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-hidden overflow-x-hidden"
+      style={{ width: '300px', height: 'calc(100vh - 92px)' }}
+    >
+      {/* start: column header  */}
+      <div className="">
+        <div className="flex items-start p-2">
+          <Title
+            level={5}
+            type="secondary"
+            editable={{
+              editing: isEditingColumn,
+              onChange: changeColumnTitle,
+              onStart: () => setEditingColumn(true),
+            }}
+          >
+            <span className="uppercase font-medium text-base">{name}</span>
+          </Title>
+          <Button type="text" size="small" danger onClick={deleteBoardColumn}>
+            {/* <EllipsisOutlined /> */}
+            <DeleteOutlined />
+          </Button>
+          <div className="ml-auto font-bold italic text-neutral-500">
+            {taskIds.length}
           </div>
-
-          {/* start: rendering tasks */}
-          {taskIds &&
-            taskIds.length > 0 &&
-            taskIds.map((taskId, index) => {
-              const task = tasks[taskId];
-
-              return (
-                <TaskCard
-                  key={taskId}
-                  index={index}
-                  draggableId={`${taskId}`}
-                  task={task}
-                  categories={categories}
-                  userAssignees={userAssignees}
-                  groupAssignees={groupAssignees}
-                />
-              );
-            })}
-          {provided.placeholder}
-          {/* end: rendering tasks */}
         </div>
-      )}
-    </Droppable>
+      </div>
+      {/* end: column header  */}
+
+      {/* start: Droppable section */}
+      <Droppable key={columnIndex} droppableId={column._id}>
+        {(provided) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="overflow-y-auto h-full"
+          >
+            {/* start: rendering tasks */}
+            {taskIds &&
+              taskIds.length > 0 &&
+              taskIds.map((taskId, index) => {
+                const task = tasks[taskId];
+
+                return (
+                  <TaskCard
+                    key={taskId}
+                    index={index}
+                    draggableId={`${taskId}`}
+                    task={task}
+                    categories={categories}
+                    userAssignees={userAssignees}
+                    groupAssignees={groupAssignees}
+                  />
+                );
+              })}
+            {provided.placeholder}
+            {/* end: rendering tasks */}
+          </div>
+        )}
+      </Droppable>
+      {/* end: Droppable section */}
+    </div>
   );
 };
 

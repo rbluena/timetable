@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Button } from 'antd';
-import {
-  ArrowRightOutlined,
-  CloseCircleOutlined,
-  CloseOutlined,
-} from '@ant-design/icons';
+import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   openModalAction,
   addNewTaskAction,
@@ -94,13 +90,17 @@ const BoardContainer = () => {
             marginLeft: toggleBacklog ? '' : '-280px',
           }}
         >
-          <div className="">
+          <div className="flex items-center p-2">
             <h2 className=" text-xl m-0 p-0 text-neutral-400 text-center">
               Backlog
             </h2>
-            {/* <Button onClick={() => setToggleBacklog(!toggleBacklog)}>
-                <CloseOutlined />
-              </Button> */}
+            <Button
+              type="text"
+              className="ml-auto"
+              onClick={() => setToggleBacklog(!toggleBacklog)}
+            >
+              <CloseOutlined />
+            </Button>
           </div>
 
           <BacklogsList
@@ -115,7 +115,13 @@ const BoardContainer = () => {
         {/* end: Backlog container */}
 
         {/* start: Board container */}
-        <div className="p-2">
+        <div
+          className="p-2 fixed"
+          style={{
+            width: 'calc(100% - 4rem)',
+            marginLeft: toggleBacklog ? '280px' : '',
+          }}
+        >
           {/* start: Board header */}
           <div className="my-2 border-b border-primary-100 flex">
             <Button
@@ -123,7 +129,7 @@ const BoardContainer = () => {
               className="mt-2"
               onClick={() => setToggleBacklog(!toggleBacklog)}
             >
-              <ArrowRightOutlined
+              <CaretRightOutlined
                 className={`transform ${toggleBacklog ? 'rotate-180' : ''}`}
               />
             </Button>
