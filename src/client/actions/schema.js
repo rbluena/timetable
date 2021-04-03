@@ -17,6 +17,8 @@ export function getNormalizedProject(data = {}) {
     { idAttribute: '_id' }
   );
 
+  const teamSchema = new schema.Entity('team', {}, { idAttribute: '_id' });
+
   const categoriesSchema = new schema.Entity(
     'categories',
     {},
@@ -25,7 +27,11 @@ export function getNormalizedProject(data = {}) {
 
   const projectSchema = new schema.Entity(
     'project',
-    { groups: [groupsSchema], categories: [categoriesSchema] },
+    {
+      team: [teamSchema],
+      groups: [groupsSchema],
+      categories: [categoriesSchema],
+    },
     { idAttribute: '_id' }
   );
 
@@ -57,7 +63,26 @@ export function getNormalizedGroup(data = {}) {
  * @param {Object} data
  */
 export function getNormalizedStatues(data = []) {
-  const tasksSchema = new schema.Entity('tasks', {}, { idAttribute: '_id' });
+  const groupAssigneesSchema = new schema.Entity(
+    'groupAssignees',
+    {},
+    { idAttribute: '_id' }
+  );
+
+  const userAssigneesSchema = new schema.Entity(
+    'userAssignees',
+    {},
+    { idAttribute: '_id' }
+  );
+
+  const tasksSchema = new schema.Entity(
+    'tasks',
+    {
+      groupAssignees: [groupAssigneesSchema],
+      userAssignees: [userAssigneesSchema],
+    },
+    { idAttribute: '_id' }
+  );
 
   const statusesSchema = new schema.Entity(
     'statuses',
@@ -81,7 +106,7 @@ export function getNormalizedBacklog(data = []) {
   );
 
   const backlogSchema = new schema.Entity(
-    'backlog',
+    'tasks',
     {
       groupAssignees: [groupAssigneesSchema],
       userAssignees: [userAssigneesSchema],

@@ -21,7 +21,7 @@ const {
   deleteProjectStatusHandler,
   getProjectStatusesHandler,
   getProjectTasksByStatusHandler,
-  assignStatusToTaskHandler,
+  updateTaskStatusHandler,
   removeStatusFromTaskHandler,
 } = require('../../handlers/project');
 
@@ -114,10 +114,7 @@ router.get(`/:projectId/statuses`, getProjectStatusesHandler);
 /**
  * Assign status to a task.
  */
-router.put(
-  `/:projectId/tasks/:taskId/statuses/:statusId`,
-  assignStatusToTaskHandler
-);
+router.put(`/:projectId/tasks/:taskId/status`, updateTaskStatusHandler);
 
 /**
  * Unassign status from a task.

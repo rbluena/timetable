@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { format } from 'date-fns';
 
-const BacklogCard = ({
+const TaskCard = ({
   index,
   draggableId,
   task,
@@ -41,7 +41,7 @@ const BacklogCard = ({
           )}
 
           <div className="flex items-end">
-            <span className="text-xs font-bold text-neutral-400 inline-block my-1 p-1 bg-neutral-100 border border-primary-100">
+            <span className="text-xs font-bold text-neutral-400 inline-block my-1 px-1 bg-neutral-100 border border-primary-100">
               <ClockCircleTwoTone />
               &nbsp;
               {task.schedule && format(new Date(task.schedule.start), 'MMM dd')}
@@ -91,14 +91,14 @@ const BacklogCard = ({
   );
 };
 
-BacklogCard.defaultProps = {
+TaskCard.defaultProps = {
   backlog: {},
   categories: {},
   userAssignees: {},
   groupAssignees: {},
 };
 
-BacklogCard.propTypes = {
+TaskCard.propTypes = {
   index: PropTypes.number.isRequired,
   draggableId: PropTypes.string.isRequired,
   task: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -109,4 +109,4 @@ BacklogCard.propTypes = {
   groupAssignees: PropTypes.objectOf(PropTypes.any),
 };
 
-export default BacklogCard;
+export default TaskCard;

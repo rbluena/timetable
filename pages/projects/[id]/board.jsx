@@ -1,17 +1,12 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { LayoutManager } from '@app/components';
 import dynamic from 'next/dynamic';
 import { useDispatch } from 'react-redux';
 import { getCookieToken } from '@app/utils';
+import { getBoardTasksAction } from '@app/actions';
 import { signInUserSuccess } from '@app/reducers/authReducer';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
-import { setProjectStatuses } from '@app/reducers/statusesReducer';
-import { getProjectBacklogSuccess } from '@app/reducers/tasksReducer';
-import {
-  getNormalizedProject,
-  getNormalizedStatues,
-  getNormalizedBacklog,
-} from '@app/actions/schema';
+import { getNormalizedProject } from '@app/actions/schema';
 
 import {
   getProjectService,
@@ -45,12 +40,15 @@ export async function getServerSideProps({ params, req }) {
     ({ data: backlogData, meta: backlogMeta } = await getProjectTasksService(
       id,
       {
-        status: null,
+        status: 'null',
       }
     ));
-    // ({ data: boardsTasks } = await getTasksByStatusService(id));
+
+    if (!project) {
+      // TODO: RETURN 404
+    }
   } catch (error) {
-    // console.log(error);
+    // TODO: RETURN 404
   }
 
   return {
@@ -74,10 +72,12 @@ export default function Board({
   const dispatch = useDispatch();
 
   useEffectOnce(() => {
+    // If user is signed in then set the token.
     if (token && token.length) {
       dispatch({ type: signInUserSuccess, payload: token });
     }
 
+    // If project found then set the project
     if (project) {
       const normalizedProject = getNormalizedProject(project);
 
@@ -87,45 +87,30 @@ export default function Board({
       });
     }
 
-    if (statuses) {
-      const normalizedStatuses = getNormalizedStatues(statuses);
+    // If no error from the server
+    if (statuses && backlogData) {
+      dispatch(getBoardTasksAction(statuses, backlogData, backlogMeta));
+    }
+  });
 
-        dispatch({
-          type: setProjectStatuses,
-          payload: normalizedStatuses,
-        });
-      }
+  return (
+    <LayoutManager showSidebar>
+      <ViewProject />
+    </LayoutManager>
+  );
+}
 
-      if (backlogData) {
-        const normalizedBacklog = getNormalizedBacklog(backlogData);
+Board.defaultProps = {
+  backlogMeta: {},
+  backlogData: undefined,
+  statuses: undefined,
+  token: undefined,
+};
 
-        dispatch({
-          type: getProjectBacklogSuccess,
-          payload: {backlogData: normalizedBacklog, backlogMeta } ,
-        });
-      }
-    });
-
-    return (
-      <LayoutManager showSidebar>
-        <ViewProject />
-      </LayoutManager>
-    );
-  }
-
-
-  Board.defaultProps = {
-    token: undefined,
-    backlogMeta: {},
-    backlogData: [],
-    statuses: []
-  }
-
-  Board.propTypes = {
-    token: PropTypes.string,
-    project: PropTypes.objectOf(PropTypes.any).isRequired,
-    backlogMeta: PropTypes.objectOf(PropTypes.any),
-    backlogData: PropTypes.arrayOf(PropTypes.any),
-    statuses: PropTypes.arrayOf(PropTypes)
-
-  }
+Board.propTypes = {
+  token: PropTypes.string,
+  project: PropTypes.objectOf(PropTypes.any).isRequired,
+  backlogMeta: PropTypes.objectOf(PropTypes.any),
+  backlogData: PropTypes.arrayOf(PropTypes.any),
+  statuses: PropTypes.arrayOf(PropTypes),
+};

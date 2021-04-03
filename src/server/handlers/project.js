@@ -22,6 +22,7 @@ const {
   createStatusService,
   updateStatusService,
   deleteStatusService,
+  movingTaskOnBoardService,
 } = require('../services/status');
 
 const {
@@ -317,9 +318,18 @@ exports.getProjectStatusesHandler = async (req, res, next) => {
 exports.getProjectTasksHandler = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-    const query = req.query || {};
+    const { query } = req;
+    const newQuery = {};
 
-    const data = await getProjectTasksService(projectId, query);
+    Object.keys(query).forEach((key) => {
+      if (query[key] === 'null') {
+        newQuery[key] = null;
+      } else {
+        newQuery[key] = query[key];
+      }
+    });
+
+    const data = await getProjectTasksService(projectId, newQuery);
     const meta = omit(data, 'docs');
 
     res.status(200).json({
@@ -402,6 +412,25 @@ exports.deleteProjectStatusHandler = async (req, res, next) => {
       status: 200,
       success: true,
       message: 'Status was deleted successfully!',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Updating task status when task moved within a board.
+ */
+exports.updateTaskStatusHandler = async (req, res, next) => {
+  try {
+    const { taskId } = req.params;
+    const data = await movingTaskOnBoardService(taskId, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Task was assign status successfully!',
       data,
     });
   } catch (error) {

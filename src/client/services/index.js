@@ -249,10 +249,8 @@ export const getProjectService = async (id) => {
 
 export const getProjectTasksService = async (projectId, options) => {
   try {
-    const response = await request({
-      method: 'GET',
-      url: path.getProjectTasks(projectId),
-      params: options,
+    const response = await request.get(path.getProjectTasks(projectId), {
+      params: { ...options },
     });
 
     return response.data;
@@ -595,18 +593,24 @@ export const updateTaskService = async (token, id, data) => {
   }
 };
 
+/**
+ * Updating task status.
+ * @param {String} projectId
+ * @param {String} taskId
+ * @param {Object} data
+ * @param {String} token
+ */
 export const updateTaskStatusService = async (
-  token,
   projectId,
   taskId,
-  statusId = null
+  data,
+  token
 ) => {
   try {
     const response = await request({
       method: 'PUT',
-      url: statusId
-        ? path.assignTaskAStatus(projectId, taskId, statusId)
-        : path.removeStatusFromTask(projectId, taskId),
+      url: path.updateTaskStatus(projectId, taskId),
+      data,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

@@ -5,7 +5,6 @@ import { PlusIcon } from '@app/components/Icons';
 import TaskCard from './TaskCard';
 
 const BacklogsList = ({
-  openNewTaskModal,
   tasks,
   backlogIds,
   categories,
@@ -14,20 +13,7 @@ const BacklogsList = ({
 }) => (
   <div className="overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
     {/* start: Button to add a new task */}
-    <div className="transition-shadow duration-150 mx-1 border border-dashed border-primary-200 hover:shadow-xl">
-      <Tooltip title="Add task">
-        <Button
-          size="large"
-          type="text"
-          block
-          onClick={() => openNewTaskModal({})}
-        >
-          <div className="flex justify-center">
-            <PlusIcon />
-          </div>
-        </Button>
-      </Tooltip>
-    </div>
+
     {/* end: Button to add a new task */}
 
     {/* start: Backlog list */}

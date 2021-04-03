@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Button } from 'antd';
-import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
   openModalAction,
   addNewTaskAction,
@@ -22,6 +22,7 @@ import {
 
 import BoardColumns from './BoardColumns';
 import BacklogsList from './BacklogsList';
+import CreateTaskButton from './CreateTaskButton';
 // import Header from './Header';
 
 const BoardContainer = () => {
@@ -41,7 +42,9 @@ const BoardContainer = () => {
   function handleDragEnd({ draggableId, source, destination }) {
     if (!destination || source.droppableId === destination.droppableId) return;
 
-    dispatch(assigningTaskStatusAction(draggableId, source, destination));
+    dispatch(
+      assigningTaskStatusAction(projectId, draggableId, source, destination)
+    );
   }
 
   function openNewTaskModal(data) {
@@ -82,7 +85,7 @@ const BoardContainer = () => {
       <div className="bg-white flex h-screen">
         {/* start: Backlog container */}
         <div
-          className="px-1 h-full relative bg-neutral-50 shadow border-r border-primary-300"
+          className=" transition-all px-1 h-full relative bg-neutral-50 shadow border-r border-primary-300"
           style={{
             // height: 'calc(100vh - 90px)',
             width: '280px',
@@ -102,9 +105,9 @@ const BoardContainer = () => {
               <CloseOutlined />
             </Button>
           </div>
+          <CreateTaskButton openNewTaskModal={openNewTaskModal} />
 
           <BacklogsList
-            openNewTaskModal={openNewTaskModal}
             tasks={tasks}
             backlogIds={backlogIds}
             categories={categories}
@@ -116,22 +119,23 @@ const BoardContainer = () => {
 
         {/* start: Board container */}
         <div
-          className="p-2 fixed"
+          className=" transition-all p-2"
           style={{
+            position: 'fixed',
+            overflow: 'hidden',
             width: 'calc(100% - 4rem)',
             marginLeft: toggleBacklog ? '280px' : '',
           }}
         >
           {/* start: Board header */}
-          <div className="my-2 border-b border-primary-100 flex">
+          <div className="my-2 border-b border-primary-100 flex w-full">
             <Button
               type="primary"
               className="mt-2"
+              ghost
               onClick={() => setToggleBacklog(!toggleBacklog)}
             >
-              <CaretRightOutlined
-                className={`transform ${toggleBacklog ? 'rotate-180' : ''}`}
-              />
+              <UnorderedListOutlined />
             </Button>
             &nbsp;&nbsp;
             <div>

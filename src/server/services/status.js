@@ -7,7 +7,8 @@ const getProjectStatusesService = async (projectId, options = {}) => {
     {
       project: mongoose.Types.ObjectId(projectId),
     },
-    { ...options }
+    { ...options },
+    { populate: { path: 'tasks' } }
   ).lean();
 
   return statuses;
@@ -32,7 +33,7 @@ const updateStatusService = async (id, data) => {
     { new: true }
   );
 
-  await Status.populate(updatedStatus, 'tasks');
+  // await Status.populate(updatedStatus, 'tasks');
 
   return updatedStatus;
 };
@@ -56,9 +57,80 @@ const deleteStatusService = async (id) => {
   };
 };
 
+const movingTaskOnBoardService = async (taskId, data) => {
+  const { source, destination } = data;
+  const { droppableId: sourceStatusId } = source;
+  const { droppableId: destStatusId, index: destPosition } = destination;
+
+  // Task moved from backlog to board
+  if (sourceStatusId === 'backlog') {
+    await Status.updateOne(
+      { _id: mongoose.Types.ObjectId(destStatusId) },
+      {
+        $push: {
+          tasks: {
+            $each: [taskId],
+            $position: destPosition,
+          },
+        },
+      }
+    );
+
+    await Task.updateOne(
+      { _id: mongoose.Types.ObjectId(taskId) },
+      { status: destStatusId }
+    );
+
+    return data;
+  }
+
+  // Item was moved to backlog
+  if (destStatusId === 'backlog') {
+    await Status.updateOne(
+      { _id: mongoose.Types.ObjectId(sourceStatusId) },
+      { $pull: { tasks: mongoose.Types.ObjectId(taskId) } }
+    );
+
+    await Task.updateOne(
+      { _id: mongoose.Types.ObjectId(taskId) },
+      { $unset: { status: 1 } }
+    );
+
+    return data;
+  }
+
+  // Item was moved from on board column to another. ie. One status to another.
+  if (destStatusId !== 'backlog' && sourceStatusId !== 'backlog') {
+    await Status.updateOne(
+      { _id: mongoose.Types.ObjectId(sourceStatusId) },
+      { $pull: { tasks: mongoose.Types.ObjectId(taskId) } }
+    );
+
+    await Status.updateOne(
+      { _id: mongoose.Types.ObjectId(destStatusId) },
+      {
+        $push: {
+          tasks: {
+            $each: [taskId],
+            $position: destPosition,
+          },
+        },
+      }
+    );
+
+    await Task.updateOne(
+      { _id: mongoose.Types.ObjectId(taskId) },
+      { status: destStatusId }
+    );
+
+    return data;
+  }
+};
+
 module.exports = {
   getProjectStatusesService,
   createStatusService,
   updateStatusService,
   deleteStatusService,
+  movingTaskOnBoardService,
 };

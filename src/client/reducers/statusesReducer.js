@@ -9,6 +9,7 @@ export const unassignTaskStatusSuccess = 'STATUSES/UNASSIGN_STATUS_SUCCESS';
 
 const initialState = {
   fetching: true,
+  statusIds: [],
 };
 
 export default function statusesReducer(state = initialState, action) {
@@ -16,10 +17,16 @@ export default function statusesReducer(state = initialState, action) {
 
   switch (type) {
     case setProjectStatuses: {
+      const { statusIds, statuses } = payload;
+
+      state.statusIds = [...state.statusIds, ...statusIds];
+
       return {
         ...state,
-        ...action.payload.entities,
-        statusIds: action.payload.result,
+        statuses: {
+          ...state.statuses,
+          ...statuses,
+        },
       };
     }
 

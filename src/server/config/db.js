@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const isNotProduction = process.env.NODE_ENV !== 'production';
+mongoose.set('debug', isNotProduction);
+
 function connectDB() {
   const options = {
     useNewUrlParser: true,

@@ -35,7 +35,11 @@ const BoardColumn = ({
   return (
     <div
       className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-hidden overflow-x-hidden"
-      style={{ width: '300px', height: 'calc(100vh - 92px)' }}
+      style={{
+        minWidth: '300px',
+        width: '300px',
+        height: 'calc(100vh - 92px)',
+      }}
     >
       {/* start: column header  */}
       <div className="">

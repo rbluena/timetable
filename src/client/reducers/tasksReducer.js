@@ -11,6 +11,7 @@ export const getTasksSuccess = 'TASK/GET_TASKS_SUCCESS';
 export const getTasksFailure = 'TASK/GET_TASKS_FAILURE';
 export const getProjectBacklog = 'TASK/GET_PROJECT_BACKLOG';
 export const getProjectBacklogSuccess = 'TASK/GET_PROJECT_BACKLOG_SUCCESS';
+export const getBoardTasksSuccess = 'TASK/GET_BOARD_TASKS_SUCCESS';
 export const createTask = 'TASK/CREATE_TASK';
 export const createTaskSuccess = 'TASK/CREATE_TASK_SUCCESS';
 export const createTaskFailure = 'TASK/CREATE_TASK_FAILURE';
@@ -27,6 +28,7 @@ const initialState = {
   fetching: false,
   openedTask: null,
   editingTask: null,
+  backlogIds: [],
 };
 
 export default function taskReducer(state = initialState, action) {
@@ -71,6 +73,13 @@ export default function taskReducer(state = initialState, action) {
           ...state.tasks,
           ...backlogData.entities.backlog,
         },
+      };
+    }
+
+    case getBoardTasksSuccess: {
+      return {
+        ...state,
+        ...payload,
       };
     }
 

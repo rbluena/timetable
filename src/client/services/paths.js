@@ -39,8 +39,8 @@ export default {
   createTask: (projectId) => `${SERVER_API}/projects/${projectId}/tasks`,
   updateTask: (projectId, id) =>
     `${SERVER_API}/projects/${projectId}/tasks/${id}`,
-  assignTaskAStatus: (projectId, taskId, statusId) =>
-    `${SERVER_API}/projects/${projectId}/tasks/${taskId}/statuses/${statusId}`,
+  updateTaskStatus: (projectId, taskId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${taskId}/status`,
   removeStatusFromTask: (projectId, taskId) =>
     `${SERVER_API}/projects/${projectId}/tasks/${taskId}/statuses/unassign`,
   deleteTask: (id) => `${SERVER_API}/tasks/${id}`,

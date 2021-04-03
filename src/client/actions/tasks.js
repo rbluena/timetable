@@ -20,11 +20,18 @@ import {
   updateTask,
   updateTaskSuccess,
   updateTaskFailure,
+  getBoardTasksSuccess,
   // removeTask,
   // removeTaskSuccess,
 } from '@app/reducers/tasksReducer';
 
-import { getNormalizedTask } from './schema';
+import { setProjectStatuses } from '@app/reducers/statusesReducer';
+
+import {
+  getNormalizedBacklog,
+  getNormalizedStatues,
+  getNormalizedTask,
+} from './schema';
 
 export function setEditingTaskAction(data) {
   return {
@@ -167,3 +174,41 @@ export const setOpenedTaskAction = (id) => ({
   type: setOpenedTask,
   payload: id,
 });
+
+export const getBoardTasksAction = (
+  statuses,
+  backlogData,
+  backlogMeta
+) => async (dispatch) => {
+  const normalizedStatuses = getNormalizedStatues(statuses);
+  const normalizedBacklog = getNormalizedBacklog(backlogData);
+
+  console.log(statuses);
+
+  const { result: statusIds, entities: statusEntities } = normalizedStatuses;
+  const { result: backlogIds, entities: backlogEntities } = normalizedBacklog;
+
+  const tasks = { ...statusEntities.tasks, ...backlogEntities.tasks };
+
+  console.log(`++++++++ STATUSES ++++++`, normalizedStatuses);
+  console.log(`++++++++ BACKLOG ++++++`, normalizedBacklog);
+
+  dispatch({
+    type: setProjectStatuses,
+    payload: {
+      statusIds,
+      statuses: statusEntities.statuses,
+    },
+  });
+
+  dispatch({
+    type: getBoardTasksSuccess,
+    payload: {
+      userAssignees: backlogEntities.userAssignees || [],
+      groupAssignees: backlogEntities.groupAssignees || [],
+      backlogIds,
+      tasks,
+      backlogMeta,
+    },
+  });
+};
