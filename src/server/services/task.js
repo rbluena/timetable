@@ -189,10 +189,12 @@ const getProjectTasksService = async (projectId, options) => {
     match.category = mongoose.Types.ObjectId(options.category);
   }
 
-  console.log(options);
-
   if (options.status) {
-    match.status = options.status;
+    if (options.status === 'null') {
+      match.status = null;
+    } else {
+      match.status = options.status;
+    }
   }
 
   const aggregate = Task.aggregate([

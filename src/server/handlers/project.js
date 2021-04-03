@@ -319,17 +319,8 @@ exports.getProjectTasksHandler = async (req, res, next) => {
   try {
     const { projectId } = req.params;
     const { query } = req;
-    const newQuery = {};
 
-    Object.keys(query).forEach((key) => {
-      if (query[key] === 'null') {
-        newQuery[key] = null;
-      } else {
-        newQuery[key] = query[key];
-      }
-    });
-
-    const data = await getProjectTasksService(projectId, newQuery);
+    const data = await getProjectTasksService(projectId, query);
     const meta = omit(data, 'docs');
 
     res.status(200).json({

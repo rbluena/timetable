@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { LayoutManager } from '@app/components';
 import dynamic from 'next/dynamic';
 import { useDispatch } from 'react-redux';
+import { useEffectOnce } from 'react-use';
 import { getCookieToken } from '@app/utils';
 import { getBoardTasksAction } from '@app/actions';
 import { signInUserSuccess } from '@app/reducers/authReducer';
@@ -14,8 +15,6 @@ import {
   // getTasksByStatusService,
   getProjectTasksService,
 } from '@app/services';
-
-import { useEffectOnce } from 'react-use';
 
 const ViewProject = dynamic(
   () => import('@app/screens/ViewProject').then((mod) => mod),
@@ -45,10 +44,15 @@ export async function getServerSideProps({ params, req }) {
     ));
 
     if (!project) {
-      // TODO: RETURN 404
+      return {
+        notFound: true,
+      };
     }
   } catch (error) {
-    // TODO: RETURN 404
+    // TODO: LOG ERROR TO SENTRY
+    return {
+      notFound: true,
+    };
   }
 
   return {
