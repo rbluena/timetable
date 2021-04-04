@@ -8,7 +8,7 @@ const NewProjectLink = () => (
       <a>
         <div className="flex flex-col h-full justify-center items-center p-8">
           <PlusIcon size="lg" />
-          <p className="text-base font-bold">New project</p>
+          <p className="text-base font-normal">New project</p>
         </div>
       </a>
     </Link>

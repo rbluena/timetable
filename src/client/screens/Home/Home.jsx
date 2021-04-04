@@ -10,7 +10,7 @@ const Home = () => {
 
   return (
     <div className="w-full">
-      <h2 className="text-3xl font-normal text-center text-primary-300 py-8">
+      <h2 className="text-3xl font-light text-center text-primary-400 py-8">
         Projects
       </h2>
 

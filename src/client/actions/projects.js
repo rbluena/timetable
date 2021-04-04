@@ -1,5 +1,4 @@
 import { decode } from 'jsonwebtoken';
-import Router from 'next/router';
 
 import {
   createProjectService,
@@ -15,7 +14,6 @@ import { setNotificationAction, signUserOutAction } from '@app/actions';
 
 import {
   createProject,
-  createProjectSuccess,
   createProjectFailure,
   updateProject,
   updateProjectSuccess,
@@ -47,12 +45,14 @@ export function createProjectAction(projectData) {
         ...projectData,
       });
 
-      dispatch({
-        type: createProjectSuccess,
-        payload: data,
-      });
+      // dispatch({
+      //   type: createProjectSuccess,
+      //   payload: data,
+      // });
 
-      Router.push(`/projects/${data._id}`);
+      window.location.href = `/projects/${data._id}`;
+
+      // Router.push(`/projects/${data._id}`);
     } catch (error) {
       const err = {
         type: 'error',
