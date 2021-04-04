@@ -164,17 +164,27 @@ export const getTasksByStatusAction = (projectId, options) => async (
 
     const { data } = await getTasksByStatusService(projectId, options);
 
-    console.log(data);
+    // console.log(data);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
+/**
+ * Setting task that is opened.
+ * @param {String} id Task id
+ */
 export const setOpenedTaskAction = (id) => ({
   type: setOpenedTask,
   payload: id,
 });
 
+/**
+ * Rendering tasks for project board.
+ * @param {Array} statuses List of statuses for board's columns
+ * @param {Array} backlogData List of backlog data
+ * @param {Object} backlogMeta Pagination information for backlog
+ */
 export const getBoardTasksAction = (
   statuses,
   backlogData,
@@ -183,15 +193,10 @@ export const getBoardTasksAction = (
   const normalizedStatuses = getNormalizedStatues(statuses);
   const normalizedBacklog = getNormalizedBacklog(backlogData);
 
-  console.log(statuses);
-
   const { result: statusIds, entities: statusEntities } = normalizedStatuses;
   const { result: backlogIds, entities: backlogEntities } = normalizedBacklog;
 
   const tasks = { ...statusEntities.tasks, ...backlogEntities.tasks };
-
-  console.log(`++++++++ STATUSES ++++++`, normalizedStatuses);
-  console.log(`++++++++ BACKLOG ++++++`, normalizedBacklog);
 
   dispatch({
     type: setProjectStatuses,

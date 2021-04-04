@@ -155,7 +155,10 @@ export function assigningTaskStatusAction(
       );
 
       if (data) {
-        if (destination.droppableId === 'backlog') {
+        if (
+          destination.droppableId === 'backlog' &&
+          source.droppableId !== 'backlog'
+        ) {
           // 1). Moving item to the backlog
           dispatch({
             type: backlogTaskAssingingStatusSuccess,
@@ -177,7 +180,10 @@ export function assigningTaskStatusAction(
           });
         }
 
-        if (source.droppableId === 'backlog') {
+        if (
+          source.droppableId === 'backlog' &&
+          destination.droppableId !== 'backlog'
+        ) {
           // Moving to the backlog therefore
           // 1). Moving item from the backlog.
           dispatch({
