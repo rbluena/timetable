@@ -1,12 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useSelector } from 'react-redux';
-import { ProjectList } from '@app/components';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteProjectAction } from '@app/actions';
 import { projectsSelector } from '@app/selectors';
+import { ProjectList } from '@app/components';
 import NewProjectLink from './NewProjectLink';
 import ProjectCard from './ProjectCard';
 
 const Home = () => {
-  const { result, projects } = useSelector(projectsSelector);
+  const { projects } = useSelector(projectsSelector);
+  const dispatch = useDispatch();
+
+  /**
+   * Deleting project
+   * @param {String} projectId
+   */
+  function deleteProject(projectId) {
+    dispatch(deleteProjectAction(projectId));
+  }
 
   return (
     <div className="w-full">
@@ -17,10 +27,14 @@ const Home = () => {
       <ProjectList>
         <NewProjectLink />
 
-        {result &&
-          result.length > 0 &&
-          result.map((projectKey) => (
-            <ProjectCard key={projectKey} project={projects[projectKey]} />
+        {projects &&
+          projects.length > 0 &&
+          projects.map((project) => (
+            <ProjectCard
+              key={project._id}
+              project={project}
+              deleteProject={deleteProject}
+            />
           ))}
       </ProjectList>
     </div>
