@@ -2,7 +2,7 @@ import { decode } from 'jsonwebtoken';
 
 import {
   createProjectService,
-  updateProjectService,
+  deleteProjectService,
   addProjectGroupService,
   updateProjectGroupService,
   deleteProjectGroupService,
@@ -40,19 +40,12 @@ export function createProjectAction(projectData) {
       const { token } = getState().AUTH;
       const user = decode(token);
 
-      const { data } = await createProjectService(token, {
+      await createProjectService(token, {
         owner: user._id,
         ...projectData,
       });
 
-      // dispatch({
-      //   type: createProjectSuccess,
-      //   payload: data,
-      // });
-
-      window.location.href = `/projects/${data._id}`;
-
-      // Router.push(`/projects/${data._id}`);
+      // window.location.href = `/projects/${data._id}`;
     } catch (error) {
       const err = {
         type: 'error',
@@ -112,18 +105,24 @@ export function updateProjectAction(id, projectData) {
   };
 }
 
+/**
+ * Action creator to delete project.
+ * @param {String} id ID of the project to be deleted.
+ */
 export function deleteProjectAction(id) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: deleteProject });
       const { token } = getState().AUTH;
 
-      await updateProjectService(token, id);
+      const { data } = await deleteProjectService(id, token);
 
       dispatch({
         type: deleteProjectSuccess,
+        payload: data._id,
       });
     } catch (error) {
+      console.log(error);
       dispatch({
         type: deleteProjectFailure,
       });

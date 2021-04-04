@@ -127,10 +127,19 @@ const movingTaskOnBoardService = async (taskId, data) => {
   }
 };
 
+/**
+ * Deleting all the statuses of the project.
+ * @param {String} projectId ID of the project.
+ */
+const deleteProjectStatuses = async (projectId) => {
+  await Status.deleteMany({ project: mongoose.Types.ObjectId(projectId) });
+};
+
 module.exports = {
   getProjectStatusesService,
   createStatusService,
   updateStatusService,
   deleteStatusService,
+  deleteProjectStatuses,
   movingTaskOnBoardService,
 };

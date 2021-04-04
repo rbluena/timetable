@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
 export const projectsStateSelector = createSelector(
@@ -8,10 +7,13 @@ export const projectsStateSelector = createSelector(
 );
 
 const selectProjects = (state) => {
-  const { projects, result, meta } = state.PROJECTS;
+  const { projects: unmapped, result: projectIds, meta } = state.PROJECTS;
 
-  if (result && result.length) {
-    return { projects, result, meta };
+  if (projectIds && projectIds.length) {
+    const projects = projectIds.map((projectId) => ({
+      ...unmapped[projectId],
+    }));
+    return { projects, meta };
   }
 
   return {};
@@ -56,11 +58,10 @@ const selectProjectCategories = (state) => {
   return {};
 };
 
-
-const selectProjectAssignees = state => {
+const selectProjectAssignees = (state) => {
   const { members: users, groups } = state.PROJECTS;
   return { users, groups };
-}
+};
 
 export const projectsSelector = createSelector(
   selectProjects,
@@ -87,5 +88,7 @@ export const projectMembersSelector = createSelector(
   (members) => members
 );
 
-
-export const projectAssigneesSelector = createSelector(selectProjectAssignees, assignees => assignees)
+export const projectAssigneesSelector = createSelector(
+  selectProjectAssignees,
+  (assignees) => assignees
+);

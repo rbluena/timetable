@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { isAuthenticated, isAuthorized } = require('../../middleware/auth');
+const { isAuthenticated } = require('../../middleware/auth');
 const { isAuthorizedToUpdate } = require('../../middleware/project');
 
 const {
@@ -29,13 +29,18 @@ const { createTaskHandler } = require('../../handlers/task');
 
 // router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
 router.post('/', isAuthenticated, createProjectHandler);
+
 router.put(
   '/:id/',
   isAuthenticated,
   isAuthorizedToUpdate,
   updateProjectHandler
 );
-router.delete('/:id', isAuthenticated, isAuthorized, deleteProjectHandler);
+
+/**
+ * API to delete project.
+ */
+router.delete('/:id', isAuthenticated, deleteProjectHandler);
 router.put('/:id/upgrade', upgradeProjectHandler);
 router.get('/', isAuthenticated, getProjectsHandler);
 router.get('/:id', getProjectHandler);

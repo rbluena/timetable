@@ -5,7 +5,7 @@ const { omit } = require('lodash');
 const {
   createProjectService,
   updateProjectService,
-  deleteLinkService,
+  deleteProjectService,
   getProjectByIdService,
   getProjectsService,
   upgradeProjectService,
@@ -76,7 +76,7 @@ exports.deleteProjectHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const doc = await deleteLinkService(id);
+    const doc = await deleteProjectService(id);
 
     res.status(200).json({
       status: 200,

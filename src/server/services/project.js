@@ -4,9 +4,11 @@ const Project = require('../models/Project');
 const Group = require('../models/Group');
 const User = require('../models/User');
 const Task = require('../models/Task');
-// const Status = require('../models/Status');
 const Subscription = require('../models/Subscription');
 const { findUserById } = require('./user');
+const { deleteProjectGroups } = require('./group');
+const { deleteProjectTasks } = require('./task');
+const { deleteProjectStatuses } = require('./status');
 
 const findProjectById = async (id) =>
   Project.findById(mongoose.Types.ObjectId(id));
@@ -100,13 +102,22 @@ const updateProjectService = async (projectId, data) => {
  * @param {String} projectId
  */
 const deleteProjectService = async (projectId) => {
-  const doc = await Project.findOne({ _id: projectId });
+  // Delete all groups related to the project, unassign users from all groups
+  await deleteProjectGroups(projectId);
 
-  doc.deleted = true;
-  const deleted = doc.save();
+  // Delete all the tasks for the project.
+  await deleteProjectTasks(projectId);
+
+  // Delete all the statuses
+  await deleteProjectStatuses(projectId);
+
+  // Remove project from User model
+  const deleted = await Project.findByIdAndDelete(
+    mongoose.Types.ObjectId(projectId)
+  );
 
   return {
-    id: deleted._doc._id,
+    _id: deleted._doc._id,
   };
 };
 

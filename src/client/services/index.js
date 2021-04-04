@@ -247,6 +247,27 @@ export const getProjectService = async (id) => {
   }
 };
 
+/**
+ * Service to delete project.
+ * @param {String} projectId ID of the project.
+ */
+export const deleteProjectService = async (projectId, token) => {
+  try {
+    const response = await request({
+      method: 'DELETE',
+      url: path.deleteProject(projectId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 export const getProjectTasksService = async (projectId, options) => {
   try {
     const response = await request.get(path.getProjectTasks(projectId), {

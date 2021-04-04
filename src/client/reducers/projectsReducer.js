@@ -1,46 +1,29 @@
-export const [
-  setCurrentProject,
-  setActiveProject,
-  retrieveUserProjectsSuccess,
-  createProject,
-  createProjectSuccess,
-  createProjectFailure,
-  updateProject,
-  updateProjectSuccess,
-  updateProjectFailure,
-  deleteProject,
-  deleteProjectSuccess,
-  deleteProjectFailure,
-  addProjectGroup,
-  addProjectGroupSuccess,
-  addProjectGroupFailure,
-  updateProjectGroup,
-  updateProjectGroupSuccess,
-  updateProjectGroupFailure,
-  deleteProjectGroup,
-  deleteProjectGroupSuccess,
-] = [
-  'PROJECTS/CURRENT_PROJECT',
-  'PROJECTS/ACTIVE_PROJECT',
-  'PROJECTS/RETRIEVE_USER_PROJECTS_SUCCESS',
-  'PROJECTS/CREATE_PROJECT',
-  'PROJECTS/CREATE_PROJECT_SUCCESS',
-  'PROJECTS/CREATE_PROJECT_FAILURE',
-  'PROJECTS/UPDATE_PROJECT',
-  'PROJECTS/UPDATE_PROJECT_SUCCESS',
-  'PROJECTS/UPDATE_PROJECT_FAILURE',
-  'PROJECTS/DELETE_PROJECT',
-  'PROJECTS/DELETE_PROJECT_SUCCESS',
-  'PROJECTS/DELETE_PROJECT_FAILURE',
-  'PROJECTS/ADD_PROJECT_GROUP',
-  'PROJECTS/ADD_PROJECT_GROUP_SUCCESS',
-  'PROJECTS/ADD_PROJECT_GROUP_FAILURE',
-  'PROJECTS/UPDATE_PROJECT_GROUP',
-  'PROJECTS/UPDATE_PROJECT_GROUP_SUCCESS',
-  'PROJECTS/UPDATE_PROJECT_GROUP_FAILURE',
-  'PROJECTS/DELETE_PROJECT_GROUP',
-  'PROJECTS/DELETE_PROJECT_GROUP_SUCCESS',
-];
+import { omit } from 'lodash';
+
+export const setCurrentProject = 'PROJECTS/CURRENT_PROJECT';
+export const setActiveProject = 'PROJECTS/ACTIVE_PROJECT';
+export const retrieveUserProjectsSuccess =
+  'PROJECTS/RETRIEVE_USER_PROJECTS_SUCCESS';
+export const createProject = 'PROJECTS/CREATE_PROJECT';
+export const createProjectSuccess = 'PROJECTS/CREATE_PROJECT_SUCCESS';
+export const createProjectFailure = 'PROJECTS/CREATE_PROJECT_FAILURE';
+export const updateProject = 'PROJECTS/UPDATE_PROJECT';
+export const updateProjectSuccess = 'PROJECTS/UPDATE_PROJECT_SUCCESS';
+export const updateProjectFailure = 'PROJECTS/UPDATE_PROJECT_FAILURE';
+export const deleteProject = 'PROJECTS/DELETE_PROJECT';
+export const deleteProjectSuccess = 'PROJECTS/DELETE_PROJECT_SUCCESS';
+export const deleteProjectFailure = 'PROJECTS/DELETE_PROJECT_FAILURE';
+export const addProjectGroup = 'PROJECTS/ADD_PROJECT_GROUP';
+export const addProjectGroupSuccess = 'PROJECTS/ADD_PROJECT_GROUP_SUCCESS';
+export const addProjectGroupFailure = 'PROJECTS/ADD_PROJECT_GROUP_FAILURE';
+export const updateProjectGroup = 'PROJECTS/UPDATE_PROJECT_GROUP';
+export const updateProjectGroupSuccess =
+  'PROJECTS/UPDATE_PROJECT_GROUP_SUCCESS';
+export const updateProjectGroupFailure =
+  'PROJECTS/UPDATE_PROJECT_GROUP_FAILURE';
+export const deleteProjectGroup = 'PROJECTS/DELETE_PROJECT_GROUP';
+export const deleteProjectGroupSuccess =
+  'PROJECTS/DELETE_PROJECT_GROUP_SUCCESS';
 
 const initialState = {
   fetching: false,
@@ -123,8 +106,12 @@ export default function projectsReducer(state = initialState, action) {
 
     case deleteProjectSuccess: {
       state.fetching = false;
-      delete state.data[payload.id];
-      return state;
+      delete state.projects[payload];
+
+      return {
+        ...state,
+        result: state.result.filter((item) => item !== payload),
+      };
     }
 
     case deleteProjectFailure: {

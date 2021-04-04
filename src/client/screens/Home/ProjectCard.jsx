@@ -1,9 +1,20 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { Tag } from 'antd';
+import { Tag, Button } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
-const ProjectCard = ({ project }) => (
-  <div className="transition-shadow duration-150 m-2 w-64 bg-white shadow hover:shadow-xl">
+const ProjectCard = ({ project, deleteProject }) => (
+  <div className="transition-shadow duration-150 m-2 w-64 bg-white shadow hover:shadow-xl relative">
+    <div className="flex justify-end m-0 p-0">
+      <Button
+        className="absolute m-1"
+        type="text"
+        danger
+        icon={<DeleteOutlined />}
+        onClick={() => deleteProject(project._id)}
+      />
+    </div>
+
     <Link href={`/projects/${project._id}`}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className="flex flex-col items-center justify-center p-6">
@@ -34,6 +45,7 @@ const ProjectCard = ({ project }) => (
 
 ProjectCard.propTypes = {
   project: PropTypes.objectOf(PropTypes.shape).isRequired,
+  deleteProject: PropTypes.func.isRequired,
 };
 
 export default ProjectCard;

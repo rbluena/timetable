@@ -54,19 +54,20 @@ const createTaskService = async (data) => {
     );
   }
 
-  await Task.populate(saved, {
-    path: 'reporter',
-    select: { fullName: 1, accountName: 1, image: 1 },
-  });
-  await Task.populate(saved, {
-    path: 'groupAssignees',
-    select: { name: 1 },
-  });
+  // await Task.populate(saved, {
+  //   path: 'reporter',
+  //   select: { fullName: 1, accountName: 1, image: 1 },
+  // });
 
-  await Task.populate(saved, {
-    path: 'userAssignees',
-    select: { fullName: 1, accountName: 1, image: 1 },
-  });
+  // await Task.populate(saved, {
+  //   path: 'groupAssignees',
+  //   select: { name: 1 },
+  // });
+
+  // await Task.populate(saved, {
+  //   path: 'userAssignees',
+  //   select: { fullName: 1, accountName: 1, image: 1 },
+  // });
 
   // await Task.populate(saved, {
   //   path: 'attachments',
@@ -200,32 +201,32 @@ const getProjectTasksService = async (projectId, options) => {
   const aggregate = Task.aggregate([
     { $match: match },
     { $sort: sort },
-    {
-      $lookup: {
-        from: User.collection.name,
-        localField: 'reporter',
-        foreignField: '_id',
-        as: 'reporter',
-      },
-    },
-    {
-      $lookup: {
-        from: User.collection.name,
-        localField: 'userAssignees',
-        foreignField: '_id',
-        as: 'userAssignees',
-      },
-    },
-    {
-      $lookup: {
-        from: Group.collection.name,
-        localField: 'groupAssignees',
-        foreignField: '_id',
-        as: 'groupAssignees',
-      },
-    },
+    // {
+    //   $lookup: {
+    //     from: User.collection.name,
+    //     localField: 'reporter',
+    //     foreignField: '_id',
+    //     as: 'reporter',
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     from: User.collection.name,
+    //     localField: 'userAssignees',
+    //     foreignField: '_id',
+    //     as: 'userAssignees',
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     from: Group.collection.name,
+    //     localField: 'groupAssignees',
+    //     foreignField: '_id',
+    //     as: 'groupAssignees',
+    //   },
+    // },
     // { $unwind: '$reporter' },
-    {
+    /*  {
       $project: {
         'reporter.email': 0,
         'reporter.password': 0,
@@ -251,7 +252,7 @@ const getProjectTasksService = async (projectId, options) => {
         'groupAssignees.assignedTasks': 0,
         'groupAssignees.members': 0,
       },
-    },
+    }, */
   ]);
 
   return Task.aggregatePaginate(aggregate, paginateOptions);
@@ -369,6 +370,29 @@ const getTasksService = async (options) => {
   ]);
 
   return Task.aggregatePaginate(aggregate, paginateOptions);
+};
+
+/**
+ * Deleting project.
+ * @param {String} projectId ID of the project
+ */
+const deleteProjectTasks = async (projectId) => {
+  const tasks = await Task.find({ project: mongoose.Types.ObjectId(projectId) })
+    .select(['_id'])
+    .lean();
+
+  tasks.forEach(async (task) => {
+    await User.updateMany(
+      { tasks: { $in: [task._id] } },
+      { $pull: { tasks: task._id } }
+    );
+  });
+
+  const deleted = await Task.deleteMany({
+    project: mongoose.Types.ObjectId(projectId),
+  });
+
+  return deleted;
 };
 
 /**
@@ -549,6 +573,7 @@ module.exports = {
   getProjectTasksByStatusService,
   assignStatusToTaskService,
   removeStatusFromTaskService,
+  deleteProjectTasks,
   // getWaitingLinksService,
   // addWaitingService,
   // removeWaitingService,
