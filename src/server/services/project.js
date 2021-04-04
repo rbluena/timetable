@@ -112,6 +112,11 @@ const deleteProjectService = async (projectId) => {
   await deleteProjectStatuses(projectId);
 
   // Remove project from User model
+  await User.updateMany(
+    { projects: { $in: mongoose.Types.ObjectId(projectId) } },
+    { $pull: { projects: mongoose.Types.ObjectId(projectId) } }
+  );
+
   const deleted = await Project.findByIdAndDelete(
     mongoose.Types.ObjectId(projectId)
   );
