@@ -22,7 +22,7 @@ const Settings = () => {
           size="large"
           onChange={tabChangeHandler}
         >
-          <TabPane tab="Profile" key="/settings">
+          <TabPane tab="Account" key="/settings">
             {router.pathname === '/settings' && <Profile />}
           </TabPane>
           <TabPane tab="Subscriptions" key="/settings/subscriptions">
@@ -32,6 +32,9 @@ const Settings = () => {
           </TabPane>
           <TabPane tab="Team" key="/settings/team">
             {router.pathname === '/settings/team' && <h2>Team</h2>}
+          </TabPane>
+          <TabPane tab="Releases" key="/settings/releases">
+            {router.pathname === '/settings/releases' && <h2>Release Notes</h2>}
           </TabPane>
         </Tabs>
       </div>
