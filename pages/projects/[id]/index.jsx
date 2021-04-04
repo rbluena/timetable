@@ -51,7 +51,7 @@ export default function Project({ project, token }) {
   });
 
   return (
-    <LayoutManager>
+    <LayoutManager showSidebar>
       <ViewProject />
     </LayoutManager>
   );
