@@ -2,6 +2,7 @@ import { decode } from 'jsonwebtoken';
 
 import {
   createProjectService,
+  updateProjectService,
   deleteProjectService,
   addProjectGroupService,
   updateProjectGroupService,
@@ -40,12 +41,12 @@ export function createProjectAction(projectData) {
       const { token } = getState().AUTH;
       const user = decode(token);
 
-      await createProjectService(token, {
+      const { data } = await createProjectService(token, {
         owner: user._id,
         ...projectData,
       });
 
-      // window.location.href = `/projects/${data._id}`;
+      window.location.href = `/projects/${data._id}`;
     } catch (error) {
       const err = {
         type: 'error',
@@ -122,7 +123,16 @@ export function deleteProjectAction(id) {
         payload: data._id,
       });
     } catch (error) {
-      console.log(error);
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
       dispatch({
         type: deleteProjectFailure,
       });
