@@ -15,6 +15,7 @@ const {
   addGroupInviteeService,
   acceptUserInvitationService,
   removeUserFromGroupService,
+  getTeamService,
 } = require('../services/project');
 
 const {
@@ -172,6 +173,22 @@ exports.upgradeProjectHandler = async (req, res, next) => {
     });
   } catch (error) {
     return next(error);
+  }
+};
+
+exports.getProjectTeamHandler = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+
+    const data = await getTeamService(projectId, req.body);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      data,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 

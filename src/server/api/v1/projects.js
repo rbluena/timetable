@@ -9,6 +9,7 @@ const {
   getProjectHandler,
   getProjectsHandler,
   upgradeProjectHandler,
+  getProjectTeamHandler,
   createProjectGroupHandler,
   updateProjectGroupHandler,
   deleteProjectGroupHandler,
@@ -40,10 +41,15 @@ router.put(
 /**
  * API to delete project.
  */
-router.delete('/:id', isAuthenticated, deleteProjectHandler);
-router.put('/:id/upgrade', upgradeProjectHandler);
 router.get('/', isAuthenticated, getProjectsHandler);
+
 router.get('/:id', getProjectHandler);
+
+router.put('/:id/upgrade', upgradeProjectHandler);
+
+router.delete('/:id', isAuthenticated, deleteProjectHandler);
+
+router.get('/:projectId/team', getProjectTeamHandler);
 
 router.post('/:projectId/groups', isAuthenticated, createProjectGroupHandler);
 

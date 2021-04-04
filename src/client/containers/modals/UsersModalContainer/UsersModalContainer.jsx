@@ -24,7 +24,7 @@ const UsersModalContainer = ({ isOpen, closeModal, group }) => {
       className="z-50"
       onCancel={closeModal}
     >
-      <InviteForm inviteUser={inviteUser} />
+      <InviteForm inviteUser={inviteUser} projectId={group.project} />
       <UsersComponent
         memberIds={group.members || {}}
         members={group.members || []}

@@ -568,6 +568,23 @@ export const removeUserFromGroupService = async (
 };
 
 /**
+ * Searching user from project
+ * @param {String} projectId ID of the project to be searched from.
+ * @param {String} emailOrUsername Text to be used to search user.
+ */
+export const findTeamUsersService = async (projectId, emailOrUsername) => {
+  const response = await request({
+    method: 'GET',
+    url: path.findTeam(projectId),
+    params: {
+      text: emailOrUsername,
+    },
+  });
+
+  return response.data;
+};
+
+/**
  * Service to create task.
  * @param {Object} data
  */

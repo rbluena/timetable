@@ -5,7 +5,6 @@ const Group = require('../models/Group');
 const User = require('../models/User');
 const Task = require('../models/Task');
 const Subscription = require('../models/Subscription');
-const { findUserById } = require('./user');
 const { deleteProjectGroups } = require('./group');
 const { deleteProjectTasks } = require('./task');
 const { deleteProjectStatuses } = require('./status');
@@ -19,15 +18,15 @@ const findProjectById = async (id) =>
  * @param {Object} data
  */
 const createProjectService = async (data) => {
-  const project = new Project(data);
+  const project = new Project({ ...data, team: [data.owner] });
   const savedProject = await project.save();
-  let updatedProject = null;
 
   if (savedProject) {
-    // Assign owner of the project
-    const user = await findUserById(data.owner);
-    user.projects.push(savedProject._id);
-    await user.save();
+    // Assign owner the project.
+    await User.updateOne(
+      { _id: mongoose.Types.ObjectId(data.owner) },
+      { $push: { projects: savedProject._id } }
+    );
   }
 
   if (savedProject) {
@@ -41,20 +40,10 @@ const createProjectService = async (data) => {
 
     const savedGroup = await group.save();
 
-    // Adding first status columns
-    // const status = new Status({
-    //   name: 'Backlog',
-    //   project: savedProject._id,
-    // });
-
-    // const savedStatus = await status.save();
-
     savedProject.groups.push(savedGroup._id);
-    // savedProject.statuses.push(savedStatus._id);
-    updatedProject = await savedProject.save();
+    await savedProject.save();
   }
 
-  await Project.populate(updatedProject, 'groups');
   return { _id: savedProject._id };
 };
 
@@ -438,6 +427,24 @@ const removeUserFromGroupService = async (groupId, id, type) => {
 };
 
 /**
+ * Pull list of members from the team
+ * @param {*} projectId
+ */
+const getTeamService = async (projectId) => {
+  const project = await Project.findOne({
+    _id: mongoose.Types.ObjectId(projectId),
+  })
+    .populate({
+      path: 'team',
+      select: ['email', 'userName', 'fullName', 'image'],
+    })
+    // .where({ 'team.email' : text})
+    .lean();
+
+  return project.team;
+};
+
+/**
  * Grabing all links for the user.*
  * @param {Object} options
  */
@@ -703,4 +710,5 @@ module.exports = {
   addGroupInviteeService,
   acceptUserInvitationService,
   removeUserFromGroupService,
+  getTeamService,
 };

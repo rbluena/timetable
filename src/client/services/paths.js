@@ -31,6 +31,7 @@ export default {
     `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
   deleteProjectGroup: (projectId, groupId) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}`,
+  findTeam: (projectId) => `${SERVER_API}/projects/${projectId}/team`,
   inviteUserToGroup: (projectId, groupId) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}/adduser`,
   acceptGroupInvitation: (projectId, groupId) =>
