@@ -10,7 +10,11 @@ const projectSchema = new Schema(
     description: { type: String },
     code: { type: String },
     image: { thumbnail: { type: String }, medium: { type: String } },
-    isPrivate: { type: Boolean, default: true },
+    accessModifier: {
+      type: String,
+      enum: ['private', 'protected', 'public'],
+      default: 'private',
+    },
     startDate: { type: Date },
     endDate: { type: Date },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },

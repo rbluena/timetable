@@ -5,12 +5,11 @@ import { Tag, Button, Tooltip } from 'antd';
 import { DeleteOutlined, TeamOutlined } from '@ant-design/icons';
 
 function getCode(string = '') {
+  const ignoreWords = ['of', 'for', 'and'];
   return string
     .split(' ')
     .map((word) =>
-      word.toLowerCase() === 'of' || word.toLowerCase() === 'and'
-        ? ''
-        : word[0].toUpperCase()
+      ignoreWords.includes(word.toLowerCase()) ? '' : word[0].toUpperCase()
     );
 }
 

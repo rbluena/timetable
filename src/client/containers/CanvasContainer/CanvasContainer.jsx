@@ -38,8 +38,6 @@ const CanvasContainer = () => {
   return (
     <>
       <div className="w-full">
-        {/* <AuthHeader showTimer={showTimer} heading={activeProject.title} /> */}
-
         {/* START: CONTENT */}
         <Content view={view} />
         {/* END: CONTENT */}
@@ -54,7 +52,7 @@ const CanvasContainer = () => {
           >
             <Radio.Button value="about">About</Radio.Button>
             <Radio.Button value="agenda">Agenda</Radio.Button>
-            <Radio.Button value="calendar">Calendar</Radio.Button>
+            {/* <Radio.Button value="calendar">Calendar</Radio.Button> */}
             <Radio.Button value="board">Board</Radio.Button>
           </Radio.Group>
         </div>

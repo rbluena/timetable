@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Form, Input, Button, Radio, DatePicker } from 'antd';
+import { Form, Input, Button, DatePicker } from 'antd';
 import { createProjectAction } from '@app/actions';
 
 const { RangePicker } = DatePicker;
 
 const CreateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [projectStatus, setProjectStatus] = useState('private');
   const dispatch = useDispatch();
 
   /**
@@ -16,7 +15,7 @@ const CreateForm = () => {
    */
   const onFinish = (values) => {
     setIsLoading(true);
-    const data = { ...values, isPrivate: projectStatus === 'private' };
+    const data = { ...values };
 
     if (values.range) {
       data.startDate = values.range[0]._d;
@@ -29,29 +28,29 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="max-w-md">
+    <div className="max-w-md p-4">
       <Form name="nest-messages" onFinish={onFinish}>
         <Form.Item
           // name={['user', 'name']}
           name="title"
           rules={[{ required: true, message: 'Project name is required!' }]}
         >
-          <Input placeholder="Project name" />
+          <Input placeholder="Project name" autoComplete="off" />
         </Form.Item>
         <Form.Item name="description">
-          <Input.TextArea placeholder="Project description" />
+          <Input.TextArea placeholder="Project description" rows={5} />
         </Form.Item>
-        <Form.Item name="isPrivate">
+        {/* <Form.Item name="accessModifier">
           <Radio.Group
             buttonStyle="solid"
-            defaultValue={projectStatus}
-            value={projectStatus}
-            onChange={(evt) => setProjectStatus(evt.target.value)}
+            defaultValue="private"
+            // onChange={(evt) => setProjectStatus(evt.target.value)}
           >
             <Radio.Button value="private">Private</Radio.Button>
+            <Radio.Button value="protected">Protected</Radio.Button>
             <Radio.Button value="public">Public</Radio.Button>
           </Radio.Group>
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           name="range"
           // rules={[{ required: true, message: 'Project name is required!' }]}

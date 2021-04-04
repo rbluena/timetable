@@ -40,18 +40,14 @@ const AboutContainer = () => {
   function updateProject(property, data) {
     let newData = {};
 
-    if (property === 'isPrivate') {
-      newData = { isPrivate: data === 'private' };
-    } else {
-      newData = setWith(
-        { settings: { ...project.settings } },
-        property,
-        data,
-        (items) => ({
-          ...items,
-        })
-      );
-    }
+    newData = setWith(
+      { settings: { ...project.settings } },
+      property,
+      data,
+      (items) => ({
+        ...items,
+      })
+    );
 
     dispatch(updateProjectAction(project._id, newData));
   }
@@ -110,13 +106,15 @@ const AboutContainer = () => {
               {/* start: toggle public vs private */}
               <div className="py-4">
                 <Radio.Group
-                  value={project.isPrivate ? 'private' : 'public'}
+                  value={project.accessModifier}
                   buttonStyle="solid"
-                  onChange={(evt) =>
-                    updateProject('isPrivate', evt.target.value)
-                  }
+                  onChange={(evt) => {
+                    if (true) return;
+                    updateProject('accessModifier', evt.target.value);
+                  }}
                 >
                   <Radio.Button value="private">Private</Radio.Button>
+                  <Radio.Button value="protected">Protected</Radio.Button>
                   <Radio.Button value="public">Public</Radio.Button>
                 </Radio.Group>
               </div>
