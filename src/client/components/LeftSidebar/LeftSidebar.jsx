@@ -118,7 +118,10 @@ const LeftSidebar = ({ user }) => {
         </Link>
         &nbsp;
         {user.image && user.image.thumbnail ? (
-          <Avatar src={user.image.thumbnail} />
+          <Avatar
+            src={user.image.thumbnail}
+            style={{ border: '1px solid #1890ff' }}
+          />
         ) : (
           <Avatar style={{ backgroundColor: '#f56a00' }}>
             {user.fullName ? user.fullName[0] : 'U'}

@@ -29,7 +29,7 @@ const ProjectCard = ({ project, deleteProject }) => (
     <Link href={`/projects/${project._id}`}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className="flex flex-col items-center justify-center p-4">
-        <div className="h-20 w-20 rounded-full border-2 mb-2 border-primary-500 flex items-center justify-center text-xl text-primary-500  font-light">
+        <div className="h-20 w-20 rounded-full border mb-2 border-primary-500 flex items-center justify-center text-xl text-primary-500  font-light">
           {getCode(project.title)}
         </div>
         <h2 className="mx-auto text-md font-normal text-center text-neutral-400">
