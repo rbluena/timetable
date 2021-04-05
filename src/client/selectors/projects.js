@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { createSelector } from 'reselect';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -47,6 +48,20 @@ const selectProjectMembers = (state) => {
 
   return {};
 };
+/**
+ * Selecting team members for the project.
+ * @param {Object} state
+ */
+const selectProjectTeam = (state) => {
+  const team = get(state.PROJECTS, 'team');
+  const teamIds = get(state.PROJECTS.project, 'team');
+
+  if (teamIds && teamIds.length) {
+    return teamIds.map((teamId) => ({ ...team[teamId] }));
+  }
+
+  return [];
+};
 
 const selectProjectCategories = (state) => {
   const { categories } = state.PROJECTS;
@@ -59,8 +74,21 @@ const selectProjectCategories = (state) => {
 };
 
 const selectProjectAssignees = (state) => {
-  const { members: users, groups } = state.PROJECTS;
-  return { users, groups };
+  const project = selectProject(state);
+  const { team, groups } = state.PROJECTS;
+
+  let users = [];
+  let mappedGroups = [];
+
+  if (project && project.groups && project.groups.length) {
+    mappedGroups = project.groups.map((groupId) => ({ ...groups[groupId] }));
+  }
+
+  if (project && project.team && project.team.length) {
+    users = project.team.map((userId) => ({ ...team[userId] }));
+  }
+
+  return { users, groups: mappedGroups };
 };
 
 export const projectsSelector = createSelector(
@@ -81,6 +109,11 @@ export const projectGroupsSelector = createSelector(
 export const projectCategoriesSelector = createSelector(
   selectProjectCategories,
   (groups) => groups
+);
+
+export const projectTeamSelector = createSelector(
+  selectProjectTeam,
+  (team) => team
 );
 
 export const projectMembersSelector = createSelector(

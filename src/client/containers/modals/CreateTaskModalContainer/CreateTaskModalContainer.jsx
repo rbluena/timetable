@@ -4,7 +4,7 @@ import {
   globalStateSelector,
   tasksStateSelector,
   taskCategoriesSelector,
-  projectAssigneesSelector
+  projectAssigneesSelector,
 } from '@app/selectors';
 import {
   closeModalAction,

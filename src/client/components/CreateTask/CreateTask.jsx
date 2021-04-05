@@ -4,7 +4,6 @@ import { Input, Button, Form, TimePicker, DatePicker, Select } from 'antd';
 import { ControlWrapper } from '@app/components/Form';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
-// import { RichEditor } from '@app/components';
 
 const { RangePicker } = TimePicker;
 const { Option } = Select;
@@ -37,10 +36,12 @@ const CreateTask = ({
 
   function mapAssignees(data) {
     if (data && data.length) {
-      const mappingContent = { ...users, ...groups };
+      // const mappingContent = [ ...users, ...groups ];
 
       return data.map((itemId) => {
-        const item = mappingContent[itemId];
+        const item = [...users, ...groups].find(
+          (dataItem) => dataItem._id === itemId
+        );
 
         return {
           _id: item._id,
@@ -97,6 +98,7 @@ const CreateTask = ({
           layout="vertical"
           initialValues={{}}
         >
+          {/* start: Title */}
           <Form.Item
             name="title"
             rules={[
@@ -108,7 +110,15 @@ const CreateTask = ({
           >
             <Input autoComplete="off" placeholder="Add title" />
           </Form.Item>
+          {/* end: Title */}
 
+          {/* start: Description */}
+          <Form.Item name="description">
+            <Input.TextArea placeholder="Task description" rows={4} />
+          </Form.Item>
+          {/* end: Description */}
+
+          {/* start: Scheduling component */}
           <div className="flex items-center justify-start">
             <Form.Item
               name="date"
@@ -133,33 +143,36 @@ const CreateTask = ({
               <RangePicker minuteStep={5} format="HH:mm" bordered={false} />
             </Form.Item>
           </div>
+          {/* end: Scheduling component */}
 
-          <Form.Item name="category">
-            <Select style={{ width: 120 }} placeholder="Category">
-              {!isEmpty(categories) &&
-                Object.keys(categories).map((key) => {
+          {/* start: Rendering categories */}
+          {!isEmpty(categories) && (
+            <Form.Item name="category">
+              <Select style={{ width: 120 }} placeholder="Category">
+                {Object.keys(categories).map((key) => {
                   const category = categories[key];
 
                   return <Option value={key}>{category.name}</Option>;
                 })}
-            </Select>
-          </Form.Item>
+              </Select>
+            </Form.Item>
+          )}
+          {/* end: Rendering categories */}
 
+          {/* start: Rendering reporter options */}
           <Form.Item name="reporter">
             <Select style={{ width: '100%' }} placeholder="Reporter" showSearch>
               {!isEmpty(users) &&
-                Object.keys(users).map((key) => {
-                  const user = users[key];
-
-                  return (
-                    <Option key={key} value={user._id}>
-                      {user.fullName}
-                    </Option>
-                  );
-                })}
+                users.map((user) => (
+                  <Option key={user._id} value={user._id}>
+                    {user.fullName}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
+          {/* end: Rendering reporter options */}
 
+          {/* start: Rendering assignees options */}
           <Form.Item name="assignees">
             <Select
               mode="multiple"
@@ -171,40 +184,35 @@ const CreateTask = ({
             >
               {!isEmpty(users) && (
                 <Select.OptGroup label="Users">
-                  {Object.keys(users).map((key) => {
-                    const user = users[key];
-
-                    return (
-                      <Option key={key} value={user._id} label={user.fullName}>
-                        {user.fullName}
-                      </Option>
-                    );
-                  })}
+                  {users.map((user) => (
+                    <Option
+                      key={user._id}
+                      value={user._id}
+                      label={user.fullName}
+                    >
+                      {user.fullName}
+                    </Option>
+                  ))}
                 </Select.OptGroup>
               )}
 
               {!isEmpty(groups) && (
                 <Select.OptGroup label="Groups">
-                  {Object.keys(groups).map((key) => {
-                    const group = groups[key];
-
-                    return (
-                      <Option key={key} value={group._id} label={group.name}>
-                        {group.name}
-                      </Option>
-                    );
-                  })}
+                  {groups.map((group) => (
+                    <Option
+                      key={group._id}
+                      value={group._id}
+                      label={group.name}
+                    >
+                      {group.name}
+                    </Option>
+                  ))}
                 </Select.OptGroup>
               )}
             </Select>
           </Form.Item>
-
-          <Form.Item>
-            {/* <RichEditor
-              value={description}
-              onChange={(data) => setDescription(data)}
-            /> */}
-          </Form.Item>
+          {/* end: Rendering assignees options */}
+          <h2>Attachments:</h2>
 
           {/* start: Footer */}
           <div className="flex justify-end">
