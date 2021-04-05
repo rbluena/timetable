@@ -87,7 +87,6 @@ const BoardContainer = () => {
         <div
           className=" transition-all px-1 h-full relative bg-neutral-50 shadow border-r border-primary-300"
           style={{
-            // height: 'calc(100vh - 90px)',
             width: '280px',
             minWidth: '280px',
             marginLeft: toggleBacklog ? '' : '-280px',
@@ -128,7 +127,7 @@ const BoardContainer = () => {
           }}
         >
           {/* start: Board header */}
-          <div className="my-2 border-b border-primary-100 flex w-full">
+          <div className="py-1 my-1 border-b border-primary-100 flex w-full">
             <Button
               type="primary"
               className="mt-2"

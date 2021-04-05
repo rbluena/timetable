@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Draggable } from 'react-beautiful-dnd';
 import { Tag, Avatar, Tooltip, Button } from 'antd';
 import {
-  UsergroupAddOutlined,
+  TeamOutlined,
   ClockCircleTwoTone,
   ExpandAltOutlined,
 } from '@ant-design/icons';
@@ -55,7 +55,7 @@ const TaskCard = ({
                     const user = userAssignees[userId];
 
                     return (
-                      <Tooltip title={user.fullName || ''} placement="top">
+                      <Tooltip title={(user && user.fullName) || ''}>
                         <Avatar src="" style={{ backgroundColor: '#f56a00' }}>
                           <span className="uppercase">
                             {user && user.fullName
@@ -74,9 +74,9 @@ const TaskCard = ({
                     const group = groupAssignees[groupId];
 
                     return (
-                      <Tooltip title={group.name} placement="top">
+                      <Tooltip title={group && group.name} placement="top">
                         <Avatar size="small">
-                          <UsergroupAddOutlined />
+                          <TeamOutlined />
                         </Avatar>
                       </Tooltip>
                     );

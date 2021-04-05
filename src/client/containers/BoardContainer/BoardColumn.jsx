@@ -34,7 +34,7 @@ const BoardColumn = ({
 
   return (
     <div
-      className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-y-hidden overflow-x-hidden"
+      className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-hidden"
       style={{
         minWidth: '300px',
         width: '300px',
@@ -53,7 +53,11 @@ const BoardColumn = ({
               onStart: () => setEditingColumn(true),
             }}
           >
-            <span className="uppercase font-medium text-base">{name}</span>
+            {isEditingColumn ? (
+              name
+            ) : (
+              <span className="uppercase font-normal text-base">{name}</span>
+            )}
           </Title>
           <Button type="text" size="small" danger onClick={deleteBoardColumn}>
             {/* <EllipsisOutlined /> */}
