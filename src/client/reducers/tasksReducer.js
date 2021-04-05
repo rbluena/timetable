@@ -23,6 +23,7 @@ export const deleteTaskSuccess = 'TASK/DELETE_TASK_SUCCESS';
 export const deleteTaskFailure = 'TASK/DELETE_TASK_FAILURE';
 export const backlogTaskAssingingStatusSuccess =
   'TASK/BACKLOG_ASSIGN_TASK_STATUS_SUCCESS';
+export const moveTasksToBacklog = 'TASK/MOVE_TASKS_TO_BACKLOG';
 
 const initialState = {
   fetching: false,
@@ -162,6 +163,12 @@ export default function taskReducer(state = initialState, action) {
         state.backlogIds = backlogs;
       }
 
+      return state;
+    }
+
+    case moveTasksToBacklog: {
+      const taskIds = payload;
+      state.backlogIds = [...taskIds, ...state.backlogIds];
       return state;
     }
 

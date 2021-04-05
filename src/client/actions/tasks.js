@@ -25,7 +25,7 @@ import {
   // removeTaskSuccess,
 } from '@app/reducers/tasksReducer';
 
-import { setProjectStatuses } from '@app/reducers/statusesReducer';
+import { getProjectStatusesSuccess } from '@app/reducers/statusesReducer';
 
 import {
   getNormalizedBacklog,
@@ -199,7 +199,7 @@ export const getBoardTasksAction = (
   const tasks = { ...statusEntities.tasks, ...backlogEntities.tasks };
 
   dispatch({
-    type: setProjectStatuses,
+    type: getProjectStatusesSuccess,
     payload: {
       statusIds,
       statuses: statusEntities.statuses,

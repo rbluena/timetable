@@ -16,15 +16,14 @@ export default function statusesReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case setProjectStatuses: {
+    case getProjectStatusesSuccess: {
       const { statusIds, statuses } = payload;
 
-      state.statusIds = [...state.statusIds, ...statusIds];
+      state.statusIds = [...statusIds];
 
       return {
         ...state,
         statuses: {
-          ...state.statuses,
           ...statuses,
         },
       };

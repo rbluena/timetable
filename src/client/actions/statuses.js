@@ -13,7 +13,10 @@ import {
   unassignTaskStatusSuccess,
 } from '@app/reducers/statusesReducer';
 
-import { backlogTaskAssingingStatusSuccess } from '@app/reducers/tasksReducer';
+import {
+  backlogTaskAssingingStatusSuccess,
+  moveTasksToBacklog,
+} from '@app/reducers/tasksReducer';
 
 import { setNotificationAction, signUserOutAction } from '@app/actions';
 
@@ -52,7 +55,7 @@ export function createNewStatusAction(projectId, statusData) {
 }
 
 /**
- * Updating status item of the project.
+ * Updating status details.
  * @param {String} projectId ID of the project.
  * @param {Object} statusData Data of the status to be updated.
  */
@@ -96,7 +99,12 @@ export function updateStatusAction(projectId, statusId, statusData) {
 export function deleteStatusAction(projectId, statusId) {
   return async (dispatch, getState) => {
     try {
-      const { token } = getState().AUTH;
+      const {
+        AUTH: { token },
+        STATUSES: { statuses },
+      } = getState();
+
+      const { tasks } = statuses[statusId];
 
       const { data } = await deleteStatusItemService(
         token,
@@ -107,6 +115,12 @@ export function deleteStatusAction(projectId, statusId) {
       dispatch({
         type: deleteStatusItemSuccess,
         payload: data,
+      });
+
+      // Move items back to the backlog
+      dispatch({
+        type: moveTasksToBacklog,
+        payload: tasks || [],
       });
 
       // Refreshing the backlog.
@@ -184,7 +198,7 @@ export function assigningTaskStatusAction(
           source.droppableId === 'backlog' &&
           destination.droppableId !== 'backlog'
         ) {
-          // Moving to the backlog therefore
+          // Moving from the backlog therefore
           // 1). Moving item from the backlog.
           dispatch({
             type: backlogTaskAssingingStatusSuccess,
