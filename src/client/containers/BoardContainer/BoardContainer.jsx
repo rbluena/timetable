@@ -15,9 +15,9 @@ import {
 import {
   backlogSelector,
   taskCategoriesSelector,
-  taskAssigneesSelector,
   projectSelector,
   boardSelector,
+  boardDataSelector,
 } from '@app/selectors';
 
 import BoardColumns from './BoardColumns';
@@ -30,9 +30,12 @@ const BoardContainer = () => {
   const [toggleBacklog, setToggleBacklog] = useState(false);
   const { title, description, _id: projectId } = useSelector(projectSelector);
   const { backlogIds, tasks } = useSelector(backlogSelector);
+  const { backlog } = useSelector(boardDataSelector);
+  const { columns } = useSelector(boardSelector);
   const categories = useSelector(taskCategoriesSelector);
   const board = useSelector(boardSelector);
-  const { userAssignees, groupAssignees } = useSelector(taskAssigneesSelector);
+
+  // console.log(columns);
 
   /**
    * Moving task card from one position to another
@@ -106,13 +109,7 @@ const BoardContainer = () => {
           </div>
           <CreateTaskButton openNewTaskModal={openNewTaskModal} />
 
-          <BacklogsList
-            tasks={tasks}
-            backlogIds={backlogIds}
-            categories={categories}
-            groupAssignees={groupAssignees}
-            userAssignees={userAssignees}
-          />
+          <BacklogsList backlog={backlog || []} categories={categories} />
         </div>
         {/* end: Backlog container */}
 
@@ -146,12 +143,9 @@ const BoardContainer = () => {
 
           {/* start:  Board columns */}
           <BoardColumns
-            board={board}
-            tasks={tasks}
-            createNewColumn={createNewColumn}
+            columns={columns}
             categories={categories}
-            groupAssignees={groupAssignees}
-            userAssignees={userAssignees}
+            createNewColumn={createNewColumn}
             updateColumn={updateColumn}
             deleteColumn={deleteColumn}
           />

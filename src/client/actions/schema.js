@@ -5,18 +5,7 @@ import { normalize, schema } from 'normalizr';
  * @param {Object} data Project data from API
  */
 export function getNormalizedProject(data = {}) {
-  const membersSchema = new schema.Entity(
-    'members',
-    {},
-    { idAttribute: '_id' }
-  );
-
-  const groupsSchema = new schema.Entity(
-    'groups',
-    { members: [membersSchema] },
-    { idAttribute: '_id' }
-  );
-
+  const groupsSchema = new schema.Entity('groups', {}, { idAttribute: '_id' });
   const teamSchema = new schema.Entity('team', {}, { idAttribute: '_id' });
 
   const categoriesSchema = new schema.Entity(
@@ -93,26 +82,19 @@ export function getNormalizedStatues(data = []) {
 }
 
 export function getNormalizedBacklog(data = []) {
-  const groupAssigneesSchema = new schema.Entity(
-    'groupAssignees',
-    {},
-    { idAttribute: '_id' }
-  );
+  // const groupAssigneesSchema = new schema.Entity(
+  //   'groupAssignees',
+  //   {},
+  //   { idAttribute: '_id' }
+  // );
 
-  const userAssigneesSchema = new schema.Entity(
-    'userAssignees',
-    {},
-    { idAttribute: '_id' }
-  );
+  // const userAssigneesSchema = new schema.Entity(
+  //   'userAssignees',
+  //   {},
+  //   { idAttribute: '_id' }
+  // );
 
-  const backlogSchema = new schema.Entity(
-    'tasks',
-    {
-      groupAssignees: [groupAssigneesSchema],
-      userAssignees: [userAssigneesSchema],
-    },
-    { idAttribute: '_id' }
-  );
+  const backlogSchema = new schema.Entity('tasks', {}, { idAttribute: '_id' });
 
   return normalize(data, [backlogSchema]);
 }

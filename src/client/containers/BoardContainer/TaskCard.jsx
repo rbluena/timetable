@@ -8,16 +8,9 @@ import {
 } from '@ant-design/icons';
 import { format } from 'date-fns';
 
-const TaskCard = ({
-  index,
-  draggableId,
-  task,
-  categories,
-  userAssignees,
-  groupAssignees,
-}) => {
+const TaskCard = ({ index, draggableId, task, categories }) => {
   const taskCategory = categories[task.category];
-  const { userAssignees: userIds, groupAssignees: groupIds } = task;
+  const { userAssignees, groupAssignees } = task;
 
   return (
     <Draggable draggableId={draggableId} index={index}>
@@ -44,43 +37,35 @@ const TaskCard = ({
             <span className="text-xs font-bold text-neutral-400 inline-block my-1 px-1 bg-neutral-100 border border-primary-100">
               <ClockCircleTwoTone />
               &nbsp;
-              {task.schedule && format(new Date(task.schedule.start), 'MMM dd')}
+              {task.date && format(new Date(task.date), 'MMM dd')}
             </span>
 
             <div className="ml-auto">
               <Avatar.Group size="small" maxCount={4}>
-                {userIds &&
-                  userIds.length > 0 &&
-                  userIds.map((userId) => {
-                    const user = userAssignees[userId];
-
-                    return (
-                      <Tooltip title={(user && user.fullName) || ''}>
-                        <Avatar src="" style={{ backgroundColor: '#f56a00' }}>
-                          <span className="uppercase">
-                            {user && user.fullName
-                              ? user.fullName[0]
-                              : user && user.email[0]}
-                          </span>
-                        </Avatar>
-                      </Tooltip>
-                    );
-                  })}
+                {userAssignees &&
+                  userAssignees.length > 0 &&
+                  userAssignees.map((user) => (
+                    <Tooltip title={(user && user.fullName) || ''}>
+                      <Avatar src="" style={{ backgroundColor: '#f56a00' }}>
+                        <span className="uppercase">
+                          {user && user.fullName
+                            ? user.fullName[0]
+                            : user && user.email[0]}
+                        </span>
+                      </Avatar>
+                    </Tooltip>
+                  ))}
 
                 {/* Groups assigned */}
-                {groupIds &&
-                  groupIds.length > 0 &&
-                  groupIds.map((groupId) => {
-                    const group = groupAssignees[groupId];
-
-                    return (
-                      <Tooltip title={group && group.name} placement="top">
-                        <Avatar size="small">
-                          <TeamOutlined />
-                        </Avatar>
-                      </Tooltip>
-                    );
-                  })}
+                {groupAssignees &&
+                  groupAssignees.length > 0 &&
+                  groupAssignees.map((group) => (
+                    <Tooltip title={group && group.name} placement="top">
+                      <Avatar size="small">
+                        <TeamOutlined />
+                      </Avatar>
+                    </Tooltip>
+                  ))}
                 {/* end: Groups assigned */}
               </Avatar.Group>
             </div>

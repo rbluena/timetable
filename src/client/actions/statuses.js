@@ -28,8 +28,6 @@ import { setNotificationAction, signUserOutAction } from '@app/actions';
 export function createNewStatusAction(projectId, statusData) {
   return async (dispatch, getState) => {
     try {
-      // dispatch({ type: createNewStatus });
-
       const { token } = getState().AUTH;
 
       const { data } = await createProjectStatus(projectId, statusData, token);
@@ -117,11 +115,13 @@ export function deleteStatusAction(projectId, statusId) {
         payload: data,
       });
 
-      // Move items back to the backlog
-      dispatch({
-        type: moveTasksToBacklog,
-        payload: tasks || [],
-      });
+      if (tasks && tasks.length) {
+        // Move items back to the backlog
+        dispatch({
+          type: moveTasksToBacklog,
+          payload: tasks || [],
+        });
+      }
 
       // Refreshing the backlog.
     } catch (error) {

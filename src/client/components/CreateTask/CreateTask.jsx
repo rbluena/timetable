@@ -59,23 +59,31 @@ const CreateTask = ({
     }
 
     data.date = data.date.format('YYYY-MM-DD');
-    const startTime = moment(data.range[0]).format('HH:mm');
-    const endTime = moment(data.range[1]).format('HH:mm');
 
-    data.startTime = moment(`${data.date} ${startTime}`)._d;
-    data.endTime = moment(`${data.date} ${endTime}`)._d;
+    if (data.range) {
+      // Scheduling task.
+      const startTime = moment(data.range[0]).format('HH:mm');
+      const endTime = moment(data.range[1]).format('HH:mm');
 
-    data.schedule = {
-      start: data.startTime,
-      end: data.endTime,
-    };
-    data.date = data.startTime._d;
+      data.startTime = moment(`${data.date} ${startTime}`)._d;
+      data.endTime = moment(`${data.date} ${endTime}`)._d;
+
+      data.schedule = {
+        start: data.startTime,
+        end: data.endTime,
+      };
+      data.date = data.startTime._d;
+    } else {
+      // Time was not scheduled
+      data.date = moment(data.date)._d;
+    }
+
     const mappedAssignees = mapAssignees(data.assignees);
 
     delete data.range;
 
     onSubmit({ ...data, assignees: mappedAssignees });
-    // form.resetFields();
+    form.resetFields();
   }
 
   return (
@@ -131,15 +139,7 @@ const CreateTask = ({
             >
               <DatePicker format="DD-MM-YYYY" bordered={false} />
             </Form.Item>
-            <Form.Item
-              name="range"
-              rules={[
-                {
-                  required: true,
-                  message: 'This field cannot be empty.',
-                },
-              ]}
-            >
+            <Form.Item name="range">
               <RangePicker minuteStep={5} format="HH:mm" bordered={false} />
             </Form.Item>
           </div>

@@ -1,42 +1,24 @@
 import PropTypes from 'prop-types';
-import { Button, Tooltip } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
-import { PlusIcon } from '@app/components/Icons';
 import TaskCard from './TaskCard';
 
-const BacklogsList = ({
-  tasks,
-  backlogIds,
-  categories,
-  userAssignees,
-  groupAssignees,
-}) => (
+const BacklogsList = ({ backlog, categories }) => (
   <div className="overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
-    {/* start: Button to add a new task */}
-
-    {/* end: Button to add a new task */}
-
     {/* start: Backlog list */}
     <Droppable droppableId="backlog">
       {(provided) => (
         <div {...provided.droppableProps} ref={provided.innerRef}>
-          {backlogIds &&
-            backlogIds.length > 0 &&
-            backlogIds.map((taskId, index) => {
-              const task = tasks[taskId];
-
-              return (
-                <TaskCard
-                  key={taskId}
-                  index={index}
-                  draggableId={taskId}
-                  task={task}
-                  categories={categories}
-                  groupAssignees={groupAssignees}
-                  userAssignees={userAssignees}
-                />
-              );
-            })}
+          {backlog &&
+            backlog.length > 0 &&
+            backlog.map((task, index) => (
+              <TaskCard
+                key={task._id}
+                index={index}
+                draggableId={task._id}
+                task={task}
+                categories={categories}
+              />
+            ))}
 
           {provided.placeholder}
         </div>
@@ -47,19 +29,12 @@ const BacklogsList = ({
 );
 
 BacklogsList.defaultProps = {
-  tasks: {},
   categories: {},
-  userAssignees: {},
-  groupAssignees: {},
 };
 
 BacklogsList.propTypes = {
-  openNewTaskModal: PropTypes.func.isRequired,
-  tasks: PropTypes.objectOf(PropTypes.any),
-  backlogIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  backlog: PropTypes.arrayOf(PropTypes.string).isRequired,
   categories: PropTypes.objectOf(PropTypes.any),
-  userAssignees: PropTypes.objectOf(PropTypes.any),
-  groupAssignees: PropTypes.objectOf(PropTypes.any),
 };
 
 export default BacklogsList;

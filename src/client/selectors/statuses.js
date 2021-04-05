@@ -5,21 +5,40 @@ const selectStatuses = (state) => {
   const statuses = get(state, 'STATUSES.statuses');
   const statusIds = get(state, 'STATUSES.statusIds');
 
-  return { statusIds, statuses };
+  if (statusIds && statusIds.length) {
+    return statusIds.map((statusId) => ({ ...statuses[statusId] }));
+  }
+
+  return [];
 };
 
 const selectBoard = (state) => {
-  const board = {};
-  const { statusIds, statuses } = selectStatuses(state);
+  const { team, groups } = state.PROJECTS;
+  const { tasks } = state.TASKS;
+  let statuses = selectStatuses(state);
 
-  if (statusIds) {
-    board.columnIds = statusIds;
-    board.columns = statuses || {};
+  if (statuses && statuses.length) {
+    statuses = statuses.map((status) => {
+      if (status.tasks && status.tasks.length) {
+        status.tasks = status.tasks.map((taskId) => {
+          const task = { ...tasks[taskId] };
 
-    return board;
+          task.userAssignees = task.userAssignees.map((userId) => ({
+            ...team[userId],
+          }));
+
+          task.groupAssignees = task.groupAssignees.map((groupId) => ({
+            ...groups[groupId],
+          }));
+
+          return task;
+        });
+      }
+      return status;
+    });
   }
 
-  return {};
+  return { columns: statuses };
 };
 
 // eslint-disable-next-line import/prefer-default-export

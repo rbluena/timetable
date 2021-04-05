@@ -8,28 +8,25 @@ import TaskCard from './TaskCard';
 const { Title } = Typography;
 
 const BoardColumn = ({
-  tasks,
+  columnData,
   columnIndex,
-  column,
   categories,
-  userAssignees,
-  groupAssignees,
   updateColumn,
   deleteColumn,
 }) => {
   const [editingColumn, setEditingColumn] = useState(false);
-  const { name, tasks: taskIds } = column;
+  const { name, tasks } = columnData;
   const isEditingColumn = !name || name.length === 0 || editingColumn;
 
   function changeColumnTitle(value) {
     if (!value.length) return;
 
-    updateColumn(column._id, { name: value });
+    updateColumn(columnData._id, { name: value });
     setEditingColumn(false);
   }
 
   function deleteBoardColumn() {
-    deleteColumn(column._id);
+    deleteColumn(columnData._id);
   }
 
   return (
@@ -64,14 +61,14 @@ const BoardColumn = ({
             <DeleteOutlined />
           </Button>
           <div className="ml-auto font-bold italic text-neutral-500">
-            {taskIds.length}
+            {tasks.length}
           </div>
         </div>
       </div>
       {/* end: column header  */}
 
       {/* start: Droppable section */}
-      <Droppable key={columnIndex} droppableId={column._id}>
+      <Droppable key={columnIndex} droppableId={columnData._id}>
         {(provided) => (
           <div
             {...provided.droppableProps}
@@ -79,23 +76,17 @@ const BoardColumn = ({
             className="overflow-y-auto h-full"
           >
             {/* start: rendering tasks */}
-            {taskIds &&
-              taskIds.length > 0 &&
-              taskIds.map((taskId, index) => {
-                const task = tasks[taskId];
-
-                return (
-                  <TaskCard
-                    key={taskId}
-                    index={index}
-                    draggableId={`${taskId}`}
-                    task={task}
-                    categories={categories}
-                    userAssignees={userAssignees}
-                    groupAssignees={groupAssignees}
-                  />
-                );
-              })}
+            {tasks &&
+              tasks.length > 0 &&
+              tasks.map((task, index) => (
+                <TaskCard
+                  key={task._id}
+                  index={index}
+                  draggableId={task._id}
+                  task={task}
+                  categories={categories}
+                />
+              ))}
             {provided.placeholder}
             {/* end: rendering tasks */}
           </div>
