@@ -4,7 +4,9 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { Button } from 'antd';
 import { CloseOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
+  setOpenedTaskAction,
   openModalAction,
+  openDrawerAction,
   addNewTaskAction,
   createNewStatusAction,
   updateStatusAction,
@@ -48,6 +50,15 @@ const BoardContainer = () => {
     dispatch(
       assigningTaskStatusAction(projectId, draggableId, source, destination)
     );
+  }
+
+  /**
+   *
+   * @param {String} id
+   */
+  function openTaskDrawer(id) {
+    dispatch(setOpenedTaskAction(id, projectId));
+    dispatch(openDrawerAction('task'));
   }
 
   function openNewTaskModal(data) {
@@ -109,7 +120,11 @@ const BoardContainer = () => {
           </div>
           <CreateTaskButton openNewTaskModal={openNewTaskModal} />
 
-          <BacklogsList backlog={backlog || []} categories={categories} />
+          <BacklogsList
+            backlog={backlog || []}
+            categories={categories}
+            openTaskDrawer={openTaskDrawer}
+          />
         </div>
         {/* end: Backlog container */}
 
@@ -145,6 +160,7 @@ const BoardContainer = () => {
           <BoardColumns
             columns={columns}
             categories={categories}
+            openTaskDrawer={openTaskDrawer}
             createNewColumn={createNewColumn}
             updateColumn={updateColumn}
             deleteColumn={deleteColumn}

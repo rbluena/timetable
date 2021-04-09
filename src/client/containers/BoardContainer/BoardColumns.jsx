@@ -5,6 +5,7 @@ import BoardColumn from './BoardColumn';
 
 const BoardColumns = ({
   columns,
+  openTaskDrawer,
   categories,
   createNewColumn,
   updateColumn,
@@ -21,6 +22,7 @@ const BoardColumns = ({
           columnData={columnData}
           columnIndex={index}
           categories={categories}
+          openTaskDrawer={openTaskDrawer}
           updateColumn={updateColumn}
           deleteColumn={deleteColumn}
         />

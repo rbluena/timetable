@@ -39,6 +39,8 @@ export default {
   removeUserFromGroup: (projectId, groupId, id) =>
     `${SERVER_API}/projects/${projectId}/groups/${groupId}/invite/${id}`,
   createTask: (projectId) => `${SERVER_API}/projects/${projectId}/tasks`,
+  getTask: (projectId, taskId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${taskId}`,
   updateTask: (projectId, id) =>
     `${SERVER_API}/projects/${projectId}/tasks/${id}`,
   updateTaskStatus: (projectId, taskId) =>

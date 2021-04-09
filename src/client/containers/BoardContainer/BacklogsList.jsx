@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
 
-const BacklogsList = ({ backlog, categories }) => (
+const BacklogsList = ({ backlog, categories, openTaskDrawer }) => (
   <div className="overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
     {/* start: Backlog list */}
     <Droppable droppableId="backlog">
@@ -17,6 +17,7 @@ const BacklogsList = ({ backlog, categories }) => (
                 draggableId={task._id}
                 task={task}
                 categories={categories}
+                openTaskDrawer={openTaskDrawer}
               />
             ))}
 

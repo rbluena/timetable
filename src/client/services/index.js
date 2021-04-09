@@ -234,11 +234,15 @@ export const updateProjectService = async (id, data, token) => {
  * Service to retrieve a project.
  * @param {String} id
  */
-export const getProjectService = async (id) => {
+export const getProjectService = async (id, token) => {
   try {
     const response = await request({
       method: 'GET',
       url: path.getProject(id),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
 
     return response.data;
@@ -686,6 +690,28 @@ export const deleteTaskService = async (token, id) => {
     const response = await request({
       method: 'DELETE',
       url: path.deleteTask(id),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ * Retrieving task details
+ * @param {String} projectId ID of the project.
+ * @param {String} taskId ID of the task
+ * @param {String} token JWT Token
+ */
+export const getTaskService = async (projectId, taskId, token) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getTask(projectId, taskId),
       headers: {
         Authorization: `Bearer ${token}`,
       },

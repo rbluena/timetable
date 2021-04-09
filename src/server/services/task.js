@@ -150,11 +150,17 @@ const deleteTaskService = async (taskId) => {
  * @param {String} taskId
  */
 const getTaskByIdService = async (taskId) => {
-  const link = await Task.findOne({
+  const task = await Task.findOne({
     _id: mongoose.Types.ObjectId(taskId),
-  }).lean();
+  })
+    .populate('status groupAssignees')
+    .populate({
+      path: 'userAssignees reporter',
+      select: ['fullName', 'accountName', 'image'],
+    })
+    .lean();
 
-  return link;
+  return task;
 };
 
 /**

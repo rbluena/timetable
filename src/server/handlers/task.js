@@ -27,6 +27,23 @@ exports.createTaskHandler = async (req, res, next) => {
   }
 };
 
+exports.getTaskHandler = async (req, res, next) => {
+  try {
+    const { taskId } = req.params;
+
+    const doc = await getTaskByIdService(taskId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: '',
+      data: doc,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /**
  * Request handler for updating a project.
  */
@@ -85,7 +102,7 @@ exports.deleteTaskHandler = async (req, res, next) => {
 /**
  * Request handler for getting tasks.
  */
-exports.getTaskHandler = async (req, res, next) => {
+/* exports.getTaskHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const doc = await getTaskByIdService(id);
@@ -99,7 +116,7 @@ exports.getTaskHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}; */
 
 /**
  * Request handler for getting all taks.

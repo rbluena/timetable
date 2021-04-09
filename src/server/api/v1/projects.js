@@ -26,7 +26,7 @@ const {
   removeStatusFromTaskHandler,
 } = require('../../handlers/project');
 
-const { createTaskHandler } = require('../../handlers/task');
+const { createTaskHandler, getTaskHandler } = require('../../handlers/task');
 
 // router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
 router.post('/', isAuthenticated, createProjectHandler);
@@ -96,6 +96,11 @@ router.post('/:projectId/tasks', createTaskHandler);
  * Get tasks for a project.
  */
 router.get(`/:projectId/tasks`, getProjectTasksHandler);
+
+/**
+ * Get a task for a project.
+ */
+router.get(`/:projectId/tasks/:taskId`, getTaskHandler);
 
 /**
  * Get tasks by status.

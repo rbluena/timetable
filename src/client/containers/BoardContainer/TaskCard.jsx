@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { format } from 'date-fns';
 
-const TaskCard = ({ index, draggableId, task, categories }) => {
+const TaskCard = ({ index, draggableId, task, categories, openTaskDrawer }) => {
   const taskCategory = categories[task.category];
   const { userAssignees, groupAssignees } = task;
 
@@ -24,7 +24,11 @@ const TaskCard = ({ index, draggableId, task, categories }) => {
         >
           <div className="flex">
             <p className="font-normal">{task.title}</p>
-            <Button className="ml-auto" size="small">
+            <Button
+              className="ml-auto"
+              size="small"
+              onClick={() => openTaskDrawer(task._id)}
+            >
               <ExpandAltOutlined />
             </Button>
           </div>

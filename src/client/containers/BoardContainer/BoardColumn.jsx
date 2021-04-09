@@ -9,6 +9,7 @@ const { Title } = Typography;
 
 const BoardColumn = ({
   columnData,
+  openTaskDrawer,
   columnIndex,
   categories,
   updateColumn,
@@ -82,6 +83,7 @@ const BoardColumn = ({
                 <TaskCard
                   key={task._id}
                   index={index}
+                  openTaskDrawer={openTaskDrawer}
                   draggableId={task._id}
                   task={task}
                   categories={categories}

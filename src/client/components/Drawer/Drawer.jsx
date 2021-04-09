@@ -6,9 +6,9 @@ import { Button } from 'antd';
 
 const Drawer = ({ children, isOpen }) => (
   <aside
-    className={`transition-all duration-500 ease-in-out transform max-w-sm overflow-y-scroll bg-primary-50 ${
+    className={`transition-all duration-300 ease-in-out transform max-w-sm overflow-y-auto bg-neutral-50 ${
       isOpen ? '' : 'translate-x-full'
-    } text-neutral-900 fixed right-0 top-0 shadow-lg min-h-screen max-h-screen w-full md:w-2/6`}
+    } text-neutral-900 fixed right-0 top-0 shadow-lg min-h-screen max-h-screen w-full md:w-96`}
     style={{ zIndex: 1000 }}
   >
     {children}
@@ -44,7 +44,7 @@ Drawer.Header.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-Drawer.Content = ({ children }) => <div>{children}</div>;
+Drawer.Content = ({ children }) => <div className="h-full">{children}</div>;
 
 Drawer.Content.propTypes = {
   children: PropTypes.node.isRequired,

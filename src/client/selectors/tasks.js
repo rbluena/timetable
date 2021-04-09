@@ -1,14 +1,4 @@
-import { get } from 'lodash';
 import { createSelector } from 'reselect';
-
-const selectProject = (state) => {
-  const { project, projectId } = state.PROJECTS;
-
-  if (projectId && project) {
-    return project[projectId];
-  }
-  return {};
-};
 
 const selectCalendarTasks = (state) => {
   const { data } = state.TASKS;
@@ -17,8 +7,6 @@ const selectCalendarTasks = (state) => {
 
 const selectBacklog = (state) => {
   const { backlogIds, tasks, backlogMeta } = state.TASKS;
-  const mappedTasks = {};
-
   return { backlogIds, tasks, backlogMeta };
 };
 
@@ -55,6 +43,11 @@ const selectTaskCategories = (state) => {
   const { categories } = state.PROJECTS;
   return categories;
 };
+
+export const getOpenedTaskSelector = createSelector(
+  (state) => state.TASKS.openedTask,
+  (task) => task
+);
 
 export const backlogSelector = createSelector(
   selectBacklog,

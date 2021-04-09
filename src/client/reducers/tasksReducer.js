@@ -37,10 +37,8 @@ export default function taskReducer(state = initialState, action) {
 
   switch (action.type) {
     case setOpenedTask: {
-      const openingData = state.data[payload];
-
-      if (openingData) {
-        state.openedTask = openingData;
+      if (payload) {
+        state.openedTask = payload;
       } else {
         state.openedTask = null;
       }

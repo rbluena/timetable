@@ -72,7 +72,7 @@ const CreateTask = ({
         start: data.startTime,
         end: data.endTime,
       };
-      data.date = data.startTime._d;
+      data.date = data.startTime;
     } else {
       // Time was not scheduled
       data.date = moment(data.date)._d;

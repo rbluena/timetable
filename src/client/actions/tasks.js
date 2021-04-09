@@ -4,6 +4,7 @@ import { setNotificationAction, signUserOutAction } from '@app/actions';
 
 import {
   createTaskService,
+  getTaskService,
   // updateTaskService,
   deleteTaskService,
   getTasksByStatusService,
@@ -174,10 +175,21 @@ export const getTasksByStatusAction = (projectId, options) => async (
  * Setting task that is opened.
  * @param {String} id Task id
  */
-export const setOpenedTaskAction = (id) => ({
-  type: setOpenedTask,
-  payload: id,
-});
+export const setOpenedTaskAction = (id, projectId = null) => async (
+  dispatch,
+  getState
+) => {
+  const { token } = getState().AUTH;
+
+  if (id && projectId) {
+    const { data } = await getTaskService(projectId, id, token);
+
+    dispatch({
+      type: setOpenedTask,
+      payload: data,
+    });
+  }
+};
 
 /**
  * Rendering tasks for project board.
