@@ -188,9 +188,10 @@ const TaskDrawerContainer = () => {
             </div>
           )}
 
-          {toggleTab === 'comments' && (
-            {/** <TaskComments comments={[]} /> */
-          )}
+          {toggleTab === 'comments' &&
+            {
+              /** <TaskComments comments={[]} /> */
+            }}
         </Drawer.Content>
         {/* end: Content */}
       </Drawer>
