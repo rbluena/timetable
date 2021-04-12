@@ -123,7 +123,10 @@ export function getNormalizedTask(data = {}) {
 
   return normalize(data, taskSchema);
 }
-
+/**
+ *
+ * @param {Object} data
+ */
 export function getNormalizedProjects(data = []) {
   const projectSchema = new schema.Entity(
     'projects',
@@ -132,4 +135,13 @@ export function getNormalizedProjects(data = []) {
   );
 
   return normalize(data, [projectSchema]);
+}
+
+/**
+ * Normilizing tasks data.
+ * @param {Object} data Tasks data
+ */
+export function getNormalizedTasks(data = []) {
+  const tasksSchema = new schema.Entity('tasks', {}, { idAttribute: '_id' });
+  return normalize(data, [tasksSchema]);
 }

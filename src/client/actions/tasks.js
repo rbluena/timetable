@@ -22,6 +22,7 @@ import {
   updateTaskSuccess,
   updateTaskFailure,
   getBoardTasksSuccess,
+  getTasksSuccess,
   // removeTask,
   // removeTaskSuccess,
 } from '@app/reducers/tasksReducer';
@@ -32,6 +33,7 @@ import {
   getNormalizedBacklog,
   getNormalizedStatues,
   getNormalizedTask,
+  getNormalizedTasks,
 } from './schema';
 
 export function setEditingTaskAction(data) {
@@ -191,6 +193,22 @@ export const setOpenedTaskAction = (id, projectId = null) => async (
   }
 };
 
+export const getAgendaTasksAction = (data, meta) => async (dispatch) => {
+  try {
+    const normalizedTasks = getNormalizedTasks(data);
+
+    dispatch({
+      type: getTasksSuccess,
+      payload: {
+        ...normalizedTasks,
+        meta,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 /**
  * Rendering tasks for project board.
  * @param {Array} statuses List of statuses for board's columns
@@ -221,8 +239,8 @@ export const getBoardTasksAction = (
   dispatch({
     type: getBoardTasksSuccess,
     payload: {
-      userAssignees: backlogEntities.userAssignees || [],
-      groupAssignees: backlogEntities.groupAssignees || [],
+      // userAssignees: backlogEntities.userAssignees || [],
+      // groupAssignees: backlogEntities.groupAssignees || [],
       backlogIds,
       tasks,
       backlogMeta,

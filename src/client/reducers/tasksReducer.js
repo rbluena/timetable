@@ -30,6 +30,7 @@ const initialState = {
   openedTask: null,
   editingTask: null,
   backlogIds: [],
+  taskIds: [],
 };
 
 export default function taskReducer(state = initialState, action) {
@@ -79,6 +80,17 @@ export default function taskReducer(state = initialState, action) {
       return {
         ...state,
         ...payload,
+      };
+    }
+
+    case getTasksSuccess: {
+      const { entities, result: taskIds, meta } = payload;
+
+      return {
+        ...state,
+        ...entities,
+        taskIds,
+        meta,
       };
     }
 
