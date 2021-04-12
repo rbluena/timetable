@@ -1,66 +1,79 @@
-import { Timeline, Button, Typography, Avatar, Tooltip, Tag } from 'antd';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
+import { Timeline, Typography, Avatar, Tooltip, Tag } from 'antd';
+import { TeamOutlined } from '@ant-design/icons';
+// import { TimeTicker } from '@app/components';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
-const TimelineItem = ({ task, openTask, editTask, deleteTask }) => (
+const TimelineItem = ({ task }) => (
   <Timeline.Item color="blue">
-    <div className="py-2 flex flex-wrap">
+    <div className="py-1">
       <p className="text-primary-500 text-sm font-bold p-0 m-0">
-        {task.startTime} - {task.endTime}
+        {task.schedule
+          ? `${format(new Date(task.schedule.start), 'HH:mm')} - ${format(
+              new Date(task.schedule.end),
+              'HH:mm'
+            )}`
+          : ``}
       </p>
-      &nbsp; &nbsp;
-      {task.category && (
-        <Tag color={task.category.colorName}>{task.category.name}</Tag>
-      )}
+      <Title level={5}>{task.title}</Title>
     </div>
 
-    <Title level={5}>{task.title}</Title>
+    <Paragraph type="secondary">{task.description}</Paragraph>
 
-    {/* <Paragraph type="secondary">{task.description}</Paragraph> */}
+    {task.category && (
+      <Tag color={task.category.colorName}>{task.category.name}</Tag>
+    )}
+
     <div className="py-2">
-      {task.assignees && task.assignees.length > 0 && (
-        <Avatar.Group
-          size="small"
-          maxCount={3}
-          maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-        >
-          {task.assignees.map((user) => {
+      <Avatar.Group
+        size="small"
+        maxCount={4}
+        maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+      >
+        {/* start: user assignees */}
+        {task.userAssignees &&
+          task.userAssignees.length > 0 &&
+          task.userAssignees.map((user) => {
             if (
               user.image &&
               user.image.thumbnail &&
               user.image.thumbnail.length
             ) {
               return (
-                <Tooltip title={user.name} placement="top">
+                <Tooltip title={user.fullName}>
                   <Avatar src={user.image.thumbnail} />
                 </Tooltip>
               );
             }
             return (
-              <Tooltip title={user.name} placement="top">
+              <Tooltip title={user.fullName}>
                 <Avatar style={{ backgroundColor: '#f56a00' }}>
-                  {user.name[0]}
+                  {user && user.fullName ? user.fullName[0] : user.email[0]}
                 </Avatar>
               </Tooltip>
             );
           })}
-        </Avatar.Group>
-      )}
+        {/* end: User assignees */}
+
+        {/* Groups assigned */}
+        {task.groupAssignees &&
+          task.groupAssignees.length > 0 &&
+          task.groupAssignees.map((group) => (
+            <Tooltip title={group && group.name} placement="top">
+              <Avatar size="small">
+                <TeamOutlined />
+              </Avatar>
+            </Tooltip>
+          ))}
+        {/* end: Groups assigned */}
+      </Avatar.Group>
     </div>
 
     {/* <TimeTicker /> */}
 
-    <div className="flex justify-between items-center pt-4">
-      <Button
-        type="primary"
-        size="small"
-        ghost
-        onClick={() => openTask(task._id)}
-      >
-        Details
-      </Button>
-      &nbsp;
+    {/* <div className="flex justify-between items-center pt-4">
       <div className="p-0">
         <Button
           className="items-end"
@@ -80,7 +93,7 @@ const TimelineItem = ({ task, openTask, editTask, deleteTask }) => (
           Delete
         </Button>
       </div>
-    </div>
+    </div> */}
   </Timeline.Item>
 );
 

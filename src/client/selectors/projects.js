@@ -63,7 +63,7 @@ const selectProjectTeam = (state) => {
   return [];
 };
 
-const selectProjectCategories = (state) => {
+export const selectProjectCategories = (state) => {
   const { categories } = state.PROJECTS;
 
   if (categories) {

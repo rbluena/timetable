@@ -46,19 +46,32 @@ const TaskCard = ({ index, draggableId, task, categories, openTaskDrawer }) => {
 
             <div className="ml-auto">
               <Avatar.Group size="small" maxCount={4}>
+                {/* start: user assignees */}
                 {userAssignees &&
                   userAssignees.length > 0 &&
-                  userAssignees.map((user) => (
-                    <Tooltip title={(user && user.fullName) || ''}>
-                      <Avatar src="" style={{ backgroundColor: '#f56a00' }}>
-                        <span className="uppercase">
+                  userAssignees.map((user) => {
+                    if (
+                      user.image &&
+                      user.image.thumbnail &&
+                      user.image.thumbnail.length
+                    ) {
+                      return (
+                        <Tooltip title={user.fullName}>
+                          <Avatar src={user.image.thumbnail} />
+                        </Tooltip>
+                      );
+                    }
+                    return (
+                      <Tooltip title={user.fullName}>
+                        <Avatar style={{ backgroundColor: '#f56a00' }}>
                           {user && user.fullName
                             ? user.fullName[0]
-                            : user && user.email[0]}
-                        </span>
-                      </Avatar>
-                    </Tooltip>
-                  ))}
+                            : user.email[0]}
+                        </Avatar>
+                      </Tooltip>
+                    );
+                  })}
+                {/* end: User assignees */}
 
                 {/* Groups assigned */}
                 {groupAssignees &&

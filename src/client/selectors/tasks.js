@@ -1,8 +1,50 @@
 import { createSelector } from 'reselect';
+import { groupTasksBasedOnDate } from '@app/utils';
+import { selectProjectCategories } from './projects';
 
 const selectCalendarTasks = (state) => {
-  const { data } = state.TASKS;
-  return data || [];
+  const { tasks, taskIds } = state.TASKS;
+  let data = [];
+
+  if (taskIds && taskIds.length) {
+    data = taskIds.map((taskId) => ({
+      ...tasks[taskId],
+    }));
+  }
+
+  return data;
+};
+
+const selectTasks = (state) => {
+  const categories = selectProjectCategories(state);
+  const { team, groups } = state.PROJECTS;
+  const { tasks, taskIds } = state.TASKS;
+  let data = [];
+
+  if (taskIds && taskIds.length) {
+    data = taskIds.map((taskId) => {
+      const task = { ...tasks[taskId] };
+
+      task.category = task.category ? categories[task.category] : undefined;
+
+      task.userAssignees = task.userAssignees.map((userId) => ({
+        ...team[userId],
+      }));
+
+      task.groupAssignees = task.groupAssignees.map((groupId) => ({
+        ...groups[groupId],
+      }));
+
+      return task;
+    });
+  }
+
+  return data;
+};
+
+const selectAgendaTasks = (state) => {
+  const tasks = selectTasks(state);
+  return groupTasksBasedOnDate(tasks);
 };
 
 const selectBacklog = (state) => {
@@ -52,6 +94,13 @@ export const getOpenedTaskSelector = createSelector(
 export const backlogSelector = createSelector(
   selectBacklog,
   (backlog) => backlog
+);
+
+export const tasksSelector = createSelector(selectTasks, (tasks) => tasks);
+
+export const agendaTasksSelector = createSelector(
+  selectAgendaTasks,
+  (tasks) => tasks
 );
 
 export const tasksStateSelector = createSelector(

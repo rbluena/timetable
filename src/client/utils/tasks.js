@@ -45,23 +45,17 @@ export const groupTasksBasedOnDate = (tasks) => {
     return [];
   }
 
-  const tasksKeys = Object.keys(tasks);
-
   const items = [];
 
-  tasksKeys.forEach((key) => {
-    const task = tasks[key];
-    const newItem = {
-      date: task.date,
-      tasks: [task],
-    };
+  tasks.forEach((task) => {
+    const dateKey = String(format(new Date(task.date), 'yyyy-MM-dd'));
 
-    const found = items.find((item) => isSameDay(task.date, item.date));
+    const foundItem = items.find((item) => item.dateKey === dateKey);
 
-    if (found) {
-      found.tasks.push(task); // Interesting
+    if (foundItem) {
+      foundItem.tasks.push(task);
     } else {
-      items.push(newItem);
+      items.push({ dateKey, tasks: [task] });
     }
   });
 

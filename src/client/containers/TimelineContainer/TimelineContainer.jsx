@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { calendarTasksSelector } from '@app/selectors';
-import { groupTasksBasedOnDate } from '@app/utils';
+import { agendaTasksSelector } from '@app/selectors';
 import { CreateTaskModalContainer } from '@app/containers/modals';
 import { Button, Tooltip } from 'antd';
 import {
@@ -15,9 +14,8 @@ import Timeline from './Timeline';
 import TimelineHeader from './TimelineHeader';
 
 const TimelineContainer = () => {
-  const tasks = useSelector(calendarTasksSelector);
+  const mappedTasks = useSelector(agendaTasksSelector);
   const dispatch = useDispatch();
-  const mappedTasks = groupTasksBasedOnDate(tasks);
 
   function openTask(id) {
     dispatch(setOpenedTaskAction(id));
@@ -30,6 +28,8 @@ const TimelineContainer = () => {
   }
 
   function deleteTask(id) {}
+
+  console.log(mappedTasks);
 
   return (
     <>
@@ -52,7 +52,28 @@ const TimelineContainer = () => {
             {/* start: End task button */}
           </div>
 
-          <div className="divide-y divide-primary-100">
+          <div className="p-4">
+            {mappedTasks &&
+              mappedTasks.length > 0 &&
+              mappedTasks.map((item) => (
+                <div
+                  // className="pl-4 shadow-sm rounded p-4 bg-white mb-4"
+                  key={JSON.stringify(item.date)}
+                >
+                  <div className="flex justify-start">
+                    <TimelineHeader date={new Date(item.dateKey)} />
+                    <Timeline
+                      tasks={item.tasks}
+                      openTask={openTask}
+                      editTask={editTask}
+                      delete={deleteTask}
+                    />
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          {/* <div className="divide-y divide-primary-100">
             {mappedTasks &&
               mappedTasks.length > 0 &&
               mappedTasks.map((item) => (
@@ -71,7 +92,7 @@ const TimelineContainer = () => {
                   </div>
                 </div>
               ))}
-          </div>
+          </div> */}
         </div>
       </div>
 

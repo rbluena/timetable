@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
-import { Typography } from 'antd';
 import { format } from 'date-fns';
 
-const { Title } = Typography;
-
 const TimelineHeader = ({ date }) => (
-  <div className="flex items-center pb-8">
-    <Title type="secondary" level={4} className="uppercase">
-      {format(date, 'EEEE dd')}
-    </Title>
+  <div className="w-28 flex-col items-center justify-center text-center">
+    <span className="block uppercase font-normal text-neutral-500">
+      {format(date, 'EEE')}
+    </span>
+    <span className="block text-lg font-bold">{format(date, 'dd')}</span>
   </div>
 );
 
