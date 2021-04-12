@@ -3,11 +3,15 @@ import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
 
 const BacklogsList = ({ backlog, categories, openTaskDrawer }) => (
-  <div className="overflow-y-auto" style={{ height: 'calc(100vh - 60px)' }}>
+  <div className="overflow-y-auto" style={{ height: 'calc(100vh - 90px)' }}>
     {/* start: Backlog list */}
     <Droppable droppableId="backlog">
       {(provided) => (
-        <div {...provided.droppableProps} ref={provided.innerRef}>
+        <div
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          style={{ minHeight: '150px' }}
+        >
           {backlog &&
             backlog.length > 0 &&
             backlog.map((task, index) => (
@@ -36,6 +40,7 @@ BacklogsList.defaultProps = {
 BacklogsList.propTypes = {
   backlog: PropTypes.arrayOf(PropTypes.string).isRequired,
   categories: PropTypes.objectOf(PropTypes.any),
+  openTaskDrawer: PropTypes.func.isRequired,
 };
 
 export default BacklogsList;

@@ -16,7 +16,7 @@ import {
 } from '@app/selectors';
 import { setOpenedTaskAction, closeDrawerAction } from '@app/actions';
 import { Drawer } from '@app/components';
-import TaskComments from './TaskComments';
+// import TaskComments from './TaskComments';
 
 // import { setOpenedTaskAction, closeDrawerAction } from '@app/actions';
 
@@ -107,7 +107,7 @@ const TaskDrawerContainer = () => {
               )}
               {/* start: Description */}
               <div>
-                <p className="font-normal text-neutral-900 py-2">
+                <p className="font-normal text-neutral-900 py-4">
                   {task.description}
                 </p>
               </div>
@@ -188,7 +188,9 @@ const TaskDrawerContainer = () => {
             </div>
           )}
 
-          {toggleTab === 'comments' && <TaskComments comments={[]} />}
+          {toggleTab === 'comments' && (
+            {/** <TaskComments comments={[]} /> */
+          )}
         </Drawer.Content>
         {/* end: Content */}
       </Drawer>
