@@ -171,7 +171,7 @@ const getTaskByIdService = async (taskId) => {
 const getProjectTasksService = async (projectId, options) => {
   const match = { project: mongoose.Types.ObjectId(projectId) };
   const paginateOptions = { limit: 15 };
-  let sort = { 'schedule.start': -1 };
+  let sort = { date: 1 };
 
   const { limit, page, sort: sortQuery } = options;
 

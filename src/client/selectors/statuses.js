@@ -23,13 +23,17 @@ const selectBoard = (state) => {
         status.tasks = status.tasks.map((taskId) => {
           const task = { ...tasks[taskId] };
 
-          task.userAssignees = task.userAssignees.map((userId) => ({
-            ...team[userId],
-          }));
+          if (task.userAssignees && task.userAssignees.length > 0) {
+            task.userAssignees = task.userAssignees.map((userId) => ({
+              ...team[userId],
+            }));
+          }
 
-          task.groupAssignees = task.groupAssignees.map((groupId) => ({
-            ...groups[groupId],
-          }));
+          if (task.groupAssignees && task.groupAssignees.length) {
+            task.groupAssignees = task.groupAssignees.map((groupId) => ({
+              ...groups[groupId],
+            }));
+          }
 
           return task;
         });

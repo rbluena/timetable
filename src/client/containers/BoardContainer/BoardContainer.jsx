@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Button } from 'antd';
 import { CloseOutlined, UnorderedListOutlined } from '@ant-design/icons';
+
 import {
   setOpenedTaskAction,
   openModalAction,
@@ -15,7 +16,6 @@ import {
 } from '@app/actions';
 
 import {
-  backlogSelector,
   taskCategoriesSelector,
   projectSelector,
   boardSelector,
@@ -31,13 +31,9 @@ const BoardContainer = () => {
   const dispatch = useDispatch();
   const [toggleBacklog, setToggleBacklog] = useState(false);
   const { title, description, _id: projectId } = useSelector(projectSelector);
-  const { backlogIds, tasks } = useSelector(backlogSelector);
   const { backlog } = useSelector(boardDataSelector);
   const { columns } = useSelector(boardSelector);
   const categories = useSelector(taskCategoriesSelector);
-  const board = useSelector(boardSelector);
-
-  // console.log(columns);
 
   /**
    * Moving task card from one position to another

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { agendaTasksSelector } from '@app/selectors';
 import { CreateTaskModalContainer } from '@app/containers/modals';
@@ -7,7 +8,7 @@ import {
   openModalAction,
   setOpenedTaskAction,
   openDrawerAction,
-  setEditingTaskAction,
+  // setEditingTaskAction,
 } from '@app/actions';
 import { PlusIcon } from '@app/components/Icons';
 import Timeline from './Timeline';
@@ -16,24 +17,25 @@ import TimelineHeader from './TimelineHeader';
 const TimelineContainer = () => {
   const mappedTasks = useSelector(agendaTasksSelector);
   const dispatch = useDispatch();
+  const { query } = useRouter();
 
-  function openTask(id) {
-    dispatch(setOpenedTaskAction(id));
+  /**
+   * Opening drawer to view task details.
+   * @param {String} id Task ID
+   */
+  function openTaskDrawer(id) {
+    dispatch(setOpenedTaskAction(id, query.id));
     dispatch(openDrawerAction('task'));
   }
 
-  function editTask(task) {
-    dispatch(setEditingTaskAction(task));
-    dispatch(openModalAction('task'));
-  }
-
-  function deleteTask(id) {}
-
-  console.log(mappedTasks);
+  // function editTask(task) {
+  //   dispatch(setEditingTaskAction(task));
+  //   dispatch(openModalAction('task'));
+  // }
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full bg-white">
         <div className="relative mx-auto max-w-6xl">
           <div className="fixed right-4 md:right-12 top-16">
             {/* start: Add task button */}
@@ -64,9 +66,7 @@ const TimelineContainer = () => {
                     <TimelineHeader date={new Date(item.dateKey)} />
                     <Timeline
                       tasks={item.tasks}
-                      openTask={openTask}
-                      editTask={editTask}
-                      delete={deleteTask}
+                      openTaskDrawer={openTaskDrawer}
                     />
                   </div>
                 </div>
