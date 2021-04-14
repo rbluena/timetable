@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { agendaTasksSelector } from '@app/selectors';
 import { CreateTaskModalContainer } from '@app/containers/modals';
-import { Button, Tooltip } from 'antd';
+
 import {
   openModalAction,
   setOpenedTaskAction,
@@ -11,8 +11,9 @@ import {
   addNewTaskAction,
   // setEditingTaskAction,
 } from '@app/actions';
-import { PlusIcon } from '@app/components/Icons';
+
 import Timeline from './Timeline';
+import TimelineContainerHeader from './TimelineContainerHeader';
 import TimelineHeader from './TimelineHeader';
 
 const TimelineContainer = () => {
@@ -47,22 +48,11 @@ const TimelineContainer = () => {
     <>
       <div className="w-full bg-white">
         <div className="relative mx-auto max-w-6xl">
-          <div className="fixed right-4 md:right-12 top-16">
-            {/* start: Add task button */}
-            <Tooltip title="Add task">
-              <Button
-                type="primary"
-                shape="circle"
-                className="flex justify-center items-center"
-                size="large"
-                title="Add task"
-                onClick={() => openNewTaskModal()}
-              >
-                <PlusIcon size="sm" className="inline-block" />
-              </Button>
-            </Tooltip>
-            {/* start: End task button */}
-          </div>
+          <TimelineContainerHeader
+            date={new Date()}
+            openNewTaskModal={openNewTaskModal}
+          />
+          {/* <div className="fixed right-4 md:right-12 top-16"> */}
 
           <div className="p-4">
             {mappedTasks &&
