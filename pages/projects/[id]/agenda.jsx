@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useEffectOnce } from 'react-use';
 import dynamic from 'next/dynamic';
+import { subDays } from 'date-fns';
 import {
   getProjectService,
   // getProjectStatusesService,
@@ -9,7 +10,7 @@ import {
   getProjectTasksService,
 } from '@app/services';
 import { getCookieToken } from '@app/utils';
-import { getBoardTasksAction, getAgendaTasksAction } from '@app/actions';
+import { getAgendaTasksAction } from '@app/actions';
 import { signInUserSuccess } from '@app/reducers/authReducer';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
 import { getNormalizedProject } from '@app/actions/schema';
@@ -33,6 +34,7 @@ export async function getServerSideProps({ params, req }) {
     ({ data: project } = await getProjectService(id));
     ({ data, meta } = await getProjectTasksService(id, {
       status: 'null',
+      from: subDays(new Date(), 2),
     }));
 
     if (!project) {
@@ -42,7 +44,7 @@ export async function getServerSideProps({ params, req }) {
     }
   } catch (error) {
     // TODO: LOG ERROR TO SENTRY
-    console.log(error);
+    // console.log(error);
 
     return {
       notFound: true,
@@ -87,3 +89,16 @@ export default function Agenda({ data, meta, token, project }) {
     </LayoutManager>
   );
 }
+
+Agenda.defaultProps = {
+  data: [],
+  meta: undefined,
+  token: undefined,
+};
+
+Agenda.propTypes = {
+  token: PropTypes.string,
+  project: PropTypes.objectOf(PropTypes.any).isRequired,
+  meta: PropTypes.objectOf(PropTypes.any),
+  data: PropTypes.arrayOf(PropTypes.any),
+};

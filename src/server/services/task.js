@@ -171,6 +171,7 @@ const getTaskByIdService = async (taskId) => {
 const getProjectTasksService = async (projectId, options) => {
   const match = { project: mongoose.Types.ObjectId(projectId) };
   const paginateOptions = { limit: 15 };
+  // const paginateOptions = { limit: 4 };
   let sort = { date: 1 };
 
   const { limit, page, sort: sortQuery } = options;
@@ -204,9 +205,17 @@ const getProjectTasksService = async (projectId, options) => {
     }
   }
 
+  if (options.from) {
+    match.date = { $gte: new Date(options.from) };
+  }
+
+  if (options.to) {
+    match.date = { $lte: options.to };
+  }
+
   const aggregate = Task.aggregate([
-    { $match: match },
     { $sort: sort },
+    { $match: match },
     // {
     //   $lookup: {
     //     from: User.collection.name,

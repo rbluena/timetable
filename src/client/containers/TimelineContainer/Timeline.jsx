@@ -11,7 +11,7 @@ const TimelineComponent = ({ tasks, openTaskDrawer }) => (
       {tasks &&
         tasks.length > 0 &&
         tasks.map((task) => (
-          <a onClick={() => openTaskDrawer(task._id)}>
+          <a key={task._id} onClick={() => openTaskDrawer(task._id)}>
             <TimelineItem
               key={task._id}
               task={task}

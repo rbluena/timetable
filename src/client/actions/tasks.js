@@ -5,6 +5,7 @@ import { setNotificationAction, signUserOutAction } from '@app/actions';
 import {
   createTaskService,
   getTaskService,
+  getProjectTasksService,
   // updateTaskService,
   deleteTaskService,
   getTasksByStatusService,
@@ -23,6 +24,7 @@ import {
   updateTaskFailure,
   getBoardTasksSuccess,
   getTasksSuccess,
+  tasksPaginationSuccess,
   // removeTask,
   // removeTaskSuccess,
 } from '@app/reducers/tasksReducer';
@@ -158,6 +160,28 @@ export function deleteTaskAction(id) {
   };
 }
 
+export const getProjectTasksAction = (projectId, options = {}) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const {
+      AUTH: { token },
+    } = getState();
+
+    const { data, meta } = await getProjectTasksService(
+      projectId,
+      options,
+      token
+    );
+
+    console.log(data);
+    console.log(meta);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getTasksByStatusAction = (projectId, options) => async (
   dispatch,
   getState
@@ -205,7 +229,75 @@ export const getAgendaTasksAction = (data, meta) => async (dispatch) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+  }
+};
+
+export const loadPrevTasksAction = (date) => async (dispatch, getState) => {
+  try {
+    const {
+      AUTH: { token },
+      TASKS: { meta: pagination },
+      PROJECTS: { projectId },
+    } = getState();
+
+    if (date) {
+      const { data, meta } = await getProjectTasksService(
+        projectId,
+        { from: pagination.previousPage },
+        token
+      );
+
+      const normalizedTasks = getNormalizedTasks(data);
+
+      dispatch({
+        type: tasksPaginationSuccess,
+        payload: {
+          ...normalizedTasks,
+          meta: {
+            ...pagination,
+            hasPreviousPage: meta.hasPreviousPage,
+            previousPage: meta.previousPage,
+          },
+        },
+      });
+    }
+  } catch (error) {
+    // console.log(error);
+  }
+};
+
+export const loadNextTasksAction = () => async (dispatch, getState) => {
+  try {
+    const {
+      AUTH: { token },
+      TASKS: { meta: pagination },
+      PROJECTS: { projectId },
+    } = getState();
+
+    if (pagination && pagination.hasNextPage) {
+      const { data, meta } = await getProjectTasksService(
+        projectId,
+        { page: pagination.nextPage },
+        token
+      );
+
+      const normalizedTasks = getNormalizedTasks(data);
+
+      dispatch({
+        type: tasksPaginationSuccess,
+        payload: {
+          ...normalizedTasks,
+          meta: {
+            ...pagination,
+            hasNextPage: meta.hasNextPage,
+            nextPage: meta.nextPage,
+          },
+        },
+      });
+    }
+  } catch (error) {
+    // console.log(error);
   }
 };
 

@@ -152,7 +152,11 @@ const CreateTask = ({
                 {Object.keys(categories).map((key) => {
                   const category = categories[key];
 
-                  return <Option value={key}>{category.name}</Option>;
+                  return (
+                    <Option key={key} value={key}>
+                      {category.name}
+                    </Option>
+                  );
                 })}
               </Select>
             </Form.Item>

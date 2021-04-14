@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { agendaTasksSelector } from '@app/selectors';
@@ -9,14 +9,18 @@ import {
   setOpenedTaskAction,
   openDrawerAction,
   addNewTaskAction,
+  loadPrevTasksAction,
+  loadNextTasksAction,
   // setEditingTaskAction,
 } from '@app/actions';
 
+import { Button } from 'antd';
 import Timeline from './Timeline';
 import TimelineContainerHeader from './TimelineContainerHeader';
 import TimelineHeader from './TimelineHeader';
 
 const TimelineContainer = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const mappedTasks = useSelector(agendaTasksSelector);
   const dispatch = useDispatch();
   const { query } = useRouter();
@@ -39,6 +43,22 @@ const TimelineContainer = () => {
     dispatch(openModalAction('task'));
   }
 
+  function loadPrev() {
+    setIsLoading(true);
+    const date = mappedTasks.length ? mappedTasks[0].dateKey : undefined;
+    dispatch(loadPrevTasksAction(date));
+    setIsLoading(false);
+  }
+
+  function loadNext() {
+    setIsLoading(true);
+    const date = mappedTasks.length
+      ? mappedTasks[mappedTasks.length - 1].dateKey
+      : undefined;
+    dispatch(loadNextTasksAction(date));
+    setIsLoading(false);
+  }
+
   // function editTask(task) {
   //   dispatch(setEditingTaskAction(task));
   //   dispatch(openModalAction('task'));
@@ -52,16 +72,22 @@ const TimelineContainer = () => {
             date={new Date()}
             openNewTaskModal={openNewTaskModal}
           />
-          {/* <div className="fixed right-4 md:right-12 top-16"> */}
 
-          <div className="p-4">
+          <div className="p-2">
+            <Button
+              type="primary"
+              size="small"
+              loading={isLoading}
+              onClick={() => loadPrev()}
+            >
+              Prev
+            </Button>
+
+            {/* start: Rendering tasks */}
             {mappedTasks &&
               mappedTasks.length > 0 &&
               mappedTasks.map((item) => (
-                <div
-                  // className="pl-4 shadow-sm rounded p-4 bg-white mb-4"
-                  key={JSON.stringify(item.date)}
-                >
+                <div className="" key={item.dateKey}>
                   <div className="flex justify-start">
                     <TimelineHeader date={new Date(item.dateKey)} />
                     <Timeline
@@ -71,28 +97,18 @@ const TimelineContainer = () => {
                   </div>
                 </div>
               ))}
-          </div>
+            {/* end; Rendering tasks. */}
 
-          {/* <div className="divide-y divide-primary-100">
-            {mappedTasks &&
-              mappedTasks.length > 0 &&
-              mappedTasks.map((item) => (
-                <div
-                  key={JSON.stringify(item.date)}
-                  className="pl-4 shadow-sm rounded p-4 bg-white mb-4"
-                >
-                  <div className="max-w-lg">
-                    <TimelineHeader date={item.date} />
-                    <Timeline
-                      tasks={item.tasks}
-                      openTask={openTask}
-                      editTask={editTask}
-                      delete={deleteTask}
-                    />
-                  </div>
-                </div>
-              ))}
-          </div> */}
+            <Button
+              type="primary"
+              size="small"
+              className="mb-10"
+              loading={isLoading}
+              onClick={() => loadNext()}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
 

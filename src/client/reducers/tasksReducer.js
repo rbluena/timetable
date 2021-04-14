@@ -1,3 +1,5 @@
+import { uniq } from 'lodash';
+
 export const setOpenedTask = 'TASK/OPEN_TASK';
 export const setNewTask = 'TASK/SET_NEW';
 export const closeTask = 'TASK/CLOSE_TASK';
@@ -9,6 +11,7 @@ export const getTaskFailure = 'TASK/GET_TASK_FAILURE';
 export const getTasks = 'TASK/GET_TASKS';
 export const getTasksSuccess = 'TASK/GET_TASKS_SUCCESS';
 export const getTasksFailure = 'TASK/GET_TASKS_FAILURE';
+export const tasksPaginationSuccess = 'TASK/TASKS_PAGINATION_SUCCESS';
 export const getProjectBacklog = 'TASK/GET_PROJECT_BACKLOG';
 export const getProjectBacklogSuccess = 'TASK/GET_PROJECT_BACKLOG_SUCCESS';
 export const getBoardTasksSuccess = 'TASK/GET_BOARD_TASKS_SUCCESS';
@@ -90,6 +93,20 @@ export default function taskReducer(state = initialState, action) {
         ...state,
         ...entities,
         taskIds,
+        meta,
+      };
+    }
+
+    case tasksPaginationSuccess: {
+      const { entities, result: taskIds, meta } = payload;
+
+      return {
+        ...state,
+        taskIds: uniq([...state.taskIds, ...taskIds]),
+        tasks: {
+          ...state.tasks,
+          ...entities.tasks,
+        },
         meta,
       };
     }

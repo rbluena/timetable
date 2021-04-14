@@ -42,13 +42,13 @@ const TimelineItem = ({ task }) => (
               user.image.thumbnail.length
             ) {
               return (
-                <Tooltip title={user.fullName}>
+                <Tooltip key={user._id} title={user.fullName}>
                   <Avatar src={user.image.thumbnail} />
                 </Tooltip>
               );
             }
             return (
-              <Tooltip title={user.fullName}>
+              <Tooltip key={user._id} title={user.fullName}>
                 <Avatar style={{ backgroundColor: '#f56a00' }}>
                   {user && user.fullName ? user.fullName[0] : user.email[0]}
                 </Avatar>
@@ -61,7 +61,11 @@ const TimelineItem = ({ task }) => (
         {task.groupAssignees &&
           task.groupAssignees.length > 0 &&
           task.groupAssignees.map((group) => (
-            <Tooltip title={group && group.name} placement="top">
+            <Tooltip
+              key={group._id}
+              title={group && group.name}
+              placement="top"
+            >
               <Avatar size="small">
                 <TeamOutlined />
               </Avatar>
@@ -98,10 +102,7 @@ const TimelineItem = ({ task }) => (
 );
 
 TimelineItem.propTypes = {
-  openTask: PropTypes.func.isRequired,
-  deleteTask: PropTypes.func.isRequired,
-  editTask: PropTypes.func.isRequired,
-  task: PropTypes.objectOf(PropTypes).isRequired,
+  task: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default TimelineItem;

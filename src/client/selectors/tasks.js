@@ -60,13 +60,18 @@ const selectBoardData = (state) => {
   if (backlogIds && backlogIds.length) {
     backlog = backlogIds.map((backlogId) => {
       const task = { ...tasks[backlogId] };
-      task.userAssignees = task.userAssignees.map((userId) => ({
-        ...team[userId],
-      }));
 
-      task.groupAssignees = task.groupAssignees.map((groupId) => ({
-        ...groups[groupId],
-      }));
+      if (task.userAssignees) {
+        task.userAssignees = task.userAssignees.map((userId) => ({
+          ...team[userId],
+        }));
+      }
+
+      if (task.groupAssignees) {
+        task.groupAssignees = task.groupAssignees.map((groupId) => ({
+          ...groups[groupId],
+        }));
+      }
 
       return task;
     });
