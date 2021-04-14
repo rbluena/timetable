@@ -121,6 +121,7 @@ export default function taskReducer(state = initialState, action) {
           ...userAssignees,
         },
         backlogIds: [result, ...state.backlogIds],
+        taskIds: [result, ...state.taskIds],
       };
     }
 

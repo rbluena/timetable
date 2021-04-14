@@ -57,7 +57,7 @@ const BoardContainer = () => {
     dispatch(openDrawerAction('task'));
   }
 
-  function openNewTaskModal(data) {
+  function openNewTaskModal(data = {}) {
     data.title = 'New task';
     data.new = true;
     data._id = 'new:reandom_string';

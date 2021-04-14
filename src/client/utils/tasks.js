@@ -16,6 +16,11 @@ export const setCalendarPositionFromTime = (task) => {
   return newTask;
 };
 
+/**
+ *
+ * @param {Array} dates Calendar dates
+ * @param {Array} tasks Array of tasks
+ */
 export const mergingTasksBasedOnDate = (dates, tasks) => {
   if (isEmpty(tasks)) {
     return dates;
@@ -59,5 +64,7 @@ export const groupTasksBasedOnDate = (tasks) => {
     }
   });
 
-  return items;
+  const data = items.sort((a, b) => new Date(a.dateKey) - new Date(b.dateKey));
+
+  return data;
 };

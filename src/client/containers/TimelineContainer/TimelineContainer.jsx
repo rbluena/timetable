@@ -8,6 +8,7 @@ import {
   openModalAction,
   setOpenedTaskAction,
   openDrawerAction,
+  addNewTaskAction,
   // setEditingTaskAction,
 } from '@app/actions';
 import { PlusIcon } from '@app/components/Icons';
@@ -28,6 +29,15 @@ const TimelineContainer = () => {
     dispatch(openDrawerAction('task'));
   }
 
+  function openNewTaskModal(data = {}) {
+    data.title = 'New task';
+    data.new = true;
+    data._id = 'new:reandom_string';
+
+    dispatch(addNewTaskAction(data));
+    dispatch(openModalAction('task'));
+  }
+
   // function editTask(task) {
   //   dispatch(setEditingTaskAction(task));
   //   dispatch(openModalAction('task'));
@@ -46,7 +56,7 @@ const TimelineContainer = () => {
                 className="flex justify-center items-center"
                 size="large"
                 title="Add task"
-                onClick={() => dispatch(openModalAction('task'))}
+                onClick={() => openNewTaskModal()}
               >
                 <PlusIcon size="sm" className="inline-block" />
               </Button>
