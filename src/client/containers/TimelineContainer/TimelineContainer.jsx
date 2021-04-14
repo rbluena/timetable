@@ -79,6 +79,7 @@ const TimelineContainer = () => {
               size="small"
               loading={isLoading}
               onClick={() => loadPrev()}
+              className="my-4"
             >
               Prev
             </Button>

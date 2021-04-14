@@ -5,7 +5,7 @@ import { PlusIcon } from '@app/components/Icons';
 // import moment from 'moment';
 
 const TimelineHeader = ({ openNewTaskModal }) => (
-  <div className="fixed top-2 text-center right-4">
+  <div className="fixed top-4 text-center right-2 md:right-12">
     {/* start: date picker */}
     {/* <DatePicker
         defaultValue={moment(date)}
