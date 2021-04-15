@@ -28,6 +28,7 @@ const AboutContainer = () => {
   const projectCategories = useSelector(projectCategoriesSelector);
   const dispatch = useDispatch();
 
+  const accessModifier = get(project, 'settings.access');
   const categoriesTitle = get(project, 'settings.categories.name');
   const membersGroupsTitle = get(project, 'settings.groups.name');
   const groupsKeys = get(project, 'groups');
@@ -104,20 +105,36 @@ const AboutContainer = () => {
               </Paragraph>
 
               {/* start: toggle public vs private */}
-              <div className="py-4">
-                <Radio.Group
-                  value={project.accessModifier}
-                  buttonStyle="solid"
-                  onChange={(evt) => {
-                    if (true) return;
-                    updateProject('accessModifier', evt.target.value);
-                  }}
-                >
-                  <Radio.Button value="private">Private</Radio.Button>
-                  <Radio.Button value="protected">Protected</Radio.Button>
-                  <Radio.Button value="public">Public</Radio.Button>
-                </Radio.Group>
-              </div>
+              {accessModifier && (
+                <div className="py-4">
+                  <Radio.Group
+                    value={accessModifier.type}
+                    buttonStyle="solid"
+                    onChange={(evt) => {
+                      const { value } = evt.target;
+                      updateProject('settings.access', {
+                        type: evt.target.value,
+                        passCode:
+                          value === 'protected'
+                            ? Math.random().toString(36).substr(2, 8)
+                            : null,
+                      });
+                    }}
+                  >
+                    <Radio.Button value="private">Private</Radio.Button>
+                    <Radio.Button value="protected">Protected</Radio.Button>
+                    <Radio.Button value="public">Public</Radio.Button>
+                  </Radio.Group>
+                  {accessModifier.type === 'protected' && 'authenticated' && (
+                    <>
+                      <span className="text-sm ml-1">Pass Code:</span>&nbsp;
+                      <span className="text-base inline-block text-neutral-500">
+                        {accessModifier.passCode}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
               {/* end: toggle public vs private */}
 
               {/* start: Project date */}

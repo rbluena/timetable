@@ -72,11 +72,11 @@ export function updateProjectAction(id, projectData) {
       dispatch({ type: updateProject });
 
       const { token } = getState().AUTH;
-      const user = decode(token);
+      // const user = decode(token);
 
       const { data, message } = await updateProjectService(
         id,
-        { ...projectData, owner: user ? user._id : null },
+        projectData,
         token
       );
 

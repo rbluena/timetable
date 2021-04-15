@@ -10,11 +10,6 @@ const projectSchema = new Schema(
     description: { type: String },
     code: { type: String },
     image: { thumbnail: { type: String }, medium: { type: String } },
-    accessModifier: {
-      type: String,
-      enum: ['private', 'protected', 'public'],
-      default: 'private',
-    },
     startDate: { type: Date },
     endDate: { type: Date },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -38,6 +33,14 @@ const projectSchema = new Schema(
       },
       groups: {
         name: { type: String, default: 'Members Groups' },
+      },
+      access: {
+        type: {
+          type: String,
+          enum: ['private', 'protected', 'public'],
+          default: 'private',
+        },
+        passCode: { type: String, default: null },
       },
     },
     subscription: { type: mongoose.Types.ObjectId, ref: 'Subscription' },
