@@ -122,7 +122,6 @@ const GroupsComponent = ({
                   <Button
                     type="text"
                     size="small"
-                    ghost
                     danger
                     className="ml-auto"
                     onClick={() => deleteGroupHandler(group._id)}

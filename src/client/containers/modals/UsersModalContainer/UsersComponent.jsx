@@ -65,7 +65,7 @@ const UsersComponent = ({ memberIds, invitees, removeUserFromGroup }) => {
 UsersComponent.propTypes = {
   memberIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   invitees: PropTypes.arrayOf(PropTypes.any).isRequired,
-  removeInvitation: PropTypes.func.isRequired,
+  removeUserFromGroup: PropTypes.func.isRequired,
 };
 
 export default UsersComponent;

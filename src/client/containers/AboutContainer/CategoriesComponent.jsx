@@ -128,12 +128,18 @@ const CategoriesComponent = ({
   );
 };
 
+CategoriesComponent.defaultProps = {
+  title: '',
+  categoriesKeys: [],
+  categories: {},
+  projectId: undefined,
+};
+
 CategoriesComponent.propTypes = {
-  title: PropTypes.string.isRequired,
-  categoriesKeys: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any))
-    .isRequired,
-  categories: PropTypes.objectOf(PropTypes.any).isRequired,
-  projectId: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  categoriesKeys: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+  categories: PropTypes.objectOf(PropTypes.any),
+  projectId: PropTypes.string,
   updateProject: PropTypes.func.isRequired,
 };
 
