@@ -81,14 +81,13 @@ exports.projectAccessAuthorization = async (req, res, next) => {
       }
 
       if (accessType === 'protected') {
-        if (req.app.projectAccessAuthorized) {
+        if (req.app.authorizedProtectedProject === String(projectId)) {
           next();
           return;
         }
 
         // If user is authenticated and is the owner or team member,
         // can be able to view the project.
-
         if (req.app.jwt) {
           const user = decode(req.app.jwt);
 
@@ -101,7 +100,7 @@ exports.projectAccessAuthorization = async (req, res, next) => {
           }
         }
 
-        req.app.projectAccessAuthorized = false;
+        req.app.authorizedProtectedProject = null;
         res.set('x-project-access-authorized', false);
 
         res.status(403).json({
@@ -118,13 +117,18 @@ exports.projectAccessAuthorization = async (req, res, next) => {
       }
 
       if (accessType === 'private') {
-        await isAuthenticated();
 
-        const user = decode(req.app.jwt);
 
-        if (project.team.includes(String(user._id))) {
-          next();
-          return;
+        if (req.app.jwt) {
+          const user = decode(req.app.jwt);
+
+          if (
+            String(project.owner) === String(user._id) ||
+            project.team.includes(String(user._id))
+          ) {
+            next();
+            return;
+          }
         }
       }
     }
@@ -133,7 +137,6 @@ exports.projectAccessAuthorization = async (req, res, next) => {
       status: 403,
       success: false,
       message: 'Unauthorized',
-      protectedProjectAccess: false,
       errors: { description: 'You are not authorized to view the project!' },
     });
   } catch (error) {

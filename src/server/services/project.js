@@ -144,10 +144,10 @@ const getProjectByIdService = async (projectId) => {
   return project;
 };
 
-const getProjectsService = async (options) => {
-  const match = { deleted: false };
+const getProjectsService = async (options, userId) => {
+  const match = { $or: [{owner: mongoose.Types.ObjectId(userId)}, {team: { $in: [userId] }}] }
   const paginateOptions = { limit: 15 };
-  const sort = { createdAt: -1 };
+  const sort = { updatedAt: -1 };
 
   if (!isEmpty(options)) {
     Object.keys(options).forEach((key) => {
@@ -186,6 +186,7 @@ const getProjectsService = async (options) => {
         'owner.loginStrategy': 0,
         'owner.createdAt': 0,
         'owner.updatedAt': 0,
+        // isUserOwner: userId === '$owner._id'
       },
     },
   ]);

@@ -57,8 +57,13 @@ exports.createProjectHandler = async (req, res, next) => {
  */
 exports.updateProjectHandler = async (req, res, next) => {
   try {
+    const user = decode(req.app.jwt);
     const { id } = req.params;
     const doc = await updateProjectService(id, req.body);
+
+    if (user && String(user._id) === String(doc.owner._id)) {
+      doc.isUserOwner = true;
+    }
 
     res.status(200).json({
       status: 200,
@@ -122,7 +127,8 @@ exports.getProjectHandler = async (req, res, next) => {
  */
 exports.getProjectsHandler = async (req, res, next) => {
   try {
-    const data = await getProjectsService(req.query, null);
+    const user = decode(req.app.jwt);
+    const data = await getProjectsService(req.query, user ? user._id : null);
     const meta = omit(data, 'docs');
     const { docs } = data;
 
@@ -148,7 +154,7 @@ exports.accessProtectedProjectHandler = async (req, res, next) => {
     const data = await accessProtectedProjectService(projectId, password);
 
     if (data) {
-      req.app.projectAccessAuthorized = true;
+      req.app.authorizedProtectedProject = String(projectId);
 
       res.status(200).json({
         status: 200,

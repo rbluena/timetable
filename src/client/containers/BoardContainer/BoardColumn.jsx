@@ -8,6 +8,7 @@ import TaskCard from './TaskCard';
 const { Title } = Typography;
 
 const BoardColumn = ({
+  isUserOwner,
   columnData,
   openTaskDrawer,
   columnIndex,
@@ -45,22 +46,31 @@ const BoardColumn = ({
           <Title
             level={5}
             type="secondary"
-            editable={{
-              editing: isEditingColumn,
-              onChange: changeColumnTitle,
-              onStart: () => setEditingColumn(true),
-            }}
+            editable={
+              isUserOwner
+                ? {
+                    editing: isEditingColumn,
+                    onChange: changeColumnTitle,
+                    onStart: () => setEditingColumn(true),
+                  }
+                : false
+            }
           >
-            {isEditingColumn ? (
+            {isEditingColumn && isUserOwner ? (
               name
             ) : (
               <span className="uppercase font-normal text-base">{name}</span>
             )}
           </Title>
-          <Button type="text" size="small" danger onClick={deleteBoardColumn}>
-            {/* <EllipsisOutlined /> */}
-            <DeleteOutlined />
-          </Button>
+
+          {/* start: Button to delete column */}
+          {isUserOwner && (
+            <Button type="text" size="small" danger onClick={deleteBoardColumn}>
+              {/* <EllipsisOutlined /> */}
+              <DeleteOutlined />
+            </Button>
+          )}
+          {/* end: Button to delete column */}
           <div className="ml-auto font-bold italic text-neutral-500">
             {tasks.length}
           </div>
@@ -100,22 +110,18 @@ const BoardColumn = ({
 };
 
 BoardColumn.defaultProps = {
-  tasks: {},
+  columnData: {},
   categories: {},
-  userAssignees: {},
-  groupAssignees: {},
+  isUserOwner: false
 };
 
 BoardColumn.propTypes = {
+  isUserOwner: PropTypes.bool,
   columnIndex: PropTypes.string.isRequired,
-  column: PropTypes.objectOf(PropTypes.any).isRequired,
+  categories: PropTypes.objectOf(PropTypes.any),
+  columnData: PropTypes.objectOf(PropTypes.any),
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
-  openNewTaskModal: PropTypes.func.isRequired,
-  backlogIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  tasks: PropTypes.objectOf(PropTypes.any),
-  categories: PropTypes.objectOf(PropTypes.any),
-  userAssignees: PropTypes.objectOf(PropTypes.any),
-  groupAssignees: PropTypes.objectOf(PropTypes.any),
+  openTaskDrawer: PropTypes.func.isRequired,
 };
 export default BoardColumn;

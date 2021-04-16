@@ -4,6 +4,7 @@ import { Button, Tooltip } from 'antd';
 import BoardColumn from './BoardColumn';
 
 const BoardColumns = ({
+  isUserOwner,
   columns,
   openTaskDrawer,
   categories,
@@ -18,6 +19,7 @@ const BoardColumns = ({
       columns.length > 0 &&
       columns.map((columnData, index) => (
         <BoardColumn
+          isUserOwner={isUserOwner}
           key={columnData._id}
           columnData={columnData}
           columnIndex={index}
@@ -28,34 +30,31 @@ const BoardColumns = ({
         />
       ))}
 
-    <div className="mx-1 bg-neutral-50 h-10">
-      <Tooltip title="Add column">
-        <Button
-          size="large"
-          type="text"
-          icon={<PlusOutlined size="large" />}
-          onClick={createNewColumn}
-        />
-      </Tooltip>
-    </div>
+    {isUserOwner && (
+      <div className="mx-1 bg-neutral-50 h-10">
+        <Tooltip title="Add column">
+          <Button
+            size="large"
+            type="text"
+            icon={<PlusOutlined size="large" />}
+            onClick={createNewColumn}
+          />
+        </Tooltip>
+      </div>
+    )}
   </div>
 );
 BoardColumns.defaultProps = {
-  tasks: {},
   categories: {},
+  isUserOwner: false,
 };
 
 BoardColumns.propTypes = {
-  board: PropTypes.objectOf(PropTypes.any).isRequired,
   createNewColumn: PropTypes.func.isRequired,
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
-  tasks: PropTypes.objectOf(PropTypes.any),
   categories: PropTypes.objectOf(PropTypes.any),
-  userAssignees: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any))
-    .isRequired,
-  groupAssignees: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any))
-    .isRequired,
+  isUserOwner: PropTypes.bool,
 };
 
 export default BoardColumns;

@@ -30,7 +30,9 @@ import CreateTaskButton from './CreateTaskButton';
 const BoardContainer = () => {
   const dispatch = useDispatch();
   const [toggleBacklog, setToggleBacklog] = useState(false);
-  const { title, description, _id: projectId } = useSelector(projectSelector);
+  const { title, description, _id: projectId, isUserOwner, team } = useSelector(
+    projectSelector
+  );
   const { backlog } = useSelector(boardDataSelector);
   const { columns } = useSelector(boardSelector);
   const categories = useSelector(taskCategoriesSelector);
@@ -160,6 +162,7 @@ const BoardContainer = () => {
             createNewColumn={createNewColumn}
             updateColumn={updateColumn}
             deleteColumn={deleteColumn}
+            isUserOwner={isUserOwner}
           />
           {/* end: Board columns */}
         </div>

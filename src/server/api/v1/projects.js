@@ -32,9 +32,14 @@ const {
 
 const { createTaskHandler, getTaskHandler } = require('../../handlers/task');
 
-// router.put('/:id/', isAuthenticated, isAuthorized, updateProjectHandler);
+/**
+ * Creating a new project
+ */
 router.post('/', isAuthenticated, createProjectHandler);
 
+/**
+ * Updating the project
+ */
 router.put(
   '/:id/',
   isAuthenticated,
@@ -43,19 +48,25 @@ router.put(
 );
 
 /**
- * API to delete project.
+ * Request to all projects user is an owner or a team member.
  */
 router.get('/', isAuthenticated, getProjectsHandler);
 
 router.get('/:projectId', projectAccessAuthorization, getProjectHandler);
 
+/**
+ * User requesting to access protected project with password
+ */
 router.post('/:id/protected', accessProtectedProjectHandler);
 
-router.put('/:id/upgrade', upgradeProjectHandler);
+/**
+ * Request to upgrade to PRO or PREMIUM
+ */
+router.put('/:id/upgrade', isAuthenticated, upgradeProjectHandler);
 
 router.delete('/:id', isAuthenticated, deleteProjectHandler);
 
-router.get('/:projectId/team', getProjectTeamHandler);
+router.get('/:projectId/team', isAuthenticated, getProjectTeamHandler);
 
 router.post('/:projectId/groups', isAuthenticated, createProjectGroupHandler);
 
@@ -82,21 +93,23 @@ router.post(
  */
 router.put(
   '/:projectId/groups/:groupId/adduser',
-  // isAuthenticated,
+  isAuthenticated,
   acceptUserInvitationHandler
 );
 
+/**
+ * Removing user from project groups
+ */
 router.delete(
   '/:projectId/groups/:groupId/invite/:id',
   isAuthenticated,
   removeUserGroupHandler
 );
-// router.delete('/:projectId/groups/:groupId/assign/:userId');
 
 /**
  * Creating new task
  */
-router.post('/:projectId/tasks', createTaskHandler);
+router.post('/:projectId/tasks', isAuthenticated, createTaskHandler);
 
 /**
  * Get tasks for a project.
@@ -116,17 +129,17 @@ router.get(`/:projectId/tasks/statuses`, getProjectTasksByStatusHandler);
 /**
  * Creating project's status
  */
-router.post(`/:projectId/statuses`, createProjectStatusHandler);
+router.post(`/:projectId/statuses`, isAuthenticated, createProjectStatusHandler);
 
 /**
  * Updating project's status
  */
-router.put(`/:projectId/statuses/:statusId`, updateProjectStatusHandler);
+router.put(`/:projectId/statuses/:statusId`, isAuthenticated, updateProjectStatusHandler);
 
 /**
  * Deleting status item
  */
-router.delete(`/:projectId/statuses/:statusId`, deleteProjectStatusHandler);
+router.delete(`/:projectId/statuses/:statusId`, isAuthenticated, deleteProjectStatusHandler);
 
 /**
  * Get statuses for the project.
@@ -136,13 +149,14 @@ router.get(`/:projectId/statuses`, getProjectStatusesHandler);
 /**
  * Assign status to a task.
  */
-router.put(`/:projectId/tasks/:taskId/status`, updateTaskStatusHandler);
+router.put(`/:projectId/tasks/:taskId/status`, isAuthenticated, updateTaskStatusHandler);
 
 /**
  * Unassign status from a task.
  */
 router.put(
   `/:projectId/tasks/:taskId/statuses/unassign`,
+  isAuthenticated,
   removeStatusFromTaskHandler
 );
 

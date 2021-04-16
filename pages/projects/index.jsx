@@ -26,12 +26,12 @@ export async function getServerSideProps({ req }) {
     ({ data: projects } = await getUserProjectsService(token));
   } catch (error) {
     if (error.status === 403) {
-      // return {
-      //   redirect: {
-      //     destination: '/signin',
-      //     permanent: false,
-      //   },
-      // };
+      return {
+        redirect: {
+          destination: '/signout',
+          permanent: false,
+        },
+      };
     }
   }
 

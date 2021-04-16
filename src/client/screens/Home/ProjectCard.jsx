@@ -21,8 +21,10 @@ function getCode(string = '') {
 }
 
 const ProjectCard = ({ project, deleteProject }) => (
-  <div className="transition-shadow duration-150 m-2 w-64 bg-white shadow hover:shadow-xl relative">
+  <div className="transition-shadow duration-150 m-2 w-64 bg-white shadow hover:shadow-xl relative flex-col items-end">
     <div className="flex justify-end m-0 p-0">
+    {
+      project.isUserOwner &&
       <Button
         className="absolute m-1"
         type="text"
@@ -30,6 +32,7 @@ const ProjectCard = ({ project, deleteProject }) => (
         icon={<DeleteOutlined />}
         onClick={() => deleteProject(project._id)}
       />
+    }
     </div>
 
     <Link href={`/projects/${project._id}`}>
@@ -46,7 +49,7 @@ const ProjectCard = ({ project, deleteProject }) => (
         </p>
       </a>
     </Link>
-    <div className="p-2 flex justify-between items-center">
+    <div className="p-2 flex justify-between items-center self-stretch">
       {project.subscription ? (
         <Tag color="gold">{project.subscription.subscribedTo}</Tag>
       ) : (
