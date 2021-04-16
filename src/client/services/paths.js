@@ -15,6 +15,7 @@ export default {
   updateProject: (id) => `${SERVER_API}/projects/${id}`,
   deleteProject: (id) => `${SERVER_API}/projects/${id}`,
   getProject: (id) => `${SERVER_API}/projects/${id}`,
+  accessProtectedProject: (id) => `${SERVER_API}/projects/${id}/protected`,
   getProjects: `${SERVER_API}/projects`,
   createProjectStatus: (projectId) =>
     `${SERVER_API}/projects/${projectId}/statuses`,

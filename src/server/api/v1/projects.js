@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const { isAuthenticated } = require('../../middleware/auth');
-const { isAuthorizedToUpdate } = require('../../middleware/project');
+const {
+  projectAccessAuthorization,
+  isAuthorizedToUpdate,
+} = require('../../middleware/project');
 
 const {
   createProjectHandler,
@@ -8,6 +11,7 @@ const {
   deleteProjectHandler,
   getProjectHandler,
   getProjectsHandler,
+  accessProtectedProjectHandler,
   upgradeProjectHandler,
   getProjectTeamHandler,
   createProjectGroupHandler,
@@ -43,7 +47,9 @@ router.put(
  */
 router.get('/', isAuthenticated, getProjectsHandler);
 
-router.get('/:id', getProjectHandler);
+router.get('/:projectId', projectAccessAuthorization, getProjectHandler);
+
+router.post('/:id/protected', accessProtectedProjectHandler);
 
 router.put('/:id/upgrade', upgradeProjectHandler);
 

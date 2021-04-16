@@ -15,6 +15,7 @@ import { signInUserSuccess } from '@app/reducers/authReducer';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
 import { getNormalizedProject } from '@app/actions/schema';
 import { LayoutManager } from '@app/components';
+import AccessProject from '@app/screens/AccessProject';
 
 const ViewProject = dynamic(
   () => import('@app/screens/ViewProject').then((mod) => mod),
@@ -26,6 +27,7 @@ export async function getServerSideProps({ params, req }) {
   let data = null;
   let meta = null;
   let token;
+  let passwordRequired = false;
 
   try {
     const { id } = params;
@@ -44,15 +46,19 @@ export async function getServerSideProps({ params, req }) {
     }
   } catch (error) {
     // TODO: LOG ERROR TO SENTRY
-    // console.log(error);
-
-    return {
-      notFound: true,
-    };
+    if (error.status === 403 && !error.protectedProjectAccess) {
+      // Render password page.
+      passwordRequired = true;
+    } else {
+      return {
+        notFound: true,
+      };
+    }
   }
 
   return {
     props: {
+      passwordRequired,
       project,
       data,
       meta,
@@ -61,7 +67,13 @@ export async function getServerSideProps({ params, req }) {
   };
 }
 
-export default function Agenda({ data, meta, token, project }) {
+export default function Agenda({
+  passwordRequired,
+  data,
+  meta,
+  token,
+  project,
+}) {
   const dispatch = useDispatch();
 
   useEffectOnce(() => {
@@ -83,6 +95,14 @@ export default function Agenda({ data, meta, token, project }) {
     }
   });
 
+  if (passwordRequired) {
+    return (
+      <LayoutManager>
+        <AccessProject />
+      </LayoutManager>
+    );
+  }
+
   return (
     <LayoutManager showSidebar>
       <ViewProject />
@@ -97,6 +117,7 @@ Agenda.defaultProps = {
 };
 
 Agenda.propTypes = {
+  passwordRequired: PropTypes.bool.isRequired,
   token: PropTypes.string,
   project: PropTypes.objectOf(PropTypes.any).isRequired,
   meta: PropTypes.objectOf(PropTypes.any),

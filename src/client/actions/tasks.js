@@ -78,6 +78,7 @@ export function createTaskAction(taskData) {
         AUTH: { token },
         PROJECTS: { projectId },
       } = getState();
+
       const user = decode(token);
 
       const { data } = await createTaskService(

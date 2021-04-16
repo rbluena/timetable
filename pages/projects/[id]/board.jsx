@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { LayoutManager } from '@app/components';
 import dynamic from 'next/dynamic';
 import { useDispatch } from 'react-redux';
 import { useEffectOnce } from 'react-use';
@@ -8,13 +7,15 @@ import { getBoardTasksAction } from '@app/actions';
 import { signInUserSuccess } from '@app/reducers/authReducer';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
 import { getNormalizedProject } from '@app/actions/schema';
-
 import {
   getProjectService,
   getProjectStatusesService,
   // getTasksByStatusService,
   getProjectTasksService,
 } from '@app/services';
+
+import { LayoutManager } from '@app/components';
+import AccessProject from '@app/screens/AccessProject';
 
 const ViewProject = dynamic(
   () => import('@app/screens/ViewProject').then((mod) => mod),
@@ -29,6 +30,7 @@ export async function getServerSideProps({ params, req }) {
   let statuses = null;
   let backlogData = null;
   let backlogMeta = null;
+  let passwordRequired = false;
 
   const { id } = params;
   const token = getCookieToken(req);
@@ -50,13 +52,19 @@ export async function getServerSideProps({ params, req }) {
     }
   } catch (error) {
     // TODO: LOG ERROR TO SENTRY
-    return {
-      notFound: true,
-    };
+    if (error.status === 403 && !error.protectedProjectAccess) {
+      // Render password page.
+      passwordRequired = true;
+    } else {
+      return {
+        notFound: true,
+      };
+    }
   }
 
   return {
     props: {
+      passwordRequired,
       project,
       statuses,
       backlogData,
@@ -67,6 +75,7 @@ export async function getServerSideProps({ params, req }) {
 }
 
 export default function Board({
+  passwordRequired,
   project,
   statuses,
   backlogData,
@@ -97,6 +106,14 @@ export default function Board({
     }
   });
 
+  if (passwordRequired) {
+    return (
+      <LayoutManager>
+        <AccessProject />
+      </LayoutManager>
+    );
+  }
+
   return (
     <LayoutManager showSidebar>
       <ViewProject />
@@ -112,6 +129,7 @@ Board.defaultProps = {
 };
 
 Board.propTypes = {
+  passwordRequired: PropTypes.bool.isRequired,
   token: PropTypes.string,
   project: PropTypes.objectOf(PropTypes.any).isRequired,
   backlogMeta: PropTypes.objectOf(PropTypes.any),

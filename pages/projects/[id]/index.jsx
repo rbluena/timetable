@@ -8,32 +8,39 @@ import { getProjectService } from '@app/services';
 import { LayoutManager } from '@app/components';
 import ViewProject from '@app/screens/ViewProject';
 import { getNormalizedProject } from '@app/actions/schema';
+import AccessProject from '@app/screens/AccessProject';
 
 export async function getServerSideProps({ params, req }) {
   let project = null;
+  let passwordRequired = false;
   const { id } = params;
   const token = getCookieToken(req);
 
   try {
     ({ data: project } = await getProjectService(id));
 
-    // if (!project.isAuthorizedToView) {
-    //   return {
-    //     notFound: true,
-    //   };
-    // }
+    if (!project) {
+      return {
+        notFound: true,
+      };
+    }
   } catch (error) {
-    return {
-      notFound: true,
-    };
+    if (error.status === 403 && !error.protectedProjectAccess) {
+      // Render password page.
+      passwordRequired = true;
+    } else {
+      return {
+        notFound: true,
+      };
+    }
   }
 
   return {
-    props: { project, token: token || null },
+    props: { project, passwordRequired, token: token || null },
   };
 }
 
-export default function Project({ project, token }) {
+export default function Project({ project, token, passwordRequired }) {
   const dispatch = useDispatch();
 
   useEffectOnce(() => {
@@ -50,6 +57,14 @@ export default function Project({ project, token }) {
     }
   });
 
+  if (passwordRequired) {
+    return (
+      <LayoutManager>
+        <AccessProject />
+      </LayoutManager>
+    );
+  }
+
   return (
     <LayoutManager showSidebar>
       <ViewProject />
@@ -65,4 +80,5 @@ Project.defaultProps = {
 Project.propTypes = {
   project: PropTypes.objectOf(PropTypes.any),
   token: PropTypes.string,
+  passwordRequired: PropTypes.bool.isRequired,
 };

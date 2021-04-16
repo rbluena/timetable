@@ -16,6 +16,7 @@ const {
   acceptUserInvitationService,
   removeUserFromGroupService,
   getTeamService,
+  accessProtectedProjectService,
 } = require('../services/project');
 
 const {
@@ -95,9 +96,9 @@ exports.deleteProjectHandler = async (req, res, next) => {
  */
 exports.getProjectHandler = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { projectId } = req.params;
     const user = decode(req.app.jwt);
-    const doc = await getProjectByIdService(id, user && user._id);
+    const doc = await getProjectByIdService(projectId, user && user._id);
 
     if (user && String(user._id) === String(doc.owner._id)) {
       doc.isUserOwner = true;
@@ -131,6 +132,37 @@ exports.getProjectsHandler = async (req, res, next) => {
       message: 'List of projects.',
       data: { meta, data: docs },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Requesting access for protected project using password.
+ */
+exports.accessProtectedProjectHandler = async (req, res, next) => {
+  try {
+    const { id: projectId } = req.params;
+    const { password } = req.body;
+
+    const data = await accessProtectedProjectService(projectId, password);
+
+    if (data) {
+      req.app.projectAccessAuthorized = true;
+
+      res.status(200).json({
+        status: 200,
+        success: true,
+        message: '',
+      });
+    } else {
+      res.status(403).json({
+        status: 403,
+        success: false,
+        message: 'Unauthorized',
+        errors: { description: 'Wrong password entered.' },
+      });
+    }
   } catch (error) {
     next(error);
   }

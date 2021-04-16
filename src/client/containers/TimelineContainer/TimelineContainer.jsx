@@ -81,7 +81,7 @@ const TimelineContainer = () => {
               onClick={() => loadPrev()}
               className="my-4"
             >
-              Prev
+              Oldest
             </Button>
 
             {/* start: Rendering tasks */}
@@ -107,7 +107,7 @@ const TimelineContainer = () => {
               loading={isLoading}
               onClick={() => loadNext()}
             >
-              Next
+              Newest
             </Button>
           </div>
         </div>

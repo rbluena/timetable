@@ -251,6 +251,20 @@ export const getProjectService = async (id, token) => {
   }
 };
 
+export const accessProtectedProjectService = async (id, data) => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: path.accessProtectedProject(id),
+      data,
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 /**
  * Service to delete project.
  * @param {String} projectId ID of the project.

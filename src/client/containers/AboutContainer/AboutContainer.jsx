@@ -111,6 +111,8 @@ const AboutContainer = () => {
                     value={accessModifier.type}
                     buttonStyle="solid"
                     onChange={(evt) => {
+                      if (!project.isUserOwner) return;
+
                       const { value } = evt.target;
                       updateProject('settings.access', {
                         type: evt.target.value,
@@ -125,9 +127,13 @@ const AboutContainer = () => {
                     <Radio.Button value="protected">Protected</Radio.Button>
                     <Radio.Button value="public">Public</Radio.Button>
                   </Radio.Group>
-                  {accessModifier.type === 'protected' && 'authenticated' && (
+                  <br />
+                  {accessModifier.type === 'protected' && project.isUserOwner && (
                     <>
-                      <span className="text-sm ml-1">Pass Code:</span>&nbsp;
+                      <span className="text-sm ml-1 font-semibold">
+                        Password:
+                      </span>
+                      &nbsp;
                       <span className="text-base inline-block text-neutral-500">
                         {accessModifier.passCode}
                       </span>
@@ -180,6 +186,7 @@ const AboutContainer = () => {
               categories={projectCategories}
               title={categoriesTitle}
               projectId={project._id}
+              isUserOwner={project.isUserOwner}
               updateProject={updateProject}
             />
             {/* end: Categories */}
@@ -193,6 +200,7 @@ const AboutContainer = () => {
               title={membersGroupsTitle}
               updateProject={updateProject}
               openGroupModal={setModal}
+              isUserOwner={project.isUserOwner}
               setModalGroupId={setModalGroupId}
             />
             {/* end: Members groups */}
@@ -207,6 +215,7 @@ const AboutContainer = () => {
       <UsersModalContainer
         isOpen={modal}
         group={groups[modalGroupId]}
+        isUserOwner={project.isUserOwner}
         closeModal={() => {
           setModal(false);
           setModalGroupId(null);

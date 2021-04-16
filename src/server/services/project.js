@@ -445,6 +445,20 @@ const getTeamService = async (projectId) => {
 };
 
 /**
+ *
+ * @param {String} projectId
+ * @param {String} password
+ */
+const accessProtectedProjectService = async (projectId, password) => {
+  const project = await Project.findOne({
+    _id: mongoose.Types.ObjectId(projectId),
+    'settings.access.passCode': password,
+  });
+
+  return project;
+};
+
+/**
  * Grabing all links for the user.*
  * @param {Object} options
  */
@@ -711,4 +725,5 @@ module.exports = {
   acceptUserInvitationService,
   removeUserFromGroupService,
   getTeamService,
+  accessProtectedProjectService,
 };
