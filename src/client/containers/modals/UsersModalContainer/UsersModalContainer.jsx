@@ -5,7 +5,7 @@ import { inviteUserAction, removeUserFromGroupAction } from '@app/actions';
 import UsersComponent from './UsersComponent';
 import InviteForm from './InviteForm';
 
-const UsersModalContainer = ({ isOpen, closeModal, group }) => {
+const UsersModalContainer = ({ isOpen, closeModal, group, isUserOwner }) => {
   const dispatch = useDispatch();
 
   function inviteUser(data) {
@@ -24,7 +24,9 @@ const UsersModalContainer = ({ isOpen, closeModal, group }) => {
       className="z-50"
       onCancel={closeModal}
     >
-      <InviteForm inviteUser={inviteUser} projectId={group.project} />
+      {isUserOwner && (
+        <InviteForm inviteUser={inviteUser} projectId={group.project} />
+      )}
       <UsersComponent
         memberIds={group.members || {}}
         members={group.members || []}
@@ -37,12 +39,14 @@ const UsersModalContainer = ({ isOpen, closeModal, group }) => {
 
 UsersModalContainer.defaultProps = {
   group: {},
+  isUserOwner: false,
 };
 
 UsersModalContainer.propTypes = {
   closeModal: PropTypes.func.isRequired,
   group: PropTypes.objectOf(PropTypes.any),
   isOpen: PropTypes.bool.isRequired,
+  isUserOwner: PropTypes.bool,
 };
 
 export default UsersModalContainer;

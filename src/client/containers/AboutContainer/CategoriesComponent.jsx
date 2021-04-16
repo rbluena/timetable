@@ -14,6 +14,7 @@ const CategoriesComponent = ({
   categories,
   projectId,
   updateProject,
+  isUserOwner,
 }) => {
   const dispatch = useDispatch();
   const [showTagInput, setShowTagInput] = useState(false);
@@ -80,9 +81,14 @@ const CategoriesComponent = ({
     <div className="p-4 bg-white rounded shadow my-2">
       <Title
         level={5}
-        editable={{
-          onChange: (value) => updateProject('settings.categories.name', value),
-        }}
+        editable={
+          isUserOwner
+            ? {
+                onChange: (value) =>
+                  updateProject('settings.categories.name', value),
+              }
+            : false
+        }
       >
         <span className="text-primary-400 font-bold">{title}</span>
       </Title>
@@ -94,7 +100,7 @@ const CategoriesComponent = ({
 
             return (
               <Tag
-                closable
+                closable={isUserOwner}
                 key={key}
                 color={category.colorName}
                 onClose={() => removeCategory(category._id)}
@@ -107,23 +113,25 @@ const CategoriesComponent = ({
           })}
       </div>
 
-      <div className="py-2">
-        {showTagInput && (
-          <Input
-            ref={tagInputRef}
-            size="small"
-            onBlur={(evt) => handleNewCategory(evt.target.value)}
-            onPressEnter={(evt) => handleNewCategory(evt.target.value)}
-            style={{ width: 100 }}
-          />
-        )}
-        {!showTagInput && (
-          <Tag
-            onClick={onShowTagInput}
-            icon={<PlusCircleTwoTone />}
-          >{`New ${title}`}</Tag>
-        )}
-      </div>
+      {isUserOwner && (
+        <div className="py-2">
+          {showTagInput && (
+            <Input
+              ref={tagInputRef}
+              size="small"
+              onBlur={(evt) => handleNewCategory(evt.target.value)}
+              onPressEnter={(evt) => handleNewCategory(evt.target.value)}
+              style={{ width: 100 }}
+            />
+          )}
+          {!showTagInput && (
+            <Tag
+              onClick={onShowTagInput}
+              icon={<PlusCircleTwoTone />}
+            >{`New ${title}`}</Tag>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -133,6 +141,7 @@ CategoriesComponent.defaultProps = {
   categoriesKeys: [],
   categories: {},
   projectId: undefined,
+  isUserOwner: false,
 };
 
 CategoriesComponent.propTypes = {
@@ -141,6 +150,7 @@ CategoriesComponent.propTypes = {
   categories: PropTypes.objectOf(PropTypes.any),
   projectId: PropTypes.string,
   updateProject: PropTypes.func.isRequired,
+  isUserOwner: PropTypes.bool,
 };
 
 export default CategoriesComponent;

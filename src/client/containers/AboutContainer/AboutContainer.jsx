@@ -74,9 +74,13 @@ const AboutContainer = () => {
             <div className="bg-white shadow rounded relative p-4">
               <Title
                 level={4}
-                editable={{
-                  onChange: (value) => updateProject('title', value),
-                }}
+                editable={
+                  project.isUserOwner
+                    ? {
+                        onChange: (value) => updateProject('title', value),
+                      }
+                    : false
+                }
               >
                 {project.title}
               </Title>
@@ -90,22 +94,27 @@ const AboutContainer = () => {
               </Paragraph>
 
               <Paragraph
-                editable={{
-                  onChange: (value) => updateProject('description', value),
-                }}
+                editable={
+                  project.isUserOwner
+                    ? {
+                        onChange: (value) =>
+                          updateProject('description', value),
+                      }
+                    : false
+                }
                 className=" text-neutral-800"
               >
                 {project.description ? (
                   project.description
                 ) : (
                   <span className="text-xs text-neutral-400">
-                    Add description of the project.
+                    Add description for the project.
                   </span>
                 )}
               </Paragraph>
 
               {/* start: toggle public vs private */}
-              {accessModifier && (
+              {accessModifier && project.isUserOwner && (
                 <div className="py-4">
                   <Radio.Group
                     value={accessModifier.type}
@@ -145,7 +154,7 @@ const AboutContainer = () => {
 
               {/* start: Project date */}
               <div className="py-4">
-                {editDate ? (
+                {editDate && project.isUserOwner ? (
                   <RangePicker
                     format="MMM DD, YYYY"
                     bordered={false}
@@ -171,9 +180,11 @@ const AboutContainer = () => {
                         {moment(project.endDate).format('MMM DD, YYYY')}
                       </span>
                     </div>
-                    <Button type="link" onClick={() => setEditDate(true)}>
-                      <EditOutlined />
-                    </Button>
+                    {project.isUserOwner && (
+                      <Button type="link" onClick={() => setEditDate(true)}>
+                        <EditOutlined />
+                      </Button>
+                    )}
                   </div>
                 )}
               </div>

@@ -65,7 +65,7 @@ const InviteForm = ({ inviteUser, projectId }) => {
         </div>
       </Form>
       <br />
-      <pre>{JSON.stringify(usersList, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(usersList, null, 2)}</pre> */}
     </div>
   );
 };

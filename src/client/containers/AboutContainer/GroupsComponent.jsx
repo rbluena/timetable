@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Button, Tag, Input } from 'antd';
-import { DeleteOutlined, PlusCircleTwoTone } from '@ant-design/icons';
+import { Typography, Button, Tag, Input, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import {
+  DeleteOutlined,
+  PlusCircleTwoTone,
+  TeamOutlined,
+} from '@ant-design/icons';
 import {
   addProjectGroupAction,
   updateProjectGroupAction,
@@ -21,6 +25,7 @@ const GroupsComponent = ({
   groupsKeys,
   groups,
   projectId,
+  isUserOwner,
 }) => {
   const [showGroupInput, setShowGroupInput] = useState(false);
   const dispatch = useDispatch();
@@ -55,9 +60,14 @@ const GroupsComponent = ({
       <Title
         level={5}
         type="danger"
-        editable={{
-          onChange: (value) => updateProject('settings.groups.name', value),
-        }}
+        editable={
+          isUserOwner
+            ? {
+                onChange: (value) =>
+                  updateProject('settings.groups.name', value),
+              }
+            : false
+        }
       >
         <span className="text-primary-400">{title}</span>
       </Title>
@@ -74,19 +84,27 @@ const GroupsComponent = ({
                 <Title
                   level={5}
                   className=" text-primary-400"
-                  editable={{
-                    onChange: (value) =>
-                      updateGroup(group._id, { name: value }),
-                  }}
+                  editable={
+                    isUserOwner
+                      ? {
+                          onChange: (value) =>
+                            updateGroup(group._id, { name: value }),
+                        }
+                      : false
+                  }
                 >
                   {group.name}
                 </Title>
                 <Text
                   type="secondary"
-                  editable={{
-                    onChange: (value) =>
-                      updateGroup(group._id, { description: value }),
-                  }}
+                  editable={
+                    isUserOwner
+                      ? {
+                          onChange: (value) =>
+                            updateGroup(group._id, { description: value }),
+                        }
+                      : false
+                  }
                 >
                   {group.description ? (
                     group.description
@@ -110,24 +128,27 @@ const GroupsComponent = ({
                     type="link"
                     onClick={() => openModal(group._id)}
                   >
-                    {group.members && group.members.length > 0 ? (
-                      'All users'
-                    ) : (
-                      <span>
-                        <PlusCircleTwoTone />
-                        &nbsp; Add users
-                      </span>
-                    )}
+                    <span>
+                      <TeamOutlined />
+                      &nbsp; Members
+                    </span>
                   </Button>
-                  <Button
-                    type="text"
-                    size="small"
-                    danger
-                    className="ml-auto"
-                    onClick={() => deleteGroupHandler(group._id)}
-                  >
-                    <DeleteOutlined />
-                  </Button>
+
+                  {/* start: Button to delete group */}
+                  {isUserOwner && (
+                    <Tooltip title="Delete group">
+                      <Button
+                        type="text"
+                        size="small"
+                        danger
+                        className="ml-auto"
+                        onClick={() => deleteGroupHandler(group._id)}
+                      >
+                        <DeleteOutlined />
+                      </Button>
+                    </Tooltip>
+                  )}
+                  {/* end: Button to delete group */}
                 </div>
               </div>
             );
@@ -136,22 +157,26 @@ const GroupsComponent = ({
       {/* end: Rendering a new group. */}
 
       {/* start: Adding a new group */}
-      <div className="py-4">
-        {showGroupInput && (
-          <Input
-            size="sm"
-            placeholder="Group name"
-            onBlur={(evt) => addGroupHandler({ name: evt.target.value })}
-            onPressEnter={(evt) => addGroupHandler({ name: evt.target.value })}
-            style={{ width: 200 }}
-          />
-        )}
-        {!showGroupInput && (
-          <Tag onClick={showGroupInputHandler} icon={<PlusCircleTwoTone />}>
-            New group
-          </Tag>
-        )}
-      </div>
+      {isUserOwner && (
+        <div className="py-4">
+          {showGroupInput && (
+            <Input
+              size="sm"
+              placeholder="Group name"
+              onBlur={(evt) => addGroupHandler({ name: evt.target.value })}
+              onPressEnter={(evt) =>
+                addGroupHandler({ name: evt.target.value })
+              }
+              style={{ width: 200 }}
+            />
+          )}
+          {!showGroupInput && (
+            <Tag onClick={showGroupInputHandler} icon={<PlusCircleTwoTone />}>
+              New group
+            </Tag>
+          )}
+        </div>
+      )}
       {/* end: Adding a new group */}
     </div>
   );
@@ -160,6 +185,7 @@ const GroupsComponent = ({
 GroupsComponent.defaultProps = {
   groups: undefined,
   groupsKeys: undefined,
+  isUserOwner: false,
 };
 
 GroupsComponent.propTypes = {
@@ -170,6 +196,7 @@ GroupsComponent.propTypes = {
   groupsKeys: PropTypes.arrayOf(PropTypes.string),
   setModalGroupId: PropTypes.func.isRequired,
   openGroupModal: PropTypes.func.isRequired,
+  isUserOwner: PropTypes.bool,
 };
 
 export default GroupsComponent;
