@@ -35,7 +35,6 @@ export async function getServerSideProps({ params, req }) {
 
     ({ data: project } = await getProjectService(id));
     ({ data, meta } = await getProjectTasksService(id, {
-      status: 'null',
       from: subDays(new Date(), 2),
     }));
 

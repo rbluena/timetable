@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { Avatar } from 'antd';
 
 import {
-  BellOutlineIcon,
+  // BellOutlineIcon,
   HomeIcon,
   CogIcon,
   GridIcon,
   LogoutIcon,
-  TemplatesIcon,
-  ClockIcon,
+  // TemplatesIcon,
+  // ClockIcon,
 } from '@app/components/Icons';
 
 const LeftSidebar = ({ user }) => {
@@ -51,14 +51,13 @@ const LeftSidebar = ({ user }) => {
               </a>
             </Link>
           </div>
-          &nbsp;
+          {/* &nbsp;
           <div
             className={`${
               pathname === '/my-timer' && 'border-r-2 border-neutral-900'
             } pl-5`}
           >
             <Link href="/my-timer">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>
                 <ClockIcon
                   size="sm"
@@ -74,7 +73,6 @@ const LeftSidebar = ({ user }) => {
             } pl-5`}
           >
             <Link href="/templates">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>
                 <TemplatesIcon
                   size="sm"
@@ -83,14 +81,15 @@ const LeftSidebar = ({ user }) => {
               </a>
             </Link>
           </div>
-          &nbsp;
+          &nbsp; */}
         </div>
       </div>
 
-      {/* start: Bottom icons */}
+
+
+      {/* start: Authenticated user links */}
       <div className="flex flex-col items-center pb-4">
-        <Link href="/notifications">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        {/* <Link href="/notifications">
           <a className="relative">
             <span className="bg-secondary-500 h-2 w-2 rounded-full block absolute right-1" />
             <BellOutlineIcon
@@ -99,7 +98,7 @@ const LeftSidebar = ({ user }) => {
             />
           </a>
         </Link>
-        &nbsp;
+        &nbsp; */}
         <Link href="/settings">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a>
@@ -128,7 +127,7 @@ const LeftSidebar = ({ user }) => {
           </Avatar>
         )}
       </div>
-      {/* end: Bottom icons */}
+      {/* end: Authenticated user links */}
     </div>
   );
 };
