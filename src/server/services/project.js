@@ -145,7 +145,12 @@ const getProjectByIdService = async (projectId) => {
 };
 
 const getProjectsService = async (options, userId) => {
-  const match = { $or: [{owner: mongoose.Types.ObjectId(userId)}, {team: { $in: [userId] }}] }
+  const match = {
+    $or: [
+      { owner: mongoose.Types.ObjectId(userId) },
+      { team: { $in: [mongoose.Types.ObjectId(userId)] } },
+    ],
+  };
   const paginateOptions = { limit: 15 };
   const sort = { updatedAt: -1 };
 
