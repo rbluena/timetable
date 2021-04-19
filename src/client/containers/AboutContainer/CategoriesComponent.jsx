@@ -90,7 +90,7 @@ const CategoriesComponent = ({
             : false
         }
       >
-        <span className="text-primary-400 font-bold">{title}</span>
+        <span className="text-neutral-500  font-bold">{title}</span>
       </Title>
       <div className="py-4 border-t border-neutral-200">
         {categoriesKeys &&

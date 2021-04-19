@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mentions, Affix, Badge, Form, Button, Select } from 'antd';
+import PropTypes from 'prop-types';
+import { Mentions, Affix, Badge, Form, Button, Select, Typography } from 'antd';
 import { NotificationOutlined } from '@ant-design/icons';
 import { uniq } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +9,20 @@ import { createNotificationAction } from '@app/actions';
 import { announcementsSelector } from '@app/selectors';
 import AnnouncementMessage from './AnnouncementMessage';
 
-const AnnouncementsComponent = ({ projectId, groups, team }) => {
+const { Title } = Typography;
+
+const AnnouncementsComponent = ({
+  projectId,
+  title = 'Announcements',
+  isUserOwner,
+  updateProject,
+  groups,
+  team,
+}) => {
   const [mentions, setMentions] = useState([]);
   const dispatch = useDispatch();
   const announcements = useSelector(announcementsSelector);
+  const [form] = Form.useForm();
 
   /**
    * Sending notification message
@@ -21,15 +32,15 @@ const AnnouncementsComponent = ({ projectId, groups, team }) => {
     try {
       data.body = data.body.split(' ').map((text) => {
         if (text.startsWith('@')) {
-          return `<span class="lowercase text-secondary-400">${text}</span>`;
+          return `<span class="lowercase text-secondary-400 font-normal inline-block">${text}</span>`;
         }
 
         if (text.startsWith('#')) {
-          return `<span class="lowercase text-primary-400">${text}</span>`;
+          return `<span class="lowercase text-primary-400 font-normal inline-block">${text}</span>`;
         }
 
         if (text.startsWith('http' || 'https' || 'www')) {
-          return `<a href=${text} class="lowercase text-primary-600">${text}</a>`;
+          return `<a href=${text} class="lowercase text-primary-600 font-normal inline-block">${text}</a>`;
         }
 
         return text;
@@ -44,6 +55,7 @@ const AnnouncementsComponent = ({ projectId, groups, team }) => {
       };
 
       dispatch(createNotificationAction(projectId, notification));
+      form.resetFields();
     } catch (error) {
       console.error(error);
       // TODO: ERROR HANDLING
@@ -61,14 +73,26 @@ const AnnouncementsComponent = ({ projectId, groups, team }) => {
           className="bg-white w-full shadow mr-auto rounded-md p-4 my-6 md:pl-4  md:my-0 relative"
           style={{ maxHeight: '350px' }}
         >
-          <h2 className="text-lg font-bold text-neutral-500 border-b border-primary-100 flex items-center">
-            Notifications
+          <div className="flex items-center">
+            <Title
+              level={5}
+              editable={
+                isUserOwner
+                  ? {
+                      onChange: (value) =>
+                        updateProject('settings.announcements.name', value),
+                    }
+                  : false
+              }
+            >
+              <span className="text-neutral-400 font-bold ">{title}</span>
+            </Title>
             <div className="ml-auto">
               <Badge dot>
                 <NotificationOutlined />
               </Badge>
             </div>
-          </h2>
+          </div>
           <div
             className="overflow-y-auto py-2 divide-y divide-neutral-100 space-y-4"
             style={{ maxHeight: '280px' }}
@@ -81,7 +105,7 @@ const AnnouncementsComponent = ({ projectId, groups, team }) => {
           </div>
         </div>
         <div className="">
-          <Form onFinish={onSubmit}>
+          <Form onFinish={onSubmit} form={form}>
             <Form.Item
               name="recepient"
               rules={[
@@ -92,23 +116,10 @@ const AnnouncementsComponent = ({ projectId, groups, team }) => {
               ]}
               className="p-0 m-0"
             >
-              <Select
-                // defaultValue={JSON.stringify({
-                //   type: 'all',
-                //   name: 'all',
-                //   id: null,
-                // })}
-                // value={JSON.stringify({
-                //   type: 'all',
-                //   name: 'all',
-                //   id: null,
-                // })}
-                placeholder="to:"
-                className="w-full"
-              >
+              <Select placeholder="to:" className="w-full">
                 <Select.Option
                   label="Everyone"
-                  value={JSON.stringify({ type: 'all', name: 'all', id: null })}
+                  value={JSON.stringify({ type: 'all', name: 'All', id: null })}
                 >
                   Everyone
                 </Select.Option>
@@ -200,6 +211,20 @@ const AnnouncementsComponent = ({ projectId, groups, team }) => {
       </div>
     </Affix>
   );
+};
+
+AnnouncementsComponent.defaultProps = {
+  isUserOwner: false,
+  groups: [],
+  team: [],
+};
+
+AnnouncementsComponent.propTypes = {
+  isUserOwner: PropTypes.bool,
+  projectId: PropTypes.string.isRequired,
+  updateProject: PropTypes.func.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+  team: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
 };
 
 export default AnnouncementsComponent;

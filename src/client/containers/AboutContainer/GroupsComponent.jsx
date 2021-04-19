@@ -68,7 +68,7 @@ const GroupsComponent = ({
             : false
         }
       >
-        <span className="text-primary-400">{title}</span>
+        <span className="text-neutral-500">{title}</span>
       </Title>
 
       {/* start: Rendering a new group. */}

@@ -33,6 +33,7 @@ const AboutContainer = () => {
   const accessModifier = get(project, 'settings.access');
   const categoriesTitle = get(project, 'settings.categories.name');
   const membersGroupsTitle = get(project, 'settings.groups.name');
+  const announcementsTitle = get(project, 'settings.announcements.name');
 
   /**
    * Updating project.
@@ -221,6 +222,9 @@ const AboutContainer = () => {
         {/* start: Announcements/notifications */}
         <AnnouncementsComponent
           projectId={project._id}
+          title={announcementsTitle}
+          updateProject={updateProject}
+          isUserOwner={project.isUserOwner}
           groups={groups}
           team={team}
         />

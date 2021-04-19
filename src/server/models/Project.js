@@ -34,6 +34,9 @@ const projectSchema = new Schema(
       groups: {
         name: { type: String, default: 'Members Groups' },
       },
+      announcements: {
+        name: { type: String, default: 'Announcements' },
+      },
       access: {
         type: {
           type: String,
