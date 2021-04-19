@@ -7,16 +7,17 @@ const { Schema } = mongoose;
 const notificationSchema = new Schema(
   {
     project: { type: mongoose.Types.ObjectId, ref: 'Project', required: true },
-    author: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+    creator: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
     recepient: {
       type: { type: String, required: true, default: 'all' }, // user, group, all
-      id: { type: String, required: true },
-      username: { type: String },
+      id: { type: String },
+      name: { type: String },
     },
-    text: String,
-    type: { type: String, default: 'notification' }, // notification || broadcast-message
+    body: String,
+    type: { type: String, default: 'notification' }, // notification || message
     pinners: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
     seenBy: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
+    mentions: [{ type: String }],
   },
   { timestamps: true }
 );

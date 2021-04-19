@@ -7,6 +7,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import {
   projectSelector,
+  projectTeamSelector,
   projectGroupsSelector,
   projectCategoriesSelector,
 } from '@app/selectors';
@@ -24,6 +25,7 @@ const AboutContainer = () => {
   const [modalGroupId, setModalGroupId] = useState(null);
   const [editDate, setEditDate] = useState(false);
   const project = useSelector(projectSelector);
+  const team = useSelector(projectTeamSelector);
   const groups = useSelector(projectGroupsSelector);
   const projectCategories = useSelector(projectCategoriesSelector);
   const dispatch = useDispatch();
@@ -31,7 +33,6 @@ const AboutContainer = () => {
   const accessModifier = get(project, 'settings.access');
   const categoriesTitle = get(project, 'settings.categories.name');
   const membersGroupsTitle = get(project, 'settings.groups.name');
-  const groupsKeys = get(project, 'groups');
 
   /**
    * Updating project.
@@ -206,7 +207,6 @@ const AboutContainer = () => {
 
             <GroupsComponent
               groups={groups}
-              groupsKeys={groupsKeys}
               projectId={project._id}
               title={membersGroupsTitle}
               updateProject={updateProject}
@@ -219,13 +219,18 @@ const AboutContainer = () => {
         </div>
 
         {/* start: Announcements/notifications */}
-        <AnnouncementsComponent />
+        <AnnouncementsComponent
+          projectId={project._id}
+          groups={groups}
+          team={team}
+        />
         {/* end: Announcements/notifications */}
       </div>
+
       {/* start: Add modal */}
       <UsersModalContainer
         isOpen={modal}
-        group={groups[modalGroupId]}
+        group={groups.find((item) => item._id === modalGroupId)}
         isUserOwner={project.isUserOwner}
         closeModal={() => {
           setModal(false);

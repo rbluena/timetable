@@ -5,6 +5,7 @@ import globalReducer from './globalReducer';
 import tasksReducer from './tasksReducer';
 import projectsReducer from './projectsReducer';
 import statusesReducer from './statusesReducer';
+import notificationsReducer from './notificationsReducer';
 
 export default combineReducers(produce, {
   AUTH: authReducer,
@@ -12,4 +13,5 @@ export default combineReducers(produce, {
   TASKS: tasksReducer,
   PROJECTS: projectsReducer,
   STATUSES: statusesReducer,
+  NOTIFICATIONS: notificationsReducer,
 });

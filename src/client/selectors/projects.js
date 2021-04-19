@@ -31,12 +31,13 @@ const selectProject = (state) => {
 
 const selectProjectGroups = (state) => {
   const { groups } = state.PROJECTS;
+  const { groups: groupIds } = selectProject(state);
 
-  if (groups) {
-    return groups;
+  if (groupIds && groupIds.length) {
+    return groupIds.map((groupId) => ({ ...groups[groupId] }));
   }
 
-  return {};
+  return [];
 };
 
 const selectProjectMembers = (state) => {

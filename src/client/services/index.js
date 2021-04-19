@@ -737,6 +737,55 @@ export const getTaskService = async (projectId, taskId, token) => {
   }
 };
 
+export const createNotificationService = async (projectId, data, token) => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: path.createNotification(projectId, data),
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const editMessageSerivce = async (projectId, messageId, token) => {
+  try {
+    const response = await request({
+      method: 'PUT',
+      url: path.updateMessage(projectId, data),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+export const deleteMessageSerivce = async (projectId, messageId, token) => {
+  try {
+    const response = await request({
+      method: 'DELETE',
+      url: path.deleteMessage(projectId, data),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 /**
  * Retrieving a link based on id
  * @param {String} token

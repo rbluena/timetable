@@ -32,6 +32,8 @@ const {
 
 const { createTaskHandler, getTaskHandler } = require('../../handlers/task');
 
+const { createNotificationHandler } = require('../../handlers/notifications');
+
 /**
  * Creating a new project
  */
@@ -129,17 +131,29 @@ router.get(`/:projectId/tasks/statuses`, getProjectTasksByStatusHandler);
 /**
  * Creating project's status
  */
-router.post(`/:projectId/statuses`, isAuthenticated, createProjectStatusHandler);
+router.post(
+  `/:projectId/statuses`,
+  isAuthenticated,
+  createProjectStatusHandler
+);
 
 /**
  * Updating project's status
  */
-router.put(`/:projectId/statuses/:statusId`, isAuthenticated, updateProjectStatusHandler);
+router.put(
+  `/:projectId/statuses/:statusId`,
+  isAuthenticated,
+  updateProjectStatusHandler
+);
 
 /**
  * Deleting status item
  */
-router.delete(`/:projectId/statuses/:statusId`, isAuthenticated, deleteProjectStatusHandler);
+router.delete(
+  `/:projectId/statuses/:statusId`,
+  isAuthenticated,
+  deleteProjectStatusHandler
+);
 
 /**
  * Get statuses for the project.
@@ -149,7 +163,11 @@ router.get(`/:projectId/statuses`, getProjectStatusesHandler);
 /**
  * Assign status to a task.
  */
-router.put(`/:projectId/tasks/:taskId/status`, isAuthenticated, updateTaskStatusHandler);
+router.put(
+  `/:projectId/tasks/:taskId/status`,
+  isAuthenticated,
+  updateTaskStatusHandler
+);
 
 /**
  * Unassign status from a task.
@@ -158,6 +176,12 @@ router.put(
   `/:projectId/tasks/:taskId/statuses/unassign`,
   isAuthenticated,
   removeStatusFromTaskHandler
+);
+
+router.post(
+  '/:projectId/notifications',
+  isAuthenticated,
+  createNotificationHandler
 );
 
 module.exports = router;

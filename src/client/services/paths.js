@@ -19,6 +19,12 @@ export default {
   getProjects: `${SERVER_API}/projects`,
   createProjectStatus: (projectId) =>
     `${SERVER_API}/projects/${projectId}/statuses`,
+  createNotification: (projectId) =>
+    `${SERVER_API}/projects/${projectId}/notifications`,
+  updateMessage: (projectId, messageId) =>
+    `${SERVER_API}/projects/${projectId}/messages/${messageId}`,
+  deleteMessage: (projectId, messageId) =>
+    `${SERVER_API}/projects/${projectId}/messages/${messageId}`,
   updateStatus: (projectId, statusId) =>
     `${SERVER_API}/projects/${projectId}/statuses/${statusId}`,
   deleteStatus: (projectId, statusId) =>

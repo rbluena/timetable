@@ -22,7 +22,6 @@ const GroupsComponent = ({
   openGroupModal,
   updateProject,
   title,
-  groupsKeys,
   groups,
   projectId,
   isUserOwner,
@@ -74,85 +73,82 @@ const GroupsComponent = ({
 
       {/* start: Rendering a new group. */}
       <div className="pl-2 divide-y divide-neutral-200 border-t border-neutral-200">
-        {groupsKeys &&
-          groupsKeys.length > 0 &&
-          groupsKeys.map((key) => {
-            const group = groups[key];
+        {groups &&
+          groups.length > 0 &&
+          groups.map((group) => (
+            <div key={group._id} className="py-3">
+              <Title
+                level={5}
+                className=" text-primary-400"
+                editable={
+                  isUserOwner
+                    ? {
+                        onChange: (value) =>
+                          updateGroup(group._id, { name: value }),
+                      }
+                    : false
+                }
+              >
+                {group.name}
+              </Title>
 
-            return (
-              <div key={key} className="py-3">
-                <Title
-                  level={5}
-                  className=" text-primary-400"
-                  editable={
-                    isUserOwner
-                      ? {
-                          onChange: (value) =>
-                            updateGroup(group._id, { name: value }),
-                        }
-                      : false
-                  }
-                >
-                  {group.name}
-                </Title>
-                <Text
-                  type="secondary"
-                  editable={
-                    isUserOwner
-                      ? {
-                          onChange: (value) =>
-                            updateGroup(group._id, { description: value }),
-                        }
-                      : false
-                  }
-                >
-                  {group.description ? (
-                    group.description
-                  ) : (
-                    <span className="text-xs text-neutral-400">
-                      Add description
-                    </span>
-                  )}
-                </Text>
+              <Text
+                type="secondary"
+                editable={
+                  isUserOwner
+                    ? {
+                        onChange: (value) =>
+                          updateGroup(group._id, { description: value }),
+                      }
+                    : false
+                }
+              >
+                {group.description ? (
+                  group.description
+                ) : (
+                  <span className="text-xs text-neutral-400">
+                    Add description
+                  </span>
+                )}
+              </Text>
 
-                <div className="py-2">
-                  <Members
-                    userIds={group.members || []}
-                    users={group.members || []}
-                  />
-                </div>
-
-                <div className="py-1 flex flex-row bg-neutral-100">
-                  <Button
-                    size="small"
-                    type="link"
-                    onClick={() => openModal(group._id)}
-                  >
-                    <span>
-                      <TeamOutlined />
-                      &nbsp; Members
-                    </span>
-                  </Button>
-
-                  {/* start: Button to delete group */}
-                  {isUserOwner && (
-                    <Tooltip title="Delete group">
-                      <Button
-                        type="text"
-                        size="small"
-                        danger
-                        className="ml-auto"
-                        onClick={() => deleteGroupHandler(group._id)}
-                      >
-                        <DeleteOutlined />
-                      </Button>
-                    </Tooltip>
-                  )}
-                  {/* end: Button to delete group */}
-                </div>
+              <div className="py-2">
+                <Members
+                  userIds={group.members || []}
+                  users={group.members || []}
+                />
               </div>
-            );
-          })}
+
+              <div className="py-1 flex flex-row bg-neutral-100">
+                <Button
+                  size="small"
+                  type="link"
+                  onClick={() => openModal(group._id)}
+                >
+                  <span>
+                    <TeamOutlined />
+                    &nbsp; Members
+                  </span>
+                </Button>
+
+                {/* start: Button to delete group */}
+                {isUserOwner && (
+                  <Tooltip title="Delete group">
+                    <Button
+                      type="text"
+                      size="small"
+                      danger
+                      className="ml-auto"
+                      onClick={() => deleteGroupHandler(group._id)}
+                    >
+                      <DeleteOutlined />
+                    </Button>
+                  </Tooltip>
+                )}
+                {/* end: Button to delete group */}
+              </div>
+            </div>
+          ))}
       </div>
       {/* end: Rendering a new group. */}
 
