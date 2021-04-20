@@ -32,15 +32,15 @@ const AnnouncementsComponent = ({
     try {
       data.body = data.body.split(' ').map((text) => {
         if (text.startsWith('@')) {
-          return `<span class="lowercase text-secondary-400 font-normal inline-block">${text}</span>`;
+          return `<span class="text-secondary-400 font-normal inline-block">${text}</span>`;
         }
 
         if (text.startsWith('#')) {
-          return `<span class="lowercase text-primary-400 font-normal inline-block">${text}</span>`;
+          return `<span class="text-primary-400 font-normal inline-block">${text}</span>`;
         }
 
         if (text.startsWith('http' || 'https' || 'www')) {
-          return `<a href=${text} class="lowercase text-primary-600 font-normal inline-block">${text}</a>`;
+          return `<a href=${text} class="text-primary-600 font-normal inline-block">${text}</a>`;
         }
 
         return text;
@@ -57,7 +57,6 @@ const AnnouncementsComponent = ({
       dispatch(createNotificationAction(projectId, notification));
       form.resetFields();
     } catch (error) {
-      console.error(error);
       // TODO: ERROR HANDLING
     }
   }
@@ -147,7 +146,6 @@ const AnnouncementsComponent = ({
                     {groups.map((group) => (
                       <Select.Option
                         key={group._id}
-                        // value={`group-${group._id}`}
                         value={JSON.stringify({
                           type: 'group',
                           id: group._id,
@@ -183,7 +181,7 @@ const AnnouncementsComponent = ({
                   groups.length > 0 &&
                   groups.map((group) => (
                     <Mentions.Option
-                      value={group.name.toLowerCase()}
+                      value={group.name.replace(/\s+/g, '')}
                       key={`group-${group._id}`}
                     >
                       {group.name}
