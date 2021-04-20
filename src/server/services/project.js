@@ -22,26 +22,25 @@ const createProjectService = async (data) => {
   const savedProject = await project.save();
 
   if (savedProject) {
-    // Assign owner the project.
-    await User.updateOne(
-      { _id: mongoose.Types.ObjectId(data.owner) },
-      { $push: { projects: savedProject._id } }
-    );
-  }
-
-  if (savedProject) {
+    // Creating new group.
     const group = new Group({
       name: 'Admins',
       description:
-        'This is an example of user group you can create to categories members of the project. Feel free to update the details of the group.',
+        'This is an example of user group you can create to categorise members of the project. Feel free to update the details of the group.',
       project: savedProject._id,
-      members: [],
+      members: [data.owner],
     });
 
     const savedGroup = await group.save();
 
     savedProject.groups.push(savedGroup._id);
     await savedProject.save();
+
+    // Assign current project owner to admins group.
+    await User.updateOne(
+      { _id: mongoose.Types.ObjectId(data.owner) },
+      { $push: { projects: savedProject._id, groups: savedGroup._id } }
+    );
   }
 
   return { _id: savedProject._id };
