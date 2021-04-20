@@ -28,7 +28,6 @@ const UsersComponent = ({
                 <MinusCircleOutlined size="large" />
               </Tooltip>
             </Button>
-            )
           </List.Item>
         )}
       />
@@ -36,8 +35,6 @@ const UsersComponent = ({
     <List
       dataSource={members}
       renderItem={(user) => (
-        // const user = members[memberId] || {};
-
         <List.Item>
           <List.Item.Meta
             avatar={<Avatar src={user.image && user.image.thumbnail} />}

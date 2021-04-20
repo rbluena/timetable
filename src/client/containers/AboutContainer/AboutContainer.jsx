@@ -205,7 +205,6 @@ const AboutContainer = () => {
             {/* end: Categories */}
 
             {/* start: Members groups */}
-
             <GroupsComponent
               groups={groups}
               projectId={project._id}

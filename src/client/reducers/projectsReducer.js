@@ -86,7 +86,6 @@ export default function projectsReducer(state = initialState, action) {
 
     case updateProjectSuccess: {
       state.fetching = false;
-      // state.data[payload._id] = payload;
 
       return {
         ...state,

@@ -76,8 +76,13 @@ const updateProjectService = async (projectId, data) => {
     path: 'team',
     select: { image: 1, fullName: 1, userName: 1 },
   });
+
   await Project.populate(updated, 'groups');
-  // await Project.populate(updated, 'waitings');
+
+  await Project.populate(updated, {
+    path: 'groups.members',
+    select: { fullName: 1, image: 1, userName: 1, email: 1 },
+  });
 
   const updatedObj = updated.toObject();
   // updatedObj.isUserWaiting = false;
@@ -304,8 +309,10 @@ const updateProjectGroupService = async (groupId, data) => {
   );
 
   await Group.populate(group, {
-    select: { path: 'members', fullName: 1, userName: 1, email: 1, image: 1 },
+    path: 'members',
+    select: { fullName: 1, userName: 1, email: 1, image: 1 },
   });
+
   return group;
 };
 
