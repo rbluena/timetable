@@ -11,7 +11,7 @@ import ProjectsScreen from '@app/screens/Home';
 
 export async function getServerSideProps({ req }) {
   const token = getCookieToken(req);
-  let projects = null;
+  let projects;
 
   try {
     if (!token) {

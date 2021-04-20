@@ -23,6 +23,7 @@ const AnnouncementMessage = ({ message }) => {
 
       <div
         className="pt-1"
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: decode(body) }}
       />
 

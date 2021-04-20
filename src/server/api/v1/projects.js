@@ -32,7 +32,10 @@ const {
 
 const { createTaskHandler, getTaskHandler } = require('../../handlers/task');
 
-const { createNotificationHandler } = require('../../handlers/notifications');
+const {
+  createNotificationHandler,
+  getNotificationsHandler,
+} = require('../../handlers/notifications');
 
 /**
  * Creating a new project
@@ -182,6 +185,12 @@ router.post(
   '/:projectId/notifications',
   isAuthenticated,
   createNotificationHandler
+);
+
+router.get(
+  '/:projectId/notifications',
+  // projectAccessAuthorization,
+  getNotificationsHandler
 );
 
 module.exports = router;

@@ -716,7 +716,7 @@ export const deleteTaskService = async (token, id) => {
 };
 
 /**
- * Retrieving task details
+ * Retrieving task details.
  * @param {String} projectId ID of the project.
  * @param {String} taskId ID of the task
  * @param {String} token JWT Token
@@ -729,6 +729,33 @@ export const getTaskService = async (projectId, taskId, token) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
+/**
+ *
+ * @param {String} projectId
+ * @param {String} token
+ * @param {Object} options
+ */
+export const getNotificationsService = async (
+  projectId,
+  token,
+  options = {}
+) => {
+  try {
+    const response = await request({
+      method: 'GET',
+      url: path.getNotifications(projectId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: options,
     });
 
     return response.data;

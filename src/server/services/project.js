@@ -71,6 +71,11 @@ const updateProjectService = async (projectId, data) => {
     path: 'owner',
     select: { accountName: 1, fullName: 1 },
   });
+
+  await Project.populate(updated, {
+    path: 'team',
+    select: { image: 1, fullName: 1, userName: 1 },
+  });
   await Project.populate(updated, 'groups');
   // await Project.populate(updated, 'waitings');
 
@@ -298,7 +303,7 @@ const updateProjectGroupService = async (groupId, data) => {
     { new: true }
   );
 
-  await Group.populate(group, 'members');
+  // await Group.populate(group, 'members');
   return group;
 };
 

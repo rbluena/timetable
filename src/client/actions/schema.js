@@ -145,3 +145,12 @@ export function getNormalizedTasks(data = []) {
   const tasksSchema = new schema.Entity('tasks', {}, { idAttribute: '_id' });
   return normalize(data, [tasksSchema]);
 }
+
+export function getNormalizedNotifications(data = []) {
+  const notificationsSchema = new schema.Entity(
+    'notifications',
+    {},
+    { idAttribute: '_id' }
+  );
+  return normalize(data, [notificationsSchema]);
+}

@@ -1,5 +1,6 @@
-export const setProjectStatuses = 'NOTIFICATIONS/GET_STATUSES';
-export const getProjectStatusesSuccess = 'NOTIFICATIONS/GET_STATUSES_SUCCESS';
+export const getNotifications = 'NOTIFICATIONS/GET_NOTIFICATIONS';
+export const getNotificationsSuccess =
+  'NOTIFICATIONS/GET_NOTIFICATIONS_SUCCESS';
 export const createNotification = 'NOTIFICATIONS/CREATE_NOTIFICATION';
 export const createNotificationSuccess =
   'NOTIFICATIONS/CREATE_NOTIFICATION_SUCCESS';
@@ -29,6 +30,21 @@ export default function notificationsReducer(state = initialState, action) {
           [payload._id]: payload,
         },
         notificationIds: [payload._id, ...state.notificationIds],
+      };
+    }
+
+    case getNotificationsSuccess: {
+      const { entities, result: notificationIds, meta } = payload;
+
+      return {
+        ...state,
+        fetching: false,
+        notifications: {
+          ...state.notifications,
+          ...entities.notifications,
+        },
+        notificationIds: [...state.notificationIds, ...notificationIds],
+        meta,
       };
     }
 

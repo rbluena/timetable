@@ -21,6 +21,8 @@ export default {
     `${SERVER_API}/projects/${projectId}/statuses`,
   createNotification: (projectId) =>
     `${SERVER_API}/projects/${projectId}/notifications`,
+  getNotifications: (projectId) =>
+    `${SERVER_API}/projects/${projectId}/notifications`,
   updateMessage: (projectId, messageId) =>
     `${SERVER_API}/projects/${projectId}/messages/${messageId}`,
   deleteMessage: (projectId, messageId) =>

@@ -33,6 +33,65 @@ const createNotificationService = async (data) => {
   throw new Error('Failed to add resource. Our team is working on it.');
 };
 
+const getNotificationsService = async (options, userId) => {
+  const user = await User.findOne({
+    _id: mongoose.Types.ObjectId(userId),
+  })
+    .select('groups')
+    .lean();
+
+  const match = {
+    $or: [
+      { creator: mongoose.Types.ObjectId(userId) },
+      { 'recepient.id': userId },
+      { 'recepient.id': 'all' },
+      { 'recepient.id': { $in: user ? user.groups : [] } },
+    ],
+  };
+  const sort = { createdAt: -1 };
+  const paginateOptions = { limit: 20 };
+
+  if (options.project) {
+    match.project = mongoose.Types.ObjectId(options.project);
+  }
+
+  const aggregate = Notification.aggregate([
+    { $match: match },
+    { $sort: sort },
+    {
+      $lookup: {
+        from: User.collection.name,
+        localField: 'creator',
+        foreignField: '_id',
+        as: 'creator',
+      },
+    },
+    { $unwind: '$creator' },
+    {
+      $project: {
+        seenBy: 1,
+        body: 1,
+        recepient: 1,
+        type: 1,
+        createdAt: 1,
+        'creator._id': 1,
+        'creator.fullName': 1,
+        'creator.image': 1,
+        hasUserSeenIt: {
+          $in: [mongoose.Types.ObjectId(userId), { $ifNull: ['$seenBy', []] }],
+        },
+        isUserCreator: {
+          $eq: ['$creator._id', mongoose.Types.ObjectId(userId)],
+        },
+        // likesCount: { $size: { $ifNull: ['$likes', []] } },
+      },
+    },
+  ]);
+
+  return Notification.aggregatePaginate(aggregate, paginateOptions);
+};
+
 module.exports = {
   createNotificationService,
+  getNotificationsService,
 };

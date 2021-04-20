@@ -4,20 +4,33 @@ import { useEffectOnce } from 'react-use';
 import { signInUserSuccess } from '@app/reducers/authReducer';
 import { getCookieToken } from '@app/utils';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
-import { getProjectService } from '@app/services';
+import { getNotificationsSuccess } from '@app/reducers/notificationsReducer';
+import { getProjectService, getNotificationsService } from '@app/services';
 import { LayoutManager } from '@app/components';
 import ViewProject from '@app/screens/ViewProject';
-import { getNormalizedProject } from '@app/actions/schema';
+import {
+  getNormalizedProject,
+  getNormalizedNotifications,
+} from '@app/actions/schema';
 import AccessProject from '@app/screens/AccessProject';
 
 export async function getServerSideProps({ params, req }) {
   let project = null;
+  let announcements = null;
+  let notificationsMeta = null;
   let passwordRequired = false;
   const { id } = params;
   const token = getCookieToken(req);
 
   try {
     ({ data: project } = await getProjectService(id));
+    ({
+      data: announcements,
+      meta: notificationsMeta,
+    } = await getNotificationsService(id, token, {
+      project: id,
+      type: 'message',
+    }));
 
     if (!project) {
       return {
@@ -33,17 +46,29 @@ export async function getServerSideProps({ params, req }) {
         notFound: true,
       };
     }
-
-
   }
 
   return {
-    props: { project, passwordRequired, token: token || null },
+    props: {
+      project,
+      announcements,
+      notificationsMeta,
+      passwordRequired,
+      token: token || null,
+    },
   };
 }
 
-export default function Project({ project, token, passwordRequired }) {
+export default function Project({
+  project,
+  announcements,
+  notificationsMeta,
+  token,
+  passwordRequired,
+}) {
   const dispatch = useDispatch();
+
+  console.log(announcements);
 
   useEffectOnce(() => {
     if (token && token.length) {
@@ -55,6 +80,14 @@ export default function Project({ project, token, passwordRequired }) {
       dispatch({
         type: setCurrentProject,
         payload: normalizedProject,
+      });
+    }
+
+    if (announcements) {
+      const normalizedNotifications = getNormalizedNotifications(announcements);
+      dispatch({
+        type: getNotificationsSuccess,
+        payload: { ...normalizedNotifications, meta: notificationsMeta },
       });
     }
   });

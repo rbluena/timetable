@@ -123,6 +123,7 @@ const AnnouncementsComponent = ({
                 >
                   Everyone
                 </Select.Option>
+
                 {team && team.length > 0 && (
                   <Select.OptGroup label="Users">
                     {team.map((user) => (
@@ -193,9 +194,7 @@ const AnnouncementsComponent = ({
                   team.length > 0 &&
                   team.map((user) => (
                     <Mentions.Option
-                      value={
-                        user.fullName ? user.fullName.toLowerCase() : user.email
-                      }
+                      value={user.userName ? user.userName : user.email}
                       key={`user-${user._id}`}
                     >
                       {user.fullName}
@@ -215,12 +214,14 @@ const AnnouncementsComponent = ({
 
 AnnouncementsComponent.defaultProps = {
   isUserOwner: false,
+  title: 'Announcements',
   groups: [],
   team: [],
 };
 
 AnnouncementsComponent.propTypes = {
   isUserOwner: PropTypes.bool,
+  title: PropTypes.string,
   projectId: PropTypes.string.isRequired,
   updateProject: PropTypes.func.isRequired,
   groups: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
