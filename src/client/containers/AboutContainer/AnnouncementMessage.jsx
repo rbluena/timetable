@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { Badge, Button } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { decode } from 'html-entities';
 import { format } from 'date-fns';
 

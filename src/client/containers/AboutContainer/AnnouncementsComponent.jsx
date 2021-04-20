@@ -6,7 +6,10 @@ import { uniq } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { encode } from 'html-entities';
 import { createNotificationAction } from '@app/actions';
-import { announcementsSelector } from '@app/selectors';
+import {
+  announcementsSelector,
+  isUserProjectMemberSelector,
+} from '@app/selectors';
 import AnnouncementMessage from './AnnouncementMessage';
 
 const { Title } = Typography;
@@ -22,6 +25,7 @@ const AnnouncementsComponent = ({
   const [mentions, setMentions] = useState([]);
   const dispatch = useDispatch();
   const announcements = useSelector(announcementsSelector);
+  const isUserProjectMember = useSelector(isUserProjectMemberSelector);
   const [form] = Form.useForm();
 
   /**
@@ -107,108 +111,115 @@ const AnnouncementsComponent = ({
               ))}
           </div>
         </div>
-        <div className="">
-          <Form onFinish={onSubmit} form={form}>
-            <Form.Item
-              name="recepient"
-              rules={[
-                {
-                  required: true,
-                  message: 'This should not be empty!',
-                },
-              ]}
-              className="p-0 m-0"
-            >
-              <Select placeholder="to:" className="w-full">
-                <Select.Option
-                  label="Everyone"
-                  value={JSON.stringify({ type: 'all', name: 'All', id: null })}
+
+        {/* start: Message writing box. */}
+        {isUserProjectMember && (
+          <div className="">
+            <Form onFinish={onSubmit} form={form}>
+              <Form.Item
+                name="recepient"
+                rules={[
+                  {
+                    required: true,
+                    message: 'This should not be empty!',
+                  },
+                ]}
+              >
+                <Select placeholder="to:" className="w-full">
+                  <Select.Option
+                    label="Everyone"
+                    value={JSON.stringify({
+                      type: 'all',
+                      name: 'All',
+                      id: null,
+                    })}
+                  >
+                    Everyone
+                  </Select.Option>
+
+                  {team && team.length > 0 && (
+                    <Select.OptGroup label="Users">
+                      {team.map((user) => (
+                        <Select.Option
+                          key={user._id}
+                          value={JSON.stringify({
+                            type: 'user',
+                            id: user._id,
+                            name: user.fullName,
+                          })}
+                          label={user.fullName}
+                        >
+                          {user.fullName}
+                        </Select.Option>
+                      ))}
+                    </Select.OptGroup>
+                  )}
+
+                  {groups && groups.length > 0 && (
+                    <Select.OptGroup label="Groups">
+                      {groups.map((group) => (
+                        <Select.Option
+                          key={group._id}
+                          value={JSON.stringify({
+                            type: 'group',
+                            id: group._id,
+                            name: group.name,
+                          })}
+                          label={group.name}
+                        >
+                          {group.name}
+                        </Select.Option>
+                      ))}
+                    </Select.OptGroup>
+                  )}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="body"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Message should not be empty!',
+                  },
+                ]}
+              >
+                <Mentions
+                  placeholder="Say something...!"
+                  // style={{ height: '65px' }}
+                  rows="4"
+                  className="shadow"
+                  onSelect={onMentionSelected}
                 >
-                  Everyone
-                </Select.Option>
-
-                {team && team.length > 0 && (
-                  <Select.OptGroup label="Users">
-                    {team.map((user) => (
-                      <Select.Option
-                        key={user._id}
-                        value={JSON.stringify({
-                          type: 'user',
-                          id: user._id,
-                          name: user.fullName,
-                        })}
-                        label={user.fullName}
-                      >
-                        {user.fullName}
-                      </Select.Option>
-                    ))}
-                  </Select.OptGroup>
-                )}
-
-                {groups && groups.length > 0 && (
-                  <Select.OptGroup label="Groups">
-                    {groups.map((group) => (
-                      <Select.Option
-                        key={group._id}
-                        value={JSON.stringify({
-                          type: 'group',
-                          id: group._id,
-                          name: group.name,
-                        })}
-                        label={group.name}
+                  {groups &&
+                    groups.length > 0 &&
+                    groups.map((group) => (
+                      <Mentions.Option
+                        value={group.name.replace(/\s+/g, '')}
+                        key={`group-${group._id}`}
                       >
                         {group.name}
-                      </Select.Option>
+                      </Mentions.Option>
                     ))}
-                  </Select.OptGroup>
-                )}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="body"
-              rules={[
-                {
-                  required: true,
-                  message: 'Message should not be empty!',
-                },
-              ]}
-              className="p-0 m-0"
-            >
-              <Mentions
-                placeholder="Say something...!"
-                // style={{ height: '65px' }}
-                rows="4"
-                className="shadow"
-                onSelect={onMentionSelected}
-              >
-                {groups &&
-                  groups.length > 0 &&
-                  groups.map((group) => (
-                    <Mentions.Option
-                      value={group.name.replace(/\s+/g, '')}
-                      key={`group-${group._id}`}
-                    >
-                      {group.name}
-                    </Mentions.Option>
-                  ))}
 
-                {team &&
-                  team.length > 0 &&
-                  team.map((user) => (
-                    <Mentions.Option
-                      value={user.userName ? user.userName : user.email}
-                      key={`user-${user._id}`}
-                    >
-                      {user.fullName}
-                    </Mentions.Option>
-                  ))}
-              </Mentions>
-            </Form.Item>
-            <Button htmlType="submit" type="primary" ghost>
-              Send
-            </Button>
-          </Form>
-        </div>
+                  {team &&
+                    team.length > 0 &&
+                    team.map((user) => (
+                      <Mentions.Option
+                        value={user.userName ? user.userName : user.email}
+                        key={`user-${user._id}`}
+                      >
+                        {user.fullName}
+                      </Mentions.Option>
+                    ))}
+                </Mentions>
+              </Form.Item>
+              <Button htmlType="submit" type="primary" ghost>
+                Send
+              </Button>
+            </Form>
+          </div>
+        )}
+        {/* end: Message writing box. */}
       </div>
     </Affix>
   );
