@@ -135,25 +135,14 @@ export default function projectsReducer(state = initialState, action) {
 
     case updateProjectGroupSuccess: {
       state.fetching = false;
-      const { entities } = payload;
-      const { group, members } = entities;
+      const { group, groupId } = payload;
+      state.groups[groupId] = group[groupId];
 
-      return {
-        ...state,
-        groups: {
-          ...state.groups,
-          ...group,
-        },
-        members: {
-          ...state.members,
-          ...members,
-        },
-      };
+      return state;
     }
 
     case deleteProjectGroupSuccess: {
       const { projectId, groupId } = payload;
-
       state.fetching = false;
       delete state.groups[groupId];
 

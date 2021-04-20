@@ -68,8 +68,6 @@ export default function Project({
 }) {
   const dispatch = useDispatch();
 
-  console.log(announcements);
-
   useEffectOnce(() => {
     if (token && token.length) {
       dispatch({ type: signInUserSuccess, payload: token });

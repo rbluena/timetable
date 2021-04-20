@@ -175,7 +175,7 @@ export function addProjectGroupAction(projectId, groupData) {
 export function updateProjectGroupAction(projectId, groupId, groupData) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: updateProjectGroup });
+      // dispatch({ type: updateProjectGroup });
       const { token } = getState().AUTH;
 
       const { data } = await updateProjectGroupService(
@@ -189,7 +189,7 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
 
       dispatch({
         type: updateProjectGroupSuccess,
-        payload: normalzedData,
+        payload: { ...normalzedData.entities, groupId: normalzedData.result },
       });
     } catch (error) {
       const err = {

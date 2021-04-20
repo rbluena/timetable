@@ -32,17 +32,13 @@ export function getNormalizedProject(data = {}) {
  * @param {Object} data Group data
  */
 export function getNormalizedGroup(data = {}) {
-  const membersSchema = new schema.Entity(
-    'members',
-    {},
-    { idAttribute: '_id' }
-  );
+  // const membersSchema = new schema.Entity(
+  //   'members',
+  //   {},
+  //   { idAttribute: '_id' }
+  // );
 
-  const groupSchema = new schema.Entity(
-    'group',
-    { members: [membersSchema] },
-    { idAttribute: '_id' }
-  );
+  const groupSchema = new schema.Entity('group', {}, { idAttribute: '_id' });
 
   return normalize(data, groupSchema);
 }

@@ -303,7 +303,9 @@ const updateProjectGroupService = async (groupId, data) => {
     { new: true }
   );
 
-  // await Group.populate(group, 'members');
+  await Group.populate(group, {
+    select: { path: 'members', fullName: 1, userName: 1, email: 1, image: 1 },
+  });
   return group;
 };
 
