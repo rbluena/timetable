@@ -55,10 +55,10 @@ const selectProjectMembers = (state) => {
  */
 const selectProjectTeam = (state) => {
   const team = get(state.PROJECTS, 'team');
-  const teamIds = get(state.PROJECTS.project, 'team');
+  const project = selectProject(state);
 
-  if (teamIds && teamIds.length) {
-    return teamIds.map((teamId) => ({ ...team[teamId] }));
+  if (project && project.team && project.team.length) {
+    return project.team.map((teamId) => ({ ...team[teamId] }));
   }
 
   return [];

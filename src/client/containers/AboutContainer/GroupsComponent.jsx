@@ -113,10 +113,7 @@ const GroupsComponent = ({
               </Text>
 
               <div className="py-2">
-                <Members
-                  userIds={group.members || []}
-                  users={group.members || []}
-                />
+                <Members users={group.members || []} />
               </div>
 
               <div className="py-1 flex flex-row bg-neutral-100">
@@ -180,7 +177,6 @@ const GroupsComponent = ({
 
 GroupsComponent.defaultProps = {
   groups: undefined,
-  groupsKeys: undefined,
   isUserOwner: false,
 };
 
@@ -189,7 +185,6 @@ GroupsComponent.propTypes = {
   updateProject: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
-  groupsKeys: PropTypes.arrayOf(PropTypes.string),
   setModalGroupId: PropTypes.func.isRequired,
   openGroupModal: PropTypes.func.isRequired,
   isUserOwner: PropTypes.bool,

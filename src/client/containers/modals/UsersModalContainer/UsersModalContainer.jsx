@@ -28,9 +28,9 @@ const UsersModalContainer = ({ isOpen, closeModal, group, isUserOwner }) => {
         <InviteForm inviteUser={inviteUser} projectId={group.project} />
       )}
       <UsersComponent
-        memberIds={group.members || {}}
         members={group.members || []}
         invitees={group.invitees || []}
+        isUserOwner={isUserOwner}
         removeUserFromGroup={removeUserFromGroup}
       />
     </Modal>

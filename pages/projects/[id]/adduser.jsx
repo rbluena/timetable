@@ -20,7 +20,8 @@ export async function getServerSideProps({ params, query, req }) {
     const { data, meta } = await acceptGroupInvitationService(
       projectId,
       groupId,
-      email
+      email,
+      token
     );
 
     if (!meta.isUserExist) {
@@ -41,7 +42,14 @@ export async function getServerSideProps({ params, query, req }) {
       };
     }
   } catch (error) {
-    // console.log(error);
+    if (error.status === 403) {
+      return {
+        redirect: {
+          destination: '/signout',
+          permanent: false,
+        },
+      };
+    }
   }
 
   return {
