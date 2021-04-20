@@ -99,7 +99,11 @@ const AnnouncementsComponent = ({
             {announcements &&
               announcements.length > 0 &&
               announcements.map((message) => (
-                <AnnouncementMessage key={message._id} message={message} />
+                <AnnouncementMessage
+                  key={message._id}
+                  message={message}
+                  isUserOwner={isUserOwner}
+                />
               ))}
           </div>
         </div>

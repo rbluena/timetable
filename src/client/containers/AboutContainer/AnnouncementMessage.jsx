@@ -4,8 +4,8 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { decode } from 'html-entities';
 import { format } from 'date-fns';
 
-const AnnouncementMessage = ({ message }) => {
-  const { recepient, creator, body } = message;
+const AnnouncementMessage = ({ message, isUserOwner }) => {
+  const { recepient, creator, body, isCurrentUserAuthor } = message;
 
   function deleteGroupHandler() {}
 
@@ -13,12 +13,14 @@ const AnnouncementMessage = ({ message }) => {
     <div className="pt-3 text-sm font-light">
       <div className="flex items-center">
         {!message.hasUserSeenIt ? (
-          <span className="font-semibold">to:&nbsp;{recepient.name} </span>
+          <span className="font-semibold italic">
+            to:&nbsp;{recepient.name}{' '}
+          </span>
         ) : (
           <span className="font-semibold">to:&nbsp;{recepient.name} </span>
         )}
         &nbsp;
-        {!message.hasUserSeenIt && <Badge color="magenta" dot />}
+        {/* {!message.hasUserSeenIt && <Badge color="magenta" dot />} */}
       </div>
 
       <div
@@ -43,30 +45,37 @@ const AnnouncementMessage = ({ message }) => {
             <PushpinOutlined />
           </Button> */}
           &nbsp;
-          <Button
+          {/* <Button
             type="primary"
             size="small"
             ghost
             onClick={() => deleteGroupHandler('group._id')}
           >
             <EditOutlined />
-          </Button>
+          </Button> */}
           &nbsp;
-          <Button
-            type="danger"
-            size="small"
-            ghost
-            onClick={() => deleteGroupHandler('group._id')}
-          >
-            <DeleteOutlined />
-          </Button>
+          {(isUserOwner || isCurrentUserAuthor) && (
+            <Button
+              type="danger"
+              size="small"
+              ghost
+              onClick={() => deleteGroupHandler('group._id')}
+            >
+              <DeleteOutlined />
+            </Button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
+AnnouncementMessage.defaultProps = {
+  isUserOwner: false,
+};
+
 AnnouncementMessage.propTypes = {
+  isUserOwner: PropTypes.bool,
   message: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

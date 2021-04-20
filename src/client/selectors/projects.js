@@ -20,7 +20,7 @@ const selectProjects = (state) => {
   return {};
 };
 
-const selectProject = (state) => {
+export const selectProject = (state) => {
   const { project, projectId } = state.PROJECTS;
 
   if (projectId && project) {

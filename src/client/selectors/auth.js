@@ -2,7 +2,7 @@
 import { decode } from 'jsonwebtoken';
 import { createSelector } from 'reselect';
 
-const selectAuthenticatedUser = (state) => {
+export const selectAuthenticatedUser = (state) => {
   const { token } = state.AUTH;
 
   if (token && token.length > 0) {
