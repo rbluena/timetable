@@ -4,10 +4,8 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { decode } from 'html-entities';
 import { format } from 'date-fns';
 
-const AnnouncementMessage = ({ message, isUserOwner }) => {
+const AnnouncementMessage = ({ message, isUserOwner, deleteMessage }) => {
   const { recepient, creator, body, isCurrentUserAuthor } = message;
-
-  function deleteGroupHandler() {}
 
   return (
     <div className="pt-3 text-sm font-light">
@@ -59,7 +57,7 @@ const AnnouncementMessage = ({ message, isUserOwner }) => {
               type="danger"
               size="small"
               ghost
-              onClick={() => deleteGroupHandler('group._id')}
+              onClick={() => deleteMessage(message._id)}
             >
               <DeleteOutlined />
             </Button>
@@ -77,6 +75,7 @@ AnnouncementMessage.defaultProps = {
 AnnouncementMessage.propTypes = {
   isUserOwner: PropTypes.bool,
   message: PropTypes.objectOf(PropTypes.any).isRequired,
+  deleteMessage: PropTypes.func.isRequired,
 };
 
 export default AnnouncementMessage;

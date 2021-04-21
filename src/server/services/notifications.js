@@ -33,6 +33,11 @@ const createNotificationService = async (data) => {
   throw new Error('Failed to add resource. Our team is working on it.');
 };
 
+/**
+ * Retreiving notifications.
+ * @param {Object} options
+ * @param {String} userId I
+ */
 const getNotificationsService = async (options, userId) => {
   const user = await User.findOne({
     _id: mongoose.Types.ObjectId(userId),
@@ -91,7 +96,20 @@ const getNotificationsService = async (options, userId) => {
   return Notification.aggregatePaginate(aggregate, paginateOptions);
 };
 
+/**
+ * API service to delete notification based of notification ID
+ * @param {String} notificationId ID of the notification to be deleted
+ */
+const deleteNotificationService = async (notificationId) => {
+  const doc = await Notification.findOneAndDelete({
+    _id: mongoose.Types.ObjectId(notificationId),
+  });
+
+  return { _id: doc._id };
+};
+
 module.exports = {
   createNotificationService,
   getNotificationsService,
+  deleteNotificationService,
 };

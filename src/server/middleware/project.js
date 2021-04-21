@@ -1,7 +1,7 @@
 const { decode } = require('jsonwebtoken');
 const { get } = require('lodash');
 const Project = require('../models/Project');
-const { isAuthenticated } = require('./auth');
+const Notification = require('../models/Notification');
 
 /**
  * Validating data comming from the client
@@ -66,6 +66,50 @@ exports.isAuthorizedToUpdate = async (req, res, next) => {
   }
 };
 
+exports.isAuthorizedToNotification = async (req, res, next) => {
+  try {
+    const user = decode(req.app.jwt);
+
+    const { projectId, notificationId } = req.params;
+    const project = await Project.findById(projectId);
+    const notification = await Notification.findById(notificationId);
+
+    console.log(notification);
+    console.log(project);
+
+    if (!project || !notification) {
+      res.status(404).json({
+        status: 404,
+        message: 'Not Found!',
+        errors: {
+          details: 'This resource was not found.',
+        },
+      });
+      return;
+    }
+
+    const isUserAuthorized =
+      String(notification.creator._id) === String(user._id) ||
+      String(user._id) === String(project.owner);
+
+    if (!isUserAuthorized) {
+      res.status(403).json({
+        status: 403,
+        message: 'Unauthorized',
+        errors: {
+          details: 'You are not allowed to perform this operation.',
+        },
+      });
+
+      return;
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.projectAccessAuthorization = async (req, res, next) => {
   try {
     const { projectId } = req.params;
@@ -117,8 +161,6 @@ exports.projectAccessAuthorization = async (req, res, next) => {
       }
 
       if (accessType === 'private') {
-
-
         if (req.app.jwt) {
           const user = decode(req.app.jwt);
 

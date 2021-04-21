@@ -4,8 +4,7 @@ export const getNotificationsSuccess =
 export const createNotification = 'NOTIFICATIONS/CREATE_NOTIFICATION';
 export const createNotificationSuccess =
   'NOTIFICATIONS/CREATE_NOTIFICATION_SUCCESS';
-export const updateStatusItemSuccess = 'NOTIFICATIONS/UPDATE_STATUS_SUCCESS';
-export const deleteStatusItemSuccess = 'NOTIFICATIONS/DELETE_STATUS_SUCCESS';
+export const deleteNotificationSuccess = 'NOTIFICATIONS/DELETE_NOTIFICATION';
 
 const initialState = {
   fetching: false,
@@ -46,6 +45,17 @@ export default function notificationsReducer(state = initialState, action) {
         notificationIds: [...state.notificationIds, ...notificationIds],
         meta,
       };
+    }
+
+    case deleteNotificationSuccess: {
+      const { _id: id } = payload;
+
+      state.notificationIds = state.notificationIds.filter(
+        (item) => item !== id
+      );
+      delete state.notifications[id];
+
+      return state;
     }
 
     default:

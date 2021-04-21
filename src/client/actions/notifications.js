@@ -1,9 +1,13 @@
-import { createNotificationService } from '@app/services';
+import {
+  createNotificationService,
+  deleteNotificationService,
+} from '@app/services';
 
 import { setNotificationAction, signUserOutAction } from '@app/actions';
 import {
   createNotification,
   createNotificationSuccess,
+  deleteNotificationSuccess,
 } from '@app/reducers/notificationsReducer';
 
 /**
@@ -43,38 +47,54 @@ export function createNotificationAction(projectId, notification) {
   };
 }
 
-export function editMessageAction(projectId, messagedId, messageData) {
+// export function editMessageAction(projectId, messagedId, messageData) {
+//   return async (dispatch, getState) => {
+//     try {
+//       const { token } = getState().AUTH;
+//       const { data } = await createNotificationService(
+//         projectId,
+//         messageData,
+//         token
+//       );
+
+//     } catch (error) {
+//       // TODO: REPORT ERROR
+//       console.log(error);
+//     }
+//   };
+// }
+
+/**
+ * Deleting notification from the server
+ * @param {String} projectId ID of the project
+ * @param {String} notificationId
+ */
+export function deleteNotificationAction(projectId, notificationId) {
   return async (dispatch, getState) => {
     try {
       const { token } = getState().AUTH;
-      const { data } = await createNotificationService(
+      const { data } = await deleteNotificationService(
         projectId,
-        messageData,
+        notificationId,
         token
       );
 
-      console.log(data);
+      dispatch({
+        type: deleteNotificationSuccess,
+        payload: data,
+      });
     } catch (error) {
-      // TODO: REPORT ERROR
-      console.log(error);
-    }
-  };
-}
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
 
-export function deleteMessageAction(projectId, messageId) {
-  return async (dispatch, getState) => {
-    try {
-      const { token } = getState().AUTH;
-      const { data } = await createNotificationService(
-        projectId,
-        messageId,
-        token
-      );
+      dispatch(setNotificationAction(err));
 
-      console.log(data);
-    } catch (error) {
-      // TODO: REPORT ERROR
-      console.log(error);
+      if (error.status === 403) {
+        // Sign user out if not authenticated
+        dispatch(signUserOutAction());
+      }
     }
   };
 }

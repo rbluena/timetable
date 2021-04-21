@@ -781,6 +781,32 @@ export const createNotificationService = async (projectId, data, token) => {
   }
 };
 
+/**
+ * Deleting notifications
+ * @param {String} projectId
+ * @param {String} notificationId
+ * @param {String} token
+ */
+export const deleteNotificationService = async (
+  projectId,
+  notificationId,
+  token
+) => {
+  try {
+    const response = await request({
+      method: 'DELETE',
+      url: path.deleteNotification(projectId, notificationId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};
+
 export const editMessageSerivce = async (projectId, messageId, token) => {
   try {
     const response = await request({

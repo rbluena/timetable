@@ -3,6 +3,7 @@ const { decode } = require('jsonwebtoken');
 const {
   createNotificationService,
   getNotificationsService,
+  deleteNotificationService,
 } = require('../services/notifications');
 
 /**
@@ -36,12 +37,28 @@ exports.getNotificationsHandler = async (req, res, next) => {
     const meta = omit(data, 'docs');
     const { docs } = data;
 
-    res.status(201).json({
-      status: 201,
+    res.status(200).json({
+      status: 200,
       success: true,
       message: '',
       data: docs,
       meta,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteNotificationsHandler = async (req, res, next) => {
+  try {
+    const { notificationId } = req.params;
+    const doc = await deleteNotificationService(notificationId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Notification was deleted successfull',
+      data: { ...doc },
     });
   } catch (error) {
     next(error);

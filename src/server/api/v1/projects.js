@@ -3,6 +3,7 @@ const { isAuthenticated } = require('../../middleware/auth');
 const {
   projectAccessAuthorization,
   isAuthorizedToUpdate,
+  isAuthorizedToNotification,
 } = require('../../middleware/project');
 
 const {
@@ -35,6 +36,7 @@ const { createTaskHandler, getTaskHandler } = require('../../handlers/task');
 const {
   createNotificationHandler,
   getNotificationsHandler,
+  deleteNotificationsHandler,
 } = require('../../handlers/notifications');
 
 /**
@@ -189,8 +191,15 @@ router.post(
 
 router.get(
   '/:projectId/notifications',
-  // projectAccessAuthorization,
+  projectAccessAuthorization,
   getNotificationsHandler
+);
+
+router.delete(
+  '/:projectId/notifications/:notificationId',
+  isAuthenticated,
+  isAuthorizedToNotification,
+  deleteNotificationsHandler
 );
 
 module.exports = router;

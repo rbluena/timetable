@@ -5,7 +5,10 @@ import { NotificationOutlined } from '@ant-design/icons';
 import { uniq } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { encode } from 'html-entities';
-import { createNotificationAction } from '@app/actions';
+import {
+  createNotificationAction,
+  deleteNotificationAction,
+} from '@app/actions';
 import {
   announcementsSelector,
   isUserProjectMemberSelector,
@@ -69,6 +72,10 @@ const AnnouncementsComponent = ({
     setMentions((state) => [...state, data.key]);
   }
 
+  function deleteAnnouncement(messageId) {
+    dispatch(deleteNotificationAction(projectId, messageId));
+  }
+
   return (
     <Affix className="">
       <div className="w-full md:w-72 md:ml-6 space-y-1">
@@ -107,6 +114,7 @@ const AnnouncementsComponent = ({
                   key={message._id}
                   message={message}
                   isUserOwner={isUserOwner}
+                  deleteMessage={deleteAnnouncement}
                 />
               ))}
           </div>

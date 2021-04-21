@@ -23,10 +23,10 @@ export default {
     `${SERVER_API}/projects/${projectId}/notifications`,
   getNotifications: (projectId) =>
     `${SERVER_API}/projects/${projectId}/notifications`,
-  updateMessage: (projectId, messageId) =>
-    `${SERVER_API}/projects/${projectId}/messages/${messageId}`,
-  deleteMessage: (projectId, messageId) =>
-    `${SERVER_API}/projects/${projectId}/messages/${messageId}`,
+  updateNotification: (projectId, notificationId) =>
+    `${SERVER_API}/projects/${projectId}/notifications/${notificationId}`,
+  deleteNotification: (projectId, notificationId) =>
+    `${SERVER_API}/projects/${projectId}/notifications/${notificationId}`,
   updateStatus: (projectId, statusId) =>
     `${SERVER_API}/projects/${projectId}/statuses/${statusId}`,
   deleteStatus: (projectId, statusId) =>
