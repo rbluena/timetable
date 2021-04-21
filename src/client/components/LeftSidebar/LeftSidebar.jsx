@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Avatar } from 'antd';
+import { Avatar, Tooltip } from 'antd';
 
 import {
   // BellOutlineIcon,
@@ -9,9 +9,11 @@ import {
   CogIcon,
   GridIcon,
   LogoutIcon,
+  LoginIcon,
   // TemplatesIcon,
   // ClockIcon,
 } from '@app/components/Icons';
+import { isEmpty } from 'lodash';
 
 const LeftSidebar = ({ user }) => {
   const router = useRouter();
@@ -51,6 +53,21 @@ const LeftSidebar = ({ user }) => {
               </a>
             </Link>
           </div>
+          {/* start: Log user in link */}
+          {isEmpty(user) && (
+            <div className="pl-5">
+              &nbsp;
+              <Link href="/signin">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a>
+                  <Tooltip>
+                    <LoginIcon size="sm" variant="neutral" />
+                  </Tooltip>
+                </a>
+              </Link>
+            </div>
+          )}
+          {/* end: Loggin user in */}
           {/* &nbsp;
           <div
             className={`${
@@ -85,11 +102,10 @@ const LeftSidebar = ({ user }) => {
         </div>
       </div>
 
-
-
       {/* start: Authenticated user links */}
-      <div className="flex flex-col items-center pb-4">
-        {/* <Link href="/notifications">
+      {!isEmpty(user) && (
+        <div className="flex flex-col items-center pb-4">
+          {/* <Link href="/notifications">
           <a className="relative">
             <span className="bg-secondary-500 h-2 w-2 rounded-full block absolute right-1" />
             <BellOutlineIcon
@@ -99,34 +115,35 @@ const LeftSidebar = ({ user }) => {
           </a>
         </Link>
         &nbsp; */}
-        <Link href="/settings">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a>
-            <CogIcon
-              size="sm"
-              variant={pathname.includes('/settings') ? '' : 'neutral'}
+          <Link href="/settings">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a>
+              <CogIcon
+                size="sm"
+                variant={pathname.includes('/settings') ? '' : 'neutral'}
+              />
+            </a>
+          </Link>
+          &nbsp;
+          <Link href="/signout">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a>
+              <LogoutIcon size="sm" variant="neutral" />
+            </a>
+          </Link>
+          &nbsp;
+          {user.image && user.image.thumbnail ? (
+            <Avatar
+              src={user.image.thumbnail}
+              style={{ border: '1px solid #1890ff' }}
             />
-          </a>
-        </Link>
-        &nbsp;
-        <Link href="/signout">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a>
-            <LogoutIcon size="sm" variant="neutral" />
-          </a>
-        </Link>
-        &nbsp;
-        {user.image && user.image.thumbnail ? (
-          <Avatar
-            src={user.image.thumbnail}
-            style={{ border: '1px solid #1890ff' }}
-          />
-        ) : (
-          <Avatar style={{ backgroundColor: '#f56a00' }}>
-            {user.fullName ? user.fullName[0] : 'U'}
-          </Avatar>
-        )}
-      </div>
+          ) : (
+            <Avatar style={{ backgroundColor: '#f56a00' }}>
+              {user.fullName ? user.fullName[0] : 'U'}
+            </Avatar>
+          )}
+        </div>
+      )}
       {/* end: Authenticated user links */}
     </div>
   );

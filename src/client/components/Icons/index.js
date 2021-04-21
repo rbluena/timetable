@@ -5,6 +5,7 @@ import CogIcon from './CogIcon';
 import MenuIcon from './MenuIcon';
 import ClipboardListIcon from './ClipboardListIcon';
 import LogoutIcon from './LogoutIcon';
+import LoginIcon from './LoginIcon';
 import ChevronDownIcon from './ChevronDownIcon';
 import ChevronLeftIcon from './ChevronLeftIcon';
 import ChevronRightIcon from './ChevronRightIcon';
@@ -37,6 +38,7 @@ export {
   CogIcon,
   MenuIcon,
   LogoutIcon,
+  LoginIcon,
   PlusIcon,
   PencilIcon,
   VerticalOutlineIcon,
