@@ -4,6 +4,7 @@ import LayoutManager from './LayoutManager';
 import LeftSidebar from './LeftSidebar';
 import Button from './Button';
 import Header from './Header';
+import Footer from './Footer';
 import TimeTicker from './TimeTicker';
 import ToggleSwitch from './ToggleSwitch';
 import AvatarList from './AvatarList';
@@ -48,4 +49,5 @@ export {
   AlertNotifications,
   AuthHeader,
   PingAnimation,
+  Footer,
 };
