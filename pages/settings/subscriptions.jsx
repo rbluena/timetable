@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useEffectOnce } from 'react-use';
 import { signInUserSuccess } from '@app/reducers/authReducer';
-import { LayoutManager } from '@app/components';
+import { LayoutManager, Head } from '@app/components';
 import { getCookieToken } from '@app/utils';
 import SettingsPage from '@app/screens/Settings';
 
@@ -34,7 +34,16 @@ export default function Settings({ token }) {
 
   return (
     <LayoutManager showSidebar>
+      <Head title="Settings" />
       <SettingsPage />
     </LayoutManager>
   );
 }
+
+Settings.defaultProps = {
+  token: undefined,
+};
+
+Settings.propTypes = {
+  token: PropTypes.string,
+};

@@ -14,7 +14,7 @@ import { getAgendaTasksAction } from '@app/actions';
 import { signInUserSuccess } from '@app/reducers/authReducer';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
 import { getNormalizedProject } from '@app/actions/schema';
-import { LayoutManager } from '@app/components';
+import { LayoutManager, Head } from '@app/components';
 import AccessProject from '@app/screens/AccessProject';
 
 const ViewProject = dynamic(
@@ -104,6 +104,7 @@ export default function Agenda({
 
   return (
     <LayoutManager showSidebar>
+      <Head title={project && project.title} />
       <ViewProject />
     </LayoutManager>
   );

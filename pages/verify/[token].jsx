@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { verifyUserService } from '@app/services';
-import { LayoutManager, Head } from '@app/components';
+import { LayoutManager, Head, Footer } from '@app/components';
 import { setNotificationAction } from '@app/actions';
 import VerificationPage from '@app/screens/VerificationPage';
 
@@ -67,11 +67,10 @@ const Verification = ({ verified, error }) => {
   }
 
   return (
-    <LayoutManager authenticated={false}>
+    <LayoutManager showSidebar>
       <Head title="Verify" />
-      {/* <Header /> */}
       <VerificationPage />
-      {/* <Footer /> */}
+      <Footer />
     </LayoutManager>
   );
 };

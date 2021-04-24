@@ -22,7 +22,7 @@ const VerificationPage = () => {
   }
 
   return (
-    <div className="" style={{ minHeight: '250px' }}>
+    <div className="max-w-7xl p-2" style={{ minHeight: '500px' }}>
       <div className="max-w-sm pt-10 mx-auto">
         <p className="text-xl text-center text-neutral-500 pb-6">
           If verification failed you can request a new token.

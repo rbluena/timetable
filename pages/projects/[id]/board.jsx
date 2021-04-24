@@ -14,7 +14,7 @@ import {
   getProjectTasksService,
 } from '@app/services';
 
-import { LayoutManager } from '@app/components';
+import { LayoutManager, Head } from '@app/components';
 import AccessProject from '@app/screens/AccessProject';
 
 const ViewProject = dynamic(
@@ -116,6 +116,7 @@ export default function Board({
 
   return (
     <LayoutManager showSidebar>
+      <Head title={project && project.title} />
       <ViewProject />
     </LayoutManager>
   );

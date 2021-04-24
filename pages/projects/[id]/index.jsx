@@ -6,7 +6,7 @@ import { getCookieToken } from '@app/utils';
 import { setCurrentProject } from '@app/reducers/projectsReducer';
 import { getNotificationsSuccess } from '@app/reducers/notificationsReducer';
 import { getProjectService, getNotificationsService } from '@app/services';
-import { LayoutManager } from '@app/components';
+import { LayoutManager, Head } from '@app/components';
 import ViewProject from '@app/screens/ViewProject';
 import {
   getNormalizedProject,
@@ -100,6 +100,7 @@ export default function Project({
 
   return (
     <LayoutManager showSidebar>
+      <Head title={project && project.title} />
       <ViewProject />
     </LayoutManager>
   );

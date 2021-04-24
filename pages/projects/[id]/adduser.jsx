@@ -56,10 +56,6 @@ export async function getServerSideProps({ params, query, req }) {
     props: {},
   };
 }
-const adduser = () => (
-  <div>
-    <h2>Adding user</h2>
-  </div>
-);
+const adduser = () => null;
 
 export default adduser;
