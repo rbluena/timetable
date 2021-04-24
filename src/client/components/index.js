@@ -19,7 +19,7 @@ import RichEditor from './RichEditor';
 import Drawer from './Drawer';
 import Spin from './Spin';
 import Head from './Head';
-import Nav from './Nav';
+// import Nav from './Nav';
 import AlertNotifications from './AlertNotifications';
 import AuthHeader from './AuthHeader';
 import PingAnimation from './PingAnimation';
@@ -45,7 +45,7 @@ export {
   Drawer,
   Spin,
   Head,
-  Nav,
+  // Nav,
   AlertNotifications,
   AuthHeader,
   PingAnimation,

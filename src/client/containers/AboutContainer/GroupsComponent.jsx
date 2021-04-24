@@ -107,7 +107,7 @@ const GroupsComponent = ({
                   group.description
                 ) : (
                   <span className="text-xs text-neutral-400">
-                    Add description
+                    {isUserOwner ? 'Add description' : null}
                   </span>
                 )}
               </Text>
