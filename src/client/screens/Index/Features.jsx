@@ -10,19 +10,20 @@ const features = [
   {
     name: 'Kanban board',
     description:
-      'We provide flexibility on naming titles and headings of different parts of UI components to meet the desire of your project.',
+      // 'Kanban board is used to track the progress of your project in an effective way.',
+      'Kanban board is helping you to visualize progress of your tasks within a project.',
     icon: HiAnnotation,
   },
   {
     name: 'Project Access Control',
     description:
-      'A project can be publicly accessed by anyone, or protected with a unique password for anyone with password to access it without registering. Access is granted to team members of the project only if project is private.',
+      'A project can be publicly accessed by anyone, or protected with a unique password for anyone with password to access it without registering. Private project gives access to team members of the project only.',
     icon: HiScale,
   },
   {
     name: 'Message Board',
     description:
-      'Directly from a project, a message board can be used to communicate with team members or public audience.',
+      'Directly from a project, a message board can be used to communicate with team members or public audience. A message can be directed to all audiences, or to a specific group or to specific team member.',
     icon: HiAnnotation,
   },
   {
@@ -34,7 +35,7 @@ const features = [
   {
     name: 'Timeline/Agenda',
     description:
-      'Timeline shows the schedules of your events in chronological order. Through filters and sortings events can be rendered differently.',
+      'Timeline shows the schedules of your tasks in chronological order. Through filters and sortings tasks can be rendered differently.',
     icon: HiAnnotation,
   },
 ];

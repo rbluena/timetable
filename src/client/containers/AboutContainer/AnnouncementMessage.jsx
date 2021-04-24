@@ -12,10 +12,12 @@ const AnnouncementMessage = ({ message, isUserOwner, deleteMessage }) => {
       <div className="flex items-center">
         {!message.hasUserSeenIt ? (
           <span className="font-semibold italic">
-            to:&nbsp;{recepient.name}{' '}
+            to:&nbsp;{recepient.name === 'All' ? 'Everyone' : recepient.name}{' '}
           </span>
         ) : (
-          <span className="font-semibold">to:&nbsp;{recepient.name} </span>
+          <span className="font-semibold">
+            to:&nbsp;{recepient.name === 'All' ? 'Everyone' : recepient.name}{' '}
+          </span>
         )}
         &nbsp;
         {/* {!message.hasUserSeenIt && <Badge color="magenta" dot />} */}
