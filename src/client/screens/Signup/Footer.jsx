@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const Footer = () => (
-  <div className="max-w-xs border-t border-neutral-400">
+  <div className="max-w-xs">
     <p className="text-xs font-light text-center">
       By creating an account, you are agreeing to our&nbsp;
       <Link href="/terms" className="font-normal">
