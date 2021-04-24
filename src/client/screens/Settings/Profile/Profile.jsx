@@ -32,7 +32,7 @@ const Profile = () => {
       <Form className="w-72" layout="vertical" onFinish={onSubmit} form={form}>
         <Form.Item
           name="fullName"
-          label="Full name:"
+          label="Full Name:"
           rules={[
             {
               required: true,
@@ -44,7 +44,7 @@ const Profile = () => {
         </Form.Item>
         <Form.Item
           name="accountName"
-          label="Account name"
+          label="Account Name"
           rules={[
             {
               required: true,

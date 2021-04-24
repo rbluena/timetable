@@ -38,3 +38,11 @@ export default function Settings({ token }) {
     </LayoutManager>
   );
 }
+
+Settings.defaultProps = {
+  token: undefined,
+};
+
+Settings.propTypes = {
+  token: PropTypes.string,
+};
