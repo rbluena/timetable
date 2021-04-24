@@ -3,7 +3,7 @@ import { LayoutManager, Head } from '@app/components';
 import SignupScreen from '@app/screens/Signup';
 
 const Signup = () => (
-  <LayoutManager authenticated={false}>
+  <LayoutManager showSidebar>
     <Head title="Asteyo | Sign Up" />
     <SignupScreen />
   </LayoutManager>
