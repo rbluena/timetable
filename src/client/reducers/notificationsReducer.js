@@ -1,3 +1,5 @@
+import { uniq } from 'lodash';
+
 export const getNotifications = 'NOTIFICATIONS/GET_NOTIFICATIONS';
 export const getNotificationsSuccess =
   'NOTIFICATIONS/GET_NOTIFICATIONS_SUCCESS';
@@ -42,7 +44,7 @@ export default function notificationsReducer(state = initialState, action) {
           ...state.notifications,
           ...entities.notifications,
         },
-        notificationIds: [...state.notificationIds, ...notificationIds],
+        notificationIds: uniq([...state.notificationIds, ...notificationIds]),
         meta,
       };
     }
