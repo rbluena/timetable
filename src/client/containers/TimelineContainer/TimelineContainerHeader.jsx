@@ -4,7 +4,7 @@ import { Button, Tooltip } from 'antd';
 import { PlusIcon } from '@app/components/Icons';
 // import moment from 'moment';
 
-const TimelineHeader = ({ openNewTaskModal }) => (
+const TimelineHeader = ({ openNewTaskModal, isUserProjectMember }) => (
   <div className="fixed top-4 text-center right-2 md:right-12">
     {/* start: date picker */}
     {/* <DatePicker
@@ -17,23 +17,30 @@ const TimelineHeader = ({ openNewTaskModal }) => (
     {/* <br />
       <br /> */}
     {/* start: Add task button */}
-    <Tooltip title="Add task">
-      <Button
-        type="primary"
-        shape="circle"
-        className="flex justify-center items-center"
-        title="Add task"
-        onClick={() => openNewTaskModal()}
-      >
-        <PlusIcon size="sm" className="inline-block" />
-      </Button>
-    </Tooltip>
+    {isUserProjectMember && (
+      <Tooltip title="Add task">
+        <Button
+          type="primary"
+          shape="circle"
+          className="flex justify-center items-center"
+          title="Add task"
+          onClick={() => openNewTaskModal()}
+        >
+          <PlusIcon size="sm" className="inline-block" />
+        </Button>
+      </Tooltip>
+    )}
     {/* End: Add task button */}
   </div>
 );
 
+TimelineHeader.defaultProps = {
+  isUserProjectMember: false,
+};
+
 TimelineHeader.propTypes = {
   openNewTaskModal: PropTypes.func.isRequired,
+  isUserProjectMember: PropTypes.bool,
 };
 
 export default TimelineHeader;

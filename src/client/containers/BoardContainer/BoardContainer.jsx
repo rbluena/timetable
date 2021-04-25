@@ -20,6 +20,7 @@ import {
   projectSelector,
   boardSelector,
   boardDataSelector,
+  isUserProjectMemberSelector,
 } from '@app/selectors';
 
 import BoardColumns from './BoardColumns';
@@ -30,11 +31,12 @@ import CreateTaskButton from './CreateTaskButton';
 const BoardContainer = () => {
   const dispatch = useDispatch();
   const [toggleBacklog, setToggleBacklog] = useState(false);
-  const { title, description, _id: projectId, isUserOwner, team } = useSelector(
+  const { title, description, _id: projectId, isUserOwner } = useSelector(
     projectSelector
   );
   const { backlog } = useSelector(boardDataSelector);
   const { columns } = useSelector(boardSelector);
+  const isCurrentUserProjectMember = useSelector(isUserProjectMemberSelector);
   const categories = useSelector(taskCategoriesSelector);
 
   /**
@@ -105,7 +107,7 @@ const BoardContainer = () => {
           }}
         >
           <div className="flex items-center p-2">
-            <h2 className=" text-xl m-0 p-0 text-neutral-400 text-center">
+            <h2 className="text-xl m-0 p-0 text-neutral-400 text-center">
               Backlog
             </h2>
             <Button
@@ -116,7 +118,9 @@ const BoardContainer = () => {
               <CloseOutlined />
             </Button>
           </div>
-          <CreateTaskButton openNewTaskModal={openNewTaskModal} />
+          {isCurrentUserProjectMember && (
+            <CreateTaskButton openNewTaskModal={openNewTaskModal} />
+          )}
 
           <BacklogsList
             backlog={backlog || []}

@@ -46,9 +46,9 @@ const Index = () => {
                   </Link>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <Link href="/projects/6082ae5e136e99383e0ea284">
+                  <Link href="/examples">
                     <a className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
-                      Example
+                      Examples
                     </a>
                   </Link>
                 </div>
@@ -67,7 +67,7 @@ const Index = () => {
                 src="https://images.unsplash.com/photo-1588453251771-cd919b362ed4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2400&q=80"
                 alt=""
               />
-              <div className=" bg-white shadow-2xl opacity-95 p-6 rounded-full absolute -m-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="bg-white shadow-2xl opacity-95 p-6 rounded-full absolute -m-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <PlayIcon variant="secondary" size="lg" />
               </div>
             </div>

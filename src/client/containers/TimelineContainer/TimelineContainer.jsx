@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { agendaTasksSelector } from '@app/selectors';
+import {
+  agendaTasksSelector,
+  isUserProjectMemberSelector,
+} from '@app/selectors';
 import { CreateTaskModalContainer } from '@app/containers/modals';
 
 import {
@@ -22,6 +25,7 @@ import TimelineHeader from './TimelineHeader';
 const TimelineContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const mappedTasks = useSelector(agendaTasksSelector);
+  const isUserProjectMember = useSelector(isUserProjectMemberSelector);
   const dispatch = useDispatch();
   const { query } = useRouter();
 
@@ -71,6 +75,7 @@ const TimelineContainer = () => {
           <TimelineContainerHeader
             date={new Date()}
             openNewTaskModal={openNewTaskModal}
+            isUserProjectMember={isUserProjectMember}
           />
 
           <div className="p-2">
