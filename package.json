@@ -1,14 +1,22 @@
 {
-  "name": "timetable",
+  "name": "asteyo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "cy:open": "cypress open --env configFile=dev",
+    "cy:run:dev": "cypress run --env configFile=dev --headless --browser chrome",
+    "cy:run:staging": "cypress run --env configFile=staging --headless --browser chrome",
+    "cy:rub:prod": "cypress run --env configFile=prod --headless --browser chrome",
+    "cy:open:dev": "cypress open --env configFile=dev",
     "server": "nodemon --config config/nodemon.config.json",
     "client": "next dev",
     "start:api": "NODE_ENV=production node ./src/server/app.js",
     "start:client": "next start",
-    "build:client": "next build"
+    "build:client": "next build",
+    "pm:api": "pm2 start yarn --interpreter bash --name asteyo-api -- start:api",
+    "pm:client": "pm2 start yarn --interpreter bash --name asteyo-client -- start:client",
+    "preproduction": "pm2 delete -s asteyo-client || : && pm2 delete -s asteyo-api || :",
+    "production": "yarn build:client && yarn pm:client && yarn pm:api",
+    "deploy": "pm2 deploy deploy.config.js production"
   },
   "dependencies": {
     "-": "^0.0.1",
