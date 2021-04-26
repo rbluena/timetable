@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable global-require */
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 // import { persistReducer, REGISTER } from 'redux-persist';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
@@ -26,7 +26,9 @@ export default function configureStore(preloadedState) {
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];
-  const composedEnhancers = composeWithDevTools(...enhancers);
+  const composedEnhancers = !isProduction
+    ? composeWithDevTools(...enhancers)
+    : compose(...enhancers);
 
   const store = createStore(rootReducer, preloadedState, composedEnhancers);
 
