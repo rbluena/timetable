@@ -24,12 +24,13 @@ const CreateTask = ({
     if (editingTask) {
       form.setFieldsValue({
         date: editingTask.date ? moment(editingTask.date) : null,
+        description: editingTask.description,
         range: editingTask.startTime
           ? [moment(editingTask.date), moment(editingTask.date)]
           : null,
         title: editingTask.title,
         category: editingTask.category ? editingTask.category._id : null,
-        assignees: editingTask.asignees,
+        assignees: [],
       });
     }
   }, [form, editingTask]);
@@ -185,6 +186,7 @@ const CreateTask = ({
               // defaultValue={['rabii']}
               showSearch
               optionLabelProp="label"
+              onChange={console.log}
             >
               {!isEmpty(users) && (
                 <Select.OptGroup label="Users">

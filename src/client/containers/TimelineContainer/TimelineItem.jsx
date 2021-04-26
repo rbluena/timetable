@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { Timeline, Typography, Avatar, Tooltip, Tag } from 'antd';
-import { TeamOutlined } from '@ant-design/icons';
+import { Timeline, Typography, Avatar, Tooltip, Tag, Button } from 'antd';
+import { DeleteFilled, TeamOutlined, EditOutlined } from '@ant-design/icons';
 // import { TimeTicker } from '@app/components';
 
 const { Title, Paragraph } = Typography;
 
-const TimelineItem = ({ task }) => (
+const TimelineItem = ({ task, editTask, deleteTask }) => (
   <Timeline.Item color="blue">
     <div className="py-1">
       <p className="text-primary-500 text-sm font-bold p-0 m-0">
@@ -77,27 +77,37 @@ const TimelineItem = ({ task }) => (
 
     {/* <TimeTicker /> */}
 
-    {/* <div className="flex justify-between items-center pt-4">
+    <div className="flex justify-between items-center pt-4">
       <div className="p-0">
         <Button
           className="items-end"
+          type="primary"
           size="small"
-          onClick={() => editTask(task)}
+          ghost
+          icon={<EditOutlined />}
+          onClick={(evt) => {
+            evt.stopPropagation();
+            editTask(task);
+          }}
         >
-          Edit
+          {/* Edit */}
         </Button>
         &nbsp;
         <Button
           type="primary"
           className="items-end"
           size="small"
+          icon={<DeleteFilled />}
           danger
-          onClick={() => deleteTask(task._id)}
+          onClick={(evt) => {
+            evt.stopPropagation();
+            deleteTask(task._id);
+          }}
         >
-          Delete
+          {/* Delete */}
         </Button>
       </div>
-    </div> */}
+    </div>
   </Timeline.Item>
 );
 

@@ -14,7 +14,7 @@ import {
   addNewTaskAction,
   loadPrevTasksAction,
   loadNextTasksAction,
-  // setEditingTaskAction,
+  setEditingTaskAction,
 } from '@app/actions';
 
 import { Button } from 'antd';
@@ -63,10 +63,10 @@ const TimelineContainer = () => {
     setIsLoading(false);
   }
 
-  // function editTask(task) {
-  //   dispatch(setEditingTaskAction(task));
-  //   dispatch(openModalAction('task'));
-  // }
+  function editTask(task) {
+    dispatch(setEditingTaskAction(task));
+    dispatch(openModalAction('task'));
+  }
 
   return (
     <>
@@ -98,6 +98,7 @@ const TimelineContainer = () => {
                     <TimelineHeader date={new Date(item.dateKey)} />
                     <Timeline
                       tasks={item.tasks}
+                      editTask={editTask}
                       openTaskDrawer={openTaskDrawer}
                     />
                   </div>

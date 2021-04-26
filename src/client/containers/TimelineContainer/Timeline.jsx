@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Timeline } from 'antd';
 import TimelineItem from './TimelineItem';
 
-const TimelineComponent = ({ tasks, openTaskDrawer }) => (
+const TimelineComponent = ({ tasks, editTask, deleteTask, openTaskDrawer }) => (
   <div className="py-1">
     <Timeline>
       {tasks &&
@@ -15,8 +15,8 @@ const TimelineComponent = ({ tasks, openTaskDrawer }) => (
             <TimelineItem
               key={task._id}
               task={task}
-              // editTask={(id) => editTask(id)}
-              // delete={(id) => deleteTask(id)}
+              editTask={(id) => editTask(id)}
+              delete={(id) => deleteTask(id)}
             />
           </a>
         ))}
