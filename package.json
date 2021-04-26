@@ -12,10 +12,10 @@
     "start:api": "NODE_ENV=production node ./src/server/app.js",
     "start:client": "next start",
     "build:client": "next build",
-    "pm:api": "pm2 start yarn --interpreter bash --name asteyo-api -- start:api",
-    "pm:client": "pm2 start yarn --interpreter bash --name asteyo-client -- start:client",
+    "pm:api": "pm2 start npm --interpreter bash --name asteyo-api -- start:api",
+    "pm:client": "pm2 start npm --interpreter bash --name asteyo-client -- start:client",
     "preproduction": "pm2 delete -s asteyo-client || : && pm2 delete -s asteyo-api || :",
-    "production": "yarn build:client && yarn pm:client && yarn pm:api",
+    "production": "npm build:client && npm pm:client && npm pm:api",
     "deploy": "pm2 deploy deploy.config.js production"
   },
   "dependencies": {
