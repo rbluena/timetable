@@ -2,9 +2,8 @@ import React from 'react';
 import { LayoutManager, Head, Link } from '@app/components';
 
 const Privacy = () => (
-  <LayoutManager authenticated={false}>
+  <LayoutManager showSidebar>
     <Head title="Privacy" />
-    {/* <Header /> */}
     <div className="mx-auto max-w-2xl">
       <div className="pb-4">
         <h1 className="text-3xl py-4 border-b border-neutral-300">

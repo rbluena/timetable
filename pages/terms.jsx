@@ -2,9 +2,8 @@ import React from 'react';
 import { LayoutManager, Head } from '@app/components';
 
 const Terms = () => (
-  <LayoutManager authenticated={false}>
+  <LayoutManager showSidebar>
     <Head title="Terms" />
-    {/* <Header /> */}
     <div className="mx-auto max-w-2xl">
       <h1 className="text-3xl py-4 border-b border-neutral-300">
         Terms & Conditions
