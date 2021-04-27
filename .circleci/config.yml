@@ -1,14 +1,30 @@
-version: 2
+version: 2.1
+
+orbs:
+  node: circleci/node@2.0.3
+
+commands:
+  setup-node-and-yarn-install-with-cache:
+    steps:
+      - node/install:
+          install-yarn: true
+          node-version: latest
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: yarn.lock
 
 jobs:
-  steps:
-    - checkout
-    - run:
-        name: Installing Dependencies
-        command: 'yarn install'
-    - run:
-        name: Build Client
-        command: 'yarn build:client'
-    - run:
-        name: Starting Servers
-        command: 'yarn production'
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - run:
+          name: Installing Dependencies
+          command: yarn install
+      - run:
+          name: Build cient
+          command: yarn build:client
+      - run:
+          name: Starting server
+          command: yarn production
