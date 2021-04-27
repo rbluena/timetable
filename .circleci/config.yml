@@ -1,16 +1,14 @@
 version: 2
 
 jobs:
-  build:
-    working_directory: /var/www/asteyo.com
-    steps:
-      - checkout
-      - run:
-          name: Installing Dependencies
-          command: "yarn install"
-      - run:
-          name: Build Client
-          command: "yarn build:client"
-      - run:
-          name: Starting Servers
-          command: "yarn production"
+  steps:
+    - checkout
+    - run:
+        name: Installing Dependencies
+        command: 'yarn install'
+    - run:
+        name: Build Client
+        command: 'yarn build:client'
+    - run:
+        name: Starting Servers
+        command: 'yarn production'
