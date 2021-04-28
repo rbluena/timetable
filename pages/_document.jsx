@@ -9,22 +9,24 @@ class MyDocument extends Document {
 
   render() {
     const GA_MEASUREMENT_ID = 'G-WER39820LN';
+    const isProduction = process.env.NODE_ENV === 'production';
 
     return (
       <Html lang="en">
         <Head>
           <meta
             property="og:title"
-            content="Discover what's happening on the internet!"
+            content="Simple scheduling and tasks management application."
           />
           <meta property="og:url" content="https://asteyo.com" />
           <meta property="og:image" content="/images/logo.png" />
           <meta
             property="og:description"
-            content="Create a link for you future content, and discover what happening on the internet!"
+            content="Simple scheduling and tasks management application."
           />
           <meta property="og:site_name" content="Asteyo" />
-          <meta name="theme-color" content="#A21CAF" />
+          <meta name="theme-color" content="#1890ff" />
+
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
@@ -55,14 +57,16 @@ class MyDocument extends Document {
           />
 
           {/* start: GOOGLE ANALYTICS */}
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          />
-          <script
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: `
+          {isProduction && (
+            <>
+              <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              />
+              <script
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -70,8 +74,10 @@ class MyDocument extends Document {
                   page_path: window.location.pathname,
                 });
               `,
-            }}
-          />
+                }}
+              />
+            </>
+          )}
           {/* end: GOOGLE ANALYTICS */}
         </Head>
         <body>
