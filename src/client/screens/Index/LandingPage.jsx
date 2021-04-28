@@ -15,8 +15,15 @@ const Index = () => {
     <>
       <div className="bg-white pb-24 relative border-b border-primary-100">
         <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="font-secondary tracking-wide text-xl font-bold p-4 text-primary-600">
-            asteyo
+          <div className="font-secondary tracking-wide text-xl font-bold p-4 relative">
+            <Link href="/">
+              <a className="text-primary-600 hover:text-primary-600">
+                asteyo&nbsp;
+                <span className="text-secondary-400 text-xs absolute top-6">
+                  Beta
+                </span>
+              </a>
+            </Link>
           </div>
         </header>
         {/* start: Hero */}
