@@ -17,8 +17,8 @@ const examples = () => (
                   Athletic events in Tanzania for the Year 2020/2021
                 </h2>
                 <p className="text-base text-shadow mb-4">
-                  This is calendar for athletic events expected to happen in the
-                  year 2021.
+                  Don&apos;t miss out major athletic events for every individual
+                  to participate for the year 2021.
                 </p>
                 <Link href="/projects/idasddddddddasasd">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
@@ -195,8 +195,8 @@ const examples = () => (
                   Asteyo Roadmap
                 </h2>
                 <p className="text-base text-shadow mb-4">
-                  Here you will find some of the features we are expecting to
-                  realease in the near future.
+                  We are dedicated to improve and make our product better for
+                  the sake our users. Find out what comming next in our roadmap.
                 </p>
                 <Link href="/projects/idasddddddddasasd">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
@@ -460,8 +460,8 @@ const examples = () => (
                   Wedding planner for John Doe and Jane Deo - Dec 2021
                 </h2>
                 <p className="text-base text-shadow mb-4">
-                  This is a wedding plan example for John and Jane that will
-                  take place on December of 2021.
+                  Let us enjoy the journey of our beloved brother and sister,
+                  John and Jane to their wedding ceremony.
                 </p>
                 <Link href="/projects/idasddddddddasasd">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
