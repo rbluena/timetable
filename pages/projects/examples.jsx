@@ -4,14 +4,14 @@ import { LayoutManager, Footer, Head } from '@app/components';
 const examples = () => (
   <LayoutManager showSidebar>
     <Head title="Project examples" />
-    <h2 className="text-3xl font-light text-center text-primary-400 py-8">
+    <h2 className="text-3xl font-light text-center text-primary-400 mt-10">
       Project examples
     </h2>
-    <div className="max-w-7xl mx-auto py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4">
+    <div className="max-w-7xl mx-auto py-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 space-y-4">
         <section className="flex">
-          <div className="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg md:max-w-xs">
-            <div className="w-full flex md:flex-col bg-gradient-to-br from-tertiary-500 to-primary-500">
+          <div className="w-full relative text-white overflow-hidden flex shadow-lg md:max-w-xs">
+            <div className="w-full flex-col bg-gradient-to-br from-tertiary-500 to-primary-500">
               <div className="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
                 <h2 className="text-xl font-semibold mb-2 text-shadow text-white">
                   Athletic events in Tanzania for the Year 2020/2021
@@ -26,7 +26,7 @@ const examples = () => (
                   </a>
                 </Link>
               </div>
-              <div className="docs_image__1HDuG relative md:pl-6 xl:pl-8 hidden sm:block">
+              <div className="relative md:pl-6 xl:pl-8">
                 <svg
                   data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -188,15 +188,16 @@ const examples = () => (
           </div>
         </section>
         <section className="flex">
-          <div className="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg md:max-w-xs">
-            <div className="w-full flex md:flex-col bg-gradient-to-br from-secondary-400 to-secondary-700">
+          <div className="w-full relative text-white overflow-hidden flex shadow-lg md:max-w-xs">
+            <div className="w-full flex-col bg-gradient-to-br from-secondary-400 to-secondary-700">
               <div className="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
                 <h2 className="text-xl font-semibold mb-2 text-shadow text-white">
                   Asteyo Roadmap
                 </h2>
                 <p className="text-base text-shadow mb-4">
                   We are dedicated to improve and make our product better for
-                  the sake our users. Find out what comming next in our roadmap.
+                  the sake of our users. Find out what comming next in our
+                  roadmap.
                 </p>
                 <Link href="/projects/idasddddddddasasd">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
@@ -204,7 +205,7 @@ const examples = () => (
                   </a>
                 </Link>
               </div>
-              <div className="docs_image__1HDuG relative md:pl-6 xl:pl-8 hidden sm:block">
+              <div className="relative md:pl-6 xl:pl-8">
                 <svg
                   data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +213,6 @@ const examples = () => (
                   // height="579.00958"
                   viewBox="0 0 821.67627 579.00958"
                   fill="none"
-                  className="absolute top-6 left-6 md:static overflow-visible"
                 >
                   <path
                     d="M371.238,218.49521h-52.3999a19.01722,19.01722,0,0,0-19,19v56.81c-.66992-.04-1.33985-.1-2-.18a66.99888,66.99888,0,1,1,73.10009-77.63C371.0481,217.15518,371.1482,217.82523,371.238,218.49521Z"
@@ -453,8 +453,8 @@ const examples = () => (
           </div>
         </section>
         <section className="flex">
-          <div className="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg md:max-w-xs">
-            <div className="w-full flex md:flex-col bg-gradient-to-br from-neutral-400 to-neutral-900">
+          <div className="w-full relative text-white overflow-hidden flex shadow-lg md:max-w-xs">
+            <div className="w-full flex-col bg-gradient-to-br from-neutral-400 to-neutral-900">
               <div className="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
                 <h2 className="text-xl font-semibold mb-2 text-shadow text-white">
                   Wedding planner for John Doe and Jane Deo - Dec 2021
@@ -469,7 +469,7 @@ const examples = () => (
                   </a>
                 </Link>
               </div>
-              <div className="docs_image__1HDuG relative md:pl-6 xl:pl-8 hidden sm:block">
+              <div className="relative md:pl-6 xl:pl-8">
                 <svg
                   data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg"
