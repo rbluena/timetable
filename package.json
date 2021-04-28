@@ -15,7 +15,7 @@
     "pm:api": "pm2 start yarn --interpreter bash --name asteyo-api -- start:api",
     "pm:client": "pm2 start yarn --interpreter bash --name asteyo-client -- start:client",
     "preproduction": "pm2 delete -s asteyo-client || : && pm2 delete -s asteyo-api || :",
-    "production": "yarn pm:client && yarn pm:api",
+    "production": "yarn build:client && yarn pm:client && yarn pm:api",
     "deploy": "pm2 deploy deploy.config.js production"
   },
   "dependencies": {
