@@ -21,7 +21,7 @@ const features = [
     icon: HiScale,
   },
   {
-    name: 'Message Board',
+    name: 'Message board',
     description:
       'Directly from a project, a message board can be used to communicate with team members or public audience. A message can be directed to all audiences, or to a specific group or to specific team member.',
     icon: HiAnnotation,
@@ -59,11 +59,11 @@ const Features = () => (
                 {/* <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                   <feature.icon className="h-6 w-6" aria-hidden="true" />
                 </div> */}
-                <p className="ml-16 text-2xl font-bold leading-6 text-primary-600">
+                <p className="text-2xl font-bold leading-6 text-primary-600">
                   {feature.name}
                 </p>
               </dt>
-              <dd className="mt-2 ml-16 text-base text-neutral-500">
+              <dd className="mt-2 text-base text-neutral-500">
                 {feature.description}
               </dd>
             </div>
