@@ -377,7 +377,7 @@ const examples = () => (
                   the sake of our users. Find out what coming next from our
                   roadmap.
                 </p>
-                <Link href="/projects/608a93f23da93b2156abd33f">
+                <Link href="/projects/608a8e343da93b2156abd327">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
                     View the project
                   </a>
