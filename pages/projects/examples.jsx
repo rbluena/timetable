@@ -24,7 +24,7 @@ const examples = () => (
                   Don&apos;t miss out major athletic events for every individual
                   to participate for the year 2021.
                 </p>
-                <Link href="/projects/idasddddddddasasd">
+                <Link href="/projects/608a8e343da93b2156abd327">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
                     View the project
                   </a>
@@ -199,7 +199,7 @@ const examples = () => (
                   Don&apos;t miss out major athletic events for every individual
                   to participate for the year 2021.
                 </p>
-                <Link href="/projects/idasddddddddasasd">
+                <Link href="/projects/608a93f23da93b2156abd33f">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
                     View the project
                   </a>
@@ -377,7 +377,7 @@ const examples = () => (
                   the sake of our users. Find out what coming next from our
                   roadmap.
                 </p>
-                <Link href="/projects/idasddddddddasasd">
+                <Link href="/projects/608a93f23da93b2156abd33f">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
                     View the project
                   </a>
@@ -640,7 +640,7 @@ const examples = () => (
                   Let us enjoy the journey of our beloved brother and sister,
                   John and Jane to their wedding ceremony.
                 </p>
-                <Link href="/projects/idasddddddddasasd">
+                <Link href="/projects/608ab6693da93b2156abd348">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
                     View the project
                   </a>
