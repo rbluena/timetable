@@ -25,7 +25,7 @@ const CreateTask = ({
       form.setFieldsValue({
         date: editingTask.date ? moment(editingTask.date) : null,
         description: editingTask.description,
-        reporter: editingTask.reporter ? editingTask.reporter : null,
+        reporter: editingTask.reporter ? editingTask.reporter._id : null,
         range: editingTask.schedule
           ? [
               moment(editingTask.schedule.start),

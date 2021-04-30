@@ -59,6 +59,7 @@ const TaskDrawerContainer = () => {
 
   function editTask(taskData) {
     dispatch(setEditingTaskAction(taskData));
+    onClose();
     dispatch(openModalAction('task'));
   }
 
