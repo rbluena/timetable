@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Avatar, Tag, Radio } from 'antd';
+import { Typography, Avatar, Tag, Radio, Button } from 'antd';
 import { format } from 'date-fns';
 import { isEmpty, get } from 'lodash';
 import {
@@ -8,13 +8,22 @@ import {
   CommentOutlined,
   // BarsOutlined,
   FileTextOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons';
 import {
   globalStateSelector,
   getOpenedTaskSelector,
   projectCategoriesSelector,
 } from '@app/selectors';
-import { setOpenedTaskAction, closeDrawerAction } from '@app/actions';
+import {
+  setOpenedTaskAction,
+  closeDrawerAction,
+  setEditingTaskAction,
+  openModalAction,
+  deleteTaskAction,
+  unAssignTaskStatusAction,
+} from '@app/actions';
 import { Drawer } from '@app/components';
 // import TaskComments from './TaskComments';
 
@@ -42,10 +51,27 @@ const TaskDrawerContainer = () => {
   function switchingTabs(value) {
     if (value === 'comments' && !commentsLoaded) {
       // TODO: LOAD TASK COMMENTS
-      setCommentsLoaded(true);
+      // setCommentsLoaded(true);
     }
 
     setToggleTab(value);
+  }
+
+  function editTask(taskData) {
+    dispatch(setEditingTaskAction(taskData));
+    dispatch(openModalAction('task'));
+  }
+
+  /**
+   * Deleting task from backlog or board column
+   * @param {String} projectId
+   * @param {String} taskId
+   * @param {String} statusId
+   */
+  function deleteTask(projectId, taskId, statusId = null) {
+    onClose();
+    dispatch(deleteTaskAction(projectId, taskId));
+    dispatch(unAssignTaskStatusAction(taskId, statusId));
   }
 
   const reporter = get(task, 'reporter');
@@ -57,11 +83,11 @@ const TaskDrawerContainer = () => {
       <Drawer isOpen={isOpen}>
         {/* start: Header */}
         <Drawer.Header onClose={onClose}>
-          <div className="pl-2">
+          <div className="pl-2 w-full">
             <Title level={5} className="p-0 m-0">
               {task.title}
             </Title>
-            <div className="mb-2 border-b border-neutral-200">
+            <div className="mb-2 border-b border-neutral-200 flex">
               <span className="text-neutral-500 font-semibold">
                 {task.date && format(new Date(task.date), 'EEE, MMM dd')}
               </span>
@@ -72,6 +98,36 @@ const TaskDrawerContainer = () => {
                   {format(new Date(task.schedule.end), 'HH:mm')}
                 </span>
               )}
+
+              <div className="ml-auto mb-2">
+                <Button
+                  className="items-end"
+                  type="primary"
+                  size="small"
+                  icon={<EditOutlined />}
+                  onClick={(evt) => {
+                    evt.stopPropagation();
+                    editTask(task);
+                  }}
+                  ghost
+                />
+                &nbsp;
+                <Button
+                  className="items-end"
+                  type="danger"
+                  size="small"
+                  icon={<DeleteOutlined />}
+                  onClick={(evt) => {
+                    evt.stopPropagation();
+                    deleteTask(
+                      task.project,
+                      task._id,
+                      task.status && task.status._id
+                    );
+                  }}
+                  ghost
+                />
+              </div>
             </div>
 
             {/* start: Tabs */}

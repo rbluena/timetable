@@ -173,6 +173,9 @@ export default function taskReducer(state = initialState, action) {
       state.fetching = false;
       delete state.tasks[payload];
       state.taskIds = state.taskIds.filter((taskId) => payload !== taskId);
+      state.backlogIds = state.backlogIds.filter(
+        (taskId) => taskId !== payload
+      );
 
       return state;
     }

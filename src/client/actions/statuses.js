@@ -259,3 +259,13 @@ export function assigningTaskStatusAction(
     }
   };
 }
+
+export function unAssignTaskStatusAction(taskId, statusId) {
+  return {
+    type: unassignTaskStatusSuccess,
+    payload: {
+      taskId,
+      statusId,
+    },
+  };
+}
