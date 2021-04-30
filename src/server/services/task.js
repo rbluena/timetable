@@ -28,8 +28,6 @@ const createTaskService = async (data) => {
 
   const newData = { ...data, groupAssignees, userAssignees };
 
-  // console.log(newData);
-
   const task = new Task(newData);
   const saved = await task.save();
 
@@ -54,26 +52,6 @@ const createTaskService = async (data) => {
     );
   }
 
-  // await Task.populate(saved, {
-  //   path: 'reporter',
-  //   select: { fullName: 1, accountName: 1, image: 1 },
-  // });
-
-  // await Task.populate(saved, {
-  //   path: 'groupAssignees',
-  //   select: { name: 1 },
-  // });
-
-  // await Task.populate(saved, {
-  //   path: 'userAssignees',
-  //   select: { fullName: 1, accountName: 1, image: 1 },
-  // });
-
-  // await Task.populate(saved, {
-  //   path: 'attachments',
-  //   select: { name: 1, filePath: 1, description: 1 },
-  // });
-
   await Task.populate(saved, 'todos');
 
   return saved;
@@ -85,7 +63,33 @@ const createTaskService = async (data) => {
  * @param {Object} data
  */
 const updateTaskService = async (taskId, data) => {
-  const doc = await Task.findOne({ _id: taskId });
+  const doc = await Task.findOne({ _id: mongoose.Types.ObjectId(taskId) });
+
+  // Deleting _id property to avoid warning from mongodb
+  delete data._id;
+
+  if (data.assignees) {
+    // Group assigned to this task.
+    data.groupAssignees = data.assignees
+      ? data.assignees
+          .filter((item) => item.type === 'group')
+          .map((item) => mongoose.Types.ObjectId(item._id))
+      : [];
+
+    // User assigned to this task
+    data.userAssignees = data.assignees
+      ? data.assignees
+          .filter((item) => item.type === 'user')
+          .map((item) => mongoose.Types.ObjectId(item._id))
+      : [];
+
+    delete data.assignees;
+  }
+
+  // In case reporter is unassigned
+  if (!data.reporter) {
+    data.reporter = null;
+  }
 
   Object.keys(data).forEach((key) => {
     doc[key] = data[key];
@@ -97,7 +101,7 @@ const updateTaskService = async (taskId, data) => {
     throw Error('Something went wrong. Our team are fixing it');
   }
 
-  // await Task.populate(updated, 'owner');
+  await Task.populate(updated, 'todos');
 
   return updated.toObject();
 };

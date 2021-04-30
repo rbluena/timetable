@@ -9,6 +9,7 @@ import {
 import {
   closeModalAction,
   createTaskAction,
+  updateTaskAction,
   cancelEditingTaskAction,
 } from '@app/actions';
 
@@ -20,7 +21,12 @@ const CreateTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   function onSubmit(data) {
-    dispatch(createTaskAction(data));
+    if (data.updatingTask) {
+      delete data.updatingTask;
+      dispatch(updateTaskAction(data._id, data));
+    } else {
+      dispatch(createTaskAction(data));
+    }
     dispatch(closeModalAction());
   }
 

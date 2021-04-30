@@ -31,7 +31,11 @@ const {
   removeStatusFromTaskHandler,
 } = require('../../handlers/project');
 
-const { createTaskHandler, getTaskHandler } = require('../../handlers/task');
+const {
+  createTaskHandler,
+  getTaskHandler,
+  updateTaskHandler,
+} = require('../../handlers/task');
 
 const {
   createNotificationHandler,
@@ -127,6 +131,11 @@ router.get(`/:projectId/tasks`, getProjectTasksHandler);
  * Get a task for a project.
  */
 router.get(`/:projectId/tasks/:taskId`, getTaskHandler);
+
+/**
+ * Updating task details
+ */
+router.put(`/:projectId/tasks/:taskId`, updateTaskHandler);
 
 /**
  * Get tasks by status.

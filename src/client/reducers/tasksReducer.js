@@ -154,7 +154,8 @@ export default function taskReducer(state = initialState, action) {
 
     case updateTaskSuccess: {
       state.fetching = false;
-      state.data[payload._id] = payload;
+
+      state.tasks[payload._id] = payload;
       return state;
     }
 

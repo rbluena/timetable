@@ -6,7 +6,7 @@ import {
   createTaskService,
   getTaskService,
   getProjectTasksService,
-  // updateTaskService,
+  updateTaskService,
   deleteTaskService,
   getTasksByStatusService,
 } from '@app/services';
@@ -125,11 +125,21 @@ export function updateTaskAction(id, taskData) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: updateTask });
+      const { token } = getState().AUTH;
 
-      // const { token } = getState().AUTH;
-      // const { data, message } = await updateTaskService(token, id, taskData);
-      dispatch({ type: updateTaskSuccess, payload: taskData });
-      // dispatch(setNotification({ type: 'success', message }));
+      const { data, message } = await updateTaskService(
+        taskData.project,
+        id,
+        taskData,
+        token
+      );
+
+      dispatch({
+        type: updateTaskSuccess,
+        payload: data,
+      });
+
+      dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
       dispatch({ type: updateTaskFailure });
     }

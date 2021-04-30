@@ -25,8 +25,11 @@ const CreateTask = ({
       form.setFieldsValue({
         date: editingTask.date ? moment(editingTask.date) : null,
         description: editingTask.description,
-        range: editingTask.startTime
-          ? [moment(editingTask.date), moment(editingTask.date)]
+        range: editingTask.schedule
+          ? [
+              moment(editingTask.schedule.start),
+              moment(editingTask.schedule.end),
+            ]
           : null,
         title: editingTask.title,
         category: editingTask.category ? editingTask.category._id : null,
@@ -37,8 +40,6 @@ const CreateTask = ({
 
   function mapAssignees(data) {
     if (data && data.length) {
-      // const mappingContent = [ ...users, ...groups ];
-
       return data.map((itemId) => {
         const item = [...users, ...groups].find(
           (dataItem) => dataItem._id === itemId
@@ -57,6 +58,8 @@ const CreateTask = ({
   function handleSubmittedData(data) {
     if (editingTask) {
       data._id = editingTask._id;
+      data.updatingTask = true;
+      data.project = editingTask.project;
     }
 
     data.date = data.date.format('YYYY-MM-DD');

@@ -50,8 +50,8 @@ export default {
   createTask: (projectId) => `${SERVER_API}/projects/${projectId}/tasks`,
   getTask: (projectId, taskId) =>
     `${SERVER_API}/projects/${projectId}/tasks/${taskId}`,
-  updateTask: (projectId, id) =>
-    `${SERVER_API}/projects/${projectId}/tasks/${id}`,
+  updateTask: (projectId, taskId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${taskId}`,
   updateTaskStatus: (projectId, taskId) =>
     `${SERVER_API}/projects/${projectId}/tasks/${taskId}/status`,
   removeStatusFromTask: (projectId, taskId) =>

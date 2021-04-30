@@ -49,8 +49,8 @@ exports.getTaskHandler = async (req, res, next) => {
  */
 exports.updateTaskHandler = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const doc = await updateTaskService(id, req.body);
+    const { taskId } = req.params;
+    const doc = await updateTaskService(taskId, req.body);
 
     res.status(200).json({
       status: 200,

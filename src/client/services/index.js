@@ -627,15 +627,15 @@ export const createTaskService = async (projectId, data, token) => {
 /**
  * Updating task.
  *
- * @param {*} token
  * @param {*} id
  * @param {*} data
+ * @param {*} token
  */
-export const updateTaskService = async (token, id, data) => {
+export const updateTaskService = async (projectId, taskId, data, token) => {
   try {
     const response = await request({
       method: 'PUT',
-      url: path.updateTask(id),
+      url: path.updateTask(projectId, taskId),
       data: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${token}`,
