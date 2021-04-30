@@ -1,4 +1,10 @@
-import { HiCalendar, HiClipboardCheck, HiClock } from 'react-icons/hi';
+import {
+  HiCalendar,
+  HiClipboardCheck,
+  HiClock,
+  HiPaperClip,
+  HiOutlineChartBar,
+} from 'react-icons/hi';
 
 const features = [
   {
@@ -22,13 +28,13 @@ const features = [
     name: 'Attachments',
     description:
       'Attaching files to a task is one of our highest priority right now.',
-    icon: HiClipboardCheck,
+    icon: HiPaperClip,
   },
   {
     name: 'Analytics',
     description:
       'Analytical data on how team do well with their tasks and time.',
-    icon: HiClipboardCheck,
+    icon: HiOutlineChartBar,
   },
 ];
 const Roadmap = () => (
