@@ -15,6 +15,7 @@ import {
   loadPrevTasksAction,
   loadNextTasksAction,
   setEditingTaskAction,
+  deleteTaskAction,
 } from '@app/actions';
 
 import { Button } from 'antd';
@@ -68,9 +69,13 @@ const TimelineContainer = () => {
     dispatch(openModalAction('task'));
   }
 
+  function deleteTask(projectId, taskId) {
+    dispatch(deleteTaskAction(projectId, taskId));
+  }
+
   return (
     <>
-      <div className="w-full bg-white">
+      <div className="w-full bg-white min-h-screen">
         <div className="relative mx-auto max-w-6xl">
           <TimelineContainerHeader
             date={new Date()}
@@ -99,6 +104,7 @@ const TimelineContainer = () => {
                     <Timeline
                       tasks={item.tasks}
                       editTask={editTask}
+                      deleteTask={deleteTask}
                       openTaskDrawer={openTaskDrawer}
                     />
                   </div>

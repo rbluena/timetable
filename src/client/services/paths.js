@@ -56,7 +56,8 @@ export default {
     `${SERVER_API}/projects/${projectId}/tasks/${taskId}/status`,
   removeStatusFromTask: (projectId, taskId) =>
     `${SERVER_API}/projects/${projectId}/tasks/${taskId}/statuses/unassign`,
-  deleteTask: (id) => `${SERVER_API}/tasks/${id}`,
+  deleteTask: (projectId, taskId) =>
+    `${SERVER_API}/projects/${projectId}/tasks/${taskId}`,
   getTasksByStatus: (projectId) =>
     `${SERVER_API}/projects/${projectId}/tasks/statuses`,
   //   followUser: `${SERVER_API}/auth/follow`,

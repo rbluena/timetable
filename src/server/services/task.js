@@ -139,13 +139,30 @@ const assignUserTaskService = async (taskId, assignees) => {
  * @param {String} taskId
  */
 const deleteTaskService = async (taskId) => {
-  const found = await Task.findOne({ _id: taskId });
+  const deleted = await Task.findOneAndDelete({
+    _id: mongoose.Types.ObjectId(taskId),
+  });
 
-  found.deleted = true;
-  const deleted = await found.save();
+  if (deleted) {
+    // Assign tasks to the group.
+    await User.updateMany(
+      { assignedTasks: { $in: mongoose.Types.ObjectId(taskId) } },
+      {
+        $pull: { assignedTasks: taskId },
+      }
+    );
+
+    // Unassign tasks from the Group.
+    await Group.updateMany(
+      { assignedTasks: { $in: mongoose.Types.ObjectId(taskId) } },
+      {
+        $pull: { assignedTasks: taskId },
+      }
+    );
+  }
 
   return {
-    _id: deleted._doc._id,
+    _id: deleted._id,
   };
 };
 

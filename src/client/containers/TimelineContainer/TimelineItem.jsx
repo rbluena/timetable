@@ -101,7 +101,7 @@ const TimelineItem = ({ task, editTask, deleteTask }) => (
           danger
           onClick={(evt) => {
             evt.stopPropagation();
-            deleteTask(task._id);
+            deleteTask(task.project, task._id);
           }}
         >
           {/* Delete */}
@@ -113,6 +113,8 @@ const TimelineItem = ({ task, editTask, deleteTask }) => (
 
 TimelineItem.propTypes = {
   task: PropTypes.objectOf(PropTypes.any).isRequired,
+  editTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
 };
 
 export default TimelineItem;

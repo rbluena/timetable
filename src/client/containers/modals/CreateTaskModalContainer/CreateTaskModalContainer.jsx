@@ -21,10 +21,11 @@ const CreateTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   function onSubmit(data) {
-    if (data.updatingTask) {
-      delete data.updatingTask;
+    // We update task if it's not a new task
+    if (!data.new) {
       dispatch(updateTaskAction(data._id, data));
     } else {
+      delete data.new;
       dispatch(createTaskAction(data));
     }
     dispatch(closeModalAction());

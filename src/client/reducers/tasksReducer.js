@@ -171,7 +171,9 @@ export default function taskReducer(state = initialState, action) {
 
     case deleteTaskSuccess: {
       state.fetching = false;
-      delete state.data[payload.id];
+      delete state.tasks[payload];
+      state.taskIds = state.taskIds.filter((taskId) => payload !== taskId);
+
       return state;
     }
 

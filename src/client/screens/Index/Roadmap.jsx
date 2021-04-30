@@ -24,6 +24,12 @@ const features = [
       'Attaching files to a task is one of our highest priority right now.',
     icon: HiClipboardCheck,
   },
+  {
+    name: 'Analytics',
+    description:
+      'Analytical data on how team do well with their tasks and time.',
+    icon: HiClipboardCheck,
+  },
 ];
 const Roadmap = () => (
   <div className="my-12 py-12 bg-neutral-50 max-w-7xl mx-auto relative">

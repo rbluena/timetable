@@ -15,8 +15,8 @@ const TimelineComponent = ({ tasks, editTask, deleteTask, openTaskDrawer }) => (
             <TimelineItem
               key={task._id}
               task={task}
-              editTask={(id) => editTask(id)}
-              delete={(id) => deleteTask(id)}
+              editTask={editTask}
+              deleteTask={deleteTask}
             />
           </a>
         ))}
@@ -27,6 +27,8 @@ const TimelineComponent = ({ tasks, editTask, deleteTask, openTaskDrawer }) => (
 TimelineComponent.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.any).isRequired,
   openTaskDrawer: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
 };
 
 export default TimelineComponent;

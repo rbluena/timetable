@@ -22,6 +22,7 @@ import {
   updateTask,
   updateTaskSuccess,
   updateTaskFailure,
+  deleteTaskSuccess,
   getBoardTasksSuccess,
   getTasksSuccess,
   tasksPaginationSuccess,
@@ -150,23 +151,19 @@ export function updateTaskAction(id, taskData) {
  * Action to delete a task.
  * @param {string} id
  */
-export function deleteTaskAction(id) {
+export function deleteTaskAction(projectId, taskId) {
   return async (dispatch, getState) => {
     try {
-      const { token } = getState().auth;
+      const { token } = getState().AUTH;
 
-      const { message } = await deleteTaskService(token, id);
+      const { data } = await deleteTaskService(projectId, taskId, token);
 
-      // dispatch(deleteLink());
-      // dispatch(deleteLinkSuccess(id));
-      // dispatch(setNotification({ type: 'success', message }));
-    } catch (err) {
-      // dispatch(deleteLinkFailure());
-      // const error = {
-      //   type: 'error',
-      //   message: err.errors,
-      // };
-      // dispatch(setNotification(error));
+      dispatch({
+        type: deleteTaskSuccess,
+        payload: data._id,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 }

@@ -35,6 +35,7 @@ const {
   createTaskHandler,
   getTaskHandler,
   updateTaskHandler,
+  deleteTaskHandler,
 } = require('../../handlers/task');
 
 const {
@@ -135,7 +136,11 @@ router.get(`/:projectId/tasks/:taskId`, getTaskHandler);
 /**
  * Updating task details
  */
-router.put(`/:projectId/tasks/:taskId`, updateTaskHandler);
+router.put(`/:projectId/tasks/:taskId`, isAuthenticated, updateTaskHandler);
+/**
+ * Deleting project's task.
+ */
+router.delete(`/:projectId/tasks/:taskId`, isAuthenticated, deleteTaskHandler);
 
 /**
  * Get tasks by status.

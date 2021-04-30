@@ -59,7 +59,7 @@ const CreateTask = ({
   function handleSubmittedData(data) {
     if (editingTask) {
       data._id = editingTask._id;
-      data.updatingTask = true;
+      data.new = editingTask.new;
       data.project = editingTask.project;
     }
 

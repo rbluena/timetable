@@ -699,11 +699,11 @@ export const getTasksByStatusService = async (projectId, options) => {
  * @param {String} token
  * @param {String} id
  */
-export const deleteTaskService = async (token, id) => {
+export const deleteTaskService = async (projectId, taskId, token) => {
   try {
     const response = await request({
       method: 'DELETE',
-      url: path.deleteTask(id),
+      url: path.deleteTask(projectId, taskId),
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -84,15 +84,15 @@ exports.assignTaskHandler = async (req, res, next) => {
  */
 exports.deleteTaskHandler = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { taskId } = req.params;
 
-    const doc = await deleteTaskService(id);
+    const doc = await deleteTaskService(taskId);
 
     res.status(200).json({
       status: 200,
       success: true,
       message: 'Task was deleted successfully.',
-      data: { ...doc },
+      data: doc,
     });
   } catch (error) {
     next(error);
