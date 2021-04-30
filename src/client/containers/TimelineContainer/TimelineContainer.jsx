@@ -48,18 +48,24 @@ const TimelineContainer = () => {
     dispatch(openModalAction('task'));
   }
 
+  /**
+   * Load previous tasks based on date
+   */
   function loadPrev() {
     setIsLoading(true);
-    const date = mappedTasks.length ? mappedTasks[0].dateKey : undefined;
+    const date = mappedTasks.length ? mappedTasks[0].dateKey : Date.now();
     dispatch(loadPrevTasksAction(date));
     setIsLoading(false);
   }
 
+  /**
+   * Load next tasks based on date
+   */
   function loadNext() {
     setIsLoading(true);
     const date = mappedTasks.length
       ? mappedTasks[mappedTasks.length - 1].dateKey
-      : undefined;
+      : Date.now();
     dispatch(loadNextTasksAction(date));
     setIsLoading(false);
   }
