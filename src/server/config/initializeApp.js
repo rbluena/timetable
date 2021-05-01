@@ -61,7 +61,7 @@ module.exports = function initializedApp(router) {
 
   app.use(
     cors({
-      origin: isProduction ? 'https://www.asteyo.com' : '*',
+      origin: isProduction ? 'https://asteyo.com' : '*',
       methods: ['GET', 'PUT', 'POST', 'DELETE'],
     })
   );
