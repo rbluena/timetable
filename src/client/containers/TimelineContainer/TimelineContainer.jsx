@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   agendaTasksSelector,
   isUserProjectMemberSelector,
+  isUserProjectOwnerSelector,
 } from '@app/selectors';
 import { CreateTaskModalContainer } from '@app/containers/modals';
 
@@ -27,8 +28,11 @@ const TimelineContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const mappedTasks = useSelector(agendaTasksSelector);
   const isUserProjectMember = useSelector(isUserProjectMemberSelector);
+  const isUserProjectOwner = useSelector(isUserProjectOwnerSelector);
   const dispatch = useDispatch();
   const { query } = useRouter();
+
+  const canUserUpdateTask = isUserProjectMember || isUserProjectOwner;
 
   /**
    * Opening drawer to view task details.
@@ -109,6 +113,7 @@ const TimelineContainer = () => {
                     <TimelineHeader date={new Date(item.dateKey)} />
                     <Timeline
                       tasks={item.tasks}
+                      canUserUpdateTask={canUserUpdateTask}
                       editTask={editTask}
                       deleteTask={deleteTask}
                       openTaskDrawer={openTaskDrawer}

@@ -52,6 +52,9 @@ const createTaskService = async (data) => {
     );
   }
 
+  // Current user can manipulate a task.
+  saved.canUserEditTask = true;
+
   await Task.populate(saved, 'todos');
 
   return saved;
@@ -97,6 +100,8 @@ const updateTaskService = async (taskId, data) => {
 
   const updated = await doc.save();
 
+  updated.canUserEditTask = true;
+
   if (!updated) {
     throw Error('Something went wrong. Our team are fixing it');
   }
@@ -128,7 +133,9 @@ const assignUserTaskService = async (taskId, assignees) => {
       });
     }
 
-    return saved.toObject();
+    const obj = saved.toObject();
+
+    obj.canUserEditTask = true;
   }
 
   throw new Error('Failed to create a task.');
@@ -170,16 +177,31 @@ const deleteTaskService = async (taskId) => {
  * Retrieving task based on task id
  * @param {String} taskId
  */
-const getTaskByIdService = async (taskId) => {
+const getTaskByIdService = async (taskId, userId) => {
   const task = await Task.findOne({
     _id: mongoose.Types.ObjectId(taskId),
   })
-    .populate('status groupAssignees')
+    .populate('status')
     .populate({
-      path: 'userAssignees reporter',
+      path: 'reporter',
       select: ['fullName', 'accountName', 'image'],
     })
     .lean();
+
+  // User is the creator or the task
+  if (String(task.creator) === userId) {
+    task.canUserEditTask = true;
+  }
+
+  // If user assigned as a reporter, can also edit task
+  if (task.reporter && task.reporter._id === userId) {
+    task.canUserEditTask = true;
+  }
+
+  // If user is one of the assignees, he can edit task
+  if (task.userAssignees && task.userAssignees.includes(userId)) {
+    task.canUserEditTask = true;
+  }
 
   return task;
 };
@@ -321,6 +343,8 @@ const assignStatusToTaskService = async (statusId, taskId) => {
     .populate('status')
     .lean();
 
+  updatedTask.canUserEditTask = true;
+
   return updatedTask;
 };
 
@@ -336,6 +360,8 @@ const removeStatusFromTaskService = async (statusId, taskId) => {
   )
     .populate('status')
     .lean();
+
+  updatedTask.canUserEditTask = true;
 
   return updatedTask;
 };

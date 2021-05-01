@@ -8,6 +8,7 @@ const taskSchema = new Schema(
   {
     title: String,
     description: String,
+    creator: { type: Schema.Types.ObjectId, ref: 'User' },
     project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
     reporter: { type: Schema.Types.ObjectId, ref: 'User' },
     date: { type: Date },

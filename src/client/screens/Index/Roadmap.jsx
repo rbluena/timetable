@@ -4,13 +4,14 @@ import {
   HiClock,
   HiPaperClip,
   HiOutlineChartBar,
+  HiTemplate,
 } from 'react-icons/hi';
 
 const features = [
   {
     name: 'Calendar',
     description:
-      'Currently you can view schedules in timeline/agenda, but we are about to launch calendar view any time soon.',
+      'Currently you can view schedules in timeline/agenda, but we are about to launch calendar view anytime soon.',
     icon: HiCalendar,
   },
   {
@@ -35,6 +36,12 @@ const features = [
     description:
       'Analytical data on how team do well with their tasks and time.',
     icon: HiOutlineChartBar,
+  },
+  {
+    name: 'Templates',
+    description:
+      'Capability to build community templates for anyone to quick start a project.',
+    icon: HiTemplate,
   },
 ];
 const Roadmap = () => (

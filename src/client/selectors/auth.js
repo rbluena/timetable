@@ -25,9 +25,25 @@ const selectIsUserProjectMember = (state) => {
   return projectMember;
 };
 
+const selectIsUserProjectOwner = (state) => {
+  const { isUserOwner } = selectProject(state);
+  let isOwner = false;
+
+  if (isUserOwner) {
+    isOwner = true;
+  }
+
+  return isOwner;
+};
+
 export const isUserProjectMemberSelector = createSelector(
   selectIsUserProjectMember,
   (isMember) => isMember
+);
+
+export const isUserProjectOwnerSelector = createSelector(
+  selectIsUserProjectOwner,
+  (isOwner) => isOwner
 );
 
 export const authenticatedUserSelector = createSelector(

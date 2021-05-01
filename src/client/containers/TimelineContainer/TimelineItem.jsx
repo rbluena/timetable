@@ -6,7 +6,7 @@ import { DeleteFilled, TeamOutlined, EditOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
 
-const TimelineItem = ({ task, editTask, deleteTask }) => (
+const TimelineItem = ({ task, canUserUpdateTask, editTask, deleteTask }) => (
   <Timeline.Item color="blue">
     <div className="py-1">
       <p className="text-primary-500 text-sm font-bold p-0 m-0">
@@ -77,42 +77,49 @@ const TimelineItem = ({ task, editTask, deleteTask }) => (
 
     {/* <TimeTicker /> */}
 
-    <div className="flex justify-between items-center pt-4">
-      <div className="p-0">
-        <Button
-          className="items-end"
-          type="primary"
-          size="small"
-          ghost
-          icon={<EditOutlined />}
-          onClick={(evt) => {
-            evt.stopPropagation();
-            editTask(task);
-          }}
-        >
-          {/* Edit */}
-        </Button>
-        &nbsp;
-        <Button
-          type="primary"
-          className="items-end"
-          size="small"
-          icon={<DeleteFilled />}
-          danger
-          onClick={(evt) => {
-            evt.stopPropagation();
-            deleteTask(task.project, task._id);
-          }}
-        >
-          {/* Delete */}
-        </Button>
+    {(canUserUpdateTask || task.canUserEditTask) && (
+      <div className="flex justify-between items-center pt-4">
+        <div className="p-0">
+          <Button
+            className="items-end"
+            type="primary"
+            size="small"
+            ghost
+            icon={<EditOutlined />}
+            onClick={(evt) => {
+              evt.stopPropagation();
+              editTask(task);
+            }}
+          >
+            {/* Edit */}
+          </Button>
+          &nbsp;
+          <Button
+            type="primary"
+            className="items-end"
+            size="small"
+            icon={<DeleteFilled />}
+            danger
+            onClick={(evt) => {
+              evt.stopPropagation();
+              deleteTask(task.project, task._id);
+            }}
+          >
+            {/* Delete */}
+          </Button>
+        </div>
       </div>
-    </div>
+    )}
   </Timeline.Item>
 );
 
+TimelineItem.defaultProps = {
+  canUserUpdateTask: false,
+};
+
 TimelineItem.propTypes = {
   task: PropTypes.objectOf(PropTypes.any).isRequired,
+  canUserUpdateTask: PropTypes.bool,
   editTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
 };

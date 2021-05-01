@@ -5,7 +5,13 @@ import PropTypes from 'prop-types';
 import { Timeline } from 'antd';
 import TimelineItem from './TimelineItem';
 
-const TimelineComponent = ({ tasks, editTask, deleteTask, openTaskDrawer }) => (
+const TimelineComponent = ({
+  tasks,
+  canUserUpdateTask,
+  editTask,
+  deleteTask,
+  openTaskDrawer,
+}) => (
   <div className="py-1">
     <Timeline>
       {tasks &&
@@ -15,6 +21,7 @@ const TimelineComponent = ({ tasks, editTask, deleteTask, openTaskDrawer }) => (
             <TimelineItem
               key={task._id}
               task={task}
+              canUserUpdateTask={canUserUpdateTask}
               editTask={editTask}
               deleteTask={deleteTask}
             />
@@ -24,8 +31,13 @@ const TimelineComponent = ({ tasks, editTask, deleteTask, openTaskDrawer }) => (
   </div>
 );
 
+TimelineComponent.defaultProps = {
+  canUserUpdateTask: false,
+};
+
 TimelineComponent.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.any).isRequired,
+  canUserUpdateTask: PropTypes.bool,
   openTaskDrawer: PropTypes.func.isRequired,
   editTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,

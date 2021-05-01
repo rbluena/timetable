@@ -1,3 +1,4 @@
+const { decode } = require('jsonwebtoken');
 const { omit } = require('lodash');
 // const { getCommentsService } = require('../services/comments');
 const {
@@ -14,7 +15,11 @@ const {
  */
 exports.createTaskHandler = async (req, res, next) => {
   try {
-    const doc = await createTaskService(req.body);
+    const data = req.body;
+    const user = decode(req.app.jwt);
+
+    data.creator = user._id;
+    const doc = await createTaskService(data);
 
     return res.status(201).json({
       status: 201,
@@ -30,8 +35,9 @@ exports.createTaskHandler = async (req, res, next) => {
 exports.getTaskHandler = async (req, res, next) => {
   try {
     const { taskId } = req.params;
+    const user = decode(req.app.jwt);
 
-    const doc = await getTaskByIdService(taskId);
+    const doc = await getTaskByIdService(taskId, user && user._id);
 
     res.status(200).json({
       status: 200,

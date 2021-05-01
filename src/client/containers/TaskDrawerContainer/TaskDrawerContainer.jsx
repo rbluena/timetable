@@ -15,6 +15,8 @@ import {
   globalStateSelector,
   getOpenedTaskSelector,
   projectCategoriesSelector,
+  isUserProjectMemberSelector,
+  isUserProjectOwnerSelector,
 } from '@app/selectors';
 import {
   setOpenedTaskAction,
@@ -32,13 +34,17 @@ import { Drawer } from '@app/components';
 const { Title } = Typography;
 
 const TaskDrawerContainer = () => {
-  const [commentsLoaded, setCommentsLoaded] = useState(false);
+  // const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [toggleTab, setToggleTab] = useState('description');
   const { drawer } = useSelector(globalStateSelector);
   const task = useSelector(getOpenedTaskSelector);
   const projectCategories = useSelector(projectCategoriesSelector);
+  const isUserProjectMember = useSelector(isUserProjectMemberSelector);
+  const isUserProjectOwner = useSelector(isUserProjectOwnerSelector);
   const dispatch = useDispatch();
   const isOpen = drawer === 'task';
+
+  const canUserUpdateTask = isUserProjectMember || isUserProjectOwner;
 
   /**
    *
@@ -49,10 +55,10 @@ const TaskDrawerContainer = () => {
   }
 
   function switchingTabs(value) {
-    if (value === 'comments' && !commentsLoaded) {
-      // TODO: LOAD TASK COMMENTS
-      // setCommentsLoaded(true);
-    }
+    // if (value === 'comments' && !commentsLoaded) {
+    //   TODO: LOAD TASK COMMENTS
+    //   setCommentsLoaded(true);
+    // }
 
     setToggleTab(value);
   }
@@ -100,35 +106,37 @@ const TaskDrawerContainer = () => {
                 </span>
               )}
 
-              <div className="ml-auto mb-2">
-                <Button
-                  className="items-end"
-                  type="primary"
-                  size="small"
-                  icon={<EditOutlined />}
-                  onClick={(evt) => {
-                    evt.stopPropagation();
-                    editTask(task);
-                  }}
-                  ghost
-                />
-                &nbsp;
-                <Button
-                  className="items-end"
-                  type="danger"
-                  size="small"
-                  icon={<DeleteOutlined />}
-                  onClick={(evt) => {
-                    evt.stopPropagation();
-                    deleteTask(
-                      task.project,
-                      task._id,
-                      task.status && task.status._id
-                    );
-                  }}
-                  ghost
-                />
-              </div>
+              {canUserUpdateTask && (
+                <div className="ml-auto mb-2">
+                  <Button
+                    className="items-end"
+                    type="primary"
+                    size="small"
+                    icon={<EditOutlined />}
+                    onClick={(evt) => {
+                      evt.stopPropagation();
+                      editTask(task);
+                    }}
+                    ghost
+                  />
+                  &nbsp;
+                  <Button
+                    className="items-end"
+                    type="danger"
+                    size="small"
+                    icon={<DeleteOutlined />}
+                    onClick={(evt) => {
+                      evt.stopPropagation();
+                      deleteTask(
+                        task.project,
+                        task._id,
+                        task.status && task.status._id
+                      );
+                    }}
+                    ghost
+                  />
+                </div>
+              )}
             </div>
 
             {/* start: Tabs */}
