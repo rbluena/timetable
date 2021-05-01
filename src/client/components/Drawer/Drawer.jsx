@@ -8,7 +8,7 @@ const Drawer = ({ children, isOpen }) => (
   <aside
     className={`transition-all duration-300 ease-in-out transform max-w-sm overflow-y-auto bg-white ${
       isOpen ? '' : 'translate-x-full'
-    } text-neutral-900 fixed right-0 top-0 shadow-2xl min-h-screen max-h-screen w-full md:w-96`}
+    } text-neutral-900 fixed right-0 top-0 shadow-xl min-h-screen max-h-screen w-full md:w-96`}
     style={{ zIndex: 1000 }}
   >
     {children}
