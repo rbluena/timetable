@@ -634,7 +634,7 @@ const examples = () => (
             <div className="w-full flex-col bg-gradient-to-br from-neutral-400 to-neutral-900">
               <div className="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
                 <h2 className="text-xl font-semibold mb-2 text-shadow text-white">
-                  Wedding planner for John Doe and Jane Deo - Dec 2021
+                  Wedding plan for John Doe and Jane Deo - Dec 2021
                 </h2>
                 <p className="text-base text-shadow mb-4">
                   Let us enjoy the journey of our beloved brother and sister,
