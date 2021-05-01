@@ -3,6 +3,8 @@ import { uniq } from 'lodash';
 export const getNotifications = 'NOTIFICATIONS/GET_NOTIFICATIONS';
 export const getNotificationsSuccess =
   'NOTIFICATIONS/GET_NOTIFICATIONS_SUCCESS';
+export const paginateNotificationsSuccess =
+  'NOTIFICATIONS/PAGENATE_NOTIFICATIONS_SUCCESS';
 export const createNotification = 'NOTIFICATIONS/CREATE_NOTIFICATION';
 export const createNotificationSuccess =
   'NOTIFICATIONS/CREATE_NOTIFICATION_SUCCESS';
@@ -35,6 +37,17 @@ export default function notificationsReducer(state = initialState, action) {
     }
 
     case getNotificationsSuccess: {
+      const { entities, result: notificationIds, meta } = payload;
+
+      state.fetching = false;
+      state.notifications = entities.notifications;
+      state.notificationIds = uniq([...notificationIds]);
+      state.meta = meta;
+
+      return state;
+    }
+
+    case paginateNotificationsSuccess: {
       const { entities, result: notificationIds, meta } = payload;
 
       return {
