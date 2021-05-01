@@ -639,7 +639,7 @@ const examples = () => (
                 <p className="text-base text-shadow mb-4">
                   Let us enjoy the journey of our beloved brother and sister,
                   John and Jane to their wedding ceremony.{' '}
-                  <span className="inline-block">
+                  <span className="inline-block font-bold">
                     Access Password: &nbsp;yrl9x4oq
                   </span>
                 </p>
