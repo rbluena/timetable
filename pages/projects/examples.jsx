@@ -638,7 +638,10 @@ const examples = () => (
                 </h2>
                 <p className="text-base text-shadow mb-4">
                   Let us enjoy the journey of our beloved brother and sister,
-                  John and Jane to their wedding ceremony.
+                  John and Jane to their wedding ceremony.{' '}
+                  <span className="inline-block">
+                    Access Password: &nbsp;yrl9x4oq
+                  </span>
                 </p>
                 <Link href="/projects/608ab6693da93b2156abd348">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
