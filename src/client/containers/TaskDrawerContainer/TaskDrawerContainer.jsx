@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Avatar, Tag, Radio, Button } from 'antd';
+import { Typography, Avatar, Tag, Radio, Button, Tooltip } from 'antd';
 import { format } from 'date-fns';
 import { isEmpty, get } from 'lodash';
 import {
@@ -59,7 +59,6 @@ const TaskDrawerContainer = () => {
     //   TODO: LOAD TASK COMMENTS
     //   setCommentsLoaded(true);
     // }
-
     setToggleTab(value);
   }
 
@@ -147,12 +146,16 @@ const TaskDrawerContainer = () => {
               onChange={(evt) => switchingTabs(evt.target.value)}
               // buttonStyle="solid"
             >
-              <Radio.Button value="description">
-                <FileTextOutlined />
-              </Radio.Button>
-              <Radio.Button value="comments">
-                <CommentOutlined />
-              </Radio.Button>
+              <Tooltip title="Task details">
+                <Radio.Button value="description">
+                  <FileTextOutlined />
+                </Radio.Button>
+              </Tooltip>
+              <Tooltip title="Comments">
+                <Radio.Button value="comments">
+                  <CommentOutlined />
+                </Radio.Button>
+              </Tooltip>
               {/* <Radio.Button value="todo">
                 <BarsOutlined />
               </Radio.Button> */}
@@ -253,10 +256,7 @@ const TaskDrawerContainer = () => {
             </div>
           )}
 
-          {toggleTab === 'comments' &&
-            {
-              /** <TaskComments comments={[]} /> */
-            }}
+          {/* {toggleTab === 'comments' && <TaskComments comments={[]} />} */}
         </Drawer.Content>
         {/* end: Content */}
       </Drawer>
