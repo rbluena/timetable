@@ -22,19 +22,19 @@ const features = [
   },
   {
     name: 'Checklist',
-    description: 'Soon you will be able to create and clear checklists.',
+    description: 'You will be able to create and clear checklists.',
     icon: HiClipboardCheck,
   },
   {
     name: 'Attachments',
     description:
-      'Attaching files to a task is one of our highest priority right now.',
+      'Our highest priorities are set to attaching files to a task and task conversation through comments.',
     icon: HiPaperClip,
   },
   {
     name: 'Analytics',
     description:
-      'Analytical data on how team do well with their tasks and time.',
+      'Analytical data on how team members do well with their tasks and time.',
     icon: HiOutlineChartBar,
   },
   {
@@ -52,7 +52,7 @@ const Roadmap = () => (
           Roadmap
         </h2>
         <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Stay tune for upcoming good stuff
+          Stay tuned for upcoming good stuff
         </p>
         {/* <p className="mt-4 max-w-2xl text-xl text-neutral-500 lg:mx-auto">
           What to expect from our platform.

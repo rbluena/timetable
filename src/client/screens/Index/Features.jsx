@@ -17,13 +17,13 @@ const features = [
   {
     name: 'Project Access Control',
     description:
-      'A project can be publicly accessed by anyone, or protected with a unique password for anyone with password to access it without registering. Private project gives access to team members of the project only.',
+      'A project can be publicly accessed by anyone, or protected with a unique password for anyone to access it without registering. Private project gives access to team members of the project only.',
     icon: HiScale,
   },
   {
     name: 'Message board',
     description:
-      'Directly from a project, a message board can be used to communicate with team members or public audience. A message can be directed to all audiences, or to a specific group or to specific team member.',
+      "Message board can be used to communicate with project's team members or to the public audience.",
     icon: HiAnnotation,
   },
   {
@@ -35,7 +35,7 @@ const features = [
   {
     name: 'Timeline/Agenda',
     description:
-      'Timeline shows the schedules of your tasks in chronological order. Through filters and sortings tasks can be rendered differently.',
+      'Timeline shows schedules of your tasks in chronological order. Through filters and sortings tasks can be rendered differently.',
     icon: HiAnnotation,
   },
 ];

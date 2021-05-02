@@ -3,7 +3,7 @@ import { HiAcademicCap, HiChartPie, HiCake, HiBriefcase } from 'react-icons/hi';
 const features = [
   {
     name: 'Education',
-    description: 'Create schedules and tasks for classes or homeworks.',
+    description: 'Creating schedules and tasks for classes or homeworks.',
     icon: HiAcademicCap,
   },
   {

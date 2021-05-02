@@ -39,9 +39,8 @@ const Index = () => {
                 </span>
               </h1>
               <p className="mt-3 text-base text-neutral-500 text-center lg:text-left sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Plan your schedules and manage progress of your tasks on
-                personal or team projects. Projects can be privately or publicly
-                accessible.
+                Plan, schedule and manage progress of your tasks on personal or
+                team projects. Projects can be privately or publicly accessible.
               </p>
 
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
