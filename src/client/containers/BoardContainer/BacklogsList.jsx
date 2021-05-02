@@ -10,7 +10,7 @@ const BacklogsList = ({
 }) => (
   <div className="overflow-y-auto" style={{ height: 'calc(100vh - 90px)' }}>
     {/* start: Backlog list */}
-    <Droppable droppableId="backlog" isDragDisabled={!canUserUpdateTask}>
+    <Droppable droppableId="backlog">
       {(provided) => (
         <div
           {...provided.droppableProps}
@@ -27,6 +27,7 @@ const BacklogsList = ({
                 task={task}
                 categories={categories}
                 openTaskDrawer={openTaskDrawer}
+                canUserUpdateTask={canUserUpdateTask}
               />
             ))}
 

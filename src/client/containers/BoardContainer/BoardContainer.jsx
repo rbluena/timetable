@@ -27,14 +27,11 @@ import {
 import BoardColumns from './BoardColumns';
 import BacklogsList from './BacklogsList';
 import CreateTaskButton from './CreateTaskButton';
-// import Header from './Header';
 
 const BoardContainer = () => {
   const dispatch = useDispatch();
   const [toggleBacklog, setToggleBacklog] = useState(false);
-  const { title, description, _id: projectId, isUserOwner } = useSelector(
-    projectSelector
-  );
+  const { title, _id: projectId, isUserOwner } = useSelector(projectSelector);
   const { backlog } = useSelector(boardDataSelector);
   const { columns } = useSelector(boardSelector);
   const isCurrentUserProjectMember = useSelector(isUserProjectMemberSelector);
