@@ -9,12 +9,14 @@ import { DeleteOutlined, TeamOutlined } from '@ant-design/icons';
  * @param {String} string
  */
 function getCode(string = '') {
-  const ignoreWords = ['of', 'for', 'and'];
+  const ignoreWords = ['of', 'for', 'and', 'the', 'in'];
 
   if (string && string.length) {
     return string
       .split(' ')
-      .map((word) => (ignoreWords.includes(word.toLowerCase()) ? '' : word[0]));
+      .map((word) => (ignoreWords.includes(word.toLowerCase()) ? '' : word[0]))
+      .join('')
+      .slice(0, 4);
   }
 
   return string;
@@ -23,16 +25,15 @@ function getCode(string = '') {
 const ProjectCard = ({ project, deleteProject }) => (
   <div className="transition-shadow duration-150 m-2 w-64 bg-white shadow hover:shadow-xl relative flex-col items-end">
     <div className="flex justify-end m-0 p-0">
-    {
-      project.isUserOwner &&
-      <Button
-        className="absolute m-1"
-        type="text"
-        danger
-        icon={<DeleteOutlined />}
-        onClick={() => deleteProject(project._id)}
-      />
-    }
+      {project.isUserOwner && (
+        <Button
+          className="absolute m-1"
+          type="text"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() => deleteProject(project._id)}
+        />
+      )}
     </div>
 
     <Link href={`/projects/${project._id}`}>
