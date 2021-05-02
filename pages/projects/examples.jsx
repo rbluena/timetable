@@ -196,8 +196,8 @@ const examples = () => (
                   Athletic events in Tanzania for the year 2020/2021
                 </h2>
                 <p className="text-base text-shadow mb-4">
-                  Don&apos;t miss out major athletic events for every individual
-                  to participate for the year 2021.
+                  Don&apos;t miss out major athletic events to participate for
+                  the year 2021.Everyone is invited.
                 </p>
                 <Link href="/projects/608a8e343da93b2156abd327">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
@@ -374,8 +374,8 @@ const examples = () => (
                 </h2>
                 <p className="text-base text-shadow mb-4">
                   We are dedicated to improve and make our product better for
-                  the sake of our users. Find out what coming next from our
-                  roadmap.
+                  the sake of our users. Find out what&apos;s coming next from
+                  our roadmap.
                 </p>
                 <Link href="/projects/608a93f23da93b2156abd33f">
                   <a className="mt-auto text-white bg-primary-900 bg-opacity-50 hover:bg-opacity-75 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex">
@@ -387,8 +387,6 @@ const examples = () => (
                 <svg
                   data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg"
-                  // width="821.67627"
-                  // height="579.00958"
                   viewBox="0 0 821.67627 579.00958"
                   fill="none"
                 >
@@ -637,7 +635,7 @@ const examples = () => (
                   Wedding plan for John Doe and Jane Deo - Dec 2021
                 </h2>
                 <p className="text-base text-shadow mb-4">
-                  Let us enjoy the journey of our beloved brother and sister,
+                  Let us join the journey of our beloved brother and sister,
                   John and Jane to their wedding ceremony.{' '}
                   <span className="inline-block font-bold">
                     Access Password: &nbsp;yrl9x4oq
