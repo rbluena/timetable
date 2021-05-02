@@ -21,6 +21,7 @@ import {
   boardSelector,
   boardDataSelector,
   isUserProjectMemberSelector,
+  isUserProjectOwnerSelector,
 } from '@app/selectors';
 
 import BoardColumns from './BoardColumns';
@@ -38,6 +39,11 @@ const BoardContainer = () => {
   const { columns } = useSelector(boardSelector);
   const isCurrentUserProjectMember = useSelector(isUserProjectMemberSelector);
   const categories = useSelector(taskCategoriesSelector);
+
+  const isUserProjectMember = useSelector(isUserProjectMemberSelector);
+  const isUserProjectOwner = useSelector(isUserProjectOwnerSelector);
+
+  const canUserUpdateTask = isUserProjectMember || isUserProjectOwner;
 
   /**
    * Moving task card from one position to another
@@ -126,6 +132,7 @@ const BoardContainer = () => {
             backlog={backlog || []}
             categories={categories}
             openTaskDrawer={openTaskDrawer}
+            canUserUpdateTask={canUserUpdateTask}
           />
         </div>
         {/* end: Backlog container */}
@@ -164,6 +171,7 @@ const BoardContainer = () => {
             categories={categories}
             openTaskDrawer={openTaskDrawer}
             createNewColumn={createNewColumn}
+            canUserUpdateTask={canUserUpdateTask}
             updateColumn={updateColumn}
             deleteColumn={deleteColumn}
             isUserOwner={isUserOwner}

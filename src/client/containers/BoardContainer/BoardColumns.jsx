@@ -4,6 +4,7 @@ import { Button, Tooltip } from 'antd';
 import BoardColumn from './BoardColumn';
 
 const BoardColumns = ({
+  canUserUpdateTask,
   isUserOwner,
   columns,
   openTaskDrawer,
@@ -19,6 +20,7 @@ const BoardColumns = ({
       columns.length > 0 &&
       columns.map((columnData, index) => (
         <BoardColumn
+          canUserUpdateTask={canUserUpdateTask}
           isUserOwner={isUserOwner}
           key={columnData._id}
           columnData={columnData}
@@ -45,11 +47,13 @@ const BoardColumns = ({
   </div>
 );
 BoardColumns.defaultProps = {
+  canUserUpdateTask: false,
   categories: {},
   isUserOwner: false,
 };
 
 BoardColumns.propTypes = {
+  canUserUpdateTask: PropTypes.bool,
   createNewColumn: PropTypes.func.isRequired,
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,

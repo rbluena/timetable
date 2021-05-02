@@ -8,6 +8,7 @@ import TaskCard from './TaskCard';
 const { Title } = Typography;
 
 const BoardColumn = ({
+  canUserUpdateTask,
   isUserOwner,
   columnData,
   openTaskDrawer,
@@ -93,6 +94,7 @@ const BoardColumn = ({
                 <TaskCard
                   key={task._id}
                   index={index}
+                  canUserUpdateTask={canUserUpdateTask}
                   openTaskDrawer={openTaskDrawer}
                   draggableId={task._id}
                   task={task}
@@ -110,12 +112,14 @@ const BoardColumn = ({
 };
 
 BoardColumn.defaultProps = {
+  canUserUpdateTask: false,
   columnData: {},
   categories: {},
-  isUserOwner: false
+  isUserOwner: false,
 };
 
 BoardColumn.propTypes = {
+  canUserUpdateTask: PropTypes.bool,
   isUserOwner: PropTypes.bool,
   columnIndex: PropTypes.string.isRequired,
   categories: PropTypes.objectOf(PropTypes.any),

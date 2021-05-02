@@ -8,7 +8,14 @@ import {
 } from '@ant-design/icons';
 import { format } from 'date-fns';
 
-const TaskCard = ({ index, draggableId, task, categories, openTaskDrawer }) => {
+const TaskCard = ({
+  canUserUpdateTask,
+  index,
+  draggableId,
+  task,
+  categories,
+  openTaskDrawer,
+}) => {
   const taskCategory = categories[task.category];
   const { userAssignees, groupAssignees } = task;
 
@@ -16,6 +23,7 @@ const TaskCard = ({ index, draggableId, task, categories, openTaskDrawer }) => {
     <Draggable draggableId={draggableId} index={index}>
       {(provided) => (
         <div
+          isDragDisabled={!canUserUpdateTask}
           className="bg-white p-2 shadow-sm rounded-sm m-1 my-2 relative cursor-pointer"
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -94,6 +102,7 @@ const TaskCard = ({ index, draggableId, task, categories, openTaskDrawer }) => {
 };
 
 TaskCard.defaultProps = {
+  canUserUpdateTask: false,
   backlog: {},
   categories: {},
   userAssignees: {},
@@ -101,6 +110,7 @@ TaskCard.defaultProps = {
 };
 
 TaskCard.propTypes = {
+  canUserUpdateTask: PropTypes.bool,
   index: PropTypes.number.isRequired,
   draggableId: PropTypes.string.isRequired,
   task: PropTypes.objectOf(PropTypes.any).isRequired,
