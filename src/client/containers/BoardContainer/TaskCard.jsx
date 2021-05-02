@@ -20,11 +20,14 @@ const TaskCard = ({
   const { userAssignees, groupAssignees } = task;
 
   return (
-    <Draggable draggableId={draggableId} index={index}>
+    <Draggable
+      draggableId={draggableId}
+      index={index}
+      isDragDisabled={!canUserUpdateTask}
+    >
       {(provided) => (
         <div
-          isDragDisabled={!canUserUpdateTask}
-          className="bg-white p-2 shadow-sm rounded-sm m-1 my-2 relative cursor-pointer"
+          className="bg-white p-2 shadow-sm rounded-sm m-1 my-2 relative"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -111,6 +114,7 @@ TaskCard.defaultProps = {
 
 TaskCard.propTypes = {
   canUserUpdateTask: PropTypes.bool,
+  openTaskDrawer: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   draggableId: PropTypes.string.isRequired,
   task: PropTypes.objectOf(PropTypes.any).isRequired,
