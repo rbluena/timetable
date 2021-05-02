@@ -27,7 +27,7 @@ const AlertNotificationsContainer = () => {
   }, [type, message]);
 
   return (
-    <div className="fixed w-full z-50">
+    <div className="fixed w-full" style={{ zIndex: 1000 }}>
       {notification && (
         <AlertNotifications
           type={notification.type}
