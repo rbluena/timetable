@@ -105,7 +105,7 @@ const BoardContainer = () => {
       <div className="bg-white flex h-screen">
         {/* start: Backlog container */}
         <div
-          className=" transition-all px-1 h-full relative bg-neutral-50 shadow border-r border-primary-300"
+          className="transition-all px-1 h-full relative bg-neutral-50 shadow border-r border-primary-300"
           style={{
             width: '280px',
             minWidth: '280px',
@@ -148,7 +148,7 @@ const BoardContainer = () => {
           }}
         >
           {/* start: Board header */}
-          <div className="py-1 my-1 border-b border-primary-100 flex w-full">
+          <div className="py-1 my-1 border-b border-primary-100 flex items-center w-full">
             <Button
               type="primary"
               className="mt-2"
@@ -158,9 +158,11 @@ const BoardContainer = () => {
               <UnorderedListOutlined />
             </Button>
             &nbsp;&nbsp;
-            <div>
-              <h2 className=" text-lg m-0 p-0">{title}</h2>
-              <p className=" text-xs text-neutral-400">{description}</p>
+            <div className="w-full ">
+              <h2 className=" text-lg m-0 p-0 truncate">{title}</h2>
+              {/* <p className=" text-xs text-neutral-400 truncate">
+                {description}
+              </p> */}
             </div>
           </div>
           {/* end: Board header */}
