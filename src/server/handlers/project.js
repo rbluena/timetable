@@ -298,7 +298,7 @@ exports.addGroupInviteeHandler = async (req, res, next) => {
     res.status(200).json({
       status: 200,
       success: true,
-      message: 'User was invited to join the group successfully.',
+      message: 'User was invited to join the project successfully.',
       data,
     });
   } catch (error) {
@@ -311,19 +311,15 @@ exports.addGroupInviteeHandler = async (req, res, next) => {
  */
 exports.acceptUserInvitationHandler = async (req, res, next) => {
   try {
-    const { projectId, groupId } = req.params;
+    const { groupId } = req.params;
     const { email } = req.body;
 
-    const { data, meta } = await acceptUserInvitationService(
-      projectId,
-      groupId,
-      email
-    );
+    const { data, meta } = await acceptUserInvitationService(groupId, email);
 
     res.status(200).json({
       status: 200,
       success: true,
-      message: 'User was invited to join the group successfully.',
+      message: 'User has joined the project successfully.',
       data,
       meta,
     });
@@ -345,7 +341,8 @@ exports.removeUserGroupHandler = async (req, res, next) => {
     res.status(200).json({
       status: 200,
       success: true,
-      message: 'User was invited to join the group successfully.',
+      message:
+        'User was removed from group successfully. But still is the part of the team!',
       data,
     });
   } catch (error) {
