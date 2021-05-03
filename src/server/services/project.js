@@ -431,7 +431,7 @@ const addGroupInviteeService = async (groupId, user) => {
         `Invitation to "${project.title}" project!`,
         {
           projectName: project.title,
-          invitation_link: `https://www.asteyo.com/projects/${updatedGroup.project}/invitation/?group_id=${updatedGroup._id}&email=${user.email}`,
+          invitationLink: `https://www.asteyo.com/projects/${updatedGroup.project}/invitation/?group_id=${updatedGroup._id}&email=${user.email}`,
         }
       );
 
