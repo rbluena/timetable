@@ -9,6 +9,11 @@ const MAILER = {
     from: 'noreply@asteyo.com',
     name: 'Asteyo Team',
   },
+  invitation: {
+    id: 2854705,
+    from: 'noreply@asteyo.com',
+    name: 'Asteyo Team',
+  },
 };
 
 module.exports = {

@@ -41,7 +41,7 @@ const UsersComponent = ({
             title={user.fullName ? user.fullName : user.userName}
             description="Member"
           />
-          <CheckCircleTwoTone />
+          {/* <CheckCircleTwoTone /> */}
           {isUserOwner && (
             <Button
               type="text"

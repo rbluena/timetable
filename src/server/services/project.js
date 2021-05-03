@@ -8,6 +8,9 @@ const Subscription = require('../models/Subscription');
 const { deleteProjectGroups } = require('./group');
 const { deleteProjectTasks } = require('./task');
 const { deleteProjectStatuses } = require('./status');
+const { sendUserInvitationEmailService } = require('./mailer');
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 const findProjectById = async (id) =>
   Project.findById(mongoose.Types.ObjectId(id));
@@ -403,7 +406,7 @@ const acceptUserInvitationService = async (groupId, email) => {
  */
 const addGroupInviteeService = async (groupId, user) => {
   if (user.type === 'member') {
-    // User is part of the project team, was added before in another group.
+    // User is part of the project team, was already invited and accepted invitation.
     return acceptUserInvitationService(groupId, user.email);
   }
 
@@ -418,6 +421,23 @@ const addGroupInviteeService = async (groupId, user) => {
   );
 
   if (updatedGroup) {
+    // SEND INVITATION EMAIL
+
+    if (isProduction) {
+      const project = await Project.findById(updatedGroup.project).lean();
+
+      const request = sendUserInvitationEmailService(
+        user,
+        `Invitation to "${project.title}" project!`,
+        {
+          projectName: project.title,
+          invitation_link: `https://www.asteyo.com/projects/${updatedGroup.project}/invitation/?group_id=${updatedGroup._id}&email=${user.email}`,
+        }
+      );
+
+      await request;
+    }
+
     await Group.populate(updatedGroup, {
       path: 'members',
       select: { fullName: 1, userName: 1, email: 1, image: 1 },
@@ -454,7 +474,9 @@ const removeUserFromGroupService = async (groupId, id, type) => {
       { _id: mongoose.Types.ObjectId(id) },
       { $pull: { groups: groupId } }
     );
+  }
 
+  if (updatedGroup) {
     await Group.populate(updatedGroup, {
       path: 'members',
       select: { fullName: 1, image: 1, userName: 1, email: 1 },

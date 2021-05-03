@@ -62,10 +62,37 @@ const sendSignupEmailService = (user, subject) =>
     ],
   });
 
+const sendUserInvitationEmailService = (user, subject, data) =>
+  mailjet.post('send', { version: 'v3.1' }).request({
+    Messages: [
+      {
+        From: {
+          Email: MAILER.invitation.from,
+          Name: MAILER.invitation.name,
+        },
+        To: [
+          {
+            Email: user.email,
+            Name: user.email,
+          },
+        ],
+        TemplateID: MAILER.invitation.id,
+        TemplateLanguage: true,
+        Subject: subject,
+        Variables: {
+          email: user.email,
+          project_name: data.projectName,
+          invitation_link: data.invitationLink,
+        },
+      },
+    ],
+  });
+
 const sendingDailyDigest = () => {};
 
 module.exports = {
   sendVerificationToken,
   sendSignupEmailService,
+  sendUserInvitationEmailService,
   sendingDailyDigest,
 };
