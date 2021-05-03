@@ -27,7 +27,7 @@ const Footer = () => (
         </a>
       </li>
       <li className="inline-block">
-        <a href="https://www.youtube.com/asteyo">
+        <a href="https://www.youtube.com/channel/UCbfRdLQlXp9BSLwRVzJNiaQ">
           <YoutubeOutlined size="large" />
         </a>
       </li>
