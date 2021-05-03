@@ -170,7 +170,12 @@ const CreateTask = ({
 
           {/* start: Rendering reporter options */}
           <Form.Item name="reporter">
-            <Select style={{ width: '100%' }} placeholder="Reporter" showSearch>
+            <Select
+              style={{ width: '100%' }}
+              placeholder="Reporter"
+              showSearch
+              allowClear
+            >
               {!isEmpty(users) &&
                 users.map((user) => (
                   <Option key={user._id} value={user._id}>
@@ -187,10 +192,8 @@ const CreateTask = ({
               mode="multiple"
               style={{ width: '100%' }}
               placeholder="Assignees"
-              // defaultValue={['rabii']}
               showSearch
               optionLabelProp="label"
-              onChange={console.log}
             >
               {!isEmpty(users) && (
                 <Select.OptGroup label="Users">

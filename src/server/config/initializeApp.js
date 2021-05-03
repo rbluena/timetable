@@ -57,8 +57,6 @@ module.exports = function initializedApp(router) {
   //   })
   // );
 
-  // const whitelist = ['https://www.asteyo.com', 'https://asteyo.com'];
-
   app.use(
     cors({
       origin: isProduction ? 'https://asteyo.com' : '*',
@@ -82,12 +80,12 @@ module.exports = function initializedApp(router) {
   });
 
   // error handler middleware
-  app.use((error, req, res) => {
-    res.status(error.status || 500).send({
-      error: {
-        status: error.status || 500,
-        message: error.message || 'Internal Server Error',
-      },
+  // eslint-disable-next-line no-unused-vars
+  app.use((error, req, res, next) => {
+    res.status(error.status || 500).json({
+      status: error.status || 500,
+      message: 'Internal Server Error',
+      errors: { details: error.message },
     });
   });
 

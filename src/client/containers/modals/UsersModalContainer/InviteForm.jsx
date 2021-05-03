@@ -1,35 +1,45 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Input, Form, Avatar } from 'antd';
+import { Button, Input, Form, Avatar, AutoComplete } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
-import { findTeamUsersService } from '@app/services';
 
-const InviteForm = ({ inviteUser, projectId }) => {
-  const [usersList, setUsersList] = useState([]);
+const InviteForm = ({ inviteUser, team }) => {
+  const [selectedUser, setSelectedUser] = useState('');
   const [form] = Form.useForm();
+
+  const teamOptions = team.map((item) => ({
+    label: item.email,
+    value: item.email,
+  }));
+
+  function onChange(value) {
+    setSelectedUser(value);
+  }
+
+  function onSelect(data) {
+    setSelectedUser(data);
+  }
+
+  const user =
+    team && team.length > 0
+      ? team.find((item) => item.email === selectedUser)
+      : null;
 
   /**
    * Inviting user to the group project.
    * @param {Object} values
    */
-  function onSubmit(values) {
-    inviteUser(values);
-    form.resetFields();
-  }
-
-  async function onFindingUser(evt) {
-    const { value } = evt.target;
-
-    try {
-      const { data } = await findTeamUsersService(projectId, value);
-      setUsersList([...data]);
-    } catch (error) {
-      // console.log(error);
-      // TODO: REPORT ERROR TO SENTRY
+  function onSubmit(data) {
+    if (user) {
+      // Selected user is part of project team.
+      inviteUser({ ...data, type: 'member' });
+    } else {
+      // It is a new email being entered
+      inviteUser({ ...data, type: 'new' });
     }
+    form.resetFields();
+    setSelectedUser('');
   }
-
-  const selectedUser = usersList && usersList.length > 0 ? usersList[0] : null;
 
   return (
     <div className="mx-auto p-0">
@@ -37,7 +47,7 @@ const InviteForm = ({ inviteUser, projectId }) => {
         <div className="flex">
           <Avatar
             icon={<UserAddOutlined />}
-            src={selectedUser && selectedUser.image.thumbnail}
+            src={user && user.image && user.image.thumbnail}
             className="border border-neutral-400"
           />
           &nbsp;&nbsp;&nbsp;
@@ -51,15 +61,19 @@ const InviteForm = ({ inviteUser, projectId }) => {
               },
             ]}
           >
-            <Input
-              placeholder="Email address"
-              onFocus={onFindingUser}
-              autoComplete="off"
-            />
+            <AutoComplete
+              options={teamOptions}
+              allowClear
+              filterOption
+              onChange={onChange}
+              onSelect={onSelect}
+            >
+              <Input size="large" placeholder="Enter email" />
+            </AutoComplete>
           </Form.Item>
           <Form.Item>
             <Button htmlType="submit" type="primary">
-              {selectedUser ? 'Add' : 'Invite'}
+              {user ? 'Add' : 'Invite'}
             </Button>
           </Form.Item>
         </div>
@@ -70,9 +84,13 @@ const InviteForm = ({ inviteUser, projectId }) => {
   );
 };
 
+InviteForm.defaultProps = {
+  team: [],
+};
+
 InviteForm.propTypes = {
   inviteUser: PropTypes.func.isRequired,
-  projectId: PropTypes.string.isRequired,
+  team: PropTypes.arrayOf(PropTypes.any),
 };
 
 export default InviteForm;

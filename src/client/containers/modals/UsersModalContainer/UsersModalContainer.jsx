@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'antd';
+import { projectTeamSelector } from '@app/selectors';
 import { inviteUserAction, removeUserFromGroupAction } from '@app/actions';
 import UsersComponent from './UsersComponent';
 import InviteForm from './InviteForm';
 
 const UsersModalContainer = ({ isOpen, closeModal, group, isUserOwner }) => {
   const dispatch = useDispatch();
+  const team = useSelector(projectTeamSelector);
 
+  /**
+   * Inviting user to become a member.
+   */
   function inviteUser(data) {
     dispatch(inviteUserAction(group.project, group._id, data));
   }
@@ -25,7 +30,11 @@ const UsersModalContainer = ({ isOpen, closeModal, group, isUserOwner }) => {
       onCancel={closeModal}
     >
       {isUserOwner && (
-        <InviteForm inviteUser={inviteUser} projectId={group.project} />
+        <InviteForm
+          inviteUser={inviteUser}
+          projectId={group.project}
+          team={team}
+        />
       )}
       <UsersComponent
         members={group.members || []}

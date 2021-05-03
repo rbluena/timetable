@@ -46,7 +46,7 @@ const UsersComponent = ({
             <Button
               type="text"
               danger
-              onClick={() => removeUserFromGroup(memberId, 'member')}
+              onClick={() => removeUserFromGroup(user._id, 'member')}
             >
               <Tooltip title="Remove">
                 <MinusCircleOutlined size="large" />

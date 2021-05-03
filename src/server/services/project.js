@@ -292,7 +292,7 @@ const createProjectGroupService = async (projectId, groupData) => {
     );
   }
 
-  // await Group.populate(savedGroup, 'members');
+  await Group.populate(savedGroup, 'members');
   return savedGroup;
 };
 
@@ -347,34 +347,12 @@ const deleteProjectGroupService = async (projectId, groupId) => {
 };
 
 /**
- * Adding user into invitation group.
- * @param {String} groupId
- * @param {Object} data
- */
-const addGroupInviteeService = async (groupId, data) => {
-  const updatedGroup = await Group.findOneAndUpdate(
-    {
-      _id: mongoose.Types.ObjectId(groupId),
-      'invitees.email': { $ne: data.email },
-    },
-    { $push: { invitees: data } },
-    { new: true }
-  );
-
-  if (updatedGroup) {
-    return updatedGroup;
-  }
-
-  throw new Error('User is already invited!');
-};
-
-/**
  *
  * @param {String} projectId
  * @param {String} groupId
  * @param {String} email
  */
-const acceptUserInvitationService = async (projectId, groupId, email) => {
+const acceptUserInvitationService = async (groupId, email) => {
   const user = await User.findOne({ email });
 
   if (user) {
@@ -384,12 +362,14 @@ const acceptUserInvitationService = async (projectId, groupId, email) => {
       { upsert: true }
     );
 
+    // Adding user to the group.
     await Group.updateOne(
       { _id: mongoose.Types.ObjectId(groupId) },
       { $addToSet: { members: user._id } },
       { upsert: true }
     );
 
+    // Pulling out invitation email if any
     const updatedGroup = await Group.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(groupId) },
       { $pull: { invitees: { email } } },
@@ -398,17 +378,56 @@ const acceptUserInvitationService = async (projectId, groupId, email) => {
 
     // Adding user to the team of the project.
     await Project.updateOne(
-      { _id: mongoose.Types.ObjectId(projectId) },
+      { _id: mongoose.Types.ObjectId(updatedGroup.project) },
       { $addToSet: { team: user._id } },
       { upsert: true }
     );
 
-    return { data: updatedGroup, meta: { isUserExist: true } };
+    await Group.populate(updatedGroup, {
+      path: 'members',
+      select: { fullName: 1, userName: 1, email: 1, image: 1 },
+    });
+
+    return updatedGroup;
   }
 
-  return { meta: { isUserExist: false } };
+  throw Error('User does not exist!');
 };
 
+/**
+ * Inviting/adding user to the group.
+ * if user already team member him/her to the group, else we send email
+ * to the user.
+ * @param {String} groupId
+ * @param {Object} data
+ */
+const addGroupInviteeService = async (groupId, user) => {
+  if (user.type === 'member') {
+    // User is part of the project team, was added before in another group.
+    return acceptUserInvitationService(groupId, user.email);
+  }
+
+  // New user to be added to the group.
+  const updatedGroup = await Group.findOneAndUpdate(
+    {
+      _id: mongoose.Types.ObjectId(groupId),
+      'invitees.email': { $ne: user.email },
+    },
+    { $push: { invitees: { email: user.email } } },
+    { new: true }
+  );
+
+  if (updatedGroup) {
+    await Group.populate(updatedGroup, {
+      path: 'members',
+      select: { fullName: 1, userName: 1, email: 1, image: 1 },
+    });
+
+    return updatedGroup;
+  }
+
+  throw Error('User is already invited!');
+};
 /**
  * Removing invitee from the group.
  * @param {String} groupId

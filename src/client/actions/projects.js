@@ -31,7 +31,7 @@ import {
   deleteProjectGroupSuccess,
 } from '@app/reducers/projectsReducer';
 
-import { getNormalizedProject, getNormalizedGroup } from './schema';
+import { getNormalizedProject } from './schema';
 
 export function createProjectAction(projectData) {
   return async (dispatch, getState) => {
@@ -186,11 +186,12 @@ export function updateProjectGroupAction(projectId, groupId, groupData) {
         token
       );
 
-      const normalzedData = getNormalizedGroup(data);
-
       dispatch({
         type: updateProjectGroupSuccess,
-        payload: { ...normalzedData.entities, groupId: normalzedData.result },
+        payload: {
+          group: data,
+          groupId: data._id,
+        },
       });
     } catch (error) {
       const err = {
@@ -254,11 +255,12 @@ export function inviteUserAction(projectId, groupId, userData) {
         token
       );
 
-      const normalizedData = getNormalizedGroup(data);
-
       dispatch({
         type: updateProjectGroupSuccess,
-        payload: normalizedData,
+        payload: {
+          groupId: data._id,
+          group: data,
+        },
       });
     } catch (error) {
       const err = {
@@ -288,9 +290,13 @@ export function removeUserFromGroupAction(projectId, groupId, id, type) {
         { type }
       );
 
-      const normalizedData = getNormalizedGroup(data);
-
-      dispatch({ type: updateProjectGroupSuccess, payload: normalizedData });
+      dispatch({
+        type: updateProjectGroupSuccess,
+        payload: {
+          groupId: data._id,
+          group: data,
+        },
+      });
     } catch (error) {
       const err = {
         type: 'error',
