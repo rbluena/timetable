@@ -14,6 +14,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <meta name="google-site-verification" content="7oi8lqrCGtApBzx3DvIuQpFp7gxOX7oiVX6k0qVJzp0" />
           <meta
             property="og:title"
             content="Simple scheduling and tasks management application."
