@@ -1,6 +1,33 @@
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
 import { groupTasksBasedOnDate } from '@app/utils';
 import { selectProjectCategories } from './projects';
+
+const selectOpenedTask = (state) => {
+  const { openedTask } = state.TASKS;
+  const team = get(state.PROJECTS, 'team');
+  const groups = get(state.PROJECTS, 'groups');
+
+  let task = null;
+
+  if (openedTask) {
+    task = { ...openedTask };
+
+    if (openedTask.userAssignees && openedTask.userAssignees.length > 0) {
+      task.userAssignees = task.userAssignees.map((userId) => ({
+        ...team[userId],
+      }));
+    }
+
+    if (openedTask.groupAssignees && openedTask.groupAssignees.length > 0) {
+      task.groupAssignees = task.groupAssignees.map((groupId) => ({
+        ...groups[groupId],
+      }));
+    }
+  }
+
+  return task;
+};
 
 const selectCalendarTasks = (state) => {
   const { tasks, taskIds } = state.TASKS;
@@ -92,7 +119,7 @@ const selectTaskCategories = (state) => {
 };
 
 export const getOpenedTaskSelector = createSelector(
-  (state) => state.TASKS.openedTask,
+  selectOpenedTask,
   (task) => task
 );
 
