@@ -76,7 +76,7 @@ export function signInUserAction(userData) {
     try {
       dispatch({ type: signInUser });
       const { data } = await signInUserService({ ...userData, type: 'local' });
-      dispatch({ type: signInUserSuccess, payload: data.jwt });
+      // dispatch({ type: signInUserSuccess, payload: data.jwt });
       setCookieToken(data.jwt);
       const user = decode(data.jwt);
 

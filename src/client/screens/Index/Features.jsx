@@ -15,7 +15,7 @@ const features = [
     icon: HiAnnotation,
   },
   {
-    name: 'Project Access Control',
+    name: 'Project access control',
     description:
       'A project can be publicly accessed by anyone, or protected with a unique password for anyone to access it without registering. Private project gives access to team members of the project only.',
     icon: HiScale,
