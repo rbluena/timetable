@@ -7,7 +7,7 @@ import { DeleteFilled, TeamOutlined, EditOutlined } from '@ant-design/icons';
 const { Title, Paragraph } = Typography;
 
 const TimelineItem = ({ task, canUserUpdateTask, editTask, deleteTask }) => (
-  <Timeline.Item color="blue">
+  <Timeline.Item color="blue" className="max-w-md">
     <div className="py-1">
       <p className="text-primary-500 text-sm font-bold p-0 m-0">
         {task.schedule
