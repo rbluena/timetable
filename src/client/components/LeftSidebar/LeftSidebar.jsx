@@ -21,7 +21,7 @@ const LeftSidebar = ({ user }) => {
 
   return (
     <div
-      className="flex flex-col items-center w-16 fixed justify-between h-screen bg-tertiary-50 border-r-2 border-primary-200"
+      className="flex flex-col items-center w-16 fixed justify-between h-screen bg-white border-r border-primary-200"
       style={{ zIndex: 100 }}
     >
       <div className="w-full">
