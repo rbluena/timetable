@@ -92,7 +92,7 @@ export default function Project({
 
   if (passwordRequired) {
     return (
-      <LayoutManager>
+      <LayoutManager showSidebar>
         <AccessProject />
       </LayoutManager>
     );
