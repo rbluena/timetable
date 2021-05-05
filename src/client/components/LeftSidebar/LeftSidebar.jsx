@@ -38,34 +38,38 @@ const LeftSidebar = ({ user }) => {
             </Link>
           </div>
           &nbsp;
-          <div
-            className={`${
-              pathname.includes('/projects') && 'border-r-2 border-primary-400'
-            } pl-5`}
-          >
-            <Link href="/projects">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a>
-                <GridIcon
-                  size="sm"
-                  variant={pathname.includes('/projects') ? '' : 'neutral'}
-                />
-              </a>
-            </Link>
-          </div>
           {/* start: Log user in link */}
           {isEmpty(user) && (
-            <div className="pl-5">
+            <>
+              <div
+                className={`${
+                  pathname.includes('/projects') &&
+                  'border-r-2 border-primary-400'
+                } pl-5`}
+              >
+                <Link href="/projects">
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a>
+                    <GridIcon
+                      size="sm"
+                      variant={pathname.includes('/projects') ? '' : 'neutral'}
+                    />
+                  </a>
+                </Link>
+              </div>
               &nbsp;
-              <Link href="/signin">
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a>
-                  <Tooltip>
-                    <LoginIcon size="sm" variant="neutral" />
-                  </Tooltip>
-                </a>
-              </Link>
-            </div>
+              <div className="pl-5">
+                &nbsp;
+                <Link href="/signin">
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a>
+                    <Tooltip>
+                      <LoginIcon size="sm" variant="neutral" />
+                    </Tooltip>
+                  </a>
+                </Link>
+              </div>
+            </>
           )}
           {/* end: Loggin user in */}
           {/* &nbsp;
@@ -138,7 +142,7 @@ const LeftSidebar = ({ user }) => {
               style={{ border: '1px solid #1890ff' }}
             />
           ) : (
-            <Avatar style={{ backgroundColor: '#f56a00' }}>
+            <Avatar style={{ backgroundColor: '#1890ff' }}>
               {user.fullName ? user.fullName[0] : 'U'}
             </Avatar>
           )}
