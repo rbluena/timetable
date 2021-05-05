@@ -77,7 +77,7 @@ const AnnouncementsComponent = ({
   }
 
   return (
-    <Affix className="">
+    <Affix className="w-full md:w-72">
       <div className="w-full md:w-72 md:ml-6 space-y-1">
         <div
           className="bg-white w-full shadow mr-auto rounded-md p-4 my-6 md:pl-4  md:my-0 relative"

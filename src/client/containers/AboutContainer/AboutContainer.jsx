@@ -69,9 +69,9 @@ const AboutContainer = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-4xl flex flex-wrap py-4 ">
+      <div className="mx-auto max-w-6xl flex flex-wrap py-4 p-2">
         {/* <div className="bg-white max-w-xl shadow-sm rounded relative p-6 md:pl-12"> */}
-        <div className="max-w-xl">
+        <div className="w-full md:w-full lg:max-w-2xl">
           <div className="space-y-6">
             <div className="bg-white shadow rounded relative p-4">
               <Title
