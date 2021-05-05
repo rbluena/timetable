@@ -32,7 +32,12 @@ const Signup = () => {
     <Form className="w-72" layout="vertical" onFinish={onSubmit} form={form}>
       <Form.Item
         name="userName"
+        normalize={(value) => value.toLowerCase().trim()}
         rules={[
+          {
+            min: 3,
+            message: 'Minimum length should be 3 characters.',
+          },
           {
             required: true,
             message: 'Please input your username!',
@@ -48,6 +53,7 @@ const Signup = () => {
       </Form.Item>
       <Form.Item
         name="email"
+        normalize={(value) => value.toLowerCase().trim()}
         rules={[
           {
             required: true,

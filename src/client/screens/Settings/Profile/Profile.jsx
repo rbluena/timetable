@@ -55,9 +55,14 @@ const Profile = () => {
           <Input />
         </Form.Item>
         <Form.Item
+          normalize={(value) => value.toLowerCase().trim()}
           name="userName"
           label="Username:"
           rules={[
+            {
+              min: 3,
+              message: 'Minimum length should be 3 characters.',
+            },
             {
               required: true,
               message: 'Please input your username!',
@@ -68,6 +73,7 @@ const Profile = () => {
         </Form.Item>
         <Form.Item
           name="email"
+          normalize={(value) => value.toLowerCase().trim()}
           label="Email:"
           rules={[
             {

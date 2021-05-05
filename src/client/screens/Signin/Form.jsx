@@ -18,6 +18,7 @@ const Signin = () => {
     <Form className="w-72" layout="vertical" onFinish={onSubmit} form={form}>
       <Form.Item
         name="email"
+        normalize={(value) => value.toLowerCase().trim()}
         rules={[
           {
             required: true,
