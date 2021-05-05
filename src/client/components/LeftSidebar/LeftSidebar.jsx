@@ -26,25 +26,29 @@ const LeftSidebar = ({ user }) => {
     >
       <div className="w-full">
         <div className="mt-16 flex flex-col w-full justify-center">
-          <div className="pl-5">
+          <div
+            className={`pl-5 ${
+              pathname === '/' ? 'border-r-2 border-primary-600' : ''
+            }`}
+          >
             <Link href="/">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>
                 <HomeIcon
                   size="sm"
-                  variant={pathname === '/' ? '' : 'neutral'}
+                  variant={pathname === '/' ? 'primary' : ''}
                 />
               </a>
             </Link>
           </div>
           &nbsp;
-          {/* start: Log user in link */}
-          {isEmpty(user) && (
+          {/* start: User's projects */}
+          {!isEmpty(user) && (
             <>
               <div
                 className={`${
                   pathname.includes('/projects') &&
-                  'border-r-2 border-primary-400'
+                  'border-r-2 border-primary-600'
                 } pl-5`}
               >
                 <Link href="/projects">
@@ -52,24 +56,36 @@ const LeftSidebar = ({ user }) => {
                   <a>
                     <GridIcon
                       size="sm"
-                      variant={pathname.includes('/projects') ? '' : 'neutral'}
+                      variant={pathname.includes('/projects') ? 'primary' : ''}
                     />
                   </a>
                 </Link>
               </div>
               &nbsp;
-              <div className="pl-5">
-                &nbsp;
-                <Link href="/signin">
-                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a>
-                    <Tooltip>
-                      <LoginIcon size="sm" variant="neutral" />
-                    </Tooltip>
-                  </a>
-                </Link>
-              </div>
             </>
+          )}
+          {/* end: User's projects */}
+          {/* start: Log user in link */}
+          {isEmpty(user) && (
+            <div
+              className={`pl-5 ${
+                pathname.includes('/signin')
+                  ? 'border-r-2 border-primary-600'
+                  : ''
+              }`}
+            >
+              <Link href="/signin">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a>
+                  <Tooltip>
+                    <LoginIcon
+                      size="sm"
+                      variant={pathname.includes('/signin') ? 'primary' : ''}
+                    />
+                  </Tooltip>
+                </a>
+              </Link>
+            </div>
           )}
           {/* end: Loggin user in */}
           {/* &nbsp;
@@ -124,7 +140,7 @@ const LeftSidebar = ({ user }) => {
             <a>
               <CogIcon
                 size="sm"
-                variant={pathname.includes('/settings') ? '' : 'neutral'}
+                variant={pathname.includes('/settings') ? '' : ''}
               />
             </a>
           </Link>
@@ -132,7 +148,7 @@ const LeftSidebar = ({ user }) => {
           <Link href="/signout">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a>
-              <LogoutIcon size="sm" variant="neutral" />
+              <LogoutIcon size="sm" variant="" />
             </a>
           </Link>
           &nbsp;
