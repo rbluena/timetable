@@ -69,16 +69,17 @@ const AboutContainer = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-4xl flex flex-wrap py-4">
+      <div className="mx-auto max-w-4xl flex flex-wrap py-4 ">
         {/* <div className="bg-white max-w-xl shadow-sm rounded relative p-6 md:pl-12"> */}
         <div className="max-w-xl">
-          <div className="">
+          <div className="space-y-6">
             <div className="bg-white shadow rounded relative p-4">
               <Title
                 level={4}
                 editable={
                   project.isUserOwner
                     ? {
+                        tooltip: 'Click to edit.',
                         onChange: (value) => updateProject('title', value),
                       }
                     : false
