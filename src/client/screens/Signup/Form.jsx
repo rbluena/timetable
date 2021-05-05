@@ -51,6 +51,9 @@ const Signup = () => {
         rules={[
           {
             required: true,
+            message: 'Email field should not be empty.',
+          },
+          {
             type: 'email',
             message: 'Please put a valid email address!',
           },
