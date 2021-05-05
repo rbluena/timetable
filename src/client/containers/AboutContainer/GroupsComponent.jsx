@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Button, Tag, Input, Tooltip } from 'antd';
+import { Typography, Button, Tag, Input, Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import {
   DeleteOutlined,
@@ -16,6 +16,7 @@ import {
 import Members from './Members';
 
 const { Title, Text } = Typography;
+const { Panel } = Collapse;
 
 const GroupsComponent = ({
   setModalGroupId,
@@ -70,107 +71,113 @@ const GroupsComponent = ({
       >
         <span className="text-neutral-500">{title}</span>
       </Title>
+      <Collapse bordered={false} ghost>
+        <Panel header="Groups" key="groups" className="bg-white">
+          {/* start: Rendering a new group. */}
+          <div className="divide-y divide-neutral-200 border-t border-neutral-200">
+            {groups &&
+              groups.length > 0 &&
+              groups.map((group) => (
+                <div key={group._id} className="py-3">
+                  <Title
+                    level={5}
+                    className=" text-primary-400"
+                    editable={
+                      isUserOwner
+                        ? {
+                            onChange: (value) =>
+                              updateGroup(group._id, { name: value }),
+                          }
+                        : false
+                    }
+                  >
+                    {group.name}
+                  </Title>
 
-      {/* start: Rendering a new group. */}
-      <div className="pl-2 divide-y divide-neutral-200 border-t border-neutral-200">
-        {groups &&
-          groups.length > 0 &&
-          groups.map((group) => (
-            <div key={group._id} className="py-3">
-              <Title
-                level={5}
-                className=" text-primary-400"
-                editable={
-                  isUserOwner
-                    ? {
-                        onChange: (value) =>
-                          updateGroup(group._id, { name: value }),
-                      }
-                    : false
-                }
-              >
-                {group.name}
-              </Title>
+                  <Text
+                    type="secondary"
+                    editable={
+                      isUserOwner
+                        ? {
+                            onChange: (value) =>
+                              updateGroup(group._id, { description: value }),
+                          }
+                        : false
+                    }
+                  >
+                    {group.description ? (
+                      group.description
+                    ) : (
+                      <span className="text-xs text-neutral-400">
+                        {isUserOwner ? 'Add description' : null}
+                      </span>
+                    )}
+                  </Text>
 
-              <Text
-                type="secondary"
-                editable={
-                  isUserOwner
-                    ? {
-                        onChange: (value) =>
-                          updateGroup(group._id, { description: value }),
-                      }
-                    : false
-                }
-              >
-                {group.description ? (
-                  group.description
-                ) : (
-                  <span className="text-xs text-neutral-400">
-                    {isUserOwner ? 'Add description' : null}
-                  </span>
-                )}
-              </Text>
+                  <div className="py-2">
+                    <Members users={group.members || []} />
+                  </div>
 
-              <div className="py-2">
-                <Members users={group.members || []} />
-              </div>
-
-              <div className="py-1 flex flex-row bg-neutral-100">
-                <Button
-                  size="small"
-                  type="link"
-                  onClick={() => openModal(group._id)}
-                >
-                  <span>
-                    <TeamOutlined />
-                    &nbsp; Members
-                  </span>
-                </Button>
-
-                {/* start: Button to delete group */}
-                {isUserOwner && (
-                  <Tooltip title="Delete group">
+                  <div className="py-1 flex flex-row bg-neutral-100">
                     <Button
-                      type="text"
                       size="small"
-                      danger
-                      className="ml-auto"
-                      onClick={() => deleteGroupHandler(group._id)}
+                      type="link"
+                      onClick={() => openModal(group._id)}
                     >
-                      <DeleteOutlined />
+                      <span>
+                        <TeamOutlined />
+                        &nbsp; Members
+                      </span>
                     </Button>
-                  </Tooltip>
-                )}
-                {/* end: Button to delete group */}
-              </div>
-            </div>
-          ))}
-      </div>
-      {/* end: Rendering a new group. */}
 
-      {/* start: Adding a new group */}
-      {isUserOwner && (
-        <div className="py-4">
-          {showGroupInput && (
-            <Input
-              size="sm"
-              placeholder="Group name"
-              onBlur={(evt) => addGroupHandler({ name: evt.target.value })}
-              onPressEnter={(evt) =>
-                addGroupHandler({ name: evt.target.value })
-              }
-              style={{ width: 200 }}
-            />
+                    {/* start: Button to delete group */}
+                    {isUserOwner && (
+                      <Tooltip title="Delete group">
+                        <Button
+                          type="text"
+                          size="small"
+                          danger
+                          className="ml-auto"
+                          onClick={() => deleteGroupHandler(group._id)}
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                      </Tooltip>
+                    )}
+                    {/* end: Button to delete group */}
+                  </div>
+                </div>
+              ))}
+          </div>
+          {/* end: Rendering a new group. */}
+
+          {/* start: Adding a new group */}
+          {isUserOwner && (
+            <div className="py-4">
+              {showGroupInput && (
+                <Input
+                  size="sm"
+                  placeholder="Group name"
+                  onBlur={(evt) => addGroupHandler({ name: evt.target.value })}
+                  onPressEnter={(evt) =>
+                    addGroupHandler({ name: evt.target.value })
+                  }
+                  style={{ width: 200 }}
+                />
+              )}
+              {!showGroupInput && (
+                <Tag
+                  onClick={showGroupInputHandler}
+                  icon={<PlusCircleTwoTone />}
+                >
+                  New group
+                </Tag>
+              )}
+            </div>
           )}
-          {!showGroupInput && (
-            <Tag onClick={showGroupInputHandler} icon={<PlusCircleTwoTone />}>
-              New group
-            </Tag>
-          )}
-        </div>
-      )}
-      {/* end: Adding a new group */}
+          {/* end: Adding a new group */}
+        </Panel>
+      </Collapse>
     </div>
   );
 };
