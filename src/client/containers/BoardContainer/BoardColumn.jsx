@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
-import { Typography, Button } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Typography, Button, Dropdown, Menu } from 'antd';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  MoreOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import TaskCard from './TaskCard';
 
 const { Title } = Typography;
@@ -32,6 +37,25 @@ const BoardColumn = ({
     deleteColumn(columnData._id);
   }
 
+  const menu = (
+    <Menu onClick={() => {}}>
+      <Menu.Item
+        key="edit"
+        icon={<EditOutlined />}
+        onClick={() => setEditingColumn(true)}
+      >
+        Rename
+      </Menu.Item>
+      <Menu.Item
+        key="delete_1"
+        icon={<DeleteOutlined />}
+        onClick={() => deleteBoardColumn()}
+      >
+        Delete
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div
       className="bg-neutral-50 p-1 mx-1 shadow-sm border border-neutral-100 rounded-sm overflow-hidden"
@@ -43,12 +67,17 @@ const BoardColumn = ({
     >
       {/* start: column header  */}
       <div className="">
-        <div className="flex items-start p-2">
+        <div className="flex items-start  p-1">
           <Title
             level={5}
             type="secondary"
+            onClick={() => {
+              if (isUserOwner) {
+                setEditingColumn(true);
+              }
+            }}
             editable={
-              isUserOwner
+              isUserOwner && isEditingColumn
                 ? {
                     editing: isEditingColumn,
                     onChange: changeColumnTitle,
@@ -60,20 +89,34 @@ const BoardColumn = ({
             {isEditingColumn && isUserOwner ? (
               name
             ) : (
-              <span className="uppercase font-normal text-base">{name}</span>
+              <span className=" font-semibold text-sm inline-block">
+                {name}
+              </span>
             )}
           </Title>
 
-          {/* start: Button to delete column */}
-          {isUserOwner && (
-            <Button type="text" size="small" danger onClick={deleteBoardColumn}>
-              {/* <EllipsisOutlined /> */}
-              <DeleteOutlined />
-            </Button>
-          )}
-          {/* end: Button to delete column */}
-          <div className="ml-auto font-bold italic text-neutral-500">
-            {tasks.length}
+          <div className="ml-auto">
+            {/* {tasks.length} */}
+            {/* start: Button to delete column */}
+            {/* <EllipsisOutlined /> */}
+            {isUserOwner && (
+              <Dropdown.Button
+                type="text"
+                overlay={menu}
+                trigger={['click']}
+                icon={<MoreOutlined />}
+              >
+                {/* <Button
+                  type="text"
+                  size="small"
+                  danger
+                  onClick={deleteBoardColumn}
+                >
+                  <DeleteOutlined />
+                </Button> */}
+              </Dropdown.Button>
+            )}
+            {/* end: Button to delete column */}
           </div>
         </div>
       </div>
