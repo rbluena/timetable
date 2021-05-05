@@ -1,7 +1,14 @@
+import { get } from 'lodash';
+import { message } from 'antd';
 import { acceptGroupInvitationService } from '@app/services';
-import { getCookieToken } from '@app/utils';
+import { getCookieToken, deleteCookieToken } from '@app/utils';
+import LayoutManager from '@app/components/LayoutManager';
+import AcceptInvitationScreen from '@app/screens/AcceptInvitation';
 
 export async function getServerSideProps({ params, query, req }) {
+  let data = null;
+  let respError = null;
+
   try {
     const { id: projectId } = params;
     const { email, group_id: groupId } = query;
@@ -17,23 +24,15 @@ export async function getServerSideProps({ params, query, req }) {
       };
     }
 
-    const { data, meta } = await acceptGroupInvitationService(
+    ({ data } = await acceptGroupInvitationService(
       projectId,
       groupId,
       email,
       token
-    );
+    ));
 
-    if (!meta.isUserExist) {
-      return {
-        redirect: {
-          destination: '/signout',
-          permanent: false,
-        },
-      };
-    }
-
-    if (data && meta.isUserExist) {
+    // Successfully user joined the group.
+    if (data) {
       return {
         redirect: {
           destination: `/projects/${data.project}`,
@@ -42,7 +41,9 @@ export async function getServerSideProps({ params, query, req }) {
       };
     }
   } catch (error) {
-    if (error.status === 403) {
+    respError = error;
+
+    if (respError.status === 403) {
       return {
         redirect: {
           destination: '/signout',
@@ -50,12 +51,29 @@ export async function getServerSideProps({ params, query, req }) {
         },
       };
     }
+    respError = get(error, 'errors.details');
   }
 
   return {
-    props: {},
+    props: {
+      error: respError,
+      data,
+    },
   };
 }
-const adduser = () => null;
+const adduser = ({ error, data }) => {
+  console.log(error);
+  console.log(data);
+
+  if (error) {
+    message.error(error);
+  }
+
+  return (
+    <LayoutManager showSidebar>
+      <AcceptInvitationScreen />
+    </LayoutManager>
+  );
+};
 
 export default adduser;

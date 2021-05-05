@@ -311,17 +311,28 @@ exports.addGroupInviteeHandler = async (req, res, next) => {
  */
 exports.acceptUserInvitationHandler = async (req, res, next) => {
   try {
+    const user = decode(req.app.jwt);
     const { groupId } = req.params;
     const { email } = req.body;
 
-    const { data, meta } = await acceptUserInvitationService(groupId, email);
+    if (email !== user.email) {
+      return res.status(403).json({
+        status: 403,
+        success: false,
+        message: 'error',
+        errors: [
+          { description: 'You are not authorized to perform this action.' },
+        ],
+      });
+    }
+
+    const data = await acceptUserInvitationService(groupId, email);
 
     res.status(200).json({
       status: 200,
       success: true,
       message: 'User has joined the project successfully.',
       data,
-      meta,
     });
   } catch (error) {
     next(error);

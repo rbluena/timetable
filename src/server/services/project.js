@@ -359,6 +359,15 @@ const acceptUserInvitationService = async (groupId, email) => {
   const user = await User.findOne({ email });
 
   if (user) {
+    // Checking if user was already added to the project.
+    const group = await Group.findOne({
+      _id: mongoose.Types.ObjectId(groupId),
+    }).lean();
+
+    if (group && group.members.includes(user._id)) {
+      throw Error('User with email is already a member of the project.');
+    }
+
     await User.updateOne(
       { email },
       { $addToSet: { groups: groupId } },
@@ -394,7 +403,7 @@ const acceptUserInvitationService = async (groupId, email) => {
     return updatedGroup;
   }
 
-  throw Error('User does not exist!');
+  throw Error('User with email is not register. Please sign up first.');
 };
 
 /**
