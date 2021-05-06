@@ -1,17 +1,19 @@
 import { Modal } from 'antd';
-import ReactPlayer from 'react-player/youtube';
 import PropTypes from 'prop-types';
 
 const VideoPlayer = ({ isOpen, closeModal }) => (
-  <Modal visible={isOpen} onCancel={closeModal} footer={false} width="940px">
-    <div className="w-full">
-      <ReactPlayer
-        width="100%"
-        stopOnUnmount
-        url="https://youtu.be/gwUz3E9AW0w"
-        controls={false}
-      />
-    </div>
+  <Modal visible={isOpen} onCancel={closeModal} footer={false}>
+    <iframe
+      title="Video"
+      frameBorder="0"
+      className="w-full"
+      height="300px"
+      src="https://biteable.com/watch/embed/2965129/c75d9692f1a6f3aaf3a23568c820dd07"
+      allowFullScreen="true"
+      allow="autoplay"
+    >
+      {' '}
+    </iframe>{' '}
   </Modal>
 );
 
