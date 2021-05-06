@@ -140,7 +140,7 @@ const LeftSidebar = ({ user }) => {
             <a>
               <CogIcon
                 size="sm"
-                variant={pathname.includes('/settings') ? '' : ''}
+                variant={pathname.includes('/settings') ? 'primary' : ''}
               />
             </a>
           </Link>

@@ -225,7 +225,7 @@ const CreateTask = ({
             </Select>
           </Form.Item>
           {/* end: Rendering assignees options */}
-          <h2>Attachments:</h2>
+          {/* <h2>Attachments:</h2> */}
 
           {/* start: Footer */}
           <div className="flex justify-end">
