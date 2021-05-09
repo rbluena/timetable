@@ -1,44 +1,42 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button, Form, TimePicker, DatePicker, Select } from 'antd';
-import { ControlWrapper } from '@app/components/Form';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
+import { Input, Button, Form, TimePicker, DatePicker, Select } from 'antd';
 
 const { RangePicker } = TimePicker;
 const { Option } = Select;
 
-const CreateTask = ({
-  isOpen,
-  closeModal,
-  onSubmit,
-  editingTask,
+const Editing = ({
+  task,
   categories,
-  assignees,
+  users,
+  groups,
+  cancelEditing,
+  onSubmit,
 }) => {
   const [form] = Form.useForm();
 
-  const { users, groups } = assignees;
-
   useEffect(() => {
-    if (editingTask) {
+    if (task) {
       form.setFieldsValue({
-        date: editingTask.date ? moment(editingTask.date) : null,
-        description: editingTask.description,
-        reporter: editingTask.reporter ? editingTask.reporter._id : null,
-        range: editingTask.schedule
-          ? [
-              moment(editingTask.schedule.start),
-              moment(editingTask.schedule.end),
-            ]
+        title: task.title,
+        description: task.description,
+        reporter: task.reporter ? task.reporter._id : null,
+        category: task.category ? task.category : null,
+        date: task.date ? moment(task.date) : null,
+        range: task.schedule
+          ? [moment(task.schedule.start), moment(task.schedule.end)]
           : null,
-        title: editingTask.title,
-        category: editingTask.category ? editingTask.category._id : null,
         assignees: [],
       });
     }
-  }, [form, editingTask]);
+  }, [form, task]);
 
+  /**
+   * Mapping assignees
+   * @param {Array} data Assignees
+   */
   function mapAssignees(data) {
     if (data && data.length) {
       return data.map((itemId) => {
@@ -56,11 +54,15 @@ const CreateTask = ({
     return [];
   }
 
-  function handleSubmittedData(data) {
-    if (editingTask) {
-      data._id = editingTask._id;
-      data.new = editingTask.new;
-      data.project = editingTask.project;
+  /**
+   * Handling submitted data by user.
+   * @param {Object} data
+   */
+  function handleFormSubmit(data) {
+    if (task) {
+      data._id = task._id;
+      data.new = task.new;
+      data.project = task.project;
     }
 
     data.date = data.date.format('YYYY-MM-DD');
@@ -88,29 +90,20 @@ const CreateTask = ({
     delete data.range;
 
     onSubmit({ ...data, assignees: mappedAssignees });
-    form.resetFields();
   }
 
   return (
     <div
-      className={` transform transition-all duration-200 bg-white w-full max-w-lg left-4 top-4 fixed rounded shadow-lg border border-neutral-50 overflow-x-hidden ${
-        isOpen
-          ? 'opacity-100 translate-x-0'
-          : 'invisible opacity-0  translate-x-5'
-      }`}
-      style={{ maxHeight: 'calc(100vh - 80px)', zIndex: '1000' }}
+      className="overflow-y-auto py-4"
+      style={{ height: 'calc(100vh - 80px)' }}
     >
-      <div className="bg-neutral-100">
-        <h2 className="text-xl text-neutral-500 p-2 px-4">Task</h2>
-      </div>
-
-      <div className="max-w-2xl p-4">
-        <Form
-          form={form}
-          onFinish={handleSubmittedData}
-          layout="vertical"
-          initialValues={{}}
-        >
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={{}}
+        onFinish={handleFormSubmit}
+      >
+        <div className="px-4">
           {/* start: Title */}
           <Form.Item
             name="title"
@@ -153,7 +146,11 @@ const CreateTask = ({
           {/* start: Rendering categories */}
           {!isEmpty(categories) && (
             <Form.Item name="category">
-              <Select style={{ width: 120 }} placeholder="Category">
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Category"
+                allowClear
+              >
                 {Object.keys(categories).map((key) => {
                   const category = categories[key];
 
@@ -225,46 +222,35 @@ const CreateTask = ({
             </Select>
           </Form.Item>
           {/* end: Rendering assignees options */}
-          {/* <h2>Attachments:</h2> */}
+        </div>
 
-          {/* start: Footer */}
-          <div className="flex justify-end">
-            <ControlWrapper>
-              <Button
-                htmlType="reset"
-                onClick={() => {
-                  closeModal();
-                  form.resetFields();
-                }}
-              >
-                Cancel
-              </Button>
-              &nbsp;
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </ControlWrapper>
-          </div>
-          {/* end: Footer */}
-        </Form>
-      </div>
+        {/* start: Footer submiting form */}
+        <div className="flex justify-end fixed bottom-0 bg-neutral-50 border-b border-primary-100 w-full p-4">
+          <Button htmlType="submit" type="primary">
+            Submit
+          </Button>
+          &nbsp;
+          <Button onClick={cancelEditing}>Cancel</Button>
+        </div>
+        {/* end: Footer submiting form */}
+      </Form>
     </div>
   );
 };
 
-CreateTask.defaultProps = {
-  editingTask: null,
-  assignees: undefined,
+Editing.defaultProps = {
   categories: undefined,
+  users: [],
+  groups: [],
 };
 
-CreateTask.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  editingTask: PropTypes.objectOf(PropTypes.any),
-  assignees: PropTypes.objectOf(PropTypes.any),
+Editing.propTypes = {
   categories: PropTypes.objectOf(PropTypes.any),
+  task: PropTypes.objectOf(PropTypes.any).isRequired,
+  users: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+  groups: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+  onSubmit: PropTypes.func.isRequired,
+  cancelEditing: PropTypes.func.isRequired,
 };
 
-export default CreateTask;
+export default Editing;

@@ -2,12 +2,7 @@ import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
 
-const BacklogsList = ({
-  canUserUpdateTask,
-  backlog,
-  categories,
-  openTaskDrawer,
-}) => (
+const BacklogsList = ({ canUserUpdateTask, backlog, categories, openTask }) => (
   <div className="overflow-y-auto" style={{ height: 'calc(100vh - 90px)' }}>
     {/* start: Backlog list */}
     <Droppable droppableId="backlog">
@@ -26,7 +21,7 @@ const BacklogsList = ({
                 draggableId={task._id}
                 task={task}
                 categories={categories}
-                openTaskDrawer={openTaskDrawer}
+                openTask={openTask}
                 canUserUpdateTask={canUserUpdateTask}
               />
             ))}
@@ -48,7 +43,7 @@ BacklogsList.propTypes = {
   backlog: PropTypes.arrayOf(PropTypes.string).isRequired,
   canUserUpdateTask: PropTypes.bool,
   categories: PropTypes.objectOf(PropTypes.any),
-  openTaskDrawer: PropTypes.func.isRequired,
+  openTask: PropTypes.func.isRequired,
 };
 
 export default BacklogsList;

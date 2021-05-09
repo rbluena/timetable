@@ -106,7 +106,10 @@ const updateTaskService = async (taskId, data) => {
     throw Error('Something went wrong. Our team are fixing it');
   }
 
-  await Task.populate(updated, 'todos');
+  await Task.populate(updated, {
+    path: 'reporter',
+    select: ['fullName', 'accountName', 'image'],
+  });
 
   return updated.toObject();
 };
@@ -259,14 +262,14 @@ const getProjectTasksService = async (projectId, options) => {
   const aggregate = Task.aggregate([
     { $sort: sort },
     { $match: match },
-    // {
-    //   $lookup: {
-    //     from: User.collection.name,
-    //     localField: 'reporter',
-    //     foreignField: '_id',
-    //     as: 'reporter',
-    //   },
-    // },
+    {
+      $lookup: {
+        from: User.collection.name,
+        localField: 'reporter',
+        foreignField: '_id',
+        as: 'reporter',
+      },
+    },
     // {
     //   $lookup: {
     //     from: User.collection.name,
@@ -283,18 +286,26 @@ const getProjectTasksService = async (projectId, options) => {
     //     as: 'groupAssignees',
     //   },
     // },
-    // { $unwind: '$reporter' },
-    /*  {
+    { $unwind: '$reporter' },
+    {
       $project: {
         'reporter.email': 0,
         'reporter.password': 0,
         'reporter.groups': 0,
-        'reporter.projects': 0,
         'reporter.tasks': 0,
         'reporter.verificationToken': 0,
         'reporter.loginStrategy': 0,
-        'reporter.assignedTasks': 0,
         'reporter.createdAt': 0,
+        'reporter.updatedAt': 0,
+        'reporter.projects': 0,
+        'reporter.assignedTasks': 0,
+        'reporter.timeEntries': 0,
+      },
+    },
+    /*  {
+      $project: {
+        'reporter.email': 0,
+        'reporter.assignedTasks': 0,
         'reporter.updatedAt': 0,
         'userAssignees.email': 0,
         'userAssignees.password': 0,

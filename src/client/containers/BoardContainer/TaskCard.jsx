@@ -14,7 +14,7 @@ const TaskCard = ({
   draggableId,
   task,
   categories,
-  openTaskDrawer,
+  openTask,
 }) => {
   const taskCategory = categories[task.category];
   const { userAssignees, groupAssignees } = task;
@@ -38,7 +38,7 @@ const TaskCard = ({
             <Button
               className="ml-auto"
               size="small"
-              onClick={() => openTaskDrawer(task._id)}
+              onClick={() => openTask(task._id)}
             >
               <ExpandAltOutlined />
             </Button>
@@ -114,7 +114,7 @@ TaskCard.defaultProps = {
 
 TaskCard.propTypes = {
   canUserUpdateTask: PropTypes.bool,
-  openTaskDrawer: PropTypes.func.isRequired,
+  openTask: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   draggableId: PropTypes.string.isRequired,
   task: PropTypes.objectOf(PropTypes.any).isRequired,

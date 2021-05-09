@@ -2,7 +2,7 @@ import { CreateTask } from '@app/components';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   globalStateSelector,
-  tasksStateSelector,
+  getOpenedTaskSelector,
   taskCategoriesSelector,
   projectAssigneesSelector,
 } from '@app/selectors';
@@ -15,33 +15,35 @@ import {
 
 const CreateTaskModalContainer = () => {
   const { modal } = useSelector(globalStateSelector);
-  const { editingTask } = useSelector(tasksStateSelector);
+  const task = useSelector(getOpenedTaskSelector);
   const assignees = useSelector(projectAssigneesSelector);
   const categories = useSelector(taskCategoriesSelector);
   const dispatch = useDispatch();
+
+  const isModalOpen = modal === 'task' && task !== null;
 
   function onSubmit(data) {
     // We update task if it's not a new task
     if (!data.new) {
       dispatch(updateTaskAction(data._id, data));
+      // dispatch(closeModalAction());
     } else {
       delete data.new;
       dispatch(createTaskAction(data));
     }
-    dispatch(closeModalAction());
   }
 
   function onCancel() {
-    dispatch(cancelEditingTaskAction(editingTask));
     dispatch(closeModalAction());
+    dispatch(cancelEditingTaskAction(task));
   }
 
   return (
     <CreateTask
-      isOpen={modal === 'task'}
+      isOpen={isModalOpen}
       closeModal={onCancel}
       onSubmit={onSubmit}
-      editingTask={editingTask}
+      task={task}
       categories={categories}
       assignees={assignees}
     />

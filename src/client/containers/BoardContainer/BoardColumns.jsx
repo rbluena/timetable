@@ -7,7 +7,7 @@ const BoardColumns = ({
   canUserUpdateTask,
   isUserOwner,
   columns,
-  openTaskDrawer,
+  openTask,
   categories,
   createNewColumn,
   updateColumn,
@@ -26,7 +26,7 @@ const BoardColumns = ({
           columnData={columnData}
           columnIndex={index}
           categories={categories}
-          openTaskDrawer={openTaskDrawer}
+          openTask={openTask}
           updateColumn={updateColumn}
           deleteColumn={deleteColumn}
         />
@@ -47,6 +47,7 @@ const BoardColumns = ({
   </div>
 );
 BoardColumns.defaultProps = {
+  columns: [],
   canUserUpdateTask: false,
   categories: {},
   isUserOwner: false,
@@ -55,9 +56,11 @@ BoardColumns.defaultProps = {
 BoardColumns.propTypes = {
   canUserUpdateTask: PropTypes.bool,
   createNewColumn: PropTypes.func.isRequired,
+  openTask: PropTypes.func.isRequired,
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
   categories: PropTypes.objectOf(PropTypes.any),
+  columns: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
   isUserOwner: PropTypes.bool,
 };
 

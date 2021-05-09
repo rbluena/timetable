@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { Timeline, Typography, Avatar, Tooltip, Tag, Button } from 'antd';
 import { DeleteFilled, TeamOutlined, EditOutlined } from '@ant-design/icons';
-// import { TimeTicker } from '@app/components';
 
 const { Title, Paragraph } = Typography;
 

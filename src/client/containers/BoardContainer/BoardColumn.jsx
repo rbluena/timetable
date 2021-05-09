@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
-import { Typography, Button, Dropdown, Menu } from 'antd';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  MoreOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { Typography, Dropdown, Menu } from 'antd';
+import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons';
 import TaskCard from './TaskCard';
 
 const { Title } = Typography;
@@ -16,7 +11,7 @@ const BoardColumn = ({
   canUserUpdateTask,
   isUserOwner,
   columnData,
-  openTaskDrawer,
+  openTask,
   columnIndex,
   categories,
   updateColumn,
@@ -138,7 +133,7 @@ const BoardColumn = ({
                   key={task._id}
                   index={index}
                   canUserUpdateTask={canUserUpdateTask}
-                  openTaskDrawer={openTaskDrawer}
+                  openTask={openTask}
                   draggableId={task._id}
                   task={task}
                   categories={categories}
@@ -169,6 +164,6 @@ BoardColumn.propTypes = {
   columnData: PropTypes.objectOf(PropTypes.any),
   updateColumn: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
-  openTaskDrawer: PropTypes.func.isRequired,
+  openTask: PropTypes.func.isRequired,
 };
 export default BoardColumn;

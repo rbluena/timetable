@@ -6,17 +6,14 @@ import {
   isUserProjectMemberSelector,
   isUserProjectOwnerSelector,
 } from '@app/selectors';
-import { CreateTaskModalContainer } from '@app/containers/modals';
+import { TaskModalContainer } from '@app/containers/modals';
 
 import {
-  openModalAction,
-  setOpenedTaskAction,
-  openDrawerAction,
-  addNewTaskAction,
+  openTaskAction,
+  editTaskAction,
+  deleteTaskAction,
   loadPrevTasksAction,
   loadNextTasksAction,
-  setEditingTaskAction,
-  deleteTaskAction,
 } from '@app/actions';
 
 import { Button } from 'antd';
@@ -35,21 +32,40 @@ const TimelineContainer = () => {
   const canUserUpdateTask = isUserProjectMember || isUserProjectOwner;
 
   /**
-   * Opening drawer to view task details.
-   * @param {String} id Task ID
+   * Opening modal to create a new task
+   * @param {Object} data Dummy data for the modal
    */
-  function openTaskDrawer(id) {
-    dispatch(setOpenedTaskAction(id, query.id));
-    dispatch(openDrawerAction('task'));
-  }
-
-  function openNewTaskModal(data = {}) {
+  function createNewTask(data = {}) {
+    data._id = 'new:reandom_string'; // dummy id
     data.title = 'New task';
     data.new = true;
-    data._id = 'new:reandom_string';
 
-    dispatch(addNewTaskAction(data));
-    dispatch(openModalAction('task'));
+    dispatch(editTaskAction(data));
+  }
+
+  /**
+   * Opening modal to view task.
+   * @param {String} taskId An ID of the task
+   */
+  function openTask(taskId) {
+    dispatch(openTaskAction(query.id, taskId));
+  }
+
+  /**
+   * Opening modal to edit task.
+   * @param {Object} task Task to be edited
+   */
+  function editTask(task) {
+    dispatch(openTaskAction(query.id, task._id, true));
+  }
+
+  /**
+   * Function to delete a task.
+   * @param {String} projectId ID of the project.
+   * @param {String} taskId ID of the task.
+   */
+  function deleteTask(projectId, taskId) {
+    dispatch(deleteTaskAction(projectId, taskId));
   }
 
   /**
@@ -74,22 +90,13 @@ const TimelineContainer = () => {
     setIsLoading(false);
   }
 
-  function editTask(task) {
-    dispatch(setEditingTaskAction(task));
-    dispatch(openModalAction('task'));
-  }
-
-  function deleteTask(projectId, taskId) {
-    dispatch(deleteTaskAction(projectId, taskId));
-  }
-
   return (
     <>
       <div className="w-full bg-white min-h-screen">
         <div className="relative mx-auto max-w-6xl">
           <TimelineContainerHeader
             date={new Date()}
-            openNewTaskModal={openNewTaskModal}
+            createNewTask={createNewTask}
             isUserProjectMember={isUserProjectMember}
           />
 
@@ -116,7 +123,7 @@ const TimelineContainer = () => {
                       canUserUpdateTask={canUserUpdateTask}
                       editTask={editTask}
                       deleteTask={deleteTask}
-                      openTaskDrawer={openTaskDrawer}
+                      openTask={openTask}
                     />
                   </div>
                 </div>
@@ -137,7 +144,7 @@ const TimelineContainer = () => {
       </div>
 
       {/* start: Create task modal */}
-      <CreateTaskModalContainer />
+      <TaskModalContainer />
       {/* end: Create task modal */}
     </>
   );

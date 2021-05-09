@@ -156,6 +156,7 @@ export default function taskReducer(state = initialState, action) {
       state.fetching = false;
 
       state.tasks[payload._id] = payload;
+      state.openedTask = payload;
       return state;
     }
 

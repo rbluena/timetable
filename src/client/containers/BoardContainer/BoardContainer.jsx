@@ -5,10 +5,8 @@ import { Button } from 'antd';
 import { CloseOutlined, UnorderedListOutlined } from '@ant-design/icons';
 
 import {
-  setOpenedTaskAction,
-  openModalAction,
-  openDrawerAction,
-  addNewTaskAction,
+  editTaskAction,
+  openTaskAction,
   createNewStatusAction,
   updateStatusAction,
   deleteStatusAction,
@@ -56,25 +54,27 @@ const BoardContainer = () => {
   }
 
   /**
-   *
-   * @param {String} id
+   * Opening modal to create a new task
+   * @param {Object} data Dummy data for the modal
    */
-  function openTaskDrawer(id) {
-    dispatch(setOpenedTaskAction(id, projectId));
-    dispatch(openDrawerAction('task'));
-  }
-
-  function openNewTaskModal(data = {}) {
+  function createNewTask(data = {}) {
+    data._id = 'new:reandom_string'; // dummy id
     data.title = 'New task';
     data.new = true;
-    data._id = 'new:reandom_string';
 
-    dispatch(addNewTaskAction(data));
-    dispatch(openModalAction('task'));
+    dispatch(editTaskAction(data));
   }
 
   /**
-   * Creating new column
+   * Opening modal to view task.
+   * @param {String} taskId An ID of the task
+   */
+  function openTask(taskId) {
+    dispatch(openTaskAction(projectId, taskId));
+  }
+
+  /**
+   * Creating new column.
    */
   function createNewColumn() {
     const data = { project: projectId };
@@ -82,7 +82,7 @@ const BoardContainer = () => {
   }
 
   /**
-   * Updating column/status details
+   * Updating column/status details.
    * @param {Object} data
    */
   function updateColumn(columnId, data) {
@@ -90,7 +90,7 @@ const BoardContainer = () => {
   }
 
   /**
-   * Deleting column
+   * Deleting column.
    * @param {String} columnId
    */
   function deleteColumn(columnId) {
@@ -121,14 +121,15 @@ const BoardContainer = () => {
               <CloseOutlined />
             </Button>
           </div>
+
           {isCurrentUserProjectMember && (
-            <CreateTaskButton openNewTaskModal={openNewTaskModal} />
+            <CreateTaskButton openNewTaskModal={createNewTask} />
           )}
 
           <BacklogsList
             backlog={backlog || []}
             categories={categories}
-            openTaskDrawer={openTaskDrawer}
+            openTask={openTask}
             canUserUpdateTask={canUserUpdateTask}
           />
         </div>
@@ -168,7 +169,7 @@ const BoardContainer = () => {
           <BoardColumns
             columns={columns}
             categories={categories}
-            openTaskDrawer={openTaskDrawer}
+            openTask={openTask}
             createNewColumn={createNewColumn}
             canUserUpdateTask={canUserUpdateTask}
             updateColumn={updateColumn}

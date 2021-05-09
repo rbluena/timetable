@@ -10,14 +10,14 @@ const TimelineComponent = ({
   canUserUpdateTask,
   editTask,
   deleteTask,
-  openTaskDrawer,
+  openTask,
 }) => (
   <div className="py-1">
     <Timeline>
       {tasks &&
         tasks.length > 0 &&
         tasks.map((task) => (
-          <a key={task._id} onClick={() => openTaskDrawer(task._id)}>
+          <a key={task._id} onClick={() => openTask(task._id)}>
             <TimelineItem
               key={task._id}
               task={task}
@@ -38,7 +38,7 @@ TimelineComponent.defaultProps = {
 TimelineComponent.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.any).isRequired,
   canUserUpdateTask: PropTypes.bool,
-  openTaskDrawer: PropTypes.func.isRequired,
+  openTask: PropTypes.func.isRequired,
   editTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
 };

@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 // import { AuthHeader } from '@app/components';
 import { Radio } from 'antd';
-import { CreateTaskModalContainer } from '@app/containers/modals';
 import Content from './Content';
 
 const CanvasContainer = () => {
@@ -58,9 +57,6 @@ const CanvasContainer = () => {
         </div>
         {/* END: FOOTER */}
       </div>
-      {/* start: Modal to create task */}
-      <CreateTaskModalContainer />
-      {/* end: Modal to create task */}
     </>
   );
 };

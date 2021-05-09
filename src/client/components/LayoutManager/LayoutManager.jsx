@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import {
   LeftSidebarContainer,
-  TaskDrawerContainer,
+  TaskModalContainer,
   AlertNotificationsContainer,
 } from '@app/containers';
+
 import { Container } from '@app/components';
 import 'antd/dist/antd.css';
 
@@ -17,7 +18,7 @@ const LayoutManager = ({ children, showSidebar }) => {
           <Container>{children}</Container>
         </div>
 
-        <TaskDrawerContainer />
+        <TaskModalContainer />
       </>
     );
   }

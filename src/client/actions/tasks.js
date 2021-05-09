@@ -32,6 +32,8 @@ import {
 
 import { getProjectStatusesSuccess } from '@app/reducers/statusesReducer';
 
+import { openModalAction } from './global';
+
 import {
   getNormalizedBacklog,
   getNormalizedStatues,
@@ -163,47 +165,56 @@ export function deleteTaskAction(projectId, taskId) {
         payload: data._id,
       });
     } catch (error) {
-      console.log(error);
+      const err = {
+        type: 'error',
+        message: error.errors || error.message,
+      };
+
+      dispatch(setNotificationAction(err));
+
+      if (error.status === 403) {
+        dispatch(signUserOutAction());
+      }
     }
   };
 }
 
-export const getProjectTasksAction = (projectId, options = {}) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const {
-      AUTH: { token },
-    } = getState();
+// export const getProjectTasksAction = (projectId, options = {}) => async (
+//   dispatch,
+//   getState
+// ) => {
+//   try {
+//     const {
+//       AUTH: { token },
+//     } = getState();
 
-    const { data, meta } = await getProjectTasksService(
-      projectId,
-      options,
-      token
-    );
+//     const { data, meta } = await getProjectTasksService(
+//       projectId,
+//       options,
+//       token
+//     );
 
-    console.log(data);
-    console.log(meta);
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     console.log(data);
+//     console.log(meta);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-export const getTasksByStatusAction = (projectId, options) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const { token } = getState().AUTH;
+// export const getTasksByStatusAction = (projectId, options) => async (
+//   dispatch,
+//   getState
+// ) => {
+//   try {
+//     const { token } = getState().AUTH;
 
-    const { data } = await getTasksByStatusService(projectId, options);
+//     const { data } = await getTasksByStatusService(projectId, options);
 
-    // console.log(data);
-  } catch (error) {
-    // console.log(error);
-  }
-};
+//     // console.log(data);
+//   } catch (error) {
+//     // console.log(error);
+//   }
+// };
 
 /**
  * Setting task that is opened.
@@ -346,4 +357,49 @@ export const getBoardTasksAction = (
       backlogMeta,
     },
   });
+};
+
+/**
+ *
+ * @param {String} projectId
+ * @param {String} taskId
+ */
+export const openTaskAction = (projectId, taskId, editing = false) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const { token } = getState().AUTH;
+
+    if (taskId && projectId) {
+      const { data } = await getTaskService(projectId, taskId, token);
+
+      // If we edit task
+      if (editing) {
+        data.editing = true;
+      }
+
+      dispatch({
+        type: setOpenedTask,
+        payload: data,
+      });
+
+      dispatch(openModalAction('task'));
+    }
+  } catch (error) {
+    // console.log(error);
+  }
+};
+
+export const editTaskAction = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: setOpenedTask,
+      payload: data,
+    });
+
+    dispatch(openModalAction('task'));
+  } catch (error) {
+    // console.log(error);
+  }
 };
