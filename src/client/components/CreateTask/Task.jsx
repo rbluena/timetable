@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import { get } from 'lodash';
 
 import { Button, Radio, Tooltip } from 'antd';
@@ -14,6 +15,7 @@ import {
 } from '@ant-design/icons';
 
 import { projectCategoriesSelector } from '@app/selectors';
+import { deleteTaskAction } from '@app/actions';
 
 import View from './View';
 import Editing from './Editing';
@@ -21,6 +23,8 @@ import Editing from './Editing';
 const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
   const [toggleTab, setToggleTab] = useState('view');
   const projectCategories = useSelector(projectCategoriesSelector);
+  const dispatch = useDispatch();
+  const { query } = useRouter();
 
   const { users, groups } = assignees;
 
@@ -41,6 +45,14 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
     } else {
       closeModal();
     }
+  }
+
+  /**
+   * Deleting task from server
+   */
+  function deleteTask() {
+    dispatch(deleteTaskAction(query.id, task._id));
+    closeModal();
   }
 
   useEffect(() => {
@@ -96,6 +108,7 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
         {toggleTab !== 'editing' && (
           <div className="fixed bottom-0 bg-neutral-50 border-t border-primary-100 w-full p-4">
             <div className="flex items-center ">
+              {/* start: Footer left icons. */}
               <div>
                 <Radio.Group
                   defaultValue="view"
@@ -121,6 +134,9 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
                   </Tooltip>
                 </Radio.Group>
               </div>
+              {/* end: Left footer icons. */}
+
+              {/* start: Edit and Delete icons. */}
               <div className="ml-auto">
                 <Tooltip title="Edit task">
                   <Button
@@ -132,9 +148,15 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
                 </Tooltip>
                 &nbsp;
                 <Tooltip title="Delete task">
-                  <Button type="danger" ghost icon={<DeleteOutlined />} />
+                  <Button
+                    type="danger"
+                    ghost
+                    icon={<DeleteOutlined />}
+                    onClick={deleteTask}
+                  />
                 </Tooltip>
               </div>
+              {/* end: Edit and Delete icons. */}
             </div>
           </div>
         )}
