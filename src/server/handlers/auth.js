@@ -75,7 +75,7 @@ exports.registerHandler = async (req, res, next) => {
         verificationToken,
       };
 
-      const user = await createUser(userData);
+      let user = await createUser(userData);
 
       const verificationUrl = `${process.env.SITE_URL}/verify/${verificationToken}`;
 
@@ -93,10 +93,27 @@ exports.registerHandler = async (req, res, next) => {
         await request;
       }
 
+      // LOG USER IN AND REDIRECT TO SETTINGS
+
+      user = user.toObject();
+
+      delete user.password;
+      delete user.loginStrategy;
+      delete user.verificationToken;
+      delete user.projects;
+      delete user.timeEntries;
+      delete user.tasks;
+      delete user.assignedTasks;
+      delete user.groups;
+      delete user.subscriptions;
+
+      const jwt = await generateAccessToken(user);
+      req.app.jwt = jwt;
+
       const responseBody = {
         status: 201,
         success: true,
-        data: {},
+        data: { jwt },
         message:
           'Thank you for registering with us. Check your email for verification.',
       };

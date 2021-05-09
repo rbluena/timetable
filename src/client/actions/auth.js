@@ -50,8 +50,12 @@ export function signUpUserAction(userData) {
   return async (dispatch) => {
     try {
       dispatch({ type: registerUser });
-      const { message } = await registerUserService(userData);
-      dispatch({ type: registerUserSuccess });
+      const { message, data } = await registerUserService(userData);
+      setCookieToken(data.jwt);
+
+      window.location.href = `${window.location.origin}/settings`;
+
+      // dispatch({ type: registerUserSuccess });
       dispatch(setNotificationAction({ type: 'success', message }));
     } catch (error) {
       const err = {
@@ -74,8 +78,8 @@ export function signInUserAction(userData) {
   return async (dispatch) => {
     try {
       dispatch({ type: signInUser });
+
       const { data } = await signInUserService({ ...userData, type: 'local' });
-      // dispatch({ type: signInUserSuccess, payload: data.jwt });
       setCookieToken(data.jwt);
       const user = decode(data.jwt);
 
