@@ -17,8 +17,21 @@ const Editing = ({
 }) => {
   const [form] = Form.useForm();
 
+  // console.log(task.userAssignees);
+  // console.log(task.groupAssignees);
+
   useEffect(() => {
     if (task) {
+      let assignees = [];
+
+      if (task.userAssignees && task.userAssignees.length > 0) {
+        assignees = task.userAssignees;
+      }
+
+      if (task.groupAssignees && task.groupAssignees.length > 0) {
+        assignees = [...assignees, ...task.groupAssignees];
+      }
+
       form.setFieldsValue({
         title: task.title,
         description: task.description,
@@ -28,7 +41,10 @@ const Editing = ({
         range: task.schedule
           ? [moment(task.schedule.start), moment(task.schedule.end)]
           : null,
-        assignees: [],
+        assignees:
+          assignees && assignees.length > 0
+            ? assignees.map((item) => item._id)
+            : [],
       });
     }
   }, [form, task]);
