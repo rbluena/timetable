@@ -103,8 +103,8 @@ const TimelineContainer = () => {
           <div className="p-2">
             <Button
               type="primary"
-              size="small"
               loading={isLoading}
+              ghost
               onClick={() => loadPrev()}
               className="my-4"
             >
@@ -133,9 +133,9 @@ const TimelineContainer = () => {
 
             <Button
               type="primary"
-              size="small"
               className="mb-10"
               loading={isLoading}
+              ghost
               onClick={() => loadNext()}
             >
               Newest
