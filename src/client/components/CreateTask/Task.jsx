@@ -8,14 +8,18 @@ import { Button, Radio, Tooltip } from 'antd';
 import {
   BarsOutlined,
   CloseOutlined,
-  CommentOutlined,
   DeleteOutlined,
   EditOutlined,
   FileOutlined,
 } from '@ant-design/icons';
 
-import { projectCategoriesSelector } from '@app/selectors';
-import { deleteTaskAction } from '@app/actions';
+import {
+  projectCategoriesSelector,
+  isUserProjectMemberSelector,
+  isUserProjectOwnerSelector,
+} from '@app/selectors';
+
+import { deleteTaskAction, unAssignTaskStatusAction } from '@app/actions';
 
 import View from './View';
 import Editing from './Editing';
@@ -23,6 +27,8 @@ import Editing from './Editing';
 const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
   const [toggleTab, setToggleTab] = useState('view');
   const projectCategories = useSelector(projectCategoriesSelector);
+  const isUserProjectMember = useSelector(isUserProjectMemberSelector);
+  const isUserProjectOwner = useSelector(isUserProjectOwnerSelector);
   const dispatch = useDispatch();
   const { query } = useRouter();
 
@@ -31,6 +37,8 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
   const reporter = get(task, 'reporter');
   const categoryId = get(task, 'category');
   const taskCategory = categoryId ? projectCategories[categoryId] : undefined;
+
+  const canUserUpdateTask = isUserProjectMember || isUserProjectOwner;
 
   function switchingTabs(value) {
     setToggleTab(value);
@@ -51,8 +59,13 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
    * Deleting task from server
    */
   function deleteTask() {
-    dispatch(deleteTaskAction(query.id, task._id));
-    closeModal();
+    if (canUserUpdateTask) {
+      dispatch(deleteTaskAction(query.id, task._id));
+      dispatch(
+        unAssignTaskStatusAction(task._id, task.status ? task.status._id : null)
+      );
+      closeModal();
+    }
   }
 
   useEffect(() => {
@@ -127,35 +140,37 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
                       <BarsOutlined />
                     </Radio.Button>
                   </Tooltip>
-                  <Tooltip title="Comments">
+                  {/* <Tooltip title="Comments">
                     <Radio.Button value="comments">
                       <CommentOutlined />
                     </Radio.Button>
-                  </Tooltip>
+                  </Tooltip> */}
                 </Radio.Group>
               </div>
               {/* end: Left footer icons. */}
 
               {/* start: Edit and Delete icons. */}
-              <div className="ml-auto">
-                <Tooltip title="Edit task">
-                  <Button
-                    type="primary"
-                    ghost
-                    icon={<EditOutlined />}
-                    onClick={() => setToggleTab('editing')}
-                  />
-                </Tooltip>
-                &nbsp;
-                <Tooltip title="Delete task">
-                  <Button
-                    type="danger"
-                    ghost
-                    icon={<DeleteOutlined />}
-                    onClick={deleteTask}
-                  />
-                </Tooltip>
-              </div>
+              {canUserUpdateTask && (
+                <div className="ml-auto">
+                  <Tooltip title="Edit task">
+                    <Button
+                      type="primary"
+                      ghost
+                      icon={<EditOutlined />}
+                      onClick={() => setToggleTab('editing')}
+                    />
+                  </Tooltip>
+                  &nbsp;
+                  <Tooltip title="Delete task">
+                    <Button
+                      type="danger"
+                      ghost
+                      icon={<DeleteOutlined />}
+                      onClick={deleteTask}
+                    />
+                  </Tooltip>
+                </div>
+              )}
               {/* end: Edit and Delete icons. */}
             </div>
           </div>
