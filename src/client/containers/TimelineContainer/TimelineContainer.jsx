@@ -116,7 +116,8 @@ const TimelineContainer = () => {
               mappedTasks.length > 0 &&
               mappedTasks.map((item) => (
                 <div className="" key={item.dateKey}>
-                  <div className="flex justify-start">
+                  {/* <div className="flex justify-start"> */}
+                  <div>
                     <TimelineHeader date={new Date(item.dateKey)} />
                     <Timeline
                       tasks={item.tasks}

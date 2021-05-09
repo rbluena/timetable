@@ -26,10 +26,10 @@ const CreateTaskModalContainer = () => {
     // We update task if it's not a new task
     if (!data.new) {
       dispatch(updateTaskAction(data._id, data));
-      // dispatch(closeModalAction());
     } else {
       delete data.new;
       dispatch(createTaskAction(data));
+      dispatch(closeModalAction());
     }
   }
 
