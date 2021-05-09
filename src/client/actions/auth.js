@@ -16,7 +16,6 @@ import {
   registerUserSuccess,
   registerUserFailure,
   signInUser,
-  signInUserSuccess,
   signInUserFailure,
   signOutUserSuccess,
   updateUserSuccess,

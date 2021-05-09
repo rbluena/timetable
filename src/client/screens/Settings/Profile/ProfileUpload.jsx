@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setCookieToken } from '@app/utils/session';
 import { uploadProfileService } from '@app/services';
 import { updateUserSuccess } from '@app/reducers/authReducer';
 import { Upload, message } from 'antd';
@@ -50,6 +51,8 @@ const ProfileUpload = ({ user, token }) => {
       formData.append('media', file);
 
       const { data } = await uploadProfileService(token, user._id, formData);
+
+      setCookieToken(data);
 
       dispatch({
         type: updateUserSuccess,
