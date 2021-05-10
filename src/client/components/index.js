@@ -13,7 +13,7 @@ import Container from './Container';
 import ProjectList from './ProjectList';
 import Link from './Link';
 import ProjectScheduleItem from './ProjectScheduleItem';
-import CreateTask from './CreateTask';
+import TaskModal from './TaskModal';
 import DatePicker from './Form/DatePicker';
 import RichEditor from './RichEditor';
 import Drawer from './Drawer';
@@ -39,7 +39,7 @@ export {
   ProjectList,
   Link,
   ProjectScheduleItem,
-  CreateTask,
+  TaskModal,
   DatePicker,
   RichEditor,
   Drawer,

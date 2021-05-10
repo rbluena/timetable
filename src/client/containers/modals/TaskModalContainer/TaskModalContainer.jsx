@@ -1,4 +1,4 @@
-import { CreateTask } from '@app/components';
+import { TaskModal } from '@app/components';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   globalStateSelector,
@@ -39,7 +39,7 @@ const CreateTaskModalContainer = () => {
   }
 
   return (
-    <CreateTask
+    <TaskModal
       isOpen={isModalOpen}
       closeModal={onCancel}
       onSubmit={onSubmit}
