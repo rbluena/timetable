@@ -161,89 +161,82 @@ export function assigningTaskStatusAction(
         destination,
       };
 
-      const { data } = await updateTaskStatusService(
-        projectId,
-        draggableId,
-        movingItem,
-        token
-      );
+      if (
+        destination.droppableId === 'backlog' &&
+        source.droppableId !== 'backlog'
+      ) {
+        // 1). Moving item to the backlog
+        dispatch({
+          type: backlogTaskAssingingStatusSuccess,
+          payload: {
+            taskId: draggableId,
+            index: destination.index,
+            type: 'adding',
+          },
+        });
 
-      if (data) {
-        if (
-          destination.droppableId === 'backlog' &&
-          source.droppableId !== 'backlog'
-        ) {
-          // 1). Moving item to the backlog
-          dispatch({
-            type: backlogTaskAssingingStatusSuccess,
-            payload: {
-              taskId: draggableId,
-              index: destination.index,
-              type: 'adding',
-            },
-          });
-
-          // 2). Remove item from the board column
-          dispatch({
-            type: unassignTaskStatusSuccess,
-            payload: {
-              taskId: draggableId,
-              statusId: source.droppableId,
-              index: source.index,
-            },
-          });
-        }
-
-        if (
-          source.droppableId === 'backlog' &&
-          destination.droppableId !== 'backlog'
-        ) {
-          // Moving from the backlog therefore
-          // 1). Moving item from the backlog.
-          dispatch({
-            type: backlogTaskAssingingStatusSuccess,
-            payload: {
-              taskId: draggableId,
-              type: 'remove',
-            },
-          });
-
-          // 2). Moving item to the board.
-          dispatch({
-            type: assignTaskStatusSuccess,
-            payload: {
-              taskId: draggableId,
-              statusId: destination.droppableId,
-              index: destination.index,
-            },
-          });
-        }
-
-        if (
-          source.droppableId !== 'backlog' &&
-          destination.droppableId !== 'backlog'
-        ) {
-          // Moving item from one colum to another
-          // in the same board.
-          dispatch({
-            type: assignTaskStatusSuccess,
-            payload: {
-              taskId: draggableId,
-              statusId: destination.droppableId,
-              index: destination.index,
-            },
-          });
-
-          dispatch({
-            type: unassignTaskStatusSuccess,
-            payload: {
-              taskId: draggableId,
-              statusId: source.droppableId,
-              index: source.index,
-            },
-          });
-        }
+        // 2). Remove item from the board column
+        dispatch({
+          type: unassignTaskStatusSuccess,
+          payload: {
+            taskId: draggableId,
+            statusId: source.droppableId,
+            index: source.index,
+          },
+        });
       }
+
+      if (
+        source.droppableId === 'backlog' &&
+        destination.droppableId !== 'backlog'
+      ) {
+        // Moving from the backlog therefore
+        // 1). Moving item from the backlog.
+        dispatch({
+          type: backlogTaskAssingingStatusSuccess,
+          payload: {
+            taskId: draggableId,
+            type: 'remove',
+          },
+        });
+
+        // 2). Moving item to the board.
+        dispatch({
+          type: assignTaskStatusSuccess,
+          payload: {
+            taskId: draggableId,
+            statusId: destination.droppableId,
+            index: destination.index,
+          },
+        });
+      }
+
+      if (
+        source.droppableId !== 'backlog' &&
+        destination.droppableId !== 'backlog'
+      ) {
+        // Moving item from one colum to another
+        // in the same board.
+        dispatch({
+          type: assignTaskStatusSuccess,
+          payload: {
+            taskId: draggableId,
+            statusId: destination.droppableId,
+            index: destination.index,
+          },
+        });
+
+        dispatch({
+          type: unassignTaskStatusSuccess,
+          payload: {
+            taskId: draggableId,
+            statusId: source.droppableId,
+            index: source.index,
+          },
+        });
+      }
+
+      await updateTaskStatusService(projectId, draggableId, movingItem, token);
     } catch (error) {
       const err = {
         type: 'error',
