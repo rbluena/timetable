@@ -87,11 +87,11 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
       style={{ height: 'calc(100vh - 20px)', zIndex: '1000' }}
     >
       <div className="h-full">
-        {/* start: Modal heading. */}
-        <div className="bg-neutral-50 border-b border-primary-100 w-full flex items-center py-1 px-4">
+        {/* start: Modal header. */}
+        <div className="border-b border-primary-100 bg-neutral-50 w-full flex items-center py-2 px-4">
           <div className="text-neutral-500">
             <h2 className="text-base p-0 m-0">Task</h2>
-            <p className="text-xs p-0 m-0">{upperFirst(toggleTab)}</p>
+            <p className="text-xs p-0 m-0 uppercase">{upperFirst(toggleTab)}</p>
           </div>
           <Button
             type="danger"
@@ -101,7 +101,7 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
             onClick={closeModal}
           />
         </div>
-        {/* end; Modal heading. */}
+        {/* end; Modal header. */}
 
         {/* start: Content */}
         {toggleTab === 'description' && (
