@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { get } from 'lodash';
+import { get, upperFirst } from 'lodash';
 
 import { Button, Radio, Tooltip } from 'antd';
 import {
@@ -25,7 +25,7 @@ import View from './View';
 import Editing from './Editing';
 
 const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
-  const [toggleTab, setToggleTab] = useState('view');
+  const [toggleTab, setToggleTab] = useState('description');
   const projectCategories = useSelector(projectCategoriesSelector);
   const isUserProjectMember = useSelector(isUserProjectMemberSelector);
   const isUserProjectOwner = useSelector(isUserProjectOwnerSelector);
@@ -49,7 +49,7 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
    */
   function cancelEditing() {
     if (!task.new) {
-      setToggleTab('view');
+      setToggleTab('description');
     } else {
       closeModal();
     }
@@ -73,7 +73,7 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
     if ((task && task.new) || (task && task.editing)) {
       setToggleTab('editing');
     } else {
-      setToggleTab('view');
+      setToggleTab('description');
     }
   }, [task]);
 
@@ -88,13 +88,15 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
     >
       <div className="h-full">
         {/* start: Modal heading. */}
-        <div className="bg-neutral-50 border-b border-primary-100 w-full flex items-start py-1 px-4">
-          <h2 className="text-lg text-neutral-500">Task</h2>
+        <div className="bg-neutral-50 border-b border-primary-100 w-full flex items-center py-1 px-4">
+          <div className="text-neutral-500">
+            <h2 className="text-base p-0 m-0">Task</h2>
+            <p className="text-xs p-0 m-0">{upperFirst(toggleTab)}</p>
+          </div>
           <Button
             type="danger"
             ghost
             icon={<CloseOutlined />}
-            size="small"
             className="ml-auto"
             onClick={closeModal}
           />
@@ -102,7 +104,7 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
         {/* end; Modal heading. */}
 
         {/* start: Content */}
-        {toggleTab === 'view' && (
+        {toggleTab === 'description' && (
           <View reporter={reporter} task={task} taskCategory={taskCategory} />
         )}
 
@@ -119,24 +121,24 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
 
         {/* start: Footer */}
         {toggleTab !== 'editing' && (
-          <div className="fixed bottom-0 bg-neutral-50 border-t border-primary-100 w-full p-4">
+          <div className="fixed bottom-0 bg-neutral-50 border-t border-primary-100 w-full p-2 px-4">
             <div className="flex items-center ">
               {/* start: Footer left icons. */}
               <div>
                 <Radio.Group
-                  defaultValue="view"
+                  defaultValue="description"
                   value={toggleTab}
                   onChange={(evt) => switchingTabs(evt.target.value)}
                   optionType="button"
                   buttonStyle="solid"
                 >
                   <Tooltip title="Task details">
-                    <Radio.Button value="view">
+                    <Radio.Button value="description">
                       <FileOutlined />
                     </Radio.Button>
                   </Tooltip>
-                  <Tooltip title="Todo">
-                    <Radio.Button value="todo">
+                  <Tooltip title="Checklist">
+                    <Radio.Button value="checklist">
                       <BarsOutlined />
                     </Radio.Button>
                   </Tooltip>
