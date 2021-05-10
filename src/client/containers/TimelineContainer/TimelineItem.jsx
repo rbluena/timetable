@@ -4,32 +4,32 @@ import { Timeline, Typography, Avatar, Tooltip, Tag } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import { getColor } from '@app/utils';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 const TimelineItem = ({ task }) => {
   const taskCategoryColor = task.category && getColor(task.category.colorName);
 
   return (
     <Timeline.Item color="blue" className="max-w-md">
+      <p className="inline-block font-bold p-0 m-0 mb-2 pt-1 text-primary-500">
+        {task.schedule
+          ? `${format(new Date(task.schedule.start), 'HH:mm')} - ${format(
+              new Date(task.schedule.end),
+              'HH:mm'
+            )}`
+          : ``}
+      </p>
       <div
-        className="p-3 rounded shadow-md hover:shadow-lg"
+        className="p-2 rounded shadow hover:shadow-lg"
         style={{
           backgroundColor: taskCategoryColor ? taskCategoryColor.bgColor : '',
-          border: '1px solid',
-          borderColor: taskCategoryColor ? taskCategoryColor.color : '',
+          borderLeft: '2px solid',
+          borderLeftColor: taskCategoryColor ? taskCategoryColor.color : '',
         }}
       >
         <div className="">
-          <p className="text-primary-500 text-sm font-bold p-0 m-0">
-            {task.schedule
-              ? `${format(new Date(task.schedule.start), 'HH:mm')} - ${format(
-                  new Date(task.schedule.end),
-                  'HH:mm'
-                )}`
-              : ``}
-          </p>
           <Title
-            level={4}
+            level={5}
             style={{
               color: taskCategoryColor ? taskCategoryColor.color : '',
             }}
@@ -38,13 +38,13 @@ const TimelineItem = ({ task }) => {
           </Title>
         </div>
 
-        <Paragraph>{task.description}</Paragraph>
+        {/* <Paragraph>{task.description}</Paragraph> */}
 
         {task.category && (
           <Tag color={task.category.colorName}>{task.category.name}</Tag>
         )}
 
-        <div className="py-2">
+        <div className="pt-4">
           <Avatar.Group
             size="small"
             maxCount={4}
@@ -97,15 +97,10 @@ const TimelineItem = ({ task }) => {
   );
 };
 
-TimelineItem.defaultProps = {
-  canUserUpdateTask: false,
-};
+TimelineItem.defaultProps = {};
 
 TimelineItem.propTypes = {
   task: PropTypes.objectOf(PropTypes.any).isRequired,
-  canUserUpdateTask: PropTypes.bool,
-  editTask: PropTypes.func.isRequired,
-  deleteTask: PropTypes.func.isRequired,
 };
 
 export default TimelineItem;

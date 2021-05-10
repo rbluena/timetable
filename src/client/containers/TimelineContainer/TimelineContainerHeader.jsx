@@ -1,7 +1,6 @@
 // import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Tooltip } from 'antd';
-import { PlusIcon } from '@app/components/Icons';
 import { PlusOutlined } from '@ant-design/icons';
 // import moment from 'moment';
 
@@ -23,7 +22,6 @@ const TimelineHeader = ({ createNewTask, isUserProjectMember }) => (
         <Button
           type="primary"
           shape="circle"
-          ghost
           size="large"
           className="flex justify-center items-center"
           title="Add task"
