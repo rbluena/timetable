@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setWith, get } from 'lodash';
 import moment from 'moment';
 import { Typography, Radio, Button, DatePicker, Tooltip } from 'antd';
-import ReactMarkdown from 'react-markdown';
 import {
   CloseOutlined,
   EditOutlined,
@@ -104,7 +103,9 @@ const AboutContainer = () => {
           <div className="space-y-6">
             <div className="bg-white shadow rounded relative p-4">
               <Title
-                level={4}
+                className=""
+                style={{ margin: 0 }}
+                level={3}
                 editable={
                   project.isUserOwner
                     ? {
@@ -125,15 +126,20 @@ const AboutContainer = () => {
                 </span>
               </Paragraph>
 
-              <div className={`${!editDescription && 'hidden'}`}>
+              <div className="">
                 <Editor
                   placeholder="...add description for the project."
                   defaultValue={project.description}
                   onContentChange={onDescriptionChange}
                   onSave={updateDescription}
                   onCancel={() => setEditDescription(false)}
+                  readOnly={!editDescription}
                 />
-                <div className="py-1 ml-auto flex">
+                <div
+                  className={`py-1 ml-auto flex ${
+                    !editDescription && 'hidden'
+                  }`}
+                >
                   <div className="ml-auto">
                     <Tooltip title="Save">
                       <Button
@@ -168,12 +174,6 @@ const AboutContainer = () => {
 
               {!editDescription && (
                 <>
-                  {/* start: Rendering markdown description */}
-                  <ReactMarkdown className="prose prose-sm font-normal leading-5">
-                    {project.description}
-                  </ReactMarkdown>
-                  {/* end: Rendering markdown description */}
-
                   {/* start: Button to edit description */}
                   {project.isUserOwner && (
                     <Tooltip title="Edit description">

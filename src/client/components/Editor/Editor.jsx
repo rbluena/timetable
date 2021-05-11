@@ -19,7 +19,7 @@ class RichEditor extends React.Component {
   };
 
   render() {
-    const { ...props } = this.props;
+    const { readOnly, ...props } = this.props;
 
     return (
       <div
@@ -29,8 +29,7 @@ class RichEditor extends React.Component {
         <Editor
           className={`bg-neutral-50 border-b border-primary-100 ${editorCss.hNxLRE}`}
           onChange={this.onChange}
-          autoFocus
-          readOnly={false}
+          readOnly={readOnly}
           {...props}
         />
       </div>
