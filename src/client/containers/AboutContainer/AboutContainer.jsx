@@ -168,25 +168,27 @@ const AboutContainer = () => {
 
               {!editDescription && (
                 <>
-                  <div
-                    className="hover:bg-neutral-50 cursor-arrow"
-                    onClick={() => setEditDescription(true)}
-                  >
-                    <ReactMarkdown className="prose prose-sm font-normal leading-5">
-                      {project.description}
-                    </ReactMarkdown>
-                  </div>
-                  <Tooltip title="Edit description">
-                    <Button
-                      type="text"
-                      size="small"
-                      onClick={() => setEditDescription(true)}
-                    >
-                      <span className="text-primary-500">
-                        <EditOutlined />
-                      </span>
-                    </Button>
-                  </Tooltip>
+                  {/* start: Rendering markdown description */}
+                  <ReactMarkdown className="prose prose-sm font-normal leading-5">
+                    {project.description}
+                  </ReactMarkdown>
+                  {/* end: Rendering markdown description */}
+
+                  {/* start: Button to edit description */}
+                  {project.isUserOwner && (
+                    <Tooltip title="Edit description">
+                      <Button
+                        type="text"
+                        size="small"
+                        onClick={() => setEditDescription(true)}
+                      >
+                        <span className="text-primary-500">
+                          <EditOutlined />
+                        </span>
+                      </Button>
+                    </Tooltip>
+                  )}
+                  {/* end: Button to edit description. */}
                 </>
               )}
 

@@ -1,0 +1,11 @@
+.hNxLRE h1,
+.hNxLRE h2,
+.hNxLRE h3,
+.hNxLRE h4,
+.hNxLRE h5,
+.hNxLRE h6,
+.hNxLRE p {
+  margin-top: 0 !important;
+  margin-bottom: 1.1428571em !important;
+  line-height: 1.25rem !important;
+}
