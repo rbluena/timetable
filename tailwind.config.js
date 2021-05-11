@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const {
   red,
   white,
@@ -27,10 +28,32 @@ module.exports = {
       success: blue,
       white,
     },
-    extend: {},
+    extend: {
+      typography: {
+        sm: {
+          css: {
+            h1: {
+              marginTop: 0,
+            },
+            h2: {
+              marginTop: 0,
+            },
+            h3: {
+              marginTop: 0,
+            },
+            h4: {
+              marginTop: 0,
+            },
+            p: {
+              marginTop: 0,
+            },
+          },
+        },
+      },
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };

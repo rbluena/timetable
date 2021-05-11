@@ -16,6 +16,7 @@ import ProjectScheduleItem from './ProjectScheduleItem';
 import TaskModal from './TaskModal';
 import DatePicker from './Form/DatePicker';
 import RichEditor from './RichEditor';
+import Editor from './Editor';
 import Drawer from './Drawer';
 import Spin from './Spin';
 import Head from './Head';
@@ -42,6 +43,7 @@ export {
   TaskModal,
   DatePicker,
   RichEditor,
+  Editor,
   Drawer,
   Spin,
   Head,

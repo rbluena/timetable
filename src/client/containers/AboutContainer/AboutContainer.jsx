@@ -1,9 +1,17 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWith, get } from 'lodash';
 import moment from 'moment';
-import { Typography, Radio, Button, DatePicker } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Typography, Radio, Button, DatePicker, Tooltip } from 'antd';
+import ReactMarkdown from 'react-markdown';
+import {
+  CloseOutlined,
+  EditOutlined,
+  QuestionOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
 import { updateProjectAction } from '@app/actions';
 import {
   projectSelector,
@@ -11,6 +19,8 @@ import {
   projectGroupsSelector,
   projectCategoriesSelector,
 } from '@app/selectors';
+
+import { Editor } from '@app/components';
 
 import { UsersModalContainer } from '@app/containers/modals';
 import GroupsComponent from './GroupsComponent';
@@ -23,6 +33,8 @@ const { RangePicker } = DatePicker;
 const AboutContainer = () => {
   const [modal, setModal] = useState(false);
   const [modalGroupId, setModalGroupId] = useState(null);
+  const [editDescription, setEditDescription] = useState(false);
+  const [description, setDescription] = useState(null);
   const [editDate, setEditDate] = useState(false);
   const project = useSelector(projectSelector);
   const team = useSelector(projectTeamSelector);
@@ -67,6 +79,23 @@ const AboutContainer = () => {
     setEditDate(false);
   }
 
+  /**
+   * Setting description values.
+   * @param {String} value
+   */
+  function onDescriptionChange(value) {
+    setDescription(value);
+  }
+
+  /**
+   * Saving description to the database.
+   */
+  function updateDescription() {
+    if (description && description.length) {
+      dispatch(updateProjectAction(project._id, { description }));
+    }
+  }
+
   return (
     <>
       <div className="mx-auto max-w-6xl flex flex-wrap py-4 p-2">
@@ -96,25 +125,70 @@ const AboutContainer = () => {
                 </span>
               </Paragraph>
 
-              <Paragraph
-                editable={
-                  project.isUserOwner
-                    ? {
-                        onChange: (value) =>
-                          updateProject('description', value),
-                      }
-                    : false
-                }
-                className=" text-neutral-800"
-              >
-                {project.description ? (
-                  project.description
-                ) : (
-                  <span className="text-xs text-neutral-400">
-                    Add description for the project.
-                  </span>
-                )}
-              </Paragraph>
+              <div className={`${!editDescription && 'hidden'}`}>
+                <Editor
+                  placeholder="...add description for the project."
+                  defaultValue={project.description}
+                  onContentChange={onDescriptionChange}
+                  onSave={updateDescription}
+                  onCancel={() => setEditDescription(false)}
+                />
+                <div className="py-1 ml-auto flex">
+                  <div className="ml-auto">
+                    <Tooltip title="Save">
+                      <Button
+                        size="small"
+                        type="primary"
+                        ghost
+                        icon={<SaveOutlined />}
+                        onClick={updateDescription}
+                      />
+                    </Tooltip>
+                    &nbsp;
+                    <Tooltip title="Cancel">
+                      <Button
+                        type="primary"
+                        size="small"
+                        ghost
+                        onClick={() => setEditDescription(false)}
+                        icon={<CloseOutlined />}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Shortcuts">
+                      <Button
+                        type="text"
+                        size="small"
+                        onClick={() => setEditDescription(false)}
+                        icon={<QuestionOutlined />}
+                      />
+                    </Tooltip>
+                  </div>
+                </div>
+              </div>
+
+              {!editDescription && (
+                <>
+                  <div
+                    className="hover:bg-neutral-50 cursor-arrow"
+                    onClick={() => setEditDescription(true)}
+                  >
+                    <ReactMarkdown className="prose prose-sm font-normal leading-5">
+                      {project.description}
+                    </ReactMarkdown>
+                  </div>
+                  <Tooltip title="Edit description">
+                    <Button
+                      type="text"
+                      size="small"
+                      onClick={() => setEditDescription(true)}
+                    >
+                      <span className="text-primary-500">
+                        <EditOutlined />
+                      </span>
+                    </Button>
+                  </Tooltip>
+                </>
+              )}
 
               {/* start: toggle public vs private */}
               {accessModifier && project.isUserOwner && (
