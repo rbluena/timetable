@@ -24,7 +24,7 @@ class RichEditor extends React.Component {
     return (
       <div
         className="relative prose prose-sm font-normal leading-5"
-        style={{ minHeight: 200, maxHeight: '100%' }}
+        style={{ maxHeight: '100%' }}
       >
         <Editor
           className={`bg-neutral-50 border-b border-primary-100 ${editorCss.hNxLRE}`}

@@ -148,6 +148,7 @@ const AboutContainer = () => {
                         ghost
                         icon={<SaveOutlined />}
                         onClick={updateDescription}
+                        disabled={!description}
                       />
                     </Tooltip>
                     &nbsp;
@@ -156,7 +157,10 @@ const AboutContainer = () => {
                         type="primary"
                         size="small"
                         ghost
-                        onClick={() => setEditDescription(false)}
+                        onClick={() => {
+                          setEditDescription(false);
+                          setDescription(null);
+                        }}
                         icon={<CloseOutlined />}
                       />
                     </Tooltip>
