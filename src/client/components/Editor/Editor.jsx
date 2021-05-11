@@ -11,8 +11,6 @@ const Editor = dynamic(
 
 import editorCss from './Editor.module.css';
 
-console.log(editorCss);
-
 class RichEditor extends React.Component {
   onChange = (callback) => {
     const { onContentChange } = this.props;
