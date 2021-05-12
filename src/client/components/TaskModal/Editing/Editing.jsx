@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 import { Input, Button, Form, TimePicker, DatePicker, Select } from 'antd';
+import { Editor } from '@app/components';
 
 const { RangePicker } = TimePicker;
 const { Option } = Select;
@@ -16,9 +17,7 @@ const Editing = ({
   onSubmit,
 }) => {
   const [form] = Form.useForm();
-
-  // console.log(task.userAssignees);
-  // console.log(task.groupAssignees);
+  const [description, setDescription] = useState(null);
 
   useEffect(() => {
     if (task) {
@@ -34,7 +33,7 @@ const Editing = ({
 
       form.setFieldsValue({
         title: task.title,
-        description: task.description,
+        // description: task.description,
         reporter: task.reporter ? task.reporter._id : null,
         category: task.category ? task.category : null,
         date: task.date ? moment(task.date) : null,
@@ -79,6 +78,7 @@ const Editing = ({
       data._id = task._id;
       data.new = task.new;
       data.project = task.project;
+      data.description = description || task.description;
     }
 
     data.date = data.date.format('YYYY-MM-DD');
@@ -135,8 +135,15 @@ const Editing = ({
           {/* end: Title */}
 
           {/* start: Description */}
-          <Form.Item name="description">
+          {/* <Form.Item name="description">
             <Input.TextArea placeholder="Task description" rows={4} />
+          </Form.Item> */}
+          <Form.Item>
+            <Editor
+              placeholder="Task description..."
+              defaultValue={task && task.description}
+              onContentChange={(value) => setDescription(value)}
+            />
           </Form.Item>
           {/* end: Description */}
 

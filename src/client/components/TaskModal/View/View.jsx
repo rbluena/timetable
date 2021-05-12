@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Typography, Tag, Avatar } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
+import { Editor } from '@app/components';
 
 const { Title, Paragraph } = Typography;
 
@@ -26,13 +27,7 @@ const View = ({ task, taskCategory, reporter }) => (
         {/* end: Task category */}
 
         {/* start: Task's description. */}
-        {task && (
-          <Paragraph>
-            <span className="inline-block text-neutral-500 mt-6">
-              {task.description}
-            </span>
-          </Paragraph>
-        )}
+        {task && <Editor defaultValue={task.description} readOnly />}
         {/* End: Task's description . */}
       </div>
 
