@@ -286,7 +286,8 @@ const getProjectTasksService = async (projectId, options) => {
     //     as: 'groupAssignees',
     //   },
     // },
-    { $unwind: '$reporter' },
+    { $unwind: { path: '$reporter', preserveNullAndEmptyArrays: true } },
+
     {
       $project: {
         'reporter.email': 0,
