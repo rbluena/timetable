@@ -27,7 +27,7 @@ class RichEditor extends React.Component {
         style={{ maxHeight: '100%' }}
       >
         <Editor
-          className={`bg-neutral-50 border-b border-primary-100 ${editorCss.hNxLRE}`}
+          className={`border-b border-primary-100 list-disc list-decimal ${editorCss.hNxLRE}`}
           onChange={this.onChange}
           readOnly={readOnly}
           {...props}

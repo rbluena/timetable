@@ -84,7 +84,7 @@ const Task = ({ isOpen, closeModal, onSubmit, task, assignees }) => {
           ? 'opacity-100 translate-x-0'
           : 'invisible opacity-0  translate-x-5'
       }`}
-      style={{ height: 'calc(100vh - 20px)' }}
+      style={{ height: 'calc(100vh - 20px)', zIndex: 100 }}
     >
       <div className="h-full">
         {/* start: Modal header. */}

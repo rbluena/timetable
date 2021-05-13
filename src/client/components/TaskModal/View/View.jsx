@@ -27,7 +27,15 @@ const View = ({ task, taskCategory, reporter }) => (
         {/* end: Task category */}
 
         {/* start: Task's description. */}
-        {task && <Editor defaultValue={task.description} readOnly />}
+        <div className="pt-4">
+          {task && (
+            <Editor
+              defaultValue={task.description}
+              value={task.description}
+              readOnly
+            />
+          )}
+        </div>
         {/* End: Task's description . */}
       </div>
 

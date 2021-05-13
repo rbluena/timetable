@@ -9,3 +9,11 @@
   margin-bottom: 1.1428571em !important;
   line-height: 1.25rem !important;
 }
+
+.hNxLRE ul {
+  list-style: disc !important;
+}
+
+.hAUNea ol {
+  list-style: decimal !important;
+}
